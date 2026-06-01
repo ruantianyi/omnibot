@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=about.html">
+    <title>Redirecting to OmniBot...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+        }
+    </style>
+    <script>
+        window.location.replace("about.html");
+    </script>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+    
+    <div class="text-center space-y-6 relative z-10 max-w-md px-6">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            <i class="fa-solid fa-brain text-white text-3xl animate-pulse"></i>
+        </div>
+        <div class="space-y-2">
+            <h1 class="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">OMNIBOT</h1>
+            <p class="text-xs text-slate-300 font-bold uppercase tracking-widest leading-none">Redirecting to Ecosystem...</p>
+        </div>
+        <p class="text-slate-300 text-sm">
+            If you are not redirected automatically in a few seconds, please click the button below.
+        </p>
+        <a href="about.html" class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20">
+            <span>Proceed to OmniBot</span>
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+    </div>
+</body>
+</html>
