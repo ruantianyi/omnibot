@@ -288,8 +288,7 @@
             </div>
             <div class="mt-6 flex gap-3">
                 <button onclick="saveSettings()"
-                    class="flex-grow py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20">Save
-                    & Connect</button>
+                    class="flex-grow py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20">Save & Apply</button>
                 <button onclick="clearAPIKey()"
                     class="px-4 py-2.5 bg-slate-850 hover:bg-rose-600/20 hover:text-rose-400 text-slate-300 font-bold text-sm rounded-xl transition border border-slate-700">Clear
                     Key</button>
@@ -681,9 +680,17 @@
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
                     <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-pink-400"></span><span
                             class="text-xs font-bold text-slate-300 uppercase tracking-wider">Rewritten Text Output</span></div>
-                    <button onclick="copyHumanizedToClipboard()"
-                        class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
-                            class="fa-solid fa-copy"></i> Copy Text</button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copyHumanizedToClipboard()"
+                            class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="fa-solid fa-copy"></i> Copy</button>
+                        <button onclick="exportHumanizedTXT()"
+                            class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="fa-solid fa-file-lines"></i> .TXT</button>
+                        <button onclick="exportHumanizedPDF()"
+                            class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="fa-solid fa-file-pdf"></i> .PDF</button>
+                    </div>
                 </div>
                 <div id="humanizer-output"
                     class="flex-grow overflow-y-auto max-h-[360px] bg-slate-950/60 border border-slate-850 p-6 rounded-xl leading-relaxed text-slate-300 text-sm space-y-4 font-sans">
@@ -2477,6 +2484,11 @@
                     });
                     trimmed = wordHumanized.join("");
 
+                    // Offline fallback simple spellchecks
+                    trimmed = trimmed.replace(/\bmnany\b/gi, "many");
+                    trimmed = trimmed.replace(/\bteh\b/gi, "the");
+                    trimmed = trimmed.replace(/\brecieve\b/gi, "receive");
+
                     trimmed = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
                     return trimmed;
                 });
@@ -2585,6 +2597,41 @@
             document.execCommand('copy');
             document.body.removeChild(tempTextarea);
             showToast("Copied humanized text!");
+        }
+
+        function exportHumanizedTXT() {
+            const outputEl = document.getElementById('humanizer-output');
+            if (!outputEl || outputEl.innerText.includes("Humanized prose")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            const blob = new Blob([outputEl.innerText], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OmniBot_Humanized_${new Date().getTime()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Exported as .TXT!");
+        }
+
+        function exportHumanizedPDF() {
+            const outputEl = document.getElementById('humanizer-output');
+            if (!outputEl || outputEl.innerText.includes("Humanized prose")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            showToast("Generating PDF... Please wait.");
+            const opt = {
+                margin: 0.5,
+                filename: `OmniBot_Humanized_${new Date().getTime()}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(outputEl).save().then(() => {
+                showToast("PDF Export Complete!");
+            });
         }
 
         // --- Intent & Chat Engine ---
@@ -4040,6 +4087,8 @@
             window.switchSolverModule = switchSolverModule;
             window.exportEssayTXT = exportEssayTXT;
             window.exportEssayPDF = exportEssayPDF;
+            window.exportHumanizedTXT = exportHumanizedTXT;
+            window.exportHumanizedPDF = exportHumanizedPDF;
             window.copyEssayToClipboard = copyEssayToClipboard;
             window.clearMemory = clearMemory;
             window.applyQuickPrompt = applyQuickPrompt;

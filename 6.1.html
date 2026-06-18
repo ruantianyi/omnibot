@@ -53,20 +53,131 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 20px; }
     </style>
     <style id="light-mode-styles">
-        body.light-mode { background: #f8fafc; color: #0f172a; }
-        body.light-mode .bg-slate-950 { background-color: #ffffff; }
-        body.light-mode .bg-slate-900 { background-color: #f1f5f9; }
-        body.light-mode .bg-slate-850 { background-color: #e2e8f0; }
-        body.light-mode .bg-slate-800 { background-color: #cbd5e1; }
-        body.light-mode .border-slate-800 { border-color: #cbd5e1; }
-        body.light-mode .text-slate-100, 
-        body.light-mode .text-slate-200,
-        body.light-mode .text-slate-300 { color: #1e293b; }
-        body.light-mode .text-slate-400 { color: #475569; }
-        body.light-mode .from-slate-950 { --tw-gradient-from: #ffffff var(--tw-gradient-from-position); }
-        body.light-mode .from-slate-900 { --tw-gradient-from: #f1f5f9 var(--tw-gradient-from-position); }
-        body.light-mode .via-slate-900 { --tw-gradient-via: #f1f5f9 var(--tw-gradient-via-position); }
-        body.light-mode .placeholder\:text-slate-600::placeholder { color: #94a3b8; }
+        body.light-mode {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 60%, #e0e7ff 100%) !important;
+            color: #0f172a !important;
+        }
+        
+        body.light-mode,
+        body.light-mode #settings-modal,
+        body.light-mode [class*="bg-gradient-"] {
+            background-image: none !important;
+        }
+
+        body.light-mode [class*="bg-slate-950"] {
+            background-color: #ffffff !important;
+        }
+        body.light-mode [class*="bg-slate-900"] {
+            background-color: #f8fafc !important;
+        }
+        body.light-mode [class*="bg-slate-850"] {
+            background-color: #f1f5f9 !important;
+        }
+        body.light-mode [class*="bg-slate-800"] {
+            background-color: #e2e8f0 !important;
+        }
+        body.light-mode .glass-panel {
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.05), 0 8px 10px -6px rgba(99, 102, 241, 0.05) !important;
+        }
+
+        body.light-mode header {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            border-color: #e2e8f0 !important;
+        }
+        body.light-mode nav#top-nav-scroll {
+            background-color: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+        }
+        body.light-mode #chat-messages {
+            background-color: #ffffff !important;
+        }
+        body.light-mode #chat-typing {
+            background-color: #f8fafc !important;
+        }
+        
+        body.light-mode select,
+        body.light-mode input[type="text"],
+        body.light-mode input[type="password"],
+        body.light-mode textarea {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        body.light-mode select:focus,
+        body.light-mode input[type="text"]:focus,
+        body.light-mode input[type="password"]:focus,
+        body.light-mode textarea:focus {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
+        }
+
+        body.light-mode #settings-modal {
+            background-color: rgba(15, 23, 42, 0.3) !important;
+            backdrop-filter: blur(4px) !important;
+        }
+        body.light-mode #settings-modal > div {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+
+        body.light-mode [class*="border-slate-"] {
+            border-color: #e2e8f0 !important;
+        }
+        body.light-mode hr {
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-mode .text-white,
+        body.light-mode [class*="text-slate-100"],
+        body.light-mode [class*="text-slate-200"],
+        body.light-mode [class*="text-slate-300"] {
+            color: #0f172a !important;
+        }
+        body.light-mode [class*="text-slate-400"] {
+            color: #475569 !important;
+        }
+        body.light-mode [class*="text-slate-500"] {
+            color: #64748b !important;
+        }
+        body.light-mode [class*="text-indigo-300"] {
+            color: #4f46e5 !important;
+        }
+        body.light-mode [class*="text-teal-400"] {
+            color: #0d9488 !important;
+        }
+        body.light-mode [class*="text-rose-400"] {
+            color: #e11d48 !important;
+        }
+        body.light-mode [class*="text-emerald-400"] {
+            color: #059669 !important;
+        }
+        body.light-mode [class*="text-indigo-400"] {
+            color: #6366f1 !important;
+        }
+
+        body.light-mode code {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        body.light-mode .peer-checked\:bg-indigo-500:checked + div,
+        body.light-mode .peer-checked\:bg-indigo-500 + div {
+            background-color: #cbd5e1 !important;
+        }
+        body.light-mode .peer-checked\:bg-indigo-500:checked + div {
+            background-color: #6366f1 !important;
+        }
+        body.light-mode #toast {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        }
+        body.light-mode .personality-opt:hover {
+            background-color: #f1f5f9 !important;
+        }
     </style>
     <script src="https://unpkg.com/compromise"></script>
 </head>
@@ -149,8 +260,7 @@
             </div>
             <div class="mt-6 flex gap-3">
                 <button onclick="saveSettings()"
-                    class="flex-grow py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20">Save
-                    & Connect</button>
+                    class="flex-grow py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20">Save & Apply</button>
                 <button onclick="clearAPIKey()"
                     class="px-4 py-2.5 bg-slate-850 hover:bg-rose-600/20 hover:text-rose-400 text-slate-300 font-bold text-sm rounded-xl transition border border-slate-700">Clear
                     Key</button>
@@ -531,9 +641,17 @@
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
                     <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-pink-400"></span><span
                             class="text-xs font-bold text-slate-300 uppercase tracking-wider">Rewritten Text Output</span></div>
-                    <button onclick="copyHumanizedToClipboard()"
-                        class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
-                            class="fa-solid fa-copy"></i> Copy Text</button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copyHumanizedToClipboard()"
+                            class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="fa-solid fa-copy"></i> Copy</button>
+                        <button onclick="exportHumanizedTXT()"
+                            class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="fa-solid fa-file-lines"></i> .TXT</button>
+                        <button onclick="exportHumanizedPDF()"
+                            class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="fa-solid fa-file-pdf"></i> .PDF</button>
+                    </div>
                 </div>
                 <div id="humanizer-output"
                     class="flex-grow overflow-y-auto max-h-[360px] bg-slate-950/60 border border-slate-850 p-6 rounded-xl leading-relaxed text-slate-300 text-sm space-y-4 font-sans">
@@ -2389,9 +2507,21 @@
 
                     if (typeof nlp !== 'undefined') {
                         let doc = nlp(trimmed);
+                        doc.normalize({
+                            whitespace: true,
+                            case: true,
+                            punctuation: true,
+                            contractions: true
+                        });
                         doc.match('#ProperNoun').toTitleCase();
+                        doc.match('^.').toTitleCase();
                         trimmed = doc.text();
                     }
+                    
+                    // Offline fallback simple spellchecks
+                    trimmed = trimmed.replace(/\bmnany\b/gi, "many");
+                    trimmed = trimmed.replace(/\bteh\b/gi, "the");
+                    trimmed = trimmed.replace(/\brecieve\b/gi, "receive");
                     
                     trimmed = trimmed.replace(/\s+/g, " ")
                                      .replace(/\s,/g, ",")
@@ -2508,6 +2638,41 @@
             document.execCommand('copy');
             document.body.removeChild(tempTextarea);
             showToast("Copied humanized text!");
+        }
+
+        function exportHumanizedTXT() {
+            const outputEl = document.getElementById('humanizer-output');
+            if (!outputEl || outputEl.innerText.includes("Humanized prose")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            const blob = new Blob([outputEl.innerText], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OmniBot_Humanized_${new Date().getTime()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Exported as .TXT!");
+        }
+
+        function exportHumanizedPDF() {
+            const outputEl = document.getElementById('humanizer-output');
+            if (!outputEl || outputEl.innerText.includes("Humanized prose")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            showToast("Generating PDF... Please wait.");
+            const opt = {
+                margin: 0.5,
+                filename: `OmniBot_Humanized_${new Date().getTime()}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(outputEl).save().then(() => {
+                showToast("PDF Export Complete!");
+            });
         }
 
         // --- Intent & Chat Engine ---
@@ -3968,6 +4133,8 @@
             window.switchSolverModule = switchSolverModule;
             window.exportEssayTXT = exportEssayTXT;
             window.exportEssayPDF = exportEssayPDF;
+            window.exportHumanizedTXT = exportHumanizedTXT;
+            window.exportHumanizedPDF = exportHumanizedPDF;
             window.copyEssayToClipboard = copyEssayToClipboard;
             window.clearMemory = clearMemory;
             window.applyQuickPrompt = applyQuickPrompt;
