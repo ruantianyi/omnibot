@@ -62,130 +62,263 @@
         }
     </style>
     <style id="light-mode-styles">
+        /* ===== OMNIBOT LIGHT MODE — Built from scratch ===== */
+
+        /* --- Core Page --- */
         body.light-mode {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 60%, #e0e7ff 100%) !important;
-            color: #0f172a !important;
+            background: linear-gradient(145deg, #f0f4ff 0%, #f8fafc 40%, #eef2ff 100%);
+            color: #1e293b;
         }
-        
+
+        /* Kill all dark gradients */
         body.light-mode,
-        body.light-mode #settings-modal,
-        body.light-mode [class*="bg-gradient-"] {
-            background-image: none !important;
+        body.light-mode [class*="bg-gradient-to-br"],
+        body.light-mode [class*="bg-gradient-to-r"],
+        body.light-mode [class*="bg-gradient-to-t"],
+        body.light-mode [class*="bg-gradient-to-b"] {
+            background-image: none;
         }
 
-        body.light-mode [class*="bg-slate-950"] {
-            background-color: #ffffff !important;
-        }
-        body.light-mode [class*="bg-slate-900"] {
-            background-color: #f8fafc !important;
-        }
-        body.light-mode [class*="bg-slate-850"] {
-            background-color: #f1f5f9 !important;
-        }
-        body.light-mode [class*="bg-slate-800"] {
-            background-color: #e2e8f0 !important;
-        }
-        body.light-mode .glass-panel {
-            background-color: rgba(255, 255, 255, 0.8) !important;
-            border-color: #e2e8f0 !important;
-            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.05), 0 8px 10px -6px rgba(99, 102, 241, 0.05) !important;
-        }
+        /* --- Background Color Mapping --- */
+        body.light-mode [class*="bg-slate-950"] { background-color: #ffffff; }
+        body.light-mode [class*="bg-slate-900"] { background-color: #f8fafc; }
+        body.light-mode [class*="bg-slate-850"] { background-color: #f1f5f9; }
+        body.light-mode [class*="bg-slate-800"] { background-color: #e8ecf4; }
+        body.light-mode [class*="bg-slate-700"] { background-color: #cbd5e1; }
+        body.light-mode [class*="bg-indigo-950"] { background-color: #eef2ff; }
+        body.light-mode [class*="bg-indigo-900"] { background-color: #e0e7ff; }
 
+        /* --- Header & Navigation --- */
         body.light-mode header {
-            background-color: rgba(255, 255, 255, 0.85) !important;
-            border-color: #e2e8f0 !important;
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border-color: #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
         }
         body.light-mode nav#top-nav-scroll {
-            background-color: #f1f5f9 !important;
-            border-color: #cbd5e1 !important;
+            background-color: #f1f5f9;
+            border-color: #e2e8f0;
         }
-        body.light-mode #chat-messages {
-            background-color: #ffffff !important;
+        body.light-mode .tab-btn {
+            color: #475569;
         }
-        body.light-mode #chat-typing {
-            background-color: #f8fafc !important;
+        body.light-mode .tab-btn:hover {
+            color: #1e293b;
+            background-color: #e8ecf4;
         }
-        
+        /* Active tab button retains its indigo bg from JS — just ensure text is white */
+        body.light-mode .tab-btn[class*="bg-indigo-600"] {
+            color: #ffffff;
+        }
+
+        /* --- Section Cards/Panels --- */
+        body.light-mode section.tab-content,
+        body.light-mode [class*="lg:col-span"] {
+            border-color: #e2e8f0;
+        }
+        body.light-mode .glass-panel {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.04);
+        }
+
+        /* --- Text Colors --- */
+        body.light-mode .text-white { color: #1e293b; }
+        body.light-mode [class*="text-slate-100"] { color: #1e293b; }
+        body.light-mode [class*="text-slate-200"] { color: #334155; }
+        body.light-mode [class*="text-slate-300"] { color: #475569; }
+        body.light-mode [class*="text-slate-400"] { color: #64748b; }
+        body.light-mode [class*="text-slate-500"] { color: #94a3b8; }
+        body.light-mode [class*="text-slate-600"] { color: #94a3b8; }
+
+        /* Accent text colors — keep vivid but darken slightly for contrast */
+        body.light-mode [class*="text-indigo-300"] { color: #4f46e5; }
+        body.light-mode [class*="text-indigo-400"] { color: #4338ca; }
+        body.light-mode [class*="text-teal-400"] { color: #0d9488; }
+        body.light-mode [class*="text-rose-400"] { color: #e11d48; }
+        body.light-mode [class*="text-pink-400"] { color: #db2777; }
+        body.light-mode [class*="text-emerald-400"] { color: #059669; }
+        body.light-mode [class*="text-amber-400"] { color: #d97706; }
+        body.light-mode [class*="text-cyan-400"] { color: #0891b2; }
+        body.light-mode [class*="text-violet-400"] { color: #7c3aed; }
+
+        /* --- Borders --- */
+        body.light-mode [class*="border-slate-"] { border-color: #e2e8f0; }
+        body.light-mode [class*="border-indigo-"] { border-color: #c7d2fe; }
+        body.light-mode [class*="border-emerald-"] { border-color: #a7f3d0; }
+        body.light-mode [class*="border-rose-"] { border-color: #fecdd3; }
+        body.light-mode [class*="border-amber-"] { border-color: #fde68a; }
+        body.light-mode hr { border-color: #e2e8f0; }
+
+        /* --- Inputs, Selects, Textareas --- */
         body.light-mode select,
         body.light-mode input[type="text"],
         body.light-mode input[type="password"],
+        body.light-mode input[type="number"],
         body.light-mode textarea {
-            background-color: #ffffff !important;
-            border-color: #cbd5e1 !important;
-            color: #0f172a !important;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
         }
         body.light-mode select:focus,
-        body.light-mode input[type="text"]:focus,
-        body.light-mode input[type="password"]:focus,
+        body.light-mode input:focus,
         body.light-mode textarea:focus {
-            border-color: #6366f1 !important;
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+            outline: none;
+        }
+        body.light-mode input::placeholder,
+        body.light-mode textarea::placeholder {
+            color: #94a3b8;
+        }
+        body.light-mode input[type="range"] {
+            accent-color: #6366f1;
         }
 
+        /* --- Chat Area --- */
+        body.light-mode #chat-messages {
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+        }
+        body.light-mode #chat-typing {
+            background-color: #f8fafc;
+        }
+        body.light-mode #chat-messages > div {
+            border-color: #f1f5f9;
+        }
+
+        /* --- Settings Modal --- */
         body.light-mode #settings-modal {
-            background-color: rgba(15, 23, 42, 0.3) !important;
-            backdrop-filter: blur(4px) !important;
+            background-color: rgba(15, 23, 42, 0.25);
+            backdrop-filter: blur(6px);
         }
         body.light-mode #settings-modal > div {
-            background-color: #ffffff !important;
-            border-color: #e2e8f0 !important;
-            color: #0f172a !important;
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+            color: #1e293b;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
         }
 
-        body.light-mode [class*="border-slate-"] {
-            border-color: #e2e8f0 !important;
+        /* --- File Preview Modal --- */
+        body.light-mode #file-preview-modal > div {
+            background-color: #ffffff;
+            border-color: #e2e8f0;
         }
-        body.light-mode hr {
-            border-color: #e2e8f0 !important;
-        }
-
-        body.light-mode .text-white,
-        body.light-mode [class*="text-slate-100"],
-        body.light-mode [class*="text-slate-200"],
-        body.light-mode [class*="text-slate-300"] {
-            color: #0f172a !important;
-        }
-        body.light-mode [class*="text-slate-400"] {
-            color: #475569 !important;
-        }
-        body.light-mode [class*="text-slate-500"] {
-            color: #64748b !important;
-        }
-        body.light-mode [class*="text-indigo-300"] {
-            color: #4f46e5 !important;
-        }
-        body.light-mode [class*="text-teal-400"] {
-            color: #0d9488 !important;
-        }
-        body.light-mode [class*="text-rose-400"] {
-            color: #e11d48 !important;
-        }
-        body.light-mode [class*="text-emerald-400"] {
-            color: #059669 !important;
-        }
-        body.light-mode [class*="text-indigo-400"] {
-            color: #6366f1 !important;
+        body.light-mode #file-preview-modal [class*="bg-slate-850"] {
+            background-color: #f8fafc;
         }
 
+        /* --- Buttons (generic small action buttons) --- */
+        body.light-mode button[class*="bg-slate-800"] {
+            background-color: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #475569;
+        }
+        body.light-mode button[class*="bg-slate-800"]:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+        body.light-mode button[class*="bg-slate-850"] {
+            background-color: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #475569;
+        }
+
+        /* Gradient buttons (Rewrite Text, Generate, etc.) keep their colors */
+        body.light-mode button[class*="bg-gradient-to-r"] {
+            background-image: none;
+        }
+
+        /* --- Toggle Switches --- */
+        body.light-mode .peer + div[class*="bg-slate-700"] {
+            background-color: #cbd5e1;
+        }
+        body.light-mode .peer:checked + div[class*="peer-checked:bg-indigo-500"],
+        body.light-mode .peer:checked + div {
+            background-color: #6366f1;
+        }
+
+        /* --- Code Blocks --- */
         body.light-mode code {
-            background-color: #f1f5f9 !important;
-            color: #0f172a !important;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+        body.light-mode pre {
+            background-color: #f8fafc;
+            color: #334155;
         }
 
-        body.light-mode .peer-checked\:bg-indigo-500:checked + div,
-        body.light-mode .peer-checked\:bg-indigo-500 + div {
-            background-color: #cbd5e1 !important;
-        }
-        body.light-mode .peer-checked\:bg-indigo-500:checked + div {
-            background-color: #6366f1 !important;
-        }
+        /* --- Toast Notification --- */
         body.light-mode #toast {
-            background-color: #ffffff !important;
-            border-color: #e2e8f0 !important;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+            color: #1e293b;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Personality Options --- */
+        body.light-mode .personality-opt {
+            border-color: #e2e8f0;
         }
         body.light-mode .personality-opt:hover {
-            background-color: #f1f5f9 !important;
+            background-color: #f1f5f9;
+        }
+
+        /* --- Status Badges --- */
+        body.light-mode #engine-mode-badge {
+            background-color: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        /* --- Scrollbar --- */
+        body.light-mode ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        body.light-mode ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+        }
+        body.light-mode ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        body.light-mode .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+        }
+
+        /* --- Uploaded Files / Memory Panel --- */
+        body.light-mode [class*="bg-emerald-500\\/10"],
+        body.light-mode [class*="bg-amber-500\\/10"],
+        body.light-mode [class*="bg-rose-500\\/10"] {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        /* --- Quick Prompt Cards --- */
+        body.light-mode [class*="hover\\:bg-slate-800"]:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* --- Shadow Adjustments --- */
+        body.light-mode [class*="shadow-indigo-"] {
+            --tw-shadow-color: rgba(99, 102, 241, 0.08);
+        }
+        body.light-mode [class*="shadow-pink-"] {
+            --tw-shadow-color: rgba(236, 72, 153, 0.06);
+        }
+        body.light-mode [class*="shadow-emerald-"] {
+            --tw-shadow-color: rgba(16, 185, 129, 0.06);
+        }
+
+        /* --- Canvas / Game Section --- */
+        body.light-mode canvas {
+            border-color: #e2e8f0;
+        }
+
+        /* --- Gradient text (logo) — keep vibrant in light mode --- */
+        body.light-mode [class*="bg-clip-text"][class*="text-transparent"] {
+            background-image: linear-gradient(to right, #4338ca, #6366f1, #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
     </style>
 </head>
@@ -194,22 +327,20 @@
     class="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 min-h-screen text-slate-100 flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200 font-sans">
 
     <div id="settings-modal"
-        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
-            <button onclick="toggleSettings()"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4" onclick="if(event.target===this)closeSettings()">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative" data-key-saved="true">
+            <button onclick="closeSettings()"
                 class="absolute top-4 right-4 text-slate-300 hover:text-white transition"><i
                     class="fa-solid fa-xmark text-lg"></i></button>
-            <h2 class="text-xl font-bold text-white mb-1"><i class="fa-solid fa-gear text-indigo-400 mr-2"></i>Omnibot
-                Settings</h2>
-            <p class="text-xs text-slate-300 mb-6">Enter your API key below. Keys are stored safely and locally in your
-                browser's secure sandbox environment and are never transmitted to our servers. You can easily download
-                or export backup session files using the workspace tools at any time.
-            </p>
+            <h2 class="text-xl font-bold text-white mb-1"><i class="fa-solid fa-gear text-indigo-400 mr-2"></i>Omnibot Settings</h2>
+            <p class="text-xs text-slate-400 mb-5">Manage your workspace preferences.</p>
 
             <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+
+                <!-- ═══ API Connection ═══ -->
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-plug text-indigo-400"></i>API Connection</h3>
                 <div>
-                    <label
-                        class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Provider</label>
+                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Provider</label>
                     <select id="api-provider"
                         class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
                         <option value="gemini">Google Gemini</option>
@@ -218,80 +349,67 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">API
-                        Key</label>
+                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">API Key</label>
+                    <p class="text-[10px] text-slate-500 mb-2">Keys are stored locally in your browser and are never sent to our servers.</p>
                     <input type="password" id="api-key-input" placeholder="sk-..."
+                        oninput="document.querySelector('#settings-modal > div').dataset.keySaved = 'false'"
                         class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-100 placeholder:text-slate-600 transition duration-150">
                 </div>
+                <div class="flex gap-2">
+                    <button onclick="saveAPIKey()"
+                        class="flex-grow py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-lg shadow-indigo-600/20">Save &amp; Apply</button>
+                    <button onclick="clearAPIKey()"
+                        class="px-4 py-2 bg-slate-800 hover:bg-rose-600/20 hover:text-rose-400 text-slate-300 font-bold text-xs uppercase tracking-wider rounded-xl transition border border-slate-700">Clear Key</button>
+                </div>
 
-                <hr class="border-slate-800 my-4">
-                <h3 class="text-sm font-bold text-white mb-2"><i
-                        class="fa-solid fa-sliders text-indigo-400 mr-2"></i>Advanced Configuration</h3>
+                <!-- ═══ Preferences ═══ -->
+                <hr class="border-slate-800 my-2">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-palette text-indigo-400"></i>Preferences</h3>
 
                 <div class="flex items-center justify-between">
                     <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Light Mode</label>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="light-mode-toggle" class="sr-only peer" onchange="toggleLightMode()">
-                        <div
-                            class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500">
-                        </div>
+                        <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500"></div>
                     </label>
                 </div>
 
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Auto-Save History</label>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="autosave-toggle" class="sr-only peer" checked onchange="handleHistoryToggle(this)">
+                        <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500"></div>
+                    </label>
+                </div>
+
+                <!-- ═══ Advanced ═══ -->
+                <hr class="border-slate-800 my-2">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-sliders text-indigo-400"></i>Advanced</h3>
+
                 <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">System
-                        Prompt Override</label>
-                    <textarea id="settings-sys-prompt" rows="2" placeholder="Leave blank for default..."
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">System Prompt Override</label>
+                    <textarea id="settings-sys-prompt" rows="2" placeholder="Leave blank for default..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
                 </div>
 
                 <div>
-                    <label
-                        class="flex justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                    <label class="flex justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                         <span>Temperature</span> <span id="temp-val">0.7</span>
                     </label>
-                    <input type="range" id="settings-temp" min="0" max="2" step="0.1" value="0.7"
-                        class="w-full accent-indigo-500"
-                        oninput="document.getElementById('temp-val').innerText = this.value">
+                    <input type="range" id="settings-temp" min="0" max="2" step="0.1" value="0.7" class="w-full accent-indigo-500" oninput="document.getElementById('temp-val').innerText = this.value">
                 </div>
 
                 <div>
-                    <label
-                        class="flex justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                    <label class="flex justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                         <span>Context Window / Max Tokens</span> <span id="token-val">4096</span>
                     </label>
-                    <input type="range" id="settings-tokens" min="1024" max="128000" step="1024" value="4096"
-                        class="w-full accent-indigo-500"
-                        oninput="document.getElementById('token-val').innerText = this.value">
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Auto-Save
-                        History</label>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="autosave-toggle" class="sr-only peer" checked>
-                        <div
-                            class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500">
-                        </div>
-                    </label>
-                </div>
-                <div class="flex items-center justify-between">
-                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Data Collection
-                        Opt-Out</label>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="telemetry-toggle" class="sr-only peer">
-                        <div
-                            class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-rose-500">
-                        </div>
-                    </label>
+                    <input type="range" id="settings-tokens" min="1024" max="128000" step="1024" value="4096" class="w-full accent-indigo-500" oninput="document.getElementById('token-val').innerText = this.value">
                 </div>
             </div>
-            <div class="mt-6 flex gap-3">
-                <button onclick="saveSettings()"
-                    class="flex-grow py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20">Save & Apply</button>
-                <button onclick="clearAPIKey()"
-                    class="px-4 py-2.5 bg-slate-850 hover:bg-rose-600/20 hover:text-rose-400 text-slate-300 font-bold text-sm rounded-xl transition border border-slate-700">Clear
-                    Key</button>
+
+            <!-- OK Button -->
+            <div class="mt-6">
+                <button onclick="closeSettings()"
+                    class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm rounded-xl transition border border-slate-700">OK</button>
             </div>
         </div>
     </div>
@@ -1264,27 +1382,88 @@
                 modal.classList.remove('hidden');
                 document.getElementById('api-key-input').value = apiKey;
                 document.getElementById('api-provider').value = apiProvider;
+                // Load saved preferences into UI
+                const savedSysPrompt = localStorage.getItem('omni_sys_prompt') || '';
+                const savedTemp = localStorage.getItem('omni_temp') || '0.7';
+                const savedTokens = localStorage.getItem('omni_tokens') || '4096';
+                const savedAutosave = localStorage.getItem('omni_autosave');
+                document.getElementById('settings-sys-prompt').value = savedSysPrompt;
+                document.getElementById('settings-temp').value = savedTemp;
+                document.getElementById('temp-val').innerText = savedTemp;
+                document.getElementById('settings-tokens').value = savedTokens;
+                document.getElementById('token-val').innerText = savedTokens;
+                if (savedAutosave !== null) {
+                    document.getElementById('autosave-toggle').checked = savedAutosave === 'true';
+                }
+                // Mark key as saved (fresh open)
+                document.querySelector('#settings-modal > div').dataset.keySaved = 'true';
             } else {
                 modal.classList.add('hidden');
             }
         }
 
-        function saveSettings() {
+        function closeSettings() {
+            const modalDiv = document.querySelector('#settings-modal > div');
+            if (modalDiv.dataset.keySaved === 'false') {
+                if (!confirm('You have unsaved API key changes. Close without saving?')) {
+                    return;
+                }
+            }
+            // Save non-API preferences automatically on close
+            localStorage.setItem('omni_sys_prompt', document.getElementById('settings-sys-prompt').value);
+            localStorage.setItem('omni_temp', document.getElementById('settings-temp').value);
+            localStorage.setItem('omni_tokens', document.getElementById('settings-tokens').value);
+            localStorage.setItem('omni_autosave', document.getElementById('autosave-toggle').checked);
+            document.getElementById('settings-modal').classList.add('hidden');
+        }
+
+        function toggleLightMode() {
+            const isOn = document.getElementById('light-mode-toggle').checked;
+            if (isOn) {
+                document.body.classList.add('light-mode');
+            } else {
+                document.body.classList.remove('light-mode');
+            }
+            localStorage.setItem('omni_light_mode', isOn);
+        }
+
+        function saveAPIKey() {
             const inputKey = document.getElementById('api-key-input').value.trim();
             const inputProvider = document.getElementById('api-provider').value;
             localStorage.setItem('omni_api_key', inputKey);
             localStorage.setItem('omni_api_provider', inputProvider);
             apiKey = inputKey;
             apiProvider = inputProvider;
-            toggleSettings();
+            document.querySelector('#settings-modal > div').dataset.keySaved = 'true';
             checkAPIConnection();
-            showToast("API Configuration Saved!");
+            showToast("API Key Saved & Applied!");
+        }
+
+        // Legacy alias so old onclick="saveSettings()" calls still work
+        function saveSettings() { saveAPIKey(); }
+
+        function handleHistoryToggle(el) {
+            if (!el.checked) {
+                if (!confirm('This will clear your chat history. Are you sure?')) {
+                    el.checked = true;
+                    return;
+                }
+                // Clear history
+                localStorage.removeItem('omnibot_v6_state');
+                chatMemory = { messages: [], messageCount: 0, topic: "" };
+                const chatMessagesEl = document.getElementById('chat-messages');
+                if (chatMessagesEl) chatMessagesEl.innerHTML = '';
+                updateMemoryUI();
+                showToast("Chat history cleared.");
+            }
+            localStorage.setItem('omni_autosave', el.checked);
         }
 
         function clearAPIKey() {
             localStorage.removeItem('omni_api_key');
             document.getElementById('api-key-input').value = "";
             apiKey = "";
+            document.querySelector('#settings-modal > div').dataset.keySaved = 'true';
             checkAPIConnection();
             showToast("API Key Cleared.");
         }
@@ -4080,8 +4259,12 @@
             window.exportHistory = exportHistory;
             window.importHistory = importHistory;
             window.toggleSettings = toggleSettings;
+            window.closeSettings = closeSettings;
             window.saveSettings = saveSettings;
+            window.saveAPIKey = saveAPIKey;
+            window.handleHistoryToggle = handleHistoryToggle;
             window.clearAPIKey = clearAPIKey;
+            window.toggleLightMode = toggleLightMode;
             window.switchTab = switchTab;
             window.switchComposerMode = switchComposerMode;
             window.switchSolverModule = switchSolverModule;
@@ -4250,6 +4433,19 @@
             checkAPIConnection();
             loadState();
             updateMemoryUI();
+
+            // Restore light mode from localStorage
+            const savedLightMode = localStorage.getItem('omni_light_mode');
+            if (savedLightMode === 'true') {
+                document.body.classList.add('light-mode');
+                document.getElementById('light-mode-toggle').checked = true;
+            }
+
+            // Restore autosave toggle
+            const savedAutosave = localStorage.getItem('omni_autosave');
+            if (savedAutosave !== null) {
+                document.getElementById('autosave-toggle').checked = savedAutosave === 'true';
+            }
         });
 
         // --- Uploaded Files Logic ---
