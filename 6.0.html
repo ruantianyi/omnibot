@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniBot V6.0: Ultimate Dynamic AI Synthesis</title>
+    <title>OmniBot 6.0 Workspace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -63,54 +63,129 @@
     </style>
     <style id="light-mode-styles">
         body.light-mode {
-            background: #f8fafc;
-            color: #0f172a;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 60%, #e0e7ff 100%) !important;
+            color: #0f172a !important;
+        }
+        
+        body.light-mode,
+        body.light-mode #settings-modal,
+        body.light-mode [class*="bg-gradient-"] {
+            background-image: none !important;
         }
 
-        body.light-mode .bg-slate-950 {
-            background-color: #ffffff;
+        body.light-mode [class*="bg-slate-950"] {
+            background-color: #ffffff !important;
+        }
+        body.light-mode [class*="bg-slate-900"] {
+            background-color: #f8fafc !important;
+        }
+        body.light-mode [class*="bg-slate-850"] {
+            background-color: #f1f5f9 !important;
+        }
+        body.light-mode [class*="bg-slate-800"] {
+            background-color: #e2e8f0 !important;
+        }
+        body.light-mode .glass-panel {
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.05), 0 8px 10px -6px rgba(99, 102, 241, 0.05) !important;
         }
 
-        body.light-mode .bg-slate-900 {
-            background-color: #f1f5f9;
+        body.light-mode header {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            border-color: #e2e8f0 !important;
+        }
+        body.light-mode nav#top-nav-scroll {
+            background-color: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+        }
+        body.light-mode #chat-messages {
+            background-color: #ffffff !important;
+        }
+        body.light-mode #chat-typing {
+            background-color: #f8fafc !important;
+        }
+        
+        body.light-mode select,
+        body.light-mode input[type="text"],
+        body.light-mode input[type="password"],
+        body.light-mode textarea {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        body.light-mode select:focus,
+        body.light-mode input[type="text"]:focus,
+        body.light-mode input[type="password"]:focus,
+        body.light-mode textarea:focus {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
         }
 
-        body.light-mode .bg-slate-850 {
-            background-color: #e2e8f0;
+        body.light-mode #settings-modal {
+            background-color: rgba(15, 23, 42, 0.3) !important;
+            backdrop-filter: blur(4px) !important;
+        }
+        body.light-mode #settings-modal > div {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
         }
 
-        body.light-mode .bg-slate-800 {
-            background-color: #cbd5e1;
+        body.light-mode [class*="border-slate-"] {
+            border-color: #e2e8f0 !important;
+        }
+        body.light-mode hr {
+            border-color: #e2e8f0 !important;
         }
 
-        body.light-mode .border-slate-800 {
-            border-color: #cbd5e1;
+        body.light-mode .text-white,
+        body.light-mode [class*="text-slate-100"],
+        body.light-mode [class*="text-slate-200"],
+        body.light-mode [class*="text-slate-300"] {
+            color: #0f172a !important;
+        }
+        body.light-mode [class*="text-slate-400"] {
+            color: #475569 !important;
+        }
+        body.light-mode [class*="text-slate-500"] {
+            color: #64748b !important;
+        }
+        body.light-mode [class*="text-indigo-300"] {
+            color: #4f46e5 !important;
+        }
+        body.light-mode [class*="text-teal-400"] {
+            color: #0d9488 !important;
+        }
+        body.light-mode [class*="text-rose-400"] {
+            color: #e11d48 !important;
+        }
+        body.light-mode [class*="text-emerald-400"] {
+            color: #059669 !important;
+        }
+        body.light-mode [class*="text-indigo-400"] {
+            color: #6366f1 !important;
         }
 
-        body.light-mode .text-slate-100,
-        body.light-mode .text-slate-200,
-        body.light-mode .text-slate-300 {
-            color: #1e293b;
+        body.light-mode code {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
         }
 
-        body.light-mode .text-slate-400 {
-            color: #475569;
+        body.light-mode .peer-checked\:bg-indigo-500:checked + div,
+        body.light-mode .peer-checked\:bg-indigo-500 + div {
+            background-color: #cbd5e1 !important;
         }
-
-        body.light-mode .from-slate-950 {
-            --tw-gradient-from: #ffffff var(--tw-gradient-from-position);
+        body.light-mode .peer-checked\:bg-indigo-500:checked + div {
+            background-color: #6366f1 !important;
         }
-
-        body.light-mode .from-slate-900 {
-            --tw-gradient-from: #f1f5f9 var(--tw-gradient-from-position);
+        body.light-mode #toast {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
         }
-
-        body.light-mode .via-slate-900 {
-            --tw-gradient-via: #f1f5f9 var(--tw-gradient-via-position);
-        }
-
-        body.light-mode .placeholder\:text-slate-600::placeholder {
-            color: #94a3b8;
+        body.light-mode .personality-opt:hover {
+            background-color: #f1f5f9 !important;
         }
     </style>
 </head>
@@ -201,7 +276,7 @@
                     </label>
                 </div>
                 <div class="flex items-center justify-between">
-                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Telemetry
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Data Collection
                         Opt-Out</label>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="telemetry-toggle" class="sr-only peer">
@@ -233,7 +308,7 @@
                 <div class="flex items-center gap-2">
                     <span
                         class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent">OMNIBOT
-                        V6.0</span>
+                        6.0</span>
                     <span id="engine-mode-badge"
                         class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20 flex items-center gap-1">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Offline Mode
@@ -363,13 +438,13 @@
                             class="fa-solid fa-database text-indigo-400"></i> AI Memory Status</h4>
                     <div
                         class="p-3 bg-slate-950/60 rounded-xl border border-slate-800/80 space-y-1.5 text-[11px] text-slate-400 font-mono">
-                        <div>Model: <span id="mem-model-type" class="text-indigo-300">V6.0 Synthesis Core</span></div>
+                        <div>Model: <span id="mem-model-type" class="text-indigo-300">6.0 AI Core</span></div>
                         <div>Extracted Topics: <span class="text-emerald-300">Active</span></div>
                         <div>Dictionary Keys: <span id="mem-word-count" class="text-indigo-300">Loading...</span></div>
                         <div>Markov Nodes: <span id="mem-markov-count" class="text-emerald-300">0 loaded</span></div>
                         <button onclick="clearMemory()"
                             class="w-full mt-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] transition font-sans font-medium">Reset
-                            AI Matrix</button>
+                            AI Memory</button>
                     </div>
                 </div>
             </div>
@@ -395,7 +470,7 @@
                         </div>
                         <div
                             class="bg-slate-800/60 text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-slate-800/40 shadow-inner">
-                            Welcome to the **OmniBot V6.0 Ultimate Synthesis Engine**! 🚀<br><br>I feature advanced
+                            Welcome to the **OmniBot 6.0 Ultimate AI Engine**! 🚀<br><br>I feature advanced
                             persistent memory, a Math.js integration for true calculus and algebra, and smart Intent
                             Recognition. If you enter an API key via the settings gear above, I become fully live.
                             Otherwise, my massive offline Knowledge Graph handles everything.<br>
@@ -464,7 +539,7 @@
                 <form id="composer-form" class="flex flex-col justify-between h-full space-y-4">
                     <div>
                         <h3 class="text-base font-bold text-slate-100 flex items-center gap-2"><i
-                                class="fa-solid fa-file-signature text-indigo-400"></i> Knowledge Graph Synthesizer</h3>
+                                class="fa-solid fa-file-signature text-indigo-400"></i> Smart Document Writer</h3>
                         <p class="text-xs text-slate-400 mt-2">Generates unique, massive analyses by dynamically
                             assembling procedural text structures from our database.</p>
                     </div>
@@ -476,7 +551,7 @@
                                 Mode</label>
                             <select id="composer-mode" onchange="switchComposerMode()"
                                 class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
-                                <option value="scholarly">Dynamic Scholarly Synthesis</option>
+                                <option value="scholarly">Academic Essay</option>
                                 <option value="creative">Creative Fiction / Narrative</option>
                             </select>
                         </div>
@@ -506,7 +581,7 @@
                                     class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Length</label>
                                 <select id="composer-length"
                                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
-                                    <option value="medium">Standard Synthesis</option>
+                                    <option value="medium">Standard Length</option>
                                     <option value="long">Massive Deep Dive (2000+ Words)</option>
                                 </select>
                             </div>
@@ -516,7 +591,7 @@
                     <div class="pt-4 border-t border-slate-800/80 mt-auto">
                         <button type="submit"
                             class="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition hover:opacity-95 shadow-lg shadow-indigo-600/10 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-network-wired"></i> Synthesize Knowledge Graph
+                            <i class="fa-solid fa-network-wired"></i> Generate Document
                         </button>
                     </div>
                 </form>
@@ -576,7 +651,7 @@
                     </div>
                     <div>
                         <label
-                            class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Humanization
+                            class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Rewriting
                             Style</label>
                         <select id="humanizer-style-select"
                             class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-pink-500">
@@ -597,7 +672,7 @@
                 <div class="pt-4 border-t border-slate-800/80 mt-4">
                     <button onclick="runHumanizerUI()"
                         class="w-full py-3 bg-gradient-to-r from-pink-600 to-rose-600 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition hover:opacity-95 shadow-lg shadow-pink-600/10 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-magic"></i> Restructure Phrasing
+                        <i class="fa-solid fa-magic"></i> Rewrite Text
                     </button>
                 </div>
             </div>
@@ -605,8 +680,7 @@
                 class="lg:col-span-7 bg-slate-900/30 border border-slate-800/60 rounded-2xl p-6 flex flex-col justify-between min-h-[500px]">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
                     <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-pink-400"></span><span
-                            class="text-xs font-bold text-slate-300 uppercase tracking-wider">Linguistic Rewrite
-                            Output</span></div>
+                            class="text-xs font-bold text-slate-300 uppercase tracking-wider">Rewritten Text Output</span></div>
                     <button onclick="copyHumanizedToClipboard()"
                         class="text-xs text-slate-300 hover:text-pink-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
                             class="fa-solid fa-copy"></i> Copy Text</button>
@@ -627,7 +701,7 @@
                 <form id="solver-form-main" class="flex flex-col justify-between h-full space-y-4">
                     <div>
                         <h3 class="text-base font-bold text-slate-100 flex items-center gap-2"><i
-                                class="fa-solid fa-calculator text-teal-400"></i> Math & Physics Engine</h3>
+                                class="fa-solid fa-calculator text-teal-400"></i> Math & Physics Solver</h3>
                         <p class="text-xs text-slate-400 mt-2">Configure parameters below, or enter any complex
                             physical/algebraic word problem directly in the chatbot for automatic parsing using Math.js!
                         </p>
@@ -650,7 +724,7 @@
                         <div class="bg-slate-950/60 border border-slate-850 p-4 rounded-xl space-y-3">
                             <div id="form-natural" class="solver-form hidden space-y-3">
                                 <p class="text-[11px] text-slate-400 italic">Type a non-straightforward physics problem
-                                    in natural language. The heuristic engine will extract variables, auto-detect the
+                                    in natural language. The AI engine will extract variables, auto-detect the
                                     necessary formulas (from 200+ stored), and chain them together to find the solution.
                                 </p>
                                 <div>
@@ -2168,7 +2242,7 @@
 
             let essayHTML = `<div class="mb-8">`;
             essayHTML += `<h2 class="text-3xl font-extrabold text-white mb-2 tracking-tight uppercase">${cleanTopicTitle}</h2>`;
-            essayHTML += `<p class="text-indigo-400 font-mono text-sm tracking-wider uppercase mb-6"><i class="fa-solid fa-server mr-2"></i>Generated via OmniBot Synthesis Engine</p></div>`;
+            essayHTML += `<p class="text-indigo-400 font-mono text-sm tracking-wider uppercase mb-6"><i class="fa-solid fa-server mr-2"></i>Generated via OmniBot AI Engine</p></div>`;
 
             let introHtml = INTRO_TEMPLATES[Math.floor(Math.random() * INTRO_TEMPLATES.length)].replace(/\{TOPIC\}/g, cleanTopicInline);
             let paragraphsHTML = introHtml;
@@ -2437,8 +2511,13 @@
                     }
                     node.nodeValue = humanizeText(txt, activeStyle, allowHooks && !isHeader);
                 } else {
-                    if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE' || node.tagName === 'CODE' || node.classList.contains('MathJax') || node.classList.contains('mjx-container') || node.classList.contains('fa-solid')) {
-                        return;
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE' || node.tagName === 'CODE' || 
+                            node.classList.contains('MathJax') || node.classList.contains('mjx-container') || 
+                            node.classList.contains('fa-solid') || node.classList.contains('no-humanize') ||
+                            node.closest?.('.no-humanize')) {
+                            return;
+                        }
                     }
                     let headerFlag = isHeader;
                     if (node.tagName && /^H[1-6]$/i.test(node.tagName)) {
@@ -2753,7 +2832,7 @@
 
             if (intent === "GREETING") {
                 setCognitiveMode('CONVERSATIONAL');
-                return humanizeHTMLSafe("Hello! I am OmniBot V6.0. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
+                return humanizeHTMLSafe("Hello! I am OmniBot 6.0. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
             }
 
             // Removed the old CHITCHAT fallback rejection. 
@@ -2793,9 +2872,9 @@
             }, 500);
 
             return `
-                <div class="space-y-3">
-                    <p class="text-emerald-400 font-semibold flex items-center gap-1.5 text-xs"><i class="fa-solid fa-square-check"></i> NLG Dynamic Synthesis Engine Activated</p>
-                    <p class="text-xs text-slate-300">Generated a custom interdisciplinary synthesis for <strong class="text-indigo-300">"${escapeHTML(titleCasedTopic)}"</strong> by extracting, rephrasing, and cross-referencing nodes from the offline Knowledge Graph.</p>
+                <div class="space-y-3 no-humanize">
+                    <p class="text-emerald-400 font-semibold flex items-center gap-1.5 text-xs"><i class="fa-solid fa-square-check"></i> Smart Writing Engine Activated</p>
+                    <p class="text-xs text-slate-300">Generated a custom research document for <strong class="text-indigo-300">"${escapeHTML(titleCasedTopic)}"</strong> by extracting, rephrasing, and cross-referencing nodes from the offline Knowledge Graph.</p>
                     <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-400 text-xs leading-relaxed max-h-48 overflow-y-auto mt-2">
                         ${humanizedCompiledText}
                     </div>
@@ -2901,7 +2980,7 @@
 
             // Handle conceptual answers (e.g. "full circle displacement = 0")
             if (nlpVars.target && nlpVars.target in nlpVars.knowns && conceptNotes.length > 0) {
-                let html = `<div class="space-y-2"><h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-brain"></i> Conceptual Physics Analysis</h4>`;
+                let html = `<div class="space-y-2 no-humanize"><h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-brain"></i> Conceptual Physics Analysis</h4>`;
                 conceptNotes.forEach(note => {
                     html += `<p class="text-[10px] text-indigo-300"><i class="fa-solid fa-lightbulb text-amber-400"></i> ${note}</p>`;
                 });
@@ -2937,7 +3016,7 @@
                     }
                 }
                 if (solvedVars.length > 0) {
-                    let html = `<div class="space-y-2"><h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-wand-magic-sparkles"></i> Heuristic Solver Chain</h4>`;
+                    let html = `<div class="space-y-2 no-humanize"><h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-wand-magic-sparkles"></i> Heuristic Solver Chain</h4>`;
                     html += `<p class="text-[10px] text-slate-400">Extracted: ${Object.entries(nlpVars.knowns).map(([k, v]) => `<span class="text-slate-200">${k}</span>=<span class="text-emerald-400">${typeof v === 'number' ? parseFloat(v.toFixed(6)) : v}</span>`).join(', ')}</p>`;
                     if (conceptNotes.length > 0) {
                         conceptNotes.forEach(note => {
@@ -2957,7 +3036,7 @@
                 if (formula.match.some(kw => lowercaseText.includes(kw))) {
                     const result = formula.solve(values);
                     return `
-                        <div class="space-y-3">
+                        <div class="space-y-3 no-humanize">
                             <h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-calculator"></i> Physics Solver</h4>
                             <div class="p-3 bg-slate-950 rounded border border-slate-800 space-y-2 text-xs">
                                 <p>Extracted values: ${values.join(', ')}</p>
@@ -2974,7 +3053,7 @@
                         const expr = cleanMath.replace(/derivative\s+(of\s+)?/, '').trim();
                         const der = math.derivative(expr, 'x').toString();
                         return `
-                            <div class="space-y-3">
+                            <div class="space-y-3 no-humanize">
                                 <h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-square-root-variable"></i> Math.js Calculus Solver</h4>
                                 <div class="p-3 bg-slate-950 rounded border border-slate-800 text-xs">
                                     <p>$$ \\frac{d}{dx} (${expr}) = ${der} $$</p>
@@ -2983,7 +3062,7 @@
                     } else if (cleanMath.length > 2) {
                         const evaluated = math.evaluate(cleanMath);
                         return `
-                            <div class="space-y-3">
+                            <div class="space-y-3 no-humanize">
                                 <h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-calculator"></i> Math.js Algebra Solver</h4>
                                 <div class="p-3 bg-slate-950 rounded border border-slate-800 text-xs">
                                     <p>$$ ${cleanMath} = ${evaluated} $$</p>
@@ -3124,7 +3203,7 @@
                 if (titleEl) titleEl.textContent = "Luna Mindfulness Engine Active";
                 if (typingName) typingName.textContent = "Luna";
             }
-            appendBotMessage(`[Configuration Updated] I have reloaded state nodes to match the ${pId.toUpperCase()} module profiles.`);
+            appendBotMessage(`[Configuration Updated] I have reloaded state nodes to match the ${pId.toUpperCase()} module profiles.`, true);
         }
 
         function updateMemoryUI() {
@@ -3148,7 +3227,7 @@
             updateMemoryUI();
             const chatMessages = document.getElementById('chat-messages');
             if (chatMessages) chatMessages.innerHTML = '';
-            appendBotMessage("Local engine memory structures cleared. All historical variables flushed.");
+            appendBotMessage("Local engine memory structures cleared. All historical variables flushed.", true);
             saveState();
         }
 
@@ -3175,7 +3254,7 @@
             chatMessages.insertAdjacentHTML('beforeend', userHtml);
         }
 
-        function appendBotMessage(text) {
+        function appendBotMessage(text, skipHumanize = false) {
             const chatMessages = document.getElementById('chat-messages');
             if (!chatMessages) return;
             let iconClass = 'fa-robot text-indigo-400';
@@ -3192,7 +3271,7 @@
                 labelName = 'Luna';
             }
 
-            const humanizedText = humanizeHTMLSafe(text);
+            const humanizedText = skipHumanize ? text : humanizeHTMLSafe(text);
 
             const botHtml = `
                 <div class="flex gap-3 max-w-[85%] animate-fade-in">
@@ -4057,7 +4136,7 @@
                                     let cleanMath = text.toLowerCase().replace(/calculate|solve|evaluate|what is/gi, '').trim();
                                     let evaluated = math.evaluate(cleanMath);
                                     response = `
-                                        <div class="space-y-3">
+                                        <div class="space-y-3 no-humanize">
                                             <h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-calculator"></i> Math.js Fallback Solver</h4>
                                             <div class="p-3 bg-slate-950 rounded border border-slate-800 text-xs">
                                                 <p>$$${cleanMath} = ${evaluated}$$</p>
@@ -4065,7 +4144,7 @@
                                         </div>`;
                                 } catch (e) {
                                     response = `
-                                        <div class="space-y-3">
+                                        <div class="space-y-3 no-humanize">
                                             <h4 class="text-rose-400 font-bold text-sm"><i class="fa-solid fa-triangle-exclamation"></i> Math Syntax Error</h4>
                                             <div class="p-3 bg-slate-950 rounded border border-rose-500/20 text-xs text-rose-200">
                                                 <p>I recognized this as a mathematical query, but my symbolic engine couldn't evaluate the syntax. Try formatting it explicitly like: <code>(4 * x^3) / (2 * x)</code></p>
@@ -4077,7 +4156,7 @@
                             try {
                                 response = await processQueryOnGemini(text);
                             } catch (apiErr) {
-                                response = `<div class="mb-3 px-3 py-2 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] rounded-lg flex items-center gap-2 uppercase tracking-wider font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Live Connection Lost. Seamlessly executing offline fallback.</div>`;
+                                response = `<div class="no-humanize mb-3 px-3 py-2 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] rounded-lg flex items-center gap-2 uppercase tracking-wider font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Live Connection Lost. Seamlessly executing offline fallback.</div>`;
                                 response += generateAIResponse(text);
                             }
                         } else {
@@ -4094,7 +4173,7 @@
                     } catch (err) {
                         console.error(err);
                         if (chatTypingEl) chatTypingEl.classList.add('hidden');
-                        appendBotMessage("Critical Error: The offline engine encountered a local syntax failure: " + err.message);
+                        appendBotMessage("Critical Error: The offline engine encountered a local syntax failure: " + err.message, true);
                     }
                     if (chatMessagesEl) chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
                 });
