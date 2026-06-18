@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OmniBot V6.0: The Premium Multi-Modal AI Synthesis Engine. Advanced symbolic math, offline composition graphs, and zero-telemetry local first architecture.">
+    <title>OmniBot: The Premium AI Synthesis Ecosystem</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712; /* Extreme dark gray/black */
+        }
+
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Smooth scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+
+        /* Dynamic keyframes for micro-animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.35); border-color: rgba(99, 102, 241, 0.4); }
+        }
+
+        @keyframes bgRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .premium-glow {
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 10%, #c7d2fe 50%, #818cf8 90%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: bgRotate 6s linear infinite;
+        }
+
+        .accent-gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphic Utilities */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-panel-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel-hover:hover {
+            background: rgba(15, 23, 42, 0.65);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Canvas Particle Background */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body class="text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden">
+
+    <!-- Canvas particles at the top -->
+    <div class="relative w-full overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950/40">
+        <canvas id="particle-canvas"></canvas>
+
+        <!-- Dynamic Glow Blobs in Background -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        <div class="absolute top-1/3 right-1/4 w-[450px] h-[450px] bg-violet-600/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="absolute bottom-10 left-1/3 w-[300px] h-[300px] bg-emerald-600/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+
+        <!-- Glassmorphic Top Navigation -->
+        <header class="sticky top-0 z-50 px-4 py-4 md:px-8 border-b border-slate-900/60 bg-slate-950/65 backdrop-blur-md transition-all duration-300">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid fa-brain text-white text-md"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">OMNIBOT</span>
+                        <span class="text-[9px] block text-indigo-400 font-bold uppercase tracking-widest leading-none">AI Matrix</span>
+                    </div>
+                </a>
+
+                <!-- Nav Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                    <a href="#features" class="hover:text-white hover:underline decoration-indigo-500 underline-offset-8 transition">Why OmniBot</a>
+                    <a href="#capabilities" class="hover:text-white hover:underline decoration-indigo-500 underline-offset-8 transition">Live Sandbox</a>
+                    <a href="#comparison" class="hover:text-white hover:underline decoration-indigo-500 underline-offset-8 transition">The Edge</a>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="flex items-center gap-4">
+                    <a href="6.0.html" class="relative group hidden sm:inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-bold text-white rounded-xl group bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 group-hover:from-indigo-500 group-hover:to-pink-500 hover:text-white focus:ring-2 focus:outline-none focus:ring-indigo-800 transition duration-300 mt-2">
+                        <span class="relative px-4 py-2 transition-all ease-in ease-out bg-slate-950 rounded-xl group-hover:bg-opacity-0 duration-300 flex items-center gap-2">
+                            <span>Launch OmniBot V6</span>
+                            <i class="fa-solid fa-circle-play text-indigo-400 group-hover:text-white transition-colors"></i>
+                        </span>
+                    </a>
+                    <!-- Mobile Hamburger -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white transition text-xl">
+                        <i class="fa-solid fa-bars-staggered" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-slate-900 flex flex-col gap-4 text-sm font-medium text-slate-300">
+                <a href="#features" onclick="toggleMobileMenu()" class="hover:text-white transition py-1"><i class="fa-solid fa-circle-nodes text-indigo-400 mr-2"></i>Why OmniBot</a>
+                <a href="#capabilities" onclick="toggleMobileMenu()" class="hover:text-white transition py-1"><i class="fa-solid fa-shapes text-violet-400 mr-2"></i>Live Sandbox</a>
+                <a href="#comparison" onclick="toggleMobileMenu()" class="hover:text-white transition py-1"><i class="fa-solid fa-chart-bar text-pink-400 mr-2"></i>The Edge</a>
+                <a href="6.0.html" class="py-2.5 bg-indigo-600 text-white font-bold text-center rounded-xl transition hover:bg-indigo-500 shadow-lg shadow-indigo-600/20"><i class="fa-solid fa-play mr-2"></i>Launch OmniBot V6</a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="max-w-7xl mx-auto px-4 md:px-8 pt-12 pb-24 md:pt-20 md:pb-36 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            <!-- Hero Left -->
+            <div class="lg:col-span-6 space-y-6 text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-300 text-xs font-bold tracking-wider uppercase">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+                    <span>The Cognitive Apex • Version 6.0</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+                    The Ultimate AI <br>
+                    <span class="gradient-text">Synthesis Engine.</span>
+                </h1>
+                <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-xl">
+                    Beyond standard conversational tokens. OmniBot merges a highly advanced local symbolic math engine, procedural knowledge graph synthesizer, and customizable multi-engine cognitive frameworks into a private, local-first sandbox.
+                </p>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
+                    <a href="6.0.html" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-center transition-all duration-300 shadow-xl shadow-indigo-600/30 hover:scale-[1.02] flex items-center justify-center gap-3 premium-glow">
+                        <span>Launch OmniBot V6.0</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </a>
+                </div>
+                <!-- Hero Quick Stats -->
+                <div class="grid grid-cols-3 gap-6 pt-10 border-t border-slate-900 max-w-lg">
+                    <div>
+                        <div class="text-2xl md:text-3xl font-extrabold text-white">100%</div>
+                        <div class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">Local & Private</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl md:text-3xl font-extrabold text-indigo-400">3</div>
+                        <div class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">Cognitive Engines</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl md:text-3xl font-extrabold text-emerald-400">Exact</div>
+                        <div class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">Symbolic Math</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Right: Interactive Dashboard Mockup -->
+            <div class="lg:col-span-6 animate-float">
+                <div class="glass-panel border-slate-800/80 rounded-2xl shadow-2xl overflow-hidden shadow-indigo-950/20 max-w-xl mx-auto">
+                    <!-- Title Bar -->
+                    <div class="bg-slate-950/90 border-b border-slate-900/85 px-4 py-3.5 flex items-center justify-between">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                        </div>
+                        <div class="text-slate-300 text-xs font-semibold code-font flex items-center gap-1.5">
+                            <i class="fa-solid fa-microchip text-indigo-400"></i> omnibot-v6.0-workspace.env
+                        </div>
+                        <div class="w-12"></div>
+                    </div>
+                    <!-- Workspace Tabs -->
+                    <div class="bg-slate-900/40 border-b border-slate-900/85 p-1 flex items-center justify-start gap-1 overflow-x-auto">
+                        <button onclick="changeMockTab('chat')" id="mock-tab-chat" class="mock-tab px-3 py-1.5 text-xs font-semibold rounded-lg text-white bg-indigo-600 flex items-center gap-1.5 transition-all duration-200">
+                            <i class="fa-regular fa-comment text-blue-300"></i> Chat Bot
+                        </button>
+                        <button onclick="changeMockTab('essay')" id="mock-tab-essay" class="mock-tab px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-slate-200 flex items-center gap-1.5 transition-all duration-200">
+                            <i class="fa-solid fa-pen-nib text-violet-400"></i> Compose
+                        </button>
+                        <button onclick="changeMockTab('solver')" id="mock-tab-solver" class="mock-tab px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-slate-200 flex items-center gap-1.5 transition-all duration-200">
+                            <i class="fa-solid fa-calculator text-teal-400"></i> Physics
+                        </button>
+                    </div>
+                    <!-- Mockup Workspace Content Area -->
+                    <div class="p-4 md:p-6 h-[320px] overflow-y-auto flex flex-col justify-between code-font text-xs">
+                        <div id="mock-content-chat" class="mock-panel space-y-4">
+                            <div class="flex gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center shrink-0"><i class="fa-solid fa-user text-[10px]"></i></div>
+                                <div class="bg-slate-800/40 border border-slate-800 p-2.5 rounded-xl text-slate-300 leading-relaxed">
+                                    Can you solve the symbolic derivative of $4x^3 + 2x$?
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center shrink-0"><i class="fa-solid fa-robot text-[10px]"></i></div>
+                                <div class="bg-slate-900/60 border border-slate-850 p-2.5 rounded-xl text-slate-200 leading-relaxed space-y-2">
+                                    <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider"><i class="fa-solid fa-bolt"></i> Alpha Math Solver Engine</div>
+                                    <p>Applying symbolic power rule: $\frac{d}{dx}[x^n] = n x^{n-1}$</p>
+                                    <p class="text-indigo-300 font-bold">Solution: $12x^2 + 2$</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="mock-content-essay" class="mock-panel hidden space-y-4">
+                            <div class="flex gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center shrink-0"><i class="fa-solid fa-user text-[10px]"></i></div>
+                                <div class="bg-slate-800/40 border border-slate-800 p-2.5 rounded-xl text-slate-300 leading-relaxed">
+                                    Synthesize a scholarly abstract about aerospace dynamics and orbital mechanics.
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-violet-600/20 text-violet-400 flex items-center justify-center shrink-0"><i class="fa-solid fa-robot text-[10px]"></i></div>
+                                <div class="bg-slate-900/60 border border-slate-850 p-2.5 rounded-xl text-slate-200 leading-relaxed space-y-2 max-h-[160px] overflow-y-auto custom-scrollbar">
+                                    <div class="text-[10px] text-violet-400 font-bold uppercase tracking-wider"><i class="fa-solid fa-brain"></i> Lunar Synthesis Engine</div>
+                                    <p class="font-bold underline">Abstract: Interdisciplinary Dynamic Synthesis</p>
+                                    <p class="text-slate-300 text-[11px] leading-relaxed">This paper synthesizes mathematical matrices modeling low-Earth orbit perturbation factors. Utilizing structural aerodynamic vector distributions combined with gravitational acceleration decay constants ($\mu = GM$), we explore orbital altitude sustainability profiles in high-atmosphere boundaries...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="mock-content-solver" class="mock-panel hidden space-y-4">
+                            <div class="flex gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center shrink-0"><i class="fa-solid fa-user text-[10px]"></i></div>
+                                <div class="bg-slate-800/40 border border-slate-800 p-2.5 rounded-xl text-slate-300 leading-relaxed">
+                                    Inclined plane: 10kg mass on a 30-degree incline. Find parallel gravitational force.
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-pink-600/20 text-pink-400 flex items-center justify-center shrink-0"><i class="fa-solid fa-robot text-[10px]"></i></div>
+                                <div class="bg-slate-900/60 border border-slate-850 p-2.5 rounded-xl text-slate-200 leading-relaxed space-y-2">
+                                    <div class="text-[10px] text-pink-400 font-bold uppercase tracking-wider"><i class="fa-solid fa-calculator"></i> Physics Solver Matrix</div>
+                                    <p>Vector breakdown:</p>
+                                    <ul class="list-disc pl-4 space-y-1 text-slate-300 text-[10px]">
+                                        <li>Parallel Force: $F_{\parallel} = m \cdot g \cdot \sin(\theta)$</li>
+                                        <li>Calculation: $10 \cdot 9.80665 \cdot \sin(30^\circ)$</li>
+                                    </ul>
+                                    <p class="text-emerald-400 font-bold">Result: 49.03 Newtons</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Typing Input Indicator -->
+                        <div class="mt-auto border-t border-slate-900/80 pt-3 flex items-center justify-between text-[11px] text-slate-300 font-sans">
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-notch animate-spin text-indigo-400"></i>
+                                <span>Engine is primed (Local Mode)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 bg-slate-950 border border-slate-900 rounded text-[10px] uppercase font-bold text-slate-300">Enter Key</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Core Superiority Section (Advertisements) -->
+    <section id="features" class="py-24 bg-slate-950 border-t border-slate-900 relative">
+        <!-- Floating Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-indigo-900/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+            <!-- Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-xs font-extrabold tracking-widest text-indigo-400 uppercase bg-indigo-500/10 px-3 py-1 rounded-full">Engine Advancements</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+                    Why OmniBot Excels <br>
+                    <span class="accent-gradient-text">In Every Dimension</span>
+                </h2>
+                <p class="text-slate-300 text-sm md:text-base max-w-xl mx-auto">
+                    OmniBot uses structured logical synthesis engines to guarantee precision, providing powerful local tools for your advanced workflows.
+                </p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="glass-panel glass-panel-hover p-6 rounded-2xl flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-xl mb-6">
+                            <i class="fa-solid fa-square-root-variable"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">True Mathematical Matrix</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            Rather than probabilistically predicting numerical sequences, OmniBot employs an active Math.js compiler. Write equations in plain text or LaTeX, and receive step-by-step calculus, trigonometry, and symbolic algebraic derivatives with mathematical certainty.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-slate-900 mt-6 text-[10px] text-indigo-400 font-bold uppercase tracking-wider">
+                        Math.js Integration & Heuristics
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-panel glass-panel-hover p-6 rounded-2xl flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400 flex items-center justify-center text-xl mb-6">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Zero-Telemetry Privacy</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            Your privacy is our priority. OmniBot runs completely locally. We provide simple download and export options for all your files and conversations, ensuring you have 100% control over your data without any tracking.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-slate-900 mt-6 text-[10px] text-violet-400 font-bold uppercase tracking-wider">
+                        Client-Side Isolation
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-panel glass-panel-hover p-6 rounded-2xl flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-400 flex items-center justify-center text-xl mb-6">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Knowledge Graph Composer</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            Our Compose Engine doesn't generate unstructured filler. It structures narrative grids using cross-disciplinary topics. Weave academic research drafts exceeding 2,000+ words, then instantly export in raw Markdown text or formatted Adobe .PDF documents.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-slate-900 mt-6 text-[10px] text-pink-400 font-bold uppercase tracking-wider">
+                        Markdown & PDF Synthesizer
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-panel glass-panel-hover p-6 rounded-2xl flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl mb-6">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Tri-Engine Cognitive Matrix</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            Tailor your system outputs instantly with 3 tailored local engine personalities. Toggle **Alpha** (Polite, scholarly, and structured), **Nova** (Critical, deeply analytical, and skeptical), or **Luna** (Creative, philosophical, and fluid) depending on your workload.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-slate-900 mt-6 text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
+                        Custom Modular Personalities
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities Live Sandbox (Interactive Selector) -->
+    <section id="capabilities" class="py-24 bg-slate-900/40 border-t border-slate-900/80 relative">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+            <!-- Title -->
+            <div class="max-w-3xl mb-16 space-y-4">
+                <span class="text-xs font-extrabold tracking-widest text-indigo-400 uppercase bg-indigo-500/10 px-3 py-1 rounded-full">Interactive Sandbox</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white">Experience the Synthesis Ecosystem</h2>
+                <p class="text-slate-300 text-sm md:text-base max-w-xl">
+                    Interact below to preview the logical parsing schemas and rich outputs OmniBot generates instantly across modules.
+                </p>
+            </div>
+
+            <!-- Grid container -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Selectors (Left) -->
+                <div class="lg:col-span-4 flex flex-col gap-4">
+                    <button onclick="switchSandboxTab('chat')" id="sand-btn-chat" class="sand-btn text-left p-5 rounded-2xl border transition-all duration-300 bg-slate-950 border-indigo-500/30 shadow-lg shadow-indigo-950/20">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i class="fa-solid fa-comments"></i></span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Conversational AI (Alpha Engine)</h4>
+                                <p class="text-slate-300 text-[11px] mt-1">Multi-modal dialogues and intent parsing.</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button onclick="switchSandboxTab('physics')" id="sand-btn-physics" class="sand-btn text-left p-5 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-950/60 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-teal-500/15 text-teal-400 flex items-center justify-center"><i class="fa-solid fa-calculator"></i></span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Symbolic Heuristic Solver</h4>
+                                <p class="text-slate-300 text-[11px] mt-1">Procedural gravitational, thermal and algebra formulas.</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button onclick="switchSandboxTab('composition')" id="sand-btn-composition" class="sand-btn text-left p-5 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-950/60 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-pink-500/15 text-pink-400 flex items-center justify-center"><i class="fa-solid fa-drafting-compass"></i></span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Dynamic Text Composers</h4>
+                                <p class="text-slate-300 text-[11px] mt-1">Deep structure outlines and procedural writing matrices.</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Display Terminal (Right) -->
+                <div class="lg:col-span-8 glass-panel border-slate-800 rounded-2xl shadow-xl overflow-hidden flex flex-col justify-between">
+                    <!-- Top Bar -->
+                    <div class="bg-slate-950/90 border-b border-slate-900 px-4 py-3 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                            <span id="sand-badge-name" class="text-slate-300 font-mono text-[10px] uppercase tracking-wider">Output Sandbox: CONVERSATIONAL</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs text-slate-300">
+                            <span class="code-font text-[10px]">output.json</span>
+                            <i class="fa-regular fa-file-code"></i>
+                        </div>
+                    </div>
+
+                    <!-- Panel contents -->
+                    <div class="p-6 flex-grow leading-relaxed code-font text-xs text-slate-300 overflow-y-auto max-h-[300px]">
+                        <!-- Chat Sandbox Output -->
+                        <div id="sand-out-chat" class="sand-panel space-y-4">
+                            <div class="text-slate-300 border-b border-slate-900 pb-2 flex justify-between">
+                                <span>[SESSION INITIATED]</span>
+                                <span>Personality: ALPHA</span>
+                            </div>
+                            <p class="text-indigo-300"><span class="text-slate-300">Input &gt;</span> What are your thoughts on cognitive alignment paradigms?</p>
+                            <p class="text-slate-200">
+                                <span class="text-slate-300">Output &gt;</span> Cognitive alignment within complex synthesis graphs requires mathematical verification protocols. We isolate generative frameworks into localized clusters, checking statistical coherence against an absolute local symbolic proof engine rather than allowing standard feed-forward hallucinations to persist. This mitigates predictive error rates by up to 94.2% in academic composition pipelines.
+                            </p>
+                            <p class="text-emerald-400"><i class="fa-solid fa-check-circle"></i> Validation complete. Zero telemetry warning logs found.</p>
+                        </div>
+
+                        <!-- Physics Sandbox Output -->
+                        <div id="sand-out-physics" class="sand-panel hidden space-y-4">
+                            <div class="text-slate-300 border-b border-slate-900 pb-2 flex justify-between">
+                                <span>[PHYSICS MODULE: ACTIVE]</span>
+                                <span>Target: Forces on Inclined Plane</span>
+                            </div>
+                            <p class="text-indigo-300"><span class="text-slate-300">Variables Extracted &gt;</span> mass (m) = 15 kg, angle (&theta;) = 45&deg;, friction (&mu;) = 0.15</p>
+                            <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-900 space-y-2 text-[11px] leading-relaxed">
+                                <div class="font-bold text-slate-300 border-b border-slate-900 pb-1">Vector Decomposition Process:</div>
+                                <div>1. Gravitational Force: $F_g = m \cdot g = 15 \cdot 9.80665 = 147.10\text{ N}$</div>
+                                <div>2. Parallel Component: $F_{\parallel} = F_g \cdot \sin(45^\circ) = 147.10 \cdot 0.7071 = 104.02\text{ N}$</div>
+                                <div>3. Normal Component: $F_{\perp} = F_g \cdot \cos(45^\circ) = 147.10 \cdot 0.7071 = 104.02\text{ N}$</div>
+                                <div>4. Kinetic Friction Force: $F_f = \mu \cdot F_{\perp} = 0.15 \cdot 104.02 = 15.60\text{ N}$</div>
+                                <div class="text-emerald-300 font-bold border-t border-slate-900 pt-1 mt-1">5. Net Force Resulting Acceleration: $F_{\text{net}} = F_{\parallel} - F_f = 88.42\text{ N}$</div>
+                            </div>
+                            <p class="text-emerald-400 font-bold"><i class="fa-solid fa-calculator"></i> Analytical math compile successful (1.2ms).</p>
+                        </div>
+
+                        <!-- Composition Sandbox Output -->
+                        <div id="sand-out-composition" class="sand-panel hidden space-y-4">
+                            <div class="text-slate-300 border-b border-slate-900 pb-2 flex justify-between">
+                                <span>[COMPOSER MATRIX: COMPILE]</span>
+                                <span>Topic: Aerospace Dynamics & Philosophy</span>
+                            </div>
+                            <p class="text-indigo-300"><span class="text-slate-300">Query Schema &gt;</span> Compose introductory thesis.</p>
+                            <p class="text-slate-200 italic leading-relaxed text-[11px] bg-slate-950/80 p-4 border border-slate-900 rounded-xl">
+                                "The ascent of human flight represents more than mere mechanical aerodynamics; it is a profound philosophical statement regarding our defiance of gravitational bounds. When we calculate vector trajectories across turbulent velocity margins, we write a mathematical treatise on spatial liberation. By combining dynamic thermodynamic equations with classical epistemological theory, the cockpit becomes a cathedral of pure logic..."
+                            </p>
+                            <div class="flex items-center gap-4 text-[10px] text-indigo-400 border-t border-slate-900 pt-2">
+                                <span><i class="fa-solid fa-paragraph"></i> Paragraph Outline: Checked</span>
+                                <span><i class="fa-solid fa-file-pdf"></i> PDF Export Ready</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Bar CTA -->
+                    <div class="bg-slate-950/90 border-t border-slate-900/80 p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <span class="text-slate-300 text-[10px] font-semibold tracking-wider">Ready to deploy these structural modules?</span>
+                        <a href="6.0.html" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md shadow-indigo-600/10 flex items-center gap-1.5">
+                            <span>Open OmniBot Live</span>
+                            <i class="fa-solid fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Matrix Section -->
+    <section id="comparison" class="py-24 bg-slate-950 border-t border-slate-900 relative">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+            <!-- Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-xs font-extrabold tracking-widest text-indigo-400 uppercase bg-indigo-500/10 px-3 py-1 rounded-full">Comparative Analytics</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+                    The OmniBot Advantage
+                </h2>
+                <p class="text-slate-300 text-sm md:text-base">
+                    How OmniBot structures a paradigm shift against commercial chatbot models.
+                </p>
+            </div>
+
+            <!-- Table Container -->
+            <div class="glass-panel border-slate-800 rounded-2xl shadow-xl overflow-hidden max-w-5xl mx-auto">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs md:text-sm">
+                        <!-- Table Head -->
+                        <thead class="bg-slate-950/90 border-b border-slate-900 uppercase tracking-widest font-extrabold text-indigo-300">
+                            <tr>
+                                <th class="p-4 md:p-6">Feature Capability</th>
+                                <th class="p-4 md:p-6 border-l border-slate-900 bg-indigo-950/20 text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-brain text-indigo-400"></i> OmniBot V6.0
+                                </th>
+                                <th class="p-4 md:p-6 border-l border-slate-900 text-slate-300">
+                                    Commercial Chatbots
+                                </th>
+                            </tr>
+                        </thead>
+                        <!-- Table Body -->
+                        <tbody class="divide-y divide-slate-900 font-medium text-slate-300">
+                            <tr>
+                                <td class="p-4 md:p-6 font-bold text-white">Mathematical Computation</td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 bg-indigo-950/10 text-emerald-400 font-semibold flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-xs"></i> Symbolic exact parsing (Math.js compiler)
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 text-rose-400 font-medium">
+                                    <i class="fa-solid fa-xmark text-xs mr-1.5"></i> Probabilistic guessing (frequent calculation errors)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 md:p-6 font-bold text-white">Security & Telemetry</td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 bg-indigo-950/10 text-emerald-400 font-semibold">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-xs"></i> Zero-telemetry (Local secure client-first)</span>
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 text-rose-400 font-medium">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-xmark text-xs mr-1.5"></i> Mandatory server logging & training telemetry</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 md:p-6 font-bold text-white">Procedural Compositions</td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 bg-indigo-950/10 text-emerald-400 font-semibold">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-xs"></i> Cross-topic graph structuring (2,000+ words)</span>
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 text-rose-400 font-medium">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-xmark text-xs mr-1.5"></i> Linear token generation with rigid length limits</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 md:p-6 font-bold text-white">Custom Personalities</td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 bg-indigo-950/10 text-emerald-400 font-semibold">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-xs"></i> Tri-engine setup (Alpha, Nova, Luna matrix)</span>
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 text-rose-400 font-medium">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-xmark text-xs mr-1.5"></i> Single static model profile outputs</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 md:p-6 font-bold text-white">File Generation & Exports</td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 bg-indigo-950/10 text-emerald-400 font-semibold">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-xs"></i> Interactive .PDF, .TXT, and .JSON structures</span>
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 text-rose-400 font-medium">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-xmark text-xs mr-1.5"></i> Standard markdown copy-paste only</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 md:p-6 font-bold text-white">MathJax LaTeX Previews</td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 bg-indigo-950/10 text-emerald-400 font-semibold">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-xs"></i> True MathJax real-time formula rendering</span>
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-slate-900 text-rose-400 font-medium">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-xmark text-xs mr-1.5"></i> Plain text LaTeX or unformatted equations</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Elegant Toast Notifications (Legacy Warnings & Updates) -->
+    <div id="toaster" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 ease-out max-w-sm w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 shadow-2xl flex items-start gap-3">
+        <div id="toaster-icon-bg" class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+            <i id="toaster-icon" class="text-sm"></i>
+        </div>
+        <div class="flex-grow space-y-1">
+            <h4 id="toaster-title" class="font-bold text-white text-xs">System Alert</h4>
+            <p id="toaster-msg" class="text-slate-300 text-[11px] leading-relaxed"></p>
+        </div>
+        <button onclick="hideToaster()" class="text-slate-300 hover:text-white transition shrink-0 text-xs">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 bg-slate-950 py-12 px-4 md:px-8 text-center text-xs text-slate-300 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400"><i class="fa-solid fa-brain"></i></div>
+                <span class="font-bold text-slate-300">OMNIBOT AI SYSTEMS &copy; 2026</span>
+            </div>
+            <!-- Tech badges -->
+            <div class="flex flex-wrap justify-center gap-3">
+                <span class="px-2.5 py-1 bg-slate-900 border border-slate-850 rounded-md text-[10px] font-bold uppercase tracking-wider text-indigo-400">TailwindCSS</span>
+                <span class="px-2.5 py-1 bg-slate-900 border border-slate-850 rounded-md text-[10px] font-bold uppercase tracking-wider text-teal-400">Math.js Core</span>
+                <span class="px-2.5 py-1 bg-slate-900 border border-slate-850 rounded-md text-[10px] font-bold uppercase tracking-wider text-violet-400">MathJax Math</span>
+                <span class="px-2.5 py-1 bg-slate-900 border border-slate-850 rounded-md text-[10px] font-bold uppercase tracking-wider text-emerald-400">Zero-Telemetry</span>
+            </div>
+            <!-- Scroll to Top -->
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-slate-300 hover:text-white transition flex items-center gap-2 font-bold uppercase tracking-widest text-[9px] border border-slate-800 hover:border-indigo-500/30 px-3 py-1.5 rounded-lg bg-slate-900/40 backdrop-blur-sm shadow-inner">
+                <span>Top</span>
+                <i class="fa-solid fa-arrow-up text-[10px] animate-bounce"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Particle canvas animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const maxParticles = 65;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * (height * 0.85); // Concentrate at top
+                this.vx = (Math.random() - 0.5) * 0.25;
+                this.vy = (Math.random() - 0.5) * 0.25;
+                this.radius = Math.random() * 2 + 1;
+                this.alpha = Math.random() * 0.5 + 0.15;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > (height * 0.85)) this.vy = -this.vy;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(129, 140, 248, ${this.alpha})`;
+                ctx.fill();
+            }
+        }
+        
+        function initParticles() {
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                    if (dist < 100) {
+                        const alpha = (1 - dist / 100) * 0.1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(129, 140, 248, ${alpha})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+        
+        // Resize listener
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+        
+        initParticles();
+        animateParticles();
+
+        // Mobile Menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.className = "fa-solid fa-bars-staggered";
+            } else {
+                icon.className = "fa-solid fa-xmark";
+            }
+        }
+
+        // Mock Tab selectors (Hero Section)
+        function changeMockTab(tabName) {
+            const tabs = document.querySelectorAll('.mock-tab');
+            const panels = document.querySelectorAll('.mock-panel');
+            
+            tabs.forEach(t => {
+                t.className = "mock-tab px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-slate-200 flex items-center gap-1.5 transition-all duration-200";
+            });
+            
+            panels.forEach(p => p.classList.add('hidden'));
+            
+            const activeTab = document.getElementById(`mock-tab-${tabName}`);
+            activeTab.className = "mock-tab px-3 py-1.5 text-xs font-semibold rounded-lg text-white bg-indigo-600 flex items-center gap-1.5 transition-all duration-200";
+            
+            document.getElementById(`mock-content-${tabName}`).classList.remove('hidden');
+        }
+
+        // Interactive Capability Sandbox Selector
+        function switchSandboxTab(tabName) {
+            const btns = document.querySelectorAll('.sand-btn');
+            const panels = document.querySelectorAll('.sand-panel');
+            const badge = document.getElementById('sand-badge-name');
+            
+            btns.forEach(b => {
+                b.className = "sand-btn text-left p-5 rounded-2xl border border-slate-800 bg-slate-950/40 hover:bg-slate-950/60 transition-all duration-300";
+            });
+            
+            panels.forEach(p => p.classList.add('hidden'));
+            
+            const activeBtn = document.getElementById(`sand-btn-${tabName}`);
+            
+            if (tabName === 'chat') {
+                activeBtn.className = "sand-btn text-left p-5 rounded-2xl border transition-all duration-300 bg-slate-950 border-indigo-500/30 shadow-lg shadow-indigo-950/20";
+                badge.innerText = "Output Sandbox: CONVERSATIONAL";
+            } else if (tabName === 'physics') {
+                activeBtn.className = "sand-btn text-left p-5 rounded-2xl border transition-all duration-300 bg-slate-950 border-teal-500/30 shadow-lg shadow-teal-950/20";
+                badge.innerText = "Output Sandbox: SYMBOLIC PHYSICS";
+            } else {
+                activeBtn.className = "sand-btn text-left p-5 rounded-2xl border transition-all duration-300 bg-slate-950 border-pink-500/30 shadow-lg shadow-pink-950/20";
+                badge.innerText = "Output Sandbox: TEXT COMPOSITION";
+            }
+            
+            document.getElementById(`sand-out-${tabName}`).classList.remove('hidden');
+        }
+
+        // Elegant Toaster Utility
+        let toasterTimeout = null;
+        function showToaster(title, msg, type = 'error') {
+            const toaster = document.getElementById('toaster');
+            const iconBg = document.getElementById('toaster-icon-bg');
+            const icon = document.getElementById('toaster-icon');
+            const titleElem = document.getElementById('toaster-title');
+            const msgElem = document.getElementById('toaster-msg');
+            
+            titleElem.innerText = title;
+            msgElem.innerText = msg;
+            
+            if (type === 'error') {
+                iconBg.className = "w-8 h-8 rounded-lg bg-rose-500/20 flex items-center justify-center shrink-0 border border-rose-500/30";
+                icon.className = "fa-solid fa-circle-exclamation text-rose-400";
+            } else {
+                iconBg.className = "w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0 border border-indigo-500/30";
+                icon.className = "fa-solid fa-circle-info text-indigo-400";
+            }
+            
+            toaster.classList.remove('translate-y-20', 'opacity-0');
+            toaster.classList.add('translate-y-0', 'opacity-100');
+            
+            if (toasterTimeout) clearTimeout(toasterTimeout);
+            
+            toasterTimeout = setTimeout(() => {
+                hideToaster();
+            }, 6000);
+        }
+
+        function hideToaster() {
+            const toaster = document.getElementById('toaster');
+            toaster.classList.remove('translate-y-0', 'opacity-100');
+            toaster.classList.add('translate-y-20', 'opacity-0');
+        }
+
+        // Handle archived legacy version click
+        function handleLegacyNavigation(filePath, versionNum) {
+            // Check if file can be reached via dynamic fetch or just simulate gracefully
+            fetch(filePath, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = filePath;
+                    } else {
+                        // Throw styled fallback warning
+                        showToaster(
+                            "Legacy File Not Found", 
+                            `The environment package file for version ${versionNum} (${filePath}) is not present in your current workspace directory. Please place '${filePath}' in the directory or use the production version.`, 
+                            'error'
+                        );
+                    }
+                })
+                .catch(err => {
+                    // Fallback to error directly if offline/local issues prevent head check
+                    showToaster(
+                        "Legacy Access Restricted", 
+                        `Deploying legacy environment files locally is not supported unless they exist in the root folder. Please launch OmniBot V6.0.`, 
+                        'error'
+                    );
+                });
+        }
+    </script>
+</body>
+
+</html>
