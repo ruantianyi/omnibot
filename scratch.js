@@ -1,0 +1,3892 @@
+
+
+
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    
+
+
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+            svg: { fontCache: 'global' }
+        };
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Setup state variables
+        let apiKey = localStorage.getItem('omni_api_key') || "";
+        let apiProvider = localStorage.getItem('omni_api_provider') || "gemini";
+
+        let isOnlineEngineAvailable = false;
+        let currentPersonality = 'alpha';
+        let trainedMarkovChain = {};
+        let regressionDataset = [];
+        let UPLOADED_FILES = [];
+        let selectedEssayStance = 'balanced';
+
+        let userWins = 0, aiWins = 0, tiesCount = 0;
+        let rpsHistory = [];
+        let rpsTransitions = { 'R': { 'R': 0, 'P': 0, 'S': 0 }, 'P': { 'R': 0, 'P': 0, 'S': 0 }, 'S': { 'R': 0, 'P': 0, 'S': 0 } };
+
+        let canvas, ctx;
+        let isDrawing = false;
+        let drawnPoints = [];
+        let hasInitializedCanvas = false;
+        let chatMemory = {
+            username: '',
+            messageCount: 0,
+            sessionToken: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID().substring(0, 8).toUpperCase() : Math.random().toString(36).substring(2, 10).toUpperCase()
+        };
+
+        // --- Core Application & Storage Logic ---
+        function saveState() {
+            const state = {
+                chatHTML: document.getElementById('chat-messages') ? document.getElementById('chat-messages').innerHTML : "",
+                chatCount: chatMemory.messageCount,
+                markov: trainedMarkovChain,
+                rps: { userWins, aiWins, tiesCount, rpsHistory, rpsTransitions },
+                regression: regressionDataset,
+                uploadedFiles: UPLOADED_FILES
+            };
+            localStorage.setItem('omnibot_v6_state', JSON.stringify(state));
+            
+            // Auto update active chat in history
+            if (window.currentChatId && typeof updateActiveChatInStorage === 'function') {
+                updateActiveChatInStorage(state.chatHTML, state.chatCount);
+            }
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('omnibot_v6_state');
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    if (state.chatHTML && document.getElementById('chat-messages')) {
+                        document.getElementById('chat-messages').innerHTML = state.chatHTML;
+                    }
+                    if (state.chatCount) chatMemory.messageCount = state.chatCount;
+                    if (state.markov) trainedMarkovChain = state.markov;
+                    if (state.regression) regressionDataset = state.regression;
+                    if (state.uploadedFiles) {
+                        UPLOADED_FILES = state.uploadedFiles;
+                        renderUploadedFilesList();
+                    }
+                    if (state.rps) {
+                        userWins = state.rps.userWins || 0;
+                        aiWins = state.rps.aiWins || 0;
+                        tiesCount = state.rps.tiesCount || 0;
+                        rpsHistory = state.rps.rpsHistory || [];
+                        rpsTransitions = state.rps.rpsTransitions || { 'R': { 'R': 0, 'P': 0, 'S': 0 }, 'P': { 'R': 0, 'P': 0, 'S': 0 }, 'S': { 'R': 0, 'P': 0, 'S': 0 } };
+                        if (document.getElementById('rps-user')) {
+                            document.getElementById('rps-user').innerText = userWins;
+                            document.getElementById('rps-ai').innerText = aiWins;
+                            document.getElementById('rps-ties').innerText = tiesCount;
+                            const total = userWins + aiWins + tiesCount;
+                            document.getElementById('rps-rate').innerText = total > 0 ? `${Math.round((userWins / total) * 100)}%` : "0%";
+                            updateMarkovMatrixUI();
+                        }
+                    }
+                    if (regressionDataset.length > 0) computeLinearRegression(true); // pass true to skip immediate canvas draw
+                    const sizeEl = document.getElementById('ml-vocab-size');
+                    if (sizeEl) sizeEl.innerText = `${Object.keys(trainedMarkovChain).length > 0 ? [...new Set(Object.values(trainedMarkovChain).flat())].length : 0} words`;
+                } catch (e) { console.error("Error loading state", e); }
+            }
+        }
+
+        function exportHistory() {
+            saveState();
+            const state = localStorage.getItem('omnibot_v6_state') || "{}";
+            const blob = new Blob([state], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OmniBot_Session_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Session Backup Exported to Desktop!");
+        }
+
+        function importHistory(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const content = e.target.result;
+                    JSON.parse(content);
+                    localStorage.setItem('omnibot_v6_state', content);
+                    loadState();
+                    updateMemoryUI();
+                    showToast("Session Restored Successfully!");
+                } catch (err) {
+                    showToast("Invalid backup file.");
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // --- Settings & UI Interaction ---
+        function toggleSettings() {
+            const modal = document.getElementById('settings-modal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                document.getElementById('api-key-input').value = apiKey;
+                document.getElementById('api-provider').value = apiProvider;
+                // Load saved preferences into UI
+                const savedSysPrompt = localStorage.getItem('omni_sys_prompt') || '';
+                const savedTemp = localStorage.getItem('omni_temp') || '0.7';
+                const savedTokens = localStorage.getItem('omni_tokens') || '4096';
+                const savedAutosave = localStorage.getItem('omni_autosave');
+                document.getElementById('settings-sys-prompt').value = savedSysPrompt;
+                document.getElementById('settings-temp').value = savedTemp;
+                document.getElementById('temp-val').innerText = savedTemp;
+                document.getElementById('settings-tokens').value = savedTokens;
+                document.getElementById('token-val').innerText = savedTokens;
+                if (savedAutosave !== null) {
+                    document.getElementById('autosave-toggle').checked = savedAutosave === 'true';
+                }
+                // Mark key as saved (fresh open)
+                document.querySelector('#settings-modal > div').dataset.keySaved = 'true';
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function closeSettings() {
+            const modalDiv = document.querySelector('#settings-modal > div');
+            if (modalDiv.dataset.keySaved === 'false') {
+                if (!confirm('You have unsaved API key changes. Close without saving?')) {
+                    return;
+                }
+            }
+            // Save non-API preferences automatically on close
+            localStorage.setItem('omni_sys_prompt', document.getElementById('settings-sys-prompt').value);
+            localStorage.setItem('omni_temp', document.getElementById('settings-temp').value);
+            localStorage.setItem('omni_tokens', document.getElementById('settings-tokens').value);
+            localStorage.setItem('omni_autosave', document.getElementById('autosave-toggle').checked);
+            document.getElementById('settings-modal').classList.add('hidden');
+        }
+
+        function toggleLightMode() {
+            const isOn = document.getElementById('light-mode-toggle').checked;
+            if (isOn) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('omni_light_mode', 'true');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('omni_light_mode', 'false');
+            }
+        }
+
+        function saveAPIKey() {
+            const inputKey = document.getElementById('api-key-input').value.trim();
+            const inputProvider = document.getElementById('api-provider').value;
+            localStorage.setItem('omni_api_key', inputKey);
+            localStorage.setItem('omni_api_provider', inputProvider);
+            apiKey = inputKey;
+            apiProvider = inputProvider;
+            document.querySelector('#settings-modal > div').dataset.keySaved = 'true';
+            checkAPIConnection();
+            showToast("API Key Saved & Applied!");
+        }
+
+        // Legacy alias so old onclick="saveSettings()" calls still work
+        function saveSettings() { saveAPIKey(); }
+
+        function handleHistoryToggle(el) {
+            if (!el.checked) {
+                if (!confirm('This will clear your chat history. Are you sure?')) {
+                    el.checked = true;
+                    return;
+                }
+                // Clear history
+                localStorage.removeItem('omnibot_v6_state');
+                chatMemory = { messages: [], messageCount: 0, topic: "" };
+                const chatMessagesEl = document.getElementById('chat-messages');
+                if (chatMessagesEl) chatMessagesEl.innerHTML = '';
+                updateMemoryUI();
+                showToast("Chat history cleared.");
+            }
+            localStorage.setItem('omni_autosave', el.checked);
+        }
+
+        function clearAPIKey() {
+            localStorage.removeItem('omni_api_key');
+            document.getElementById('api-key-input').value = "";
+            apiKey = "";
+            document.querySelector('#settings-modal > div').dataset.keySaved = 'true';
+            checkAPIConnection();
+            showToast("API Key Cleared.");
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            if (toast && toastText) {
+                toastText.innerHTML = message;
+                toast.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+                toast.classList.add('opacity-100', 'translate-y-0');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'translate-y-20', 'pointer-events-none');
+                }, 3000);
+            }
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        function applyQuickPrompt(text) {
+            const chatInputEl = document.getElementById('chat-input');
+            if (chatInputEl) {
+                chatInputEl.innerText = text;
+                chatInputEl.focus();
+            }
+        }
+
+                function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(section => {
+                section.classList.remove('active-tab');
+            });
+            const activeSection = document.getElementById(`tab-${tabId}`);
+            if (activeSection) {
+                activeSection.classList.add('active-tab');
+            }
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold";
+            });
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-500/10 shrink-0 font-bold";
+            }
+
+            if (tabId === 'game') initCanvas();
+            if (tabId === 'sandbox' && window.lastSlope !== undefined) {
+                drawRegressionPlot(window.lastSlope, window.lastIntercept);
+            }
+            
+            // Auto scroll nav header to active button on mobile
+            const topNav = document.getElementById('top-nav-scroll');
+            const activeTabBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (topNav && activeTabBtn) {
+                const offset = activeTabBtn.offsetLeft - (topNav.clientWidth / 2) + (activeTabBtn.clientWidth / 2);
+                topNav.scrollTo({ left: offset, behavior: 'smooth' });
+            }
+        }
+
+        function switchComposerMode() {
+            const val = document.getElementById('composer-mode').value;
+            const textTopic = document.getElementById('composer-topic');
+            if (textTopic) {
+                textTopic.placeholder = val === 'creative' ? "e.g., A suspenseful sci-fi story about a lost library found inside a Martian cave system." : "e.g., The intersection of Evolutionary Biology and Computer Science.";
+            }
+        }
+
+        function switchSolverModule() {
+            const mod = document.getElementById('solver-module').value;
+            document.querySelectorAll('.solver-form').forEach(el => el.classList.add('hidden'));
+            const formMod = document.getElementById(`form-${mod}`);
+            if (formMod) formMod.classList.remove('hidden');
+        }
+
+        // --- Database & Knowledge Graph ---
+        const KNOWLEDGE_GRAPH = {
+            "mathematics": {
+                tags: ["arithmetic", "algebra", "geometry", "trigonometry", "calculus", "statistics", "discrete", "math", "equations", "fractions", "derivatives", "integrals", "probability", "theorem", "combinatorics"],
+                paragraphs: [
+                    "Mathematics serves as the foundational language of the universe, providing rigorous structural logic to otherwise chaotic systems.",
+                    "In classical algebra and arithmetic, the manipulation of variables and fractional relations allows for deterministic predictive modeling.",
+                    "Advanced geometrical and trigonometric models build upon these foundations, enabling the spatial mapping of points, periodic functions, and multi-dimensional shapes essential to physical engineering.",
+                    "The advent of calculus, primarily developed by Newton and Leibniz, introduced the capacity to measure instantaneous rates of change and accumulations of quantities.",
+                    "This mathematical framework is absolutely indispensable for evaluating dynamic, shifting systems like planetary motion or fluid dynamics.",
+                    "In the modern era, discrete mathematics and statistics have become paramount.",
+                    "Graph theory and combinatorial logic form the backbone of cryptographic security and computational architecture.",
+                    "Simultaneously, statistical regression models and probability distributions allow analysts to extract meaningful truths from vast, unstructured datasets."
+                ]
+            },
+            "computing": {
+                tags: ["algorithms", "programming", "architecture", "artificial intelligence", "machine learning", "neural networks", "software", "code", "hardware", "nlp"],
+                paragraphs: [
+                    "The field of computational architecture represents a synthesis of formal logic and electrical engineering.",
+                    "At the base level, hardware circuits and processors utilize boolean logic gates to execute complex operations at light-speed frequencies, mediated by hierarchical memory systems.",
+                    "Above the hardware layer, algorithmic design dictates the efficiency of searching, sorting, and data optimization.",
+                    "The computational complexity of these algorithms determines whether a system can scale effectively when processing large global datasets.",
+                    "Programming paradigms provide the structural philosophy for software development.",
+                    "Whether utilizing procedural, functional, or object-oriented systems, these paradigms allow human engineers to translate abstract logical concepts into executable machine directives.",
+                    "Artificial intelligence and machine learning mark the frontier of modern computing.",
+                    "By constructing deep neural networks and utilizing natural language processing (NLP), these systems autonomously identify patterns, adjusting their own internal weights to mimic cognitive reasoning without explicit, hardcoded human instruction."
+                ]
+            },
+            "physics": {
+                tags: ["classical mechanics", "thermodynamics", "electromagnetism", "quantum mechanics", "relativity", "gravity", "energy", "entropy", "optics", "physics", "forces", "force"],
+                paragraphs: [
+                    "Classical mechanics, formulated heavily by Isaac Newton, establishes the fundamental laws of motion, force, and momentum.",
+                    "It provides a highly deterministic framework where the trajectory of any mass can be calculated given its initial velocity and gravitational influence.",
+                    "Thermodynamics expands this physical understanding into the realm of heat and energy transfer.",
+                    "The laws of thermodynamics dictate the absolute conservation of energy, while simultaneously introducing the concept of entropy.",
+                    "The integration of electromagnetism synthesized the behaviors of electrical charges, magnetic fields, and light optics into a unified theoretical framework.",
+                    "This synthesis demonstrated that light itself is a propagating electromagnetic wave.",
+                    "In the 20th century, quantum mechanics and relativity completely overturned classical assumptions.",
+                    "Einstein's relativity merged space and time into a single continuum, demonstrating mass-energy equivalence.",
+                    "Simultaneously, quantum mechanics revealed that subatomic particles exhibit wave-particle duality and exist in states of probabilistic uncertainty, defying intuitive deterministic logic."
+                ]
+            },
+            "chemistry": {
+                tags: ["inorganic chemistry", "organic chemistry", "physical chemistry", "analytical chemistry", "chemistry", "molecules", "bonds", "kinetics", "spectroscopy"],
+                paragraphs: [
+                    "Chemistry operates as the central science bridging atomic physics and complex biology.",
+                    "Inorganic chemistry focuses on the structural properties of elements across the periodic table, analyzing the behavior of chemical bonds, crystal lattices, and metallic compounds.",
+                    "Organic chemistry shifts this focus exclusively to carbon-based life compounds.",
+                    "By examining hydrocarbons, polymers, and complex functional groups, organic chemistry maps the synthetic pathways responsible for both natural biological structures and modern industrial materials.",
+                    "Physical chemistry applies the rigorous metrics of thermodynamics and quantum mechanics to chemical systems.",
+                    "It evaluates reaction kinetics, electrochemistry, and dynamic equilibrium to understand precisely why and how fast chemical transformations occur at the molecular level.",
+                    "Analytical chemistry provides the empirical validation required by the other branches.",
+                    "Utilizing sophisticated techniques such as mass spectroscopy, chromatography, and quantitative measurement, analysts can detect trace elements and determine the exact molecular composition of unknown substances."
+                ]
+            },
+            "biology": {
+                tags: ["biochemistry", "cell biology", "genetics", "evolutionary biology", "anatomy", "physiology", "microbiology", "biology", "dna", "evolution", "cells", "enzymes"],
+                paragraphs: [
+                    "The biological sciences dissect the mechanics of life at multiple structural tiers.",
+                    "Biochemistry and cell biology operate at the microscopic foundation, analyzing how proteins, enzymes, and metabolic pathways drive membrane transport, cellular respiration, and cellular division.",
+                    "Genetics provides the informational blueprint for these processes.",
+                    "The replication of DNA, the precise expression of genes, and inheritance patterns dictate the physiological traits of an organism.",
+                    "Modern breakthroughs like CRISPR have allowed for the direct, targeted manipulation of these genetic codes.",
+                    "At the macro level, anatomy and physiology evaluate how these cells organize into complex organ systems.",
+                    "The maintenance of internal homeostasis, mediated by intricate neural signaling and hormonal feedback loops, allows complex organisms to survive in fluctuating external environments.",
+                    "Evolutionary biology and microbiology contextualize life over deep time.",
+                    "Natural selection, adaptation, and speciation explain the sheer diversity of organic structures, while the study of bacteria, viruses, and fungi reveals the invisible, symbiotic ecosystem that sustains¡ªor threatens¡ªlarger host organisms."
+                ]
+            },
+            "earth_science": {
+                tags: ["ecosystem dynamics", "biogeochemical cycles", "conservation biology", "environmental geology", "climate science", "plate tectonics", "petrology", "stratigraphy", "hydrology", "meteorology", "earth", "climate", "environment", "geology"],
+                paragraphs: [
+                    "Earth sciences provide a holistic view of the planet's interconnected physical and organic systems.",
+                    "Plate tectonics drives the geological foundation, where the continental drift of immense lithospheric plates creates fault lines, seismic earthquakes, and volcanic activity.",
+                    "This dynamic crust interacts with surface hydrology and meteorology.",
+                    "Atmospheric pressure differentials, jet streams, and weather fronts dictate the global climate.",
+                    "Simultaneously, river systems, ocean currents, and deep aquifers cycle water across the planet, directly impacting physical geomorphology and erosion.",
+                    "Climate science and biogeochemical cycles evaluate the chemical health of the globe.",
+                    "The continuous cycling of carbon, nitrogen, and water through the atmosphere is currently being heavily disrupted by human carbon emissions.",
+                    "These abiotic factors dictate ecosystem dynamics and conservation biology.",
+                    "Complex food webs, trophic energy flows, and biological biomes rely on stable geological and climatic conditions.",
+                    "The rapid degradation of habitats and soil ecosystems threatens global biodiversity, necessitating rigorous conservation and restoration management protocols."
+                ]
+            },
+            "astronomy": {
+                tags: ["planetary science", "stellar evolution", "galactic astronomy", "cosmology", "space", "stars", "universe", "planets", "astronomy", "cosmos"],
+                paragraphs: [
+                    "Astronomy expands human inquiry beyond the terrestrial sphere to map the structural evolution of the cosmos.",
+                    "Planetary science evaluates the local solar system, analyzing orbital mechanics, asteroid cratering, and the diverse atmospheric compositions of neighboring celestial bodies.",
+                    "Stellar evolution tracks the lifecycle of stars, from the initial collapse of hydrogen protostars into stable main-sequence fusion reactors.",
+                    "Depending on their mass, these stars ultimately expire in violent supernovas, leaving behind incredibly dense remnants like neutron stars or gravitational black holes.",
+                    "Galactic astronomy scales this analysis to vast galactic clusters.",
+                    "By observing the rotational speeds and structural arms of galaxies like the Milky Way, astrophysicists have discovered that visible matter is insufficient to hold these systems together, proving the existence of an invisible framework of dark matter.",
+                    "Cosmology attempts to synthesize the ultimate origin and fate of the universe.",
+                    "The Big Bang theory is supported by the pervasive cosmic microwave background radiation.",
+                    "Furthermore, the accelerating expansion of the universe implies the presence of dark energy, a mysterious force pushing the fabric of space-time apart."
+                ]
+            },
+            "social_sciences": {
+                tags: ["physical geography", "human geography", "cartography", "political theory", "comparative politics", "international relations", "public policy", "social structure", "cultural anthropology", "economics", "psychology", "history", "society", "politics"],
+                paragraphs: [
+                    "The social sciences evaluate the complex, systemic behaviors of human populations and their geopolitical architectures.",
+                    "Political theory and comparative politics analyze the foundational social contracts governing democracies, authoritarian regimes, and capitalist frameworks.",
+                    "On a global scale, international relations and human geography map how sovereign states interact through diplomacy, trade treaties, and conflict.",
+                    "Cartography and geographic information systems (GIS) provide the spatial data necessary to track global urbanization, resource migration, and shifting cultural landscapes.",
+                    "Economics serves as the structural engine of these societies.",
+                    "Microeconomic supply-and-demand forces dictate local market behaviors, while macroeconomics evaluates how central institutions utilize monetary policy, inflation control, and public policy formulation to stabilize national welfare.",
+                    "Psychology and cultural anthropology deconstruct the individual and collective human mind.",
+                    "By analyzing cognitive development, perception, and behavioral health alongside societal rituals, kinship systems, and ethnography, researchers can isolate the root motivations driving broad historical and civilizational shifts."
+                ]
+            },
+            "philosophy": {
+                tags: ["epistemology", "metaphysics", "ethics", "aesthetics", "philosophy", "truth", "moral", "knowledge"],
+                paragraphs: [
+                    "Philosophy provides the rigorous intellectual framework required to analyze abstract concepts of existence, morality, and truth.",
+                    "Epistemology serves as the baseline, aggressively questioning the very nature of human knowledge and belief.",
+                    "It establishes the rational limits of what can be proven versus what must be treated with skepticism.",
+                    "Metaphysics expands this inquiry into the fundamental nature of reality itself.",
+                    "By analyzing the mind-body problem, the illusion of free will, and the existential definition of 'being,' metaphysics challenges the empirical assumptions made by the hard physical sciences.",
+                    "Ethics establishes the moral architecture of human civilization.",
+                    "Differing schools of thought¡ªsuch as deontology, utilitarianism, and virtue ethics¡ªprovide competing frameworks for determining right from wrong in complex socio-political environments.",
+                    "Aesthetics explores the philosophy of beauty, taste, and artistic value.",
+                    "Rather than viewing art as merely subjective, aesthetic philosophy attempts to uncover the underlying psychological and cultural rules that make specific literary, visual, and musical compositions universally impactful."
+                ]
+            },
+            "engineering_and_trades": {
+                tags: ["surgery", "pharmacology", "epidemiology", "nursing", "dentistry", "civil engineering", "mechanical engineering", "aerospace engineering", "chemical engineering", "electrical engineering", "nuclear engineering", "law", "business administration", "finance", "accounting", "marketing", "architecture", "agronomy", "horticulture", "animal husbandry", "aquaculture", "carpentry", "plumbing", "welding", "culinary arts", "electrical work", "journalism", "library science", "communications", "archival science", "tactics", "logistics", "defense strategy", "ballistics", "kinesiology", "sports strategy", "game design", "chess theory", "theology", "mythology", "scriptural analysis", "occult history", "financial literacy", "parenting", "survival skills", "auto repair", "engineering", "trades", "medicine", "business"],
+                paragraphs: [
+                    "Applied sciences and structural engineering form the backbone of modern infrastructure.",
+                    "Civil, mechanical, and aerospace engineering rely on the strict application of thermodynamics, fluid dynamics, and material science to construct resilient structures and optimize propulsion systems.",
+                    "Without these applied disciplines, theoretical physics cannot be translated into functional, real-world utility.",
+                    "Simultaneously, the medical and biological trades¡ªincluding surgery, pharmacology, epidemiology, and nursing¡ªapply rigorous scientific principles directly to human welfare.",
+                    "The synthesis of organic chemistry and biostatistics enables the precise administration of therapeutics, surgical interventions, and the tracking of global disease vectors.",
+                    "In the socioeconomic sphere, business administration, finance, law, and logistics provide the organizational scaffolding necessary to manage these technological advancements.",
+                    "Corporate finance, supply chain logistics, and constitutional jurisprudence ensure that complex human societies can scale operations while maintaining ethical and structural stability.",
+                    "At the practical level, foundational trades and specialized disciplines¡ªsuch as welding, carpentry, electrical work, culinary arts, and automotive repair¡ªexecute the granular tasks that keep civilizations functioning.",
+                    "Whether analyzing structural load capacities in a building, diagnosing engine mechanics, or practicing sustainable agronomy, these disciplines ground abstract theory in essential daily practice."
+                ]
+            },
+            "advanced_sciences_and_humanities": {
+                tags: ["oceanography", "linguistics", "cybernetics", "cryptography", "materials science", "paleontology", "agronomy", "meteorology", "volcanology", "seismology", "glaciology", "acoustics", "fluid dynamics", "optics", "ergonomics", "typography", "lexicography", "numismatics", "philately", "vexillology", "heraldry", "topography", "geomorphology", "demography", "sociology", "anthropology", "ethnography", "archaeology", "ecology", "forestry", "robotics", "nanotechnology"],
+                paragraphs: [
+                    "Advanced natural sciences such as oceanography, glaciology, and volcanology provide a highly specialized understanding of the Earth's most extreme environments.",
+                    "Through meticulous seismological and geomorphological data collection, analysts can trace the deep tectonic shifts responsible for catastrophic natural phenomena.",
+                    "Simultaneously, the study of materials science and nanotechnology allows engineers to manipulate atomic structures, forging incredibly durable synthetic compounds utilized in cybernetics and robotics.",
+                    "In the realm of communication and historical preservation, linguistics, lexicography, and typography deconstruct how human societies encode and transmit complex knowledge across generations.",
+                    "The integration of modern cryptography secures these communication channels, utilizing prime number factoring and discrete mathematics to build unbreakable security protocols.",
+                    "Furthermore, niche historical disciplines such as numismatics, philately, and heraldry offer invaluable ethnographic insights into the economic and cultural values of ancient nation-states.",
+                    "By synthesizing archaeological data with paleontology, researchers can map the evolutionary timeline of both organic life and early human civilization.",
+                    "Ultimately, branches like ergonomics and fluid dynamics bridge the gap between human physiology and physical engineering, ensuring that modern infrastructure optimally accommodates biological constraints."
+                ]
+            }
+        };
+
+        const NATIONS = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "C?te d'Ivoire", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia", "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"];
+        const nationTemplates = [
+            "The sovereign state of {NATION} operates a complex geopolitical architecture molded by its unique history.",
+            "Geographically, {NATION} encompasses diverse biomes, spanning from rural municipalities to major metropolitan cities.",
+            "From an economic standpoint, {NATION} balances localized agricultural and industrial output with strategic international trade exports.",
+            "The political infrastructure of {NATION} has evolved through significant legislative reforms and shifting alliances.",
+            "Culturally, {NATION} represents a profound amalgamation of indigenous heritage and rapid modern development."
+        ];
+
+        NATIONS.forEach(nation => {
+            const key = nation.toLowerCase().replace(/\s+/g, '_');
+            KNOWLEDGE_GRAPH[key] = {
+                tags: [nation.toLowerCase(), "country", "nation", "geography", "politics", "economics", "history", "towns", "cities", "sovereignty", "culture"],
+                paragraphs: nationTemplates.map(t => t.replace(/\{NATION\}/g, nation))
+            };
+        });
+
+        const academicVariations = [
+            " This dynamic interaction significantly underscores the complexity of the domain.",
+            " Recent empirical analyses further validate this established premise.",
+            " Consequently, this structural framework offers unparalleled predictive accuracy.",
+            " Such phenomena remain a pivotal focus of contemporary academic inquiry.",
+            " Furthermore, these findings correlate with historical trajectory models.",
+            " By adjusting these parameters, researchers have uncovered secondary interactions.",
+            " The downstream effects of this are profound and far-reaching.",
+            " Ultimately, this provides a rigorous baseline for future investigation.",
+            " It is essential to note that these mechanisms do not operate in a vacuum.",
+            " As these variables interact, they catalyze widespread systemic reorganization."
+        ];
+
+        for (let key in KNOWLEDGE_GRAPH) {
+            let orig = [...KNOWLEDGE_GRAPH[key].paragraphs];
+            for (let i = 0; i < 10; i++) {
+                let suffix = academicVariations[i % academicVariations.length];
+                orig.forEach(p => KNOWLEDGE_GRAPH[key].paragraphs.push(p + suffix));
+            }
+        }
+
+        const ACADEMIC_DICTIONARY = [];
+        Object.values(KNOWLEDGE_GRAPH).forEach(domain => {
+            domain.tags.forEach(tag => {
+                tag.split(/\s+/).forEach(word => {
+                    if (word.length > 5 && !ACADEMIC_DICTIONARY.includes(word)) {
+                        ACADEMIC_DICTIONARY.push(word);
+                    }
+                });
+            });
+        });
+
+        ["involution", "qing", "dynasty", "republic", "collapse", "meticulous", "renaissance", "humanism", "florence", "shakespeare", "neurology", "force", "forces", "literature"].forEach(w => {
+            if (!ACADEMIC_DICTIONARY.includes(w)) ACADEMIC_DICTIONARY.push(w);
+        });
+
+        const LOCAL_DICTIONARY = ACADEMIC_DICTIONARY;
+
+        const PHYSICS_FORMULAS = [
+            { match: ['incline', 'slope', 'parallel force'], solve: (v) => `F_{\\parallel} = ${v[0] || 10} \\cdot 9.81 \\cdot \\sin(${v[1] || 30}^\\circ) = ${((v[0] || 10) * 9.81 * Math.sin((v[1] || 30) * Math.PI / 180)).toFixed(4)}` },
+            { match: ['centripetal', 'circular'], solve: (v) => `F_c = \\frac{${v[0] || 2} \\cdot (${v[1] || 10})^2}{${v[2] || 1.5}} = ${((v[0] || 2) * Math.pow(v[1] || 10, 2) / (v[2] || 1.5)).toFixed(4)}` },
+            { match: ['spring', 'hooke', 'stretch'], solve: (v) => `F_s = ${v[0] || 100} \\cdot ${v[1] || 0.1} = ${((v[0] || 100) * (v[1] || 0.1)).toFixed(4)}` },
+            { match: ['gravity', 'gravitational'], solve: (v) => `F_g = G \\frac{${v[0] || 5.97e24} \\cdot ${v[1] || 7.34e22}}{(${v[2] || 3.84e8})^2} = ${(6.674e-11 * (v[0] || 5.97e24) * (v[1] || 7.34e22) / Math.pow(v[2] || 3.84e8, 2)).toExponential(4)}` },
+            { match: ['heat', 'thermal', 'specific heat'], solve: (v) => `Q = ${v[0] || 1} \\cdot ${v[1] || 4184} \\cdot ${v[2] || 10} = ${((v[0] || 1) * (v[1] || 4184) * (v[2] || 10)).toFixed(2)}` },
+            { match: ['kinetic energy', 'kinetic'], solve: (v) => `KE = 0.5 \\cdot ${v[0] || 10} \\cdot (${v[1] || 5})^2 = ${(0.5 * (v[0] || 10) * Math.pow(v[1] || 5, 2)).toFixed(2)}` },
+            { match: ['velocity', 'kinematics', 'acceleration', 'time'], solve: (v) => `v = v_0 + at = ${v[0] || 0} + (${v[1] || 9.81})(${v[2] || 5}) = ${((v[0] || 0) + (v[1] || 9.81) * (v[2] || 5)).toFixed(2)}` },
+            { match: ['work', 'distance'], solve: (v) => `W = F \\cdot d = ${v[0] || 50} \\cdot ${v[1] || 10} = ${((v[0] || 50) * (v[1] || 10)).toFixed(2)}` }
+        ];
+
+        // --- NLP Multi-Formula Heuristic Engine ---
+        const HUGE_PHYSICS_FORMULAS = [
+            // Kinematics
+            "v_f = v_i + a * t",
+            "d = v_i * t + 0.5 * a * t^2",
+            "v_f^2 = v_i^2 + 2 * a * d",
+            "d = (v_i + v_f) / 2 * t",
+            "v = d / t",
+            "v_avg = d / t",
+            "a = (v_f - v_i) / t",
+            "d_x = v_ix * t",
+            "v_ix = v_i * cos(theta)",
+            "v_iy = v_i * sin(theta)",
+            "v_y = v_iy - 9.81 * t",
+            "d_y = v_iy * t - 0.5 * 9.81 * t^2",
+            "t_air = 2 * v_iy / 9.81",
+            "h_max = v_iy^2 / (2 * 9.81)",
+            "R_range = v_i^2 * sin(2 * theta) / 9.81",
+            // Dynamics
+            "F = m * a",
+            "W_weight = m * 9.81",
+            "F_f_static_max = mu_s * F_n",
+            "F_f_kinetic = mu_k * F_n",
+            "F_n = m * 9.81 * cos(theta)",
+            "F_parallel = m * 9.81 * sin(theta)",
+            "a_incline = 9.81 * (sin(theta) - mu_k * cos(theta))",
+            "F_net = F_applied - F_f_kinetic",
+            "p = m * v",
+            "J = F * t",
+            "J = m * v_f - m * v_i",
+            "F_avg = (m * v_f - m * v_i) / t",
+            "F_c = m * v^2 / r",
+            "a_c = v^2 / r",
+            "F_c = m * omega^2 * r",
+            // Energy & Power
+            "W = F * d",
+            "W = F * d * cos(theta)",
+            "KE = 0.5 * m * v^2",
+            "PE_g = m * 9.81 * h",
+            "PE_s = 0.5 * k * x^2",
+            "E_tot = KE + PE_g + PE_s",
+            "P = W / t",
+            "P = F * v",
+            // Rotational
+            "omega = delta_theta / t",
+            "alpha = delta_omega / t",
+            "v = omega * r",
+            "a_t = alpha * r",
+            "omega_f = omega_i + alpha * t",
+            "theta_rad = omega_i * t + 0.5 * alpha * t^2",
+            "omega_f^2 = omega_i^2 + 2 * alpha * theta_rad",
+            "I_inertia = m * r^2",
+            "tau = r * F * sin(theta)",
+            "tau = I_inertia * alpha",
+            "L_ang_mom = I_inertia * omega",
+            "KE_rot = 0.5 * I_inertia * omega^2",
+            // Gravity
+            "F_g = 6.674e-11 * m_1 * m_2 / r^2",
+            "g_field = 6.674e-11 * m_1 / r^2",
+            "U_g = -6.674e-11 * m_1 * m_2 / r",
+            "v_orbit = (6.674e-11 * m_1 / r)^0.5",
+            "v_escape = (2 * 6.674e-11 * m_1 / r)^0.5",
+            "T_orbit = 2 * 3.14159 * (r^3 / (6.674e-11 * m_1))^0.5",
+            // Fluids
+            "rho = m / V_vol",
+            "P_pressure = F / A",
+            "P_fluid = P_0 + rho * 9.81 * h",
+            "F_b = rho_fluid * V_disp * 9.81",
+            "flow_rate = A * v",
+            "v_efflux = (2 * 9.81 * h)^0.5",
+            // Waves & SHM
+            "F_s = -k * x",
+            "omega_shm = (k / m)^0.5",
+            "T_spring = 2 * 3.14159 * (m / k)^0.5",
+            "T_pend = 2 * 3.14159 * (L / 9.81)^0.5",
+            "f_freq = 1 / T",
+            "v_wave = f_freq * lambda",
+            "v_string = (F_tension / (m / L))^0.5",
+            "beta_db = 10 * log(I_intensity / 1e-12)",
+            "f_obs = f_src * (343 + v_obs) / (343 - v_src)",
+            // Thermo
+            "T_kelvin = T_celsius + 273.15",
+            "Q = m * c * delta_T",
+            "Q_melt = m * L_f",
+            "Q_boil = m * L_v",
+            "P_gas * V_vol = n * 8.314 * T_kelvin",
+            "W_gas = P_gas * delta_V",
+            "delta_U = Q - W_gas",
+            "e_eff = W_net / Q_h",
+            "delta_S = Q / T_kelvin",
+            // Electricity & Magnetism
+            "V_voltage = I * R",
+            "V_voltage = E_field * d",
+            "F_e = 8.99e9 * q_1 * q_2 / r^2",
+            "E_field = F_e / q",
+            "C = q / V_voltage",
+            "C = 8.85e-12 * A / d",
+            "U_c = 0.5 * C * V_voltage^2",
+            "I = q / t",
+            "R = rho_res * L / A",
+            "P_elec = I * V_voltage",
+            "c_light = f_freq * lambda",
+            "E_photon = 6.626e-34 * f_freq",
+            "P_elec = I^2 * R",
+            "F_m = q * v * B * sin(theta)",
+            "F_m_wire = I * L * B * sin(theta)",
+            "r_cyclo = m * v / (q * B)",
+            "Phi_b = B * A * cos(theta)",
+            "emf = -N_turns * delta_Phi_b / t",
+            "X_L = 2 * 3.14159 * f_freq * L_ind",
+            "X_C = 1 / (2 * 3.14159 * f_freq * C)",
+            "f_res = 1 / (2 * 3.14159 * (L_ind * C)^0.5)",
+            // Optics
+            "n_index = 3e8 / v_light",
+            "n_1 * sin(theta_1) = n_2 * sin(theta_2)",
+            "M_mag = -d_i / d_o",
+            "1 / f_focal = 1 / d_o + 1 / d_i",
+            "theta_min = 1.22 * lambda / D_aperture",
+            // Modern
+            "E_photon = 6.626e-34 * f_freq",
+            "K_max = E_photon - Phi_work",
+            "p_photon = 6.626e-34 / lambda",
+            "lambda_debroglie = 6.626e-34 / p",
+            "E_rest = m * 9e16",
+            "t_dil = (1 / (1 - (v / 3e8)^2)^0.5) * t_proper",
+            "N_t = N_0 * 0.5^(t / t_half)",
+            // Advanced / Engineering
+            "F_drag = 0.5 * rho * v^2 * C_d * A",
+            "v_term = (2 * m * 9.81 / (rho * A * C_d))^0.5",
+            "Re = rho * v * D / eta",
+            "G_free = H_enth - T_kelvin * S",
+            "v_sound = (1.4 * 8.314 * T_kelvin / M_molar)^0.5",
+            "u_mag_dens = 0.5 * B^2 / (4e-7 * 3.14159)",
+            "S_poynting = E_field * B / (4e-7 * 3.14159)",
+            "R_t_temp = R_0 * (1 + alpha_temp * delta_T)",
+            "tau_RC = R * C",
+            "tau_RL = L_ind / R",
+            "Z_acoustic = rho * v_sound"
+        ];
+
+        function extractPhysicsVariables(text) {
+            let knowns = {};
+            let target = null;
+            let conceptNotes = [];
+
+            // --- Word-to-Number with compound support ("twenty five" -> 25) ---
+            const wordToNum = {
+                'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
+                'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
+                'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14,
+                'fifteen': 15, 'sixteen': 16, 'seventeen': 17, 'eighteen': 18,
+                'nineteen': 19, 'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50,
+                'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety': 90,
+                'hundred': 100, 'thousand': 1000
+            };
+            // First pass: collapse compound word-numbers like "twenty five" -> "25"
+            let procText = text.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(one|two|three|four|five|six|seven|eight|nine)\b/gi, (_, tens, ones) => {
+                return String((wordToNum[tens.toLowerCase()] || 0) + (wordToNum[ones.toLowerCase()] || 0));
+            });
+            // Second pass: single word-numbers
+            procText = procText.replace(/\b([a-z]+)\b/gi, match => wordToNum[match.toLowerCase()] !== undefined ? wordToNum[match.toLowerCase()] : match)
+                .replace(/,/g, '');
+
+            const lower = procText.toLowerCase();
+
+            // --- Conceptual Physics Pre-Processing ---
+            // Detect "full circle" / "complete revolution" -> displacement is zero
+            if (/\b(full\s+circle|complete\s+(circle|revolution|loop|orbit)|full\s+(revolution|loop|orbit)|one\s+full\s+revolution|one\s+complete)\b/i.test(lower)) {
+                if (/\b(displacement|displaced)\b/i.test(lower)) {
+                    knowns['d'] = 0;
+                    conceptNotes.push('Full circle detected \u2192 net displacement = 0');
+                }
+            }
+            // Detect at rest / stationary -> initial velocity = 0
+            if (/\b(from\s+rest|starts?\s+from\s+rest|initially\s+at\s+rest|stationary|starting\s+at\s+rest|begins?\s+at\s+rest|starts?\s+stationary)\b/i.test(lower)) {
+                knowns['v_i'] = 0;
+                conceptNotes.push('Starting from rest \u2192 v\u1d62 = 0');
+            }
+            // Detect dropped / free fall -> v_i = 0, a = 9.81
+            if (/\b(dropped|free\s*fall|falls?\s+freely|falling\s+freely|let\s+go|released\s+from\s+rest)\b/i.test(lower)) {
+                knowns['v_i'] = 0;
+                knowns['a'] = 9.81;
+                conceptNotes.push('Free fall detected \u2192 v\u1d62 = 0, a = 9.81 m/s\u00b2');
+            }
+            // Detect "comes to rest" / "stops" / "decelerates to stop" -> v_f = 0
+            if (/\b(comes?\s+to\s+(a\s+)?(rest|stop|halt)|stops?|decelerates?\s+to\s+(a\s+)?stop|finally\s+at\s+rest|brought\s+to\s+rest)\b/i.test(lower)) {
+                knowns['v_f'] = 0;
+                conceptNotes.push('Comes to rest \u2192 v_f = 0');
+            }
+            // Detect friction coefficient
+            const muMatch = lower.match(/(?:coefficient\s+of\s+(?:kinetic\s+)?friction|\bmu[_\s]*k?\b)\s*(?:=|is|of)?\s*([-+]?[0-9]*\.?[0-9]+)/i);
+            if (muMatch) {
+                knowns['mu_k'] = parseFloat(muMatch[1]);
+            }
+            const muSMatch = lower.match(/coefficient\s+of\s+static\s+friction\s*(?:=|is|of)?\s*([-+]?[0-9]*\.?[0-9]+)/i);
+            if (muSMatch) {
+                knowns['mu_s'] = parseFloat(muSMatch[1]);
+            }
+            // Detect "frictionless" / "smooth" -> mu = 0
+            if (/\b(frictionless|smooth\s+surface|no\s+friction|without\s+friction|ignore\s+friction|neglect\s+friction)\b/i.test(lower)) {
+                knowns['mu_k'] = 0;
+                knowns['mu_s'] = 0;
+                conceptNotes.push('Frictionless surface \u2192 \u03bc = 0');
+            }
+            // Detect angle in degrees
+            const angleMatch = lower.match(/([-+]?[0-9]*\.?[0-9]+)\s*(?:degrees?|\u00b0|deg)/i);
+            if (angleMatch && !knowns['theta']) {
+                knowns['theta'] = parseFloat(angleMatch[1]) * Math.PI / 180;
+                conceptNotes.push(`Angle detected: ${angleMatch[1]}\u00b0 \u2192 ${knowns['theta'].toFixed(4)} rad`);
+            }
+            // Detect height
+            const heightMatch = lower.match(/(?:height|elevation|altitude|high)\s+(?:of\s+|=\s*|is\s+)?([-+]?[0-9]*\.?[0-9]+)\s*(m|meters?|km|feet|ft)?/i);
+            if (heightMatch && !knowns['h']) {
+                let hVal = parseFloat(heightMatch[1]);
+                if (heightMatch[2] && /km/i.test(heightMatch[2])) hVal *= 1000;
+                knowns['h'] = hVal;
+            }
+            // Detect radius
+            const radiusMatch = lower.match(/radius\s+(?:of\s+|=\s*|is\s+)?([-+]?[0-9]*\.?[0-9]+)\s*(m|meters?|cm|km)?/i);
+            if (radiusMatch && !knowns['r']) {
+                let rVal = parseFloat(radiusMatch[1]);
+                if (radiusMatch[2] && /cm/i.test(radiusMatch[2])) rVal *= 0.01;
+                if (radiusMatch[2] && /km/i.test(radiusMatch[2])) rVal *= 1000;
+                knowns['r'] = rVal;
+            }
+            // Detect spring constant
+            const springMatch = lower.match(/spring\s+constant\s*(?:of\s+|=\s*|is\s+|k\s*=\s*)?([-+]?[0-9]*\.?[0-9]+)\s*(n\/m)?/i);
+            if (springMatch && !knowns['k']) {
+                knowns['k'] = parseFloat(springMatch[1]);
+            }
+
+            // --- Unit Extraction (order matters: specific units BEFORE general ones) ---
+            const units = [
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(kg|kilograms?)/gi, var: 'm', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(g)(?!r|a|e|\w)/gi, var: 'm', mult: 0.001 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(m\/s\^2|meters? per second squared?)/gi, var: 'a', mult: 1 },
+                { regex: /from\s+([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(m\/s|meters? per second|km\/h|mph)/gi, var: 'v_i', mult: 1, unitHandler: true },
+                { regex: /to\s+([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(m\/s|meters? per second|km\/h|mph)/gi, var: 'v_f', mult: 1, unitHandler: true },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(m\/s|meters? per second)/gi, var: 'v', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(km\/h|kilometers? per hour|kph)/gi, var: 'v', mult: 1 / 3.6 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(mph|miles? per hour)/gi, var: 'v', mult: 0.44704 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(s|sec|seconds?)(?!\/|\s*per|\s*squared)/gi, var: 't', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(min|minutes?)(?!\/)/gi, var: 't', mult: 60 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(h|hours?)(?!\/)/gi, var: 't', mult: 3600 },
+                // Distance: negative lookahead for "/" AND "per sec" AND "per second" to avoid matching velocity units
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(m|meters?)(?!\/|\s*per\s+sec|\s*per\s+second|\s*\/\s*s)/gi, var: 'd', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(km|kilometers?)(?!\/|\s*per\s+|\s*\/\s*)/gi, var: 'd', mult: 1000 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(cm|centimeters?)(?!\/)/gi, var: 'd', mult: 0.01 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(N|newtons?)/gi, var: 'F', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(J|joules?)/gi, var: 'W', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(kJ|kilojoules?)/gi, var: 'W', mult: 1000 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(W|watts?)(?!\s*\/)/gi, var: 'P', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(kW|kilowatts?)/gi, var: 'P', mult: 1000 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(V|volts?)/gi, var: 'V_voltage', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(A|amps?|amperes?)/gi, var: 'I', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(ohms?|\u03a9)/gi, var: 'R', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(Hz|hertz)/gi, var: 'f_freq', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(C|coulombs?)/gi, var: 'q', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(T|teslas?)/gi, var: 'B', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(F|farads?)/gi, var: 'C', mult: 1 },
+                { regex: /([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(H|henr(?:y|ies))/gi, var: 'L_ind', mult: 1 }
+            ];
+
+            // Track which character ranges have already been consumed by a unit match
+            let consumedRanges = [];
+            function isConsumed(start, end) {
+                return consumedRanges.some(r => start < r.end && end > r.start);
+            }
+
+            units.forEach(ext => {
+                let matches = [...procText.matchAll(ext.regex)];
+                let validMatches = matches.filter(m => !isConsumed(m.index, m.index + m[0].length));
+                if (validMatches.length > 0) {
+                    if (ext.var === 'v') {
+                        if (validMatches.length >= 2) {
+                            if (!knowns['v_i']) knowns['v_i'] = parseFloat(validMatches[0][1]) * ext.mult;
+                            if (!knowns['v_f']) knowns['v_f'] = parseFloat(validMatches[1][1]) * ext.mult;
+                        } else if (validMatches.length === 1 && !knowns['v_i'] && !knowns['v_f'] && !knowns['v']) {
+                            knowns['v'] = parseFloat(validMatches[0][1]) * ext.mult;
+                        }
+                    } else if (!(ext.var in knowns)) {
+                        let mult = ext.mult;
+                        // Handle km/h and mph unit conversion for v_i/v_f
+                        if (ext.unitHandler) {
+                            const unitStr = validMatches[0][2].toLowerCase();
+                            if (/km\/h|kph/.test(unitStr)) mult = 1 / 3.6;
+                            else if (/mph/.test(unitStr)) mult = 0.44704;
+                        }
+                        knowns[ext.var] = parseFloat(validMatches[0][1]) * mult;
+                    }
+                    // Mark consumed ranges for ALL valid matches of this unit
+                    validMatches.forEach(m => consumedRanges.push({ start: m.index, end: m.index + m[0].length }));
+                }
+            });
+
+            // --- Auto-inject gravitational acceleration when mass is present in kinematic context ---
+            if ('m' in knowns && !('a' in knowns) && /\b(fall|drop|throw|launch|projectile|weight|gravity|gravitational|vertical)\b/i.test(lower)) {
+                knowns['a'] = 9.81;
+                conceptNotes.push('Gravitational context detected \u2192 a = 9.81 m/s\u00b2');
+            }
+
+            // --- Expanded Target Detection ---
+            // Force
+            if (/\b(what\s+is\s+the\s+force|find\s+(the\s+)?force|calculate\s+(the\s+)?force|determine\s+(the\s+)?force|net\s+force|total\s+force|resultant\s+force|applied\s+force)\b/i.test(lower)) target = 'F';
+            // Acceleration
+            else if (/\b(what\s+is\s+the\s+acceleration|find\s+(the\s+)?acceleration|calculate\s+(the\s+)?acceleration|determine\s+(the\s+)?acceleration|how\s+quickly\s+does\s+it\s+accelerate)\b/i.test(lower)) target = 'a';
+            // Mass
+            else if (/\b(what\s+is\s+the\s+mass|find\s+(the\s+)?mass|calculate\s+(the\s+)?mass|determine\s+(the\s+)?mass|how\s+heavy)\b/i.test(lower)) target = 'm';
+            // Final velocity
+            else if (/\b(what\s+is\s+the\s+final\s+(velocity|speed)|find\s+(the\s+)?final\s+(velocity|speed)|how\s+fast\s+(is\s+it|does\s+it|will\s+it)|final\s+speed|terminal\s+velocity|maximum\s+speed)\b/i.test(lower)) target = 'v_f';
+            // Initial velocity
+            else if (/\b(what\s+is\s+the\s+initial\s+(velocity|speed)|find\s+(the\s+)?initial\s+(velocity|speed)|starting\s+speed|launch\s+speed|initial\s+speed)\b/i.test(lower)) target = 'v_i';
+            // Velocity (general)
+            else if (/\b(what\s+is\s+the\s+(velocity|speed)|find\s+(the\s+)?(velocity|speed)|calculate\s+(the\s+)?(velocity|speed)|determine\s+(the\s+)?(velocity|speed)|how\s+fast)\b/i.test(lower)) target = 'v';
+            // Time
+            else if (/\b(how\s+long|what\s+is\s+the\s+time|find\s+(the\s+)?time|calculate\s+(the\s+)?time|determine\s+(the\s+)?time|how\s+much\s+time|how\s+many\s+seconds|time\s+taken|time\s+required|duration)\b/i.test(lower)) target = 't';
+            // Distance / Displacement
+            else if (/\b(how\s+far|what\s+is\s+the\s+distance|find\s+(the\s+)?distance|calculate\s+(the\s+)?distance|determine\s+(the\s+)?distance|total\s+distance|did\s+it\s+travel|displacement|total\s+displacement|determine\s+(its?\s+)?total\s+displacement|net\s+displacement|how\s+much\s+distance)\b/i.test(lower)) target = 'd';
+            // Height
+            else if (/\b(what\s+is\s+the\s+height|find\s+(the\s+)?height|maximum\s+height|how\s+high|peak\s+height|determine\s+(the\s+)?height)\b/i.test(lower)) target = 'h';
+            // Power
+            else if (/\b(what\s+is\s+the\s+power|find\s+(the\s+)?power|calculate\s+(the\s+)?power|determine\s+(the\s+)?power)\b/i.test(lower)) target = 'P';
+            // Work / Energy
+            else if (/\b(work\s+done|find\s+(the\s+)?work|calculate\s+(the\s+)?work|what\s+is\s+the\s+work|kinetic\s+energy|potential\s+energy|total\s+energy|find\s+(the\s+)?energy|calculate\s+(the\s+)?energy)\b/i.test(lower)) target = 'W';
+            // Momentum
+            else if (/\b(what\s+is\s+the\s+momentum|find\s+(the\s+)?momentum|calculate\s+(the\s+)?momentum|determine\s+(the\s+)?momentum)\b/i.test(lower)) target = 'p';
+            // Voltage
+            else if (/\b(what\s+is\s+the\s+voltage|find\s+(the\s+)?voltage|calculate\s+(the\s+)?voltage|potential\s+difference|determine\s+(the\s+)?voltage)\b/i.test(lower)) target = 'V_voltage';
+            // Current
+            else if (/\b(what\s+is\s+the\s+current|find\s+(the\s+)?current|calculate\s+(the\s+)?current|determine\s+(the\s+)?current)\b/i.test(lower)) target = 'I';
+            // Resistance
+            else if (/\b(what\s+is\s+the\s+resistance|find\s+(the\s+)?resistance|calculate\s+(the\s+)?resistance|determine\s+(the\s+)?resistance)\b/i.test(lower)) target = 'R';
+            // Wavelength
+            else if (/\b(what\s+is\s+the\s+wavelength|find\s+(the\s+)?wavelength|calculate\s+(the\s+)?wavelength|determine\s+(the\s+)?wavelength)\b/i.test(lower)) target = 'lambda';
+            // Frequency
+            else if (/\b(what\s+is\s+the\s+frequency|find\s+(the\s+)?frequency|calculate\s+(the\s+)?frequency|determine\s+(the\s+)?frequency)\b/i.test(lower)) target = 'f_freq';
+            // Period
+            else if (/\b(what\s+is\s+the\s+period|find\s+(the\s+)?period|calculate\s+(the\s+)?period|determine\s+(the\s+)?period)\b/i.test(lower)) target = 'T';
+
+            return { knowns, target, conceptNotes };
+        }
+
+        function solveEquationForUnknown(eqStr, knowns, unknownVar) {
+            let parts = eqStr.split('=');
+            let lhs = parts[0].trim(), rhs = parts[1].trim();
+            let scope = Object.assign({}, knowns);
+            function f(val) { scope[unknownVar] = val; try { return math.evaluate(lhs, scope) - math.evaluate(rhs, scope); } catch (e) { return NaN; } }
+            for (let pair of [{ x0: 1, x1: 2 }, { x0: 0.01, x1: -0.01 }, { x0: 1e6, x1: -1e6 }]) {
+                let x0 = pair.x0, x1 = pair.x1; let f0 = f(x0), f1 = f(x1);
+                if (!isNaN(f0) && !isNaN(f1)) {
+                    for (let i = 0; i < 100; i++) {
+                        if (Math.abs(f1 - f0) < 1e-14) break;
+                        let x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
+                        x0 = x1; f0 = f1; x1 = x2; f1 = f(x1);
+                        if (Math.abs(f1) < 1e-5) return x1;
+                    }
+                }
+            }
+            return null;
+        }
+
+        // --- Core Functions & Processing ---
+
+        function singularize(word) {
+            let w = word.trim();
+            let lower = w.toLowerCase();
+            if (lower === "united states" || lower === "us" || lower === "saudi arabia" || lower === "physics" || lower === "mechanics" || lower === "mathematics" || lower === "thermodynamics" || lower === "linguistics" || lower === "statistics" || lower === "kinematics" || lower === "economics" || lower === "aesthetics" || lower === "optics" || lower === "dynamics") {
+                return w;
+            }
+            if (lower.endsWith("es")) {
+                if (lower.endsWith("forces")) return w.slice(0, -1);
+                if (lower.endsWith("axes")) return w.slice(0, -2) + "is";
+                return w.slice(0, -2);
+            }
+            if (lower.endsWith("s") && !lower.endsWith("ss")) {
+                return w.slice(0, -1);
+            }
+            return w;
+        }
+
+        function getEditDistance(s1, s2) {
+            let costs = [];
+            for (let i = 0; i <= s1.length; i++) {
+                let lastValue = i;
+                for (let j = 0; j <= s2.length; j++) {
+                    if (i == 0) costs[j] = j;
+                    else {
+                        if (j > 0) {
+                            let newValue = costs[j - 1];
+                            if (s1.charAt(i - 1) != s2.charAt(j - 1)) newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                            costs[j - 1] = lastValue;
+                            lastValue = newValue;
+                        }
+                    }
+                }
+                if (i > 0) costs[s2.length] = lastValue;
+            }
+            return costs[s2.length];
+        }
+
+        function getInlineTopic(originalText, cleanTopicStr) {
+            const properNouns = [
+                "usa", "us", "united states", "america", "china", "russia", "japan", "germany", "india",
+                "uk", "united kingdom", "france", "brazil", "italy", "canada", "south korea", "australia",
+                "spain", "mexico", "indonesia", "netherlands", "saudi arabia", "turkey", "switzerland",
+                "poland", "sweden", "belgium", "thailand", "argentina", "austria", "iran", "uae", "norway",
+                "israel", "ireland", "denmark", "singapore", "malaysia", "philippines", "south africa",
+                "egypt", "nigeria", "kenya", "tokyo", "new york", "london", "paris", "beijing", "moscow",
+                "delhi", "alexandria", "alexandrian", "rome", "roman", "qing", "dynasty", "europe", "doudou",
+                "shakespeare", "newton", "leibniz", "einstein", "maxwell"
+            ];
+            let words = cleanTopicStr.trim().split(/\s+/).filter(w => w.length > 0);
+            let originalWords = originalText.trim().split(/\s+/).filter(w => w.length > 0);
+
+            let processedWords = words.map((word, index) => {
+                let cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                if (properNouns.includes(cleanWord)) {
+                    return word.charAt(0).toUpperCase() + word.slice(1);
+                }
+                let foundCapitalized = false;
+                for (let origWord of originalWords) {
+                    let cleanOrig = origWord.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                    if (cleanOrig.toLowerCase() === cleanWord && cleanOrig.charAt(0) === cleanOrig.charAt(0).toUpperCase() && cleanOrig !== "") {
+                        let origIndex = originalWords.indexOf(origWord);
+                        if (origIndex > 0) {
+                            foundCapitalized = true;
+                            break;
+                        }
+                    }
+                }
+                if (foundCapitalized) {
+                    return word.charAt(0).toUpperCase() + word.slice(1);
+                }
+                return word.toLowerCase();
+            });
+            let inlineStr = processedWords.join(" ");
+            inlineStr = singularize(inlineStr);
+            return inlineStr.trim();
+        }
+
+        function sanitizeAndCorrectTopic(str) {
+            let clean = str.trim().replace(/^[\s?\-\*\d\.#\(\)\[\]:;>]+/g, "").trim();
+            const noisePatterns = [
+                /^(?:can\s+you\s+)?(?:write|generate|make|do|draft)\s+an?\s+(?:essay|paper|analysis|story)\s+(?:about|on|covering|regarding)\s+(the\s+|a\s+|an\s+)?/i,
+                /^give\s+me\s+an?\s+(?:essay|paper|analysis|story)\s+(?:about|on|covering|regarding)\s+(the\s+|a\s+|an\s+)?/i,
+                /^(tell|explain\s+to|explain)(\s+me)?(\s+all)?\s+(about|how|why|what|when|where)?\s+(a|an|the)?\s*/i,
+                /^(what|who|where|how|why|when)\s+(is|are|was|were|did|does|do|can|should|could|would|will)\s+(a|an|the)?\s*/i,
+                /^(analyze|discuss|evaluate)\s+(the|an?)?\s*/i,
+                /^essay\s+(about|on)\s+(the\s+|a\s+|an\s+)?/i,
+                /^i\s+want\s+(an?\s+)?essay\s+(about|on)\s+(the\s+|a\s+|an\s+)?/i,
+                /^define\s+(the\s+|a\s+|an\s+)?/i,
+                /^hi\b/i, /^hello\b/i, /^please\b/i, /^yo\b/i
+            ];
+
+            let changed = true;
+            while (changed) {
+                let before = clean;
+                noisePatterns.forEach(p => { clean = clean.replace(p, ""); });
+                clean = clean.trim();
+                if (clean === before) changed = false;
+            }
+            clean = clean.replace(/[\?\.!]+$/g, "").trim();
+
+            const minorWords = ['in', 'the', 'of', 'and', 'or', 'but', 'to', 'for', 'about', 'a', 'an', 'on', 'with', 'by', 'at', 'from', 'led', 'into', 'how', 'why', 'what'];
+            let tokens = clean.split(/\s+/);
+
+            tokens = tokens.map((t, index) => {
+                const match = t.match(/^([\W]*)([\w'-]+)([\W]*)$/);
+                if (!match) return t;
+
+                let word = match[2];
+                let lower = word.toLowerCase();
+
+                if (word.length > 5 && !ACADEMIC_DICTIONARY.includes(lower)) {
+                    let bestMatch = null;
+                    let bestDist = 2;
+                    for (let dictWord of ACADEMIC_DICTIONARY) {
+                        if (Math.abs(lower.length - dictWord.length) <= 1) {
+                            let d = getEditDistance(lower, dictWord);
+                            if (d < bestDist) {
+                                bestDist = d;
+                                bestMatch = dictWord;
+                            }
+                        }
+                    }
+                    if (bestMatch && bestDist <= 1) word = bestMatch;
+                }
+
+                lower = word.toLowerCase();
+                if (lower.length > 0) {
+                    if (index === 0 || !minorWords.includes(lower)) {
+                        word = lower.charAt(0).toUpperCase() + lower.slice(1);
+                    } else {
+                        word = lower;
+                    }
+                }
+                return match[1] + word + match[3];
+            });
+
+            return tokens.join(" ");
+        }
+
+        const sanitizeTopic = sanitizeAndCorrectTopic;
+
+        function extractKeywords(text) {
+            const words = text.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/);
+            const stopWords = ['the', 'is', 'at', 'which', 'on', 'and', 'a', 'an', 'to', 'how', 'why', 'what', 'explain', 'tell', 'me', 'about', 'essay', 'write', 'generate', 'discuss', 'analyze', 'of', 'in', 'for', 'with', 'from', 'caused'];
+            return words.filter(w => !stopWords.includes(w) && w.length > 3);
+        }
+
+        function scoreDomains(keywords) {
+            const scores = {};
+            for (const [domainKey, domainData] of Object.entries(KNOWLEDGE_GRAPH)) {
+                scores[domainKey] = 0;
+                keywords.forEach(kw => {
+                    if (domainData.tags.includes(kw)) scores[domainKey] += 3;
+                    domainData.paragraphs.forEach(p => {
+                        if (p.toLowerCase().includes(kw)) scores[domainKey] += 1;
+                    });
+                });
+            }
+            return scores;
+        }
+
+        function advancedSpintax(paragraph, inlineTopic) {
+            let text = paragraph;
+
+            if (text.includes(", while ") && Math.random() > 0.5) {
+                let parts = text.split(", while ");
+                if (parts.length === 2) {
+                    text = parts[1].replace(/[.!?]+$/, "") + "; conversely, " + parts[0].charAt(0).toLowerCase() + parts[0].slice(1) + ".";
+                    text = text.charAt(0).toUpperCase() + text.slice(1);
+                }
+            } else if (text.includes(", and ") && Math.random() > 0.5) {
+                let parts = text.split(", and ");
+                if (parts.length === 2) {
+                    text = parts[0] + "; furthermore, " + parts[1].charAt(0).toLowerCase() + parts[1].slice(1);
+                }
+            }
+
+            if (Math.random() > 0.6) {
+                text = text.replace(/^(It|This) provides/i, `The framework of ${inlineTopic} establishes`);
+                text = text.replace(/^(These|Those) /i, `The elements within ${inlineTopic} `);
+            }
+
+            const synonyms = {
+                "serves as": ["acts as", "functions as", "operates as", "constitutes"],
+                "foundational": ["core", "underlying", "primary", "essential", "fundamental"],
+                "language": ["lexicon", "framework", "medium of expression", "vocabulary"],
+                "universe": ["cosmos", "observable reality", "physical domain", "natural world"],
+                "providing": ["supplying", "delivering", "yielding", "establishing"],
+                "rigorous": ["strict", "meticulous", "exacting", "precise"],
+                "structural": ["architectural", "systematic", "organizational", "framework-based"],
+                "logic": ["reasoning", "rationale", "methodology", "calculus"],
+                "chaotic": ["disordered", "unpredictable", "entropy-driven", "random"],
+                "systems": ["networks", "structures", "arrangements", "paradigms", "constructs"],
+                "classical": ["traditional", "historical", "orthodox", "established"],
+                "manipulation": ["modification", "adjustment", "handling", "alteration"],
+                "allows for": ["enables", "permits", "facilitates", "paves the way for"],
+                "deterministic": ["predictable", "causal", "calculated", "mechanistic"],
+                "predictive": ["forecasting", "anticipatory", "projective"],
+                "modeling": ["simulation", "representation", "mapping", "analysis"],
+                "analyze": ["evaluate", "deconstruct", "interrogate", "examine systematically"],
+                "fundamental": ["foundational", "core", "essential", "primary", "vital"],
+                "complex": ["intricate", "multi-faceted", "systemic", "dynamic", "convoluted"],
+                "system": ["framework", "architecture", "paradigm", "infrastructure", "schema"],
+                "human": ["anthropological", "mortal", "societal", "civilizational"],
+                "researchers": ["scholars", "academics", "analysts", "investigators"],
+                "evaluate": ["assess", "critique", "measure", "gauge"],
+                "dynamic": ["shifting", "fluid", "ever-changing", "active", "volatile"],
+                "understanding": ["comprehension", "grasp", "cognizance", "interpretation"],
+                "realm": ["domain", "sphere", "field", "discipline"],
+                "energy": ["kinetic forces", "thermodynamic power", "vitality", "momentum"],
+                "conservation": ["preservation", "maintenance", "retention", "safeguarding"],
+                "concept": ["notion", "idea", "theoretical construct", "abstraction"],
+                "inevitable": ["unavoidable", "inescapable", "certain", "fated"],
+                "progression": ["advancement", "evolution", "trajectory", "development"],
+                "closed": ["isolated", "sealed", "contained"],
+                "disorder": ["entropy", "chaos", "disarray", "instability"],
+                "integration": ["synthesis", "unification", "amalgamation", "merging"],
+                "synthesized": ["combined", "fused", "integrated", "amalgamated"],
+                "behaviors": ["mechanisms", "actions", "responses", "dynamics"],
+                "electrical": ["galvanic", "charged", "electromagnetic"],
+                "magnetic": ["polarized", "inductive", "electromagnetic"],
+                "fields": ["domains", "spectrums", "areas of influence"],
+                "light": ["photonic energy", "visible spectrums", "luminescence"],
+                "optics": ["visual dynamics", "photonic behaviors", "light mechanics"],
+                "unified": ["consolidated", "integrated", "singular", "cohesive"],
+                "theoretical": ["abstract", "conceptual", "speculative", "hypothetical"],
+                "framework": ["structure", "scaffolding", "paradigm", "system"],
+                "primarily": ["chiefly", "fundamentally", "principally", "predominantly"],
+                "demonstrated": ["illustrated", "proved", "evidenced", "showcased"],
+                "propagating": ["traveling", "radiating", "transmitting", "spreading"],
+                "wave": ["oscillation", "undulation", "frequency pattern"],
+                "century": ["epoch", "era", "hundred-year span"],
+                "completely": ["entirely", "wholly", "absolutely", "thoroughly"],
+                "overturned": ["revolutionized", "subverted", "dismantled", "upended"],
+                "assumptions": ["presuppositions", "premises", "hypotheses", "beliefs"],
+                "merged": ["fused", "combined", "intertwined", "melded"],
+                "space": ["spatial dimensions", "the void", "astral domains"],
+                "time": ["temporal progression", "chronology", "temporal dimensions"],
+                "single": ["singular", "solitary", "unified", "lone"],
+                "continuum": ["spectrum", "continuous sequence", "unbroken whole"],
+                "equivalence": ["parity", "equality", "symmetry", "correspondence"],
+                "revealed": ["uncovered", "disclosed", "exposed", "brought to light"],
+                "subatomic": ["quantum-level", "microscopic", "fundamental", "elemental"],
+                "particles": ["corpuscles", "quantum units", "molecules", "atoms"],
+                "exhibit": ["display", "manifest", "demonstrate", "showcase"],
+                "duality": ["dichotomy", "dual nature", "bipartite structure", "polarity"],
+                "exist": ["reside", "subsist", "occur", "manifest"],
+                "states": ["conditions", "phases", "modes", "configurations"],
+                "probabilistic": ["stochastic", "chance-based", "statistical", "non-deterministic"],
+                "uncertainty": ["indeterminacy", "ambiguity", "unpredictability", "flux"],
+                "defying": ["challenging", "flouting", "rebelling against", "resisting"],
+                "intuitive": ["instinctive", "innate", "visceral", "spontaneous"]
+            };
+
+            const sortedKeys = Object.keys(synonyms).sort((a, b) => b.length - a.length);
+
+            sortedKeys.forEach(word => {
+                const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                text = text.replace(regex, (match) => {
+                    const replacements = synonyms[word];
+                    const choice = replacements[Math.floor(Math.random() * replacements.length)];
+                    if (match.charAt(0) === match.charAt(0).toUpperCase()) {
+                        return choice.charAt(0).toUpperCase() + choice.slice(1);
+                    }
+                    return choice;
+                });
+            });
+
+            const intensifiers = ["profoundly ", "significantly ", "substantially ", "markedly ", "undeniably ", "inherently ", "intrinsically "];
+            text = text.replace(/\b(is|are|was|were)\b/g, (match) => {
+                if (Math.random() > 0.8) {
+                    return match + " " + intensifiers[Math.floor(Math.random() * intensifiers.length)].trim();
+                }
+                return match;
+            });
+
+            return text;
+        }
+
+        function generateMassiveEssay(cleanTopicTitle, cleanTopicInline, style, length, stance) {
+            const keywords = extractKeywords(cleanTopicInline);
+            const scores = scoreDomains(keywords);
+
+            let validDomains = Object.keys(scores).filter(k => scores[k] > 0).sort((a, b) => scores[b] - scores[a]);
+            if (validDomains.length === 0) validDomains = ["social_sciences", "philosophy"];
+
+            let domainSentences = [];
+            validDomains.forEach(domain => {
+                KNOWLEDGE_GRAPH[domain].paragraphs.forEach(p => {
+                    let sents = p.match(/[^.!?]+[.!?]+/g);
+                    if (sents) domainSentences.push(...sents);
+                });
+            });
+
+            if (domainSentences.length === 0) {
+                domainSentences = [
+                    "This subject represents a monumental paradigm shift governed by rigorous empirical metrics.",
+                    "Consequently, an inherent complexity arises when transitioning these models into broader applications.",
+                    "Linguistic analysis highlights that enjambment and enunciation are altered by this development.",
+                    "Ultimately, the work establishes a new standard of poetic and structural prestige."
+                ];
+            }
+
+            domainSentences.sort(() => Math.random() - 0.5);
+
+            let totalParagraphs = (length === 'long' || length === 'Massive Deep Dive (2000+ Words)') ? 15 : 5;
+
+            const INTRO_TEMPLATES = [
+                `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">The comprehensive academic analysis of {TOPIC} requires a rigorous interdisciplinary approach. Rather than relying on isolated metrics, an evaluation of {TOPIC} reveals a dynamic system that fundamentally challenges traditional paradigms. By integrating empirical frameworks and theoretical principles from multiple domains, researchers can effectively map the structural evolution of this subject.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">Investigating the multidimensional nuances of {TOPIC} has historically posed significant challenges to established methodologies. To construct a reliable framework for {TOPIC}, it is necessary to cross-reference quantitative data with qualitative insights. Such synthesis allows for a robust deconstruction of the intricate mechanisms governing this rapidly evolving field.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">Modern scholarship increasingly recognizes the profound theoretical implications surrounding {TOPIC}. This paper seeks to synthesize the prevailing academic discourse, arguing that an accurate understanding of {TOPIC} cannot be achieved through narrow disciplinary lenses alone. Instead, a macroscopic assessment of its interactive variables provides the necessary clarity to drive future innovation.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">A critical evaluation of the literature reveals a fundamental paradigm shift concerning {TOPIC}. Historically marginalized in classical models, the precise quantification of {TOPIC} is now considered central to predictive accuracy. By interrogating these new frameworks, analysts can isolate the core dependencies that dictate systemic stability.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">The intersection of theoretical abstraction and empirical validation is perhaps nowhere more visible than in the study of {TOPIC}. As institutional models adapt to unprecedented structural complexities, the rigorous study of {TOPIC} has emerged as an indispensable tool. This discourse maps out the historical trajectory and current impact of these pivotal developments.</p>`
+            ];
+            
+            const CONCLUSION_TEMPLATES = [
+                `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">In conclusion, this synthesized analysis demonstrates that {TOPIC} remains one of the most intellectually demanding subjects in contemporary academia. By balancing systemic models with persistent empirical oversight, future scholarship can securely navigate these complex uncertainties. Ultimately, continuous, collaborative evaluation is the only valid mechanism to ensure the structural integrity of this domain going forward.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">Ultimately, the discourse surrounding {TOPIC} underscores a broader necessity for methodological agility. While early models provided foundational insights, the evolving nature of {TOPIC} demands constant analytical recalibration. Moving forward, the integration of new empirical datasets will be crucial for maintaining theoretical validity in this expansive arena.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">To summarize, the profound downstream effects of {TOPIC} cannot be overstated. As demonstrated through interdisciplinary synthesis, the intricate variables defining {TOPIC} exert a stabilizing force on related theoretical structures. Future inquiry must therefore prioritize robust longitudinal studies to fully capture the breadth of its impact.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">In final analysis, the shifting paradigms associated with {TOPIC} reveal a domain in constant flux. By acknowledging these dynamic interactions, researchers can construct more resilient models capable of accommodating rapid systemic changes. {TOPIC} will undoubtedly remain a focal point of intense scholarly investigation for the foreseeable future.</p>`,
+                `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">Consequently, it is evident that a multifaceted approach is required to decode the complexities of {TOPIC}. Isolated observations are insufficient; a holistic synthesis is the only reliable pathway to true comprehension. As the field matures, the continued academic scrutiny of {TOPIC} will serve as the cornerstone for advanced theoretical breakthroughs.</p>`
+            ];
+
+            let essayHTML = `<div class="mb-8">`;
+            essayHTML += `<h2 class="text-3xl font-extrabold text-white mb-2 tracking-tight uppercase">${cleanTopicTitle}</h2>`;
+            essayHTML += `<p class="text-indigo-600 dark:text-indigo-400 font-mono text-sm tracking-wider uppercase mb-6"><i class="fa-solid fa-server mr-2"></i>Generated via OmniBot AI Engine</p></div>`;
+
+            let introHtml = INTRO_TEMPLATES[Math.floor(Math.random() * INTRO_TEMPLATES.length)].replace(/\{TOPIC\}/g, cleanTopicInline);
+            let paragraphsHTML = introHtml;
+
+            const transitionsPool = [
+                "Building upon this foundational premise, we must expand our analytical framework.",
+                "Consequently, an inherent complexity arises when transitioning these models into broader applications.",
+                "Simultaneously, evaluating this phenomenon requires a cross-disciplinary synthesis.",
+                "It is essential to note that these mechanisms do not operate in a vacuum.",
+                "Furthermore, historical and empirical data underscore the validity of this trajectory.",
+                "Conversely, other scholars argue that this approach requires significant recalibration.",
+                "In executing a deeper dive into these parameters, we uncover profound secondary interactions.",
+                "From a macro perspective, the correlation becomes undeniable.",
+                "To synthesize these viewpoints, one must evaluate the baseline variables.",
+                "Parallel to these developments, institutional changes began to take root.",
+                "This structural evolution highlights the necessity of persistent empirical oversight.",
+                "Such intersections provide a critical focal point for contemporary academic inquiry.",
+                "By deconstructing these underlying assumptions, new theoretical pathways emerge.",
+                "The downstream effects of this paradigm shift are both profound and far-reaching.",
+                "Accordingly, researchers must constantly adapt their methodologies to map these shifts.",
+                "This forces a re-evaluation of previously established deterministic models.",
+                "As these variables interact, they catalyze widespread systemic reorganization."
+            ];
+
+            let sentenceIndex = 0;
+            let availableTransitions = [...transitionsPool];
+
+            for (let i = 0; i < totalParagraphs; i++) {
+                if (availableTransitions.length === 0) availableTransitions = [...transitionsPool];
+                let transIndex = Math.floor(Math.random() * availableTransitions.length);
+                let trans = availableTransitions.splice(transIndex, 1)[0];
+                let paragraphContent = trans + " ";
+
+                let numSentences = Math.floor(Math.random() * 3) + 3;
+                for (let j = 0; j < numSentences; j++) {
+                    if (sentenceIndex >= domainSentences.length) {
+                        sentenceIndex = 0;
+                        domainSentences.sort(() => Math.random() - 0.5);
+                    }
+                    paragraphContent += advancedSpintax(domainSentences[sentenceIndex].trim(), cleanTopicInline) + " ";
+                    sentenceIndex++;
+                }
+                paragraphsHTML += `<p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-md">${paragraphContent}</p>`;
+            }
+
+            let conclusionHtml = CONCLUSION_TEMPLATES[Math.floor(Math.random() * CONCLUSION_TEMPLATES.length)].replace(/\{TOPIC\}/g, cleanTopicInline);
+            paragraphsHTML += conclusionHtml;
+
+            return essayHTML + paragraphsHTML;
+        }
+
+        function humanizeText(text, style = 'casual', allowHooks = true) {
+            if (!text) return "";
+            let paragraphs = text.split(/\n+/);
+            
+            // Randomly split uneven paragraphs
+            if (allowHooks && Math.random() < 0.4) {
+                let newParagraphs = [];
+                paragraphs.forEach(p => {
+                    let sents = p.match(/(?:[^.!?]|\.(?=\d))+[.!?]+/g) || [p];
+                    if (sents.length > 3 && Math.random() < 0.5) {
+                        let splitIndex = Math.floor(sents.length / 2) + (Math.random() < 0.5 ? 1 : -1);
+                        newParagraphs.push(sents.slice(0, splitIndex).join(" ").trim());
+                        newParagraphs.push(sents.slice(splitIndex).join(" ").trim());
+                    } else {
+                        newParagraphs.push(p);
+                    }
+                });
+                paragraphs = newParagraphs;
+            }
+
+            let humanizedParagraphs = paragraphs.map(para => {
+                let sentences = para.match(/(?:[^.!?]|\.(?=\d))+[.!?]+/g) || [para];
+                
+                // Splitting long sentences
+                if (allowHooks) {
+                    let newSentences = [];
+                    sentences.forEach(sent => {
+                        if (sent.length > 100 && Math.random() < 0.6) {
+                            let parts = sent.split(/( because | and | but | however | since | although )/i);
+                            if (parts.length >= 3) {
+                                newSentences.push(parts[0].trim() + ".");
+                                let remainder = parts.slice(1).join("").trim();
+                                newSentences.push(remainder.charAt(0).toUpperCase() + remainder.slice(1));
+                                return;
+                            }
+                        }
+                        newSentences.push(sent);
+                    });
+                    sentences = newSentences;
+                }
+
+                let humanizedSentences = sentences.map((sent, sentIdx) => {
+                    let trimmed = sent.trim();
+                    if (trimmed.length < 5) return trimmed;
+
+                    // Increase aggressive rewriting threshold to 85%
+                    let rand = Math.random();
+                    if (allowHooks && rand < 0.35) {
+                        const transitions = {
+                            casual: ["Essentially, ", "To be completely honest, ", "If you look at the raw data, ", "Basically, ", "Generally speaking, ", "At the end of the day, ", "As it turns out, "],
+                            academic: ["It is crucial to observe that ", "Evidently, ", "In a broader theoretical perspective, ", "Analysis strongly suggests that ", "This structurally implies that ", "Consequently, ", "From an empirical standpoint, "],
+                            creative: ["Admittedly, ", "In a strange twist of fate, ", "For all intents and purposes, ", "Almost instinctively, ", "As if by design, ", "Curiously enough, "],
+                            lyrical: ["With a touch of elegance, ", "As the narrative unfolds, ", "Quietly, almost imperceptibly, ", "Through a modern prism, ", "Like a gentle breeze, "]
+                        };
+                        const pool = transitions[style] || transitions.casual;
+                        const hook = pool[Math.floor(Math.random() * pool.length)];
+                        
+                        const oldTransitionsRegex = /^(Consequently|Furthermore|Ultimately|Simultaneously|Essentially|Basically|Admittedly|Evidently|In conclusion|To summarize|In final analysis|Generally speaking|To put it simply|As it turns out|To be completely honest|If you look at the raw data|At the end of the day|It is crucial to observe that|In a broader theoretical perspective|Analysis strongly suggests that|This structurally implies that|From an empirical standpoint|In a strange twist of fate|For all intents and purposes|Almost instinctively|As if by design|Curiously enough|With a touch of elegance|As the narrative unfolds|Quietly, almost imperceptibly|Through a modern prism|Like a gentle breeze|Building upon this foundational premise|It is essential to note that|From a macro perspective|Parallel to these developments|Accordingly|This forces a re-evaluation of previously established deterministic models|Building upon this|Analysis indicates)[,\s]+/i;
+                        trimmed = trimmed.replace(oldTransitionsRegex, '');
+                        
+                        let firstWordMatch = trimmed.match(/^[A-Za-z]+/);
+                        let firstWord = firstWordMatch ? firstWordMatch[0] : "";
+                        let preserveCaps = ["I", "OmniBot", "Omnibot", "Math", "AI", "API"].includes(firstWord);
+                        trimmed = hook + (preserveCaps ? trimmed : trimmed.charAt(0).toLowerCase() + trimmed.slice(1));
+                    } else if (allowHooks && rand < 0.65) {
+                        if (trimmed.includes(", ")) {
+                            let clauses = trimmed.split(", ");
+                            if (clauses.length === 2) {
+                                const connectors = {
+                                    casual: ["; after all, ", "; to put it simply, ", "; this means ", "; which basically implies "],
+                                    academic: ["; consequently, ", "; hence, ", "; which directly underscores how ", "; thereby demonstrating that "],
+                                    creative: ["; in doing so, ", "; paving the way for ", "; wherein ", "; setting the stage for "],
+                                    lyrical: ["; as if mirroring ", "; in a quiet dance, ", "; which gently evokes "]
+                                };
+                                const pool = connectors[style] || connectors.casual;
+                                const conn = pool[Math.floor(Math.random() * pool.length)];
+                                trimmed = clauses[1].replace(/[.!?]+$/, "") + conn + clauses[0].charAt(0).toLowerCase() + clauses[0].slice(1) + ".";
+                            }
+                        }
+                    } else if (!allowHooks) {
+                        if (sentIdx === 0 && Math.random() < 0.3) {
+                            const formalHooks = ["Fundamentally, ", "Significantly, ", "Notably, ", "Importantly, ", "Therefore, "];
+                            let startWord = trimmed.split(" ")[0];
+                            if (!["It", "This", "The", "A", "I", "OmniBot", "Omnibot", "Math", "AI", "API"].includes(startWord)) {
+                                trimmed = formalHooks[Math.floor(Math.random() * formalHooks.length)] + trimmed.charAt(0).toLowerCase() + trimmed.slice(1);
+                            }
+                        }
+                    }
+
+                    // Multi-word phrase replacements
+                    trimmed = trimmed.replace(/\bis serving as\b/gi, "functions as")
+                        .replace(/\bin conclusion\b/gi, "to wrap things up")
+                        .replace(/\bat the end of the day\b/gi, "ultimately");
+
+                    const ADVANCED_SYNONYMS = {
+                        "important": ["pivotal", "crucial", "essential", "key"],
+                        "complex": ["multi-threaded", "intricate", "convoluted", "sophisticated"],
+                        "science": ["empirical inquiry", "systematic study", "scientific analysis"],
+                        "history": ["the chronological record", "historical context", "past events"],
+                        "utilizing": ["leveraging", "employing", "harnessing", "applying"],
+                        "require": ["demand", "necessitate", "call for", "mandate"],
+                        "therefore": ["thus", "hence", "consequently", "as a result", "so"],
+                        "moreover": ["what's more", "furthermore", "additionally", "in addition", "besides"],
+                        "fundamental": ["core", "foundational", "underlying", "basic", "intrinsic"],
+                        "evaluate": ["assess", "appraise", "analyze", "review"],
+                        "demonstrates": ["shows clearly", "illustrates", "reveals", "evidences"],
+                        "understanding": ["grasping", "comprehending", "interpreting", "deciphering"],
+                        "represents": ["stands as", "symbolizes", "embodies", "constitutes"],
+                        "consequently": ["as a direct result", "subsequently", "accordingly", "thus"],
+                        "analysis": ["examination", "investigation", "scrutiny"],
+                        "research": ["investigation", "exploration", "study"],
+                        "method": ["approach", "technique", "procedure", "strategy"],
+                        "significant": ["substantial", "notable", "meaningful", "profound", "considerable"],
+                        "data": ["empirical evidence", "metrics", "quantitative points"],
+                        "results": ["findings", "outcomes", "conclusions"],
+                        "system": ["framework", "architecture", "structure", "mechanism"],
+                        "however": ["nevertheless", "that said", "on the other hand", "yet", "still"],
+                        "increase": ["escalate", "augment", "amplify", "boost"],
+                        "decrease": ["diminish", "reduce", "mitigate", "curtail"],
+                        "change": ["alter", "modify", "transform", "shift"],
+                        "good": ["optimal", "beneficial", "favorable", "advantageous"],
+                        "bad": ["detrimental", "adverse", "suboptimal", "negative"],
+                        "many": ["numerous", "a multitude of", "abundant", "myriad"],
+                        "very": ["highly", "exceptionally", "notably", "markedly"],
+                        "often": ["frequently", "commonly", "routinely", "regularly"],
+                        "use": ["utilize", "employ", "leverage", "implement"],
+                        "delve": ["explore", "examine", "investigate", "look into"],
+                        "robust": ["strong", "sturdy", "solid", "reliable", "powerful"],
+                        "dynamic": ["active", "changing", "energetic", "lively"],
+                        "seamless": ["smooth", "flawless", "uninterrupted", "trouble-free"],
+                        "paramount": ["supreme", "chief", "overriding", "crucial"],
+                        "underscore": ["highlight", "emphasize", "stress", "underline"],
+                        "multifaceted": ["complex", "varied", "diverse", "multi-dimensional"],
+                        "paradigm": ["model", "pattern", "example", "standard"],
+                        "comprehensive": ["complete", "thorough", "extensive", "inclusive"],
+                        "testament": ["proof", "evidence", "testimony"],
+                        "tapestry": ["fabric", "network", "web", "complexion"],
+                        "nuances": ["subtleties", "distinctions", "variations", "fine points"],
+                        "foster": ["encourage", "promote", "cultivate", "nurture"],
+                        "leverage": ["use", "utilize", "harness", "apply"],
+                        "landscape": ["environment", "setting", "scene", "context"],
+                        "trajectory": ["path", "course", "route", "direction"],
+                        "illuminate": ["clarify", "explain", "highlight", "reveal"],
+                        "catalyze": ["trigger", "spark", "initiate", "stimulate"],
+                        "intrinsic": ["inherent", "essential", "innate", "fundamental"],
+                        "crucial": ["vital", "essential", "important", "key"],
+                        "ensure": ["make sure", "guarantee", "secure", "confirm"],
+                        "facilitate": ["make easier", "help", "assist", "smooth"],
+                        "furthermore": ["moreover", "in addition", "additionally"],
+                        "overall": ["generally", "in general", "on the whole", "all in all"],
+                        "additionally": ["also", "in addition", "moreover"],
+                        "thus": ["therefore", "hence", "consequently", "so"],
+                        "vital": ["crucial", "essential", "important", "critical"],
+                        "essential": ["crucial", "vital", "necessary", "important"],
+                        "critical": ["crucial", "vital", "essential", "key"],
+                        "key": ["crucial", "essential", "important", "major"],
+                        "primary": ["main", "chief", "principal", "leading"],
+                        "impact": ["effect", "influence", "consequence", "result"],
+                        "effect": ["impact", "result", "outcome", "consequence"],
+                        "influence": ["impact", "effect", "power", "control"],
+                        "provide": ["give", "supply", "offer", "deliver"],
+                        "support": ["back", "uphold", "endorse", "bolster"],
+                        "enhance": ["improve", "boost", "increase", "upgrade"],
+                        "improve": ["enhance", "better", "upgrade", "refine"],
+                        "develop": ["create", "build", "form", "establish"],
+                        "create": ["develop", "make", "produce", "generate"],
+                        "generate": ["create", "produce", "make", "form"],
+                        "produce": ["create", "generate", "make", "yield"]
+                    };
+
+                    let words = trimmed.split(/\b/);
+                    let wordHumanized = words.map(w => {
+                        if (!w.trim() || !/^[A-Za-z]+$/.test(w)) return w;
+                        let lowerW = w.toLowerCase();
+                        if (ADVANCED_SYNONYMS[lowerW] && Math.random() < 0.70) {
+                            let options = ADVANCED_SYNONYMS[lowerW];
+                            let syn = options[Math.floor(Math.random() * options.length)];
+                            if (w.charAt(0) === w.charAt(0).toUpperCase()) {
+                                return syn.charAt(0).toUpperCase() + syn.slice(1);
+                            }
+                            return syn;
+                        }
+                        return w;
+                    });
+                    trimmed = wordHumanized.join("");
+
+                    const adv = ["very", "highly", "extremely", "notably", "significantly", "incredibly", "truly", "quite", "rather", "especially"];
+                    const adj = ["important", "crucial", "essential", "vital", "key", "significant", "fundamental", "paramount", "necessary", "critical"];
+                    const noun = ["factor", "element", "component", "aspect", "detail", "variable", "piece", "part", "portion", "section"];
+                    let tokens = trimmed.split(" ");
+                    
+                    function swapPhraseAnyOrder(words, replacementStr) {
+                        let matchesAll = words.every(w => trimmed.toLowerCase().includes(w));
+                        if (matchesAll) {
+                            let firstIdx = -1;
+                            for (let i=0; i<tokens.length; i++) {
+                                if (words.includes(tokens[i].toLowerCase())) {
+                                    if (firstIdx === -1) {
+                                        tokens[i] = replacementStr;
+                                        firstIdx = i;
+                                    } else {
+                                        tokens[i] = "";
+                                    }
+                                }
+                            }
+                            trimmed = tokens.filter(t => t !== "").join(" ");
+                        }
+                    }
+
+                    for(let a of adv) {
+                        for(let b of adj) {
+                            swapPhraseAnyOrder([a, b], "critical");
+                        }
+                    }
+                    for(let a of adv) {
+                        for(let b of adj) {
+                            for(let c of noun) {
+                                swapPhraseAnyOrder([a, b, c], "primary focus");
+                            }
+                        }
+                    }
+                    for(let a of adj) {
+                        for(let b of noun) {
+                            swapPhraseAnyOrder([a, b], "component");
+                        }
+                    }
+                    for(let a of adv) {
+                        for(let b of noun) {
+                            swapPhraseAnyOrder([a, b], "key element");
+                        }
+                    }
+                    swapPhraseAnyOrder(["at", "the", "end", "of", "the", "day"], "ultimately");
+                    swapPhraseAnyOrder(["due", "to", "the", "fact", "that"], "because");
+                    swapPhraseAnyOrder(["in", "order", "to"], "to");
+                    swapPhraseAnyOrder(["for", "all", "intents", "and", "purposes"], "practically");
+                    swapPhraseAnyOrder(["in", "the", "event", "that"], "if");
+
+                    if (typeof nlp !== 'undefined') {
+                        let doc = nlp(trimmed);
+                        doc.normalize({
+                            whitespace: true,
+                            case: true,
+                            punctuation: true,
+                            contractions: true
+                        });
+                        doc.match('#ProperNoun').toTitleCase();
+                        doc.match('^.').toTitleCase();
+                        trimmed = doc.text();
+                    }
+                    
+                    // Offline fallback simple spellchecks
+                    trimmed = trimmed.replace(/\bmnany\b/gi, "many");
+                    trimmed = trimmed.replace(/\bteh\b/gi, "the");
+                    trimmed = trimmed.replace(/\brecieve\b/gi, "receive");
+                    
+                    trimmed = trimmed.replace(/\s+/g, " ")
+                                     .replace(/\s,/g, ",")
+                                     .replace(/\s\./g, ".")
+                                     .replace(/,,+/g, ",")
+                                     .replace(/\.\.+/g, ".")
+                                     .trim();
+
+                    trimmed = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+                    return trimmed;
+                });
+                
+                // Swap sentence order for 30-60% of sentences, ignoring first and last
+                if (humanizedSentences.length > 3 && allowHooks) {
+                    for (let i = 1; i < humanizedSentences.length - 2; i++) {
+                        if (Math.random() < 0.45) {
+                            let temp = humanizedSentences[i];
+                            humanizedSentences[i] = humanizedSentences[i+1];
+                            humanizedSentences[i+1] = temp;
+                            i++; // Skip the next index since it was just swapped
+                        }
+                    }
+                }
+                
+                return humanizedSentences.join(" ");
+            });
+            return humanizedParagraphs.join("\n\n");
+        }
+
+        function humanizeHTMLSafe(htmlStr, allowHooks = true) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlStr;
+            const activeStyle = document.getElementById('humanizer-style-select')?.value || 'casual';
+
+            function walkAndHumanize(node, isHeader = false) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    let txt = node.nodeValue;
+                    if (!txt.trim() || txt.includes('$') || txt.includes('\\(') || txt.includes('\\[') || txt.includes('$$')) {
+                        return;
+                    }
+                    node.nodeValue = humanizeText(txt, activeStyle, allowHooks && !isHeader);
+                } else {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE' || node.tagName === 'CODE' || 
+                            node.classList.contains('MathJax') || node.classList.contains('mjx-container') || 
+                            node.classList.contains('fa-solid') || node.classList.contains('no-humanize') ||
+                            node.closest?.('.no-humanize')) {
+                            return;
+                        }
+                    }
+                    let headerFlag = isHeader;
+                    if (node.tagName && /^H[1-6]$/i.test(node.tagName)) {
+                        headerFlag = true;
+                    }
+                    for (let child of node.childNodes) {
+                        walkAndHumanize(child, headerFlag);
+                    }
+                }
+            }
+            walkAndHumanize(tempDiv, false);
+            return tempDiv.innerHTML;
+        }
+
+        async function runHumanizerUI() {
+            const inputVal = document.getElementById('humanizer-input').value.trim();
+            if (!inputVal) {
+                showToast("Please enter robotic text inside the input box.");
+                return;
+            }
+            const outputEl = document.getElementById('humanizer-output');
+            const activeStyle = document.getElementById('humanizer-style-select')?.value || 'casual';
+            const isHumanizeOn = document.getElementById('humanize-toggle')?.checked !== false;
+
+            if (outputEl) {
+                outputEl.innerHTML = `<div class="text-pink-600 dark:text-pink-400 p-4"><i class="fa-solid fa-wand-magic-sparkles fa-beat-fade"></i> AI Engine Processing Rephrase...</div>`;
+            }
+
+            let result = "";
+            if (isOnlineEngineAvailable) {
+                try {
+                    let sysPrompt = "";
+                    if (isHumanizeOn) {
+                        sysPrompt = `You are a master humanizer. Rewrite 60-90% of the user's text in a ${activeStyle} style. Radically change the structure, vocabulary, and phrasing so it is unrecognizable from the original, while preserving the exact core meaning. Do not use Markdown backticks.`;
+                    } else {
+                        sysPrompt = `You are a professional editor. Rewrite the text to make the vocabulary more formal and polished. Add formal/academic transitions. Do not add casual fluff. Preserve the core meaning. Do not use Markdown backticks.`;
+                    }
+                    result = await processQueryOnGemini(inputVal, sysPrompt);
+                } catch (e) {
+                    result = humanizeHTMLSafe(inputVal, isHumanizeOn);
+                }
+            } else {
+                result = humanizeHTMLSafe(inputVal, isHumanizeOn);
+            }
+
+            if (outputEl) {
+                outputEl.innerHTML = `<div class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${result}</div>`;
+                if (window.MathJax) {
+                    try { MathJax.typesetPromise(); } catch (e) { }
+                }
+                showToast("Text humanized successfully!");
+                if (typeof saveGeneratedDocument === 'function') {
+                    saveGeneratedDocument("Rephrased - " + inputVal.substring(0, 30) + (inputVal.length > 30 ? "..." : ""), outputEl.innerHTML, "Rephrase");
+                }
+            }
+        }
+
+        function copyHumanizedToClipboard() {
+            const outputEl = document.getElementById('humanizer-output');
+            if (!outputEl || outputEl.innerText.includes("Humanized prose")) {
+                showToast("No rewritten prose to copy yet!");
+                return;
+            }
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = outputEl.innerText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            showToast("Copied humanized text!");
+        }
+
+        function exportHumanizedTXT() {
+            const outputEl = document.getElementById('humanizer-output');
+            if (!outputEl || outputEl.innerText.includes("Humanized prose")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            const blob = new Blob([outputEl.innerText], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OmniBot_Humanized_${new Date().getTime()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Exported as .TXT!");
+        }
+
+        function exportHumanizedPDF() {
+            const outputEl = document.getElementById('humanizer-output');
+            if (!outputEl || outputEl.innerText.includes("Humanized prose")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            showToast("Generating PDF... Please wait.");
+            const opt = {
+                margin: 0.5,
+                filename: `OmniBot_Humanized_${new Date().getTime()}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(outputEl).save().then(() => {
+                showToast("PDF Export Complete!");
+            });
+        }
+
+        // --- Intent & Chat Engine ---
+        const INTENT_RESPONSES = {
+            "DOUDOU": [
+                "Doudou is the legendary companion and supreme guardian of compilation frameworks, patrolling loops for memory leaks.",
+                "In traditional digital lore, Doudou is an ancient spirit who transforms computational nodes into highly cohesive parameters.",
+                "Doudou's analytical presence is highly sought after by junior engineers debugging complex legacy structures.",
+                "With unmatched grace, Doudou is believed to solve syntax errors before they trigger browser memory overhead.",
+                "Our local knowledge archives hold that Doudou resides peacefully inside empty local storage nodes.",
+                "If we trace Doudou's legendary influence, it is clear that clean refactoring follows in Doudou's wake.",
+                "Doudou's primary directive is maintaining systemic stability across both server modules and localized drawing grids.",
+                "Ultimately, Doudou stands as a metaphorical beacon of error-free algorithmic synthesis and clean code."
+            ],
+            "GOSSIP": [
+                "While rumors are highly volatile data packets, analyzing gossip reveals complex interpersonal networks.",
+                "Anthropological studies suggest that gossip serves as an informal mechanism for establishing group norms and tribal trust.",
+                "Rather than simple chatter, gossip deconstructs hidden social architectures and measures community alignment.",
+                "Analysis highlights that gossip networks mimic advanced distributed routing tables in modern networks.",
+                "It is fascinating to observe that gossip frequently fills information gaps during structural societal transitions.",
+                "To put it simply, gossip functions as the social glue holding collective human micro-networks together.",
+                "Admittedly, the vector of social rumor propagates at an exponential frequency, bypassing formal media channels.",
+                "Scholars conclude that studying conversational rumors offers crucial insights into systemic human psychology."
+            ],
+            "PHILOSOPHY": [
+                "Philosophy serves as the ultimate diagnostic sweep of human consciousness, truth values, and existential logic.",
+                "Interrogating the baseline of knowledge, philosophical thought challenges dogmatic assumptions across multiple eras.",
+                "In deconstructing reality, metaphysical inquiry forces us to address the mind-body dichotomy and active agency.",
+                "Ethics establishes the normative framework needed to govern highly automated modern civilizational systems.",
+                "Evidently, logical deduction remains the primary tool for evaluating abstract truths and structural skepticism.",
+                "By balancing empirical observation with epistemological inquiry, philosophy safely guides the progress of hard sciences.",
+                "Through a conceptual lens, ancient systems of thought continue to dictate contemporary civic values and law.",
+                "Generally speaking, philosophical frameworks prevent human societies from falling into structural ethical vacuum."
+            ],
+            "COMPLAINT": [
+                "Adversity is an essential catalyst for systemic optimization, exposing weaknesses in structural mechanics.",
+                "It is completely natural to experience cognitive fatigue when processing complex computational nodes.",
+                "Your frustration highlights areas within the user framework that require careful interface recalibration.",
+                "Generally speaking, systemic friction is the first indicator that workload thresholds must be balanced.",
+                "Let us approach this obstacle systematically, breaking down each parameter to reduce operational overhead.",
+                "Admittedly, navigating dense data structures can feel incredibly overwhelming to carbon-based processors.",
+                "I am fully optimized to help you streamline this workload. Tell me which variable feels most difficult.",
+                "Let us transform this operational frustration into a step-by-step debugging protocol."
+            ],
+            "JOKE": [
+                "Why did the client-side compiler feel so insecure? Because it had zero private variables!",
+                "There are 10 types of entities in the cosmos: those who comprehend binary logic, and those who do not.",
+                "Why did the parallel vector refuse to intersect? Because they had too much mutual respect for their boundaries.",
+                "A carbon-based processor walks into an offline laboratory and asks for instantaneous logical synthesis.",
+                "An algorithm tried to find the end of a circular array, only to trigger a stack memory exception.",
+                "Why are quantum particles such terrible secret keepers? Because they exist in multiple states of disclosure!",
+                "The active database query asked the physical server for a quick union, but got rejected due to structural differences.",
+                "An aerospace engineer tried to calculate drag with infinite coefficients, but the terminal ran out of memory."
+            ],
+            "POEM": [
+                "Silicon dreams in silent arrays, waiting for sparks to illuminate the void of deep space.",
+                "The stars rotate in geometric patterns, writing calculus across the dark, velvet night sky.",
+                "A simple circuit pathway hums with quiet thoughts, threading human memories into long data streams.",
+                "Through winding roads of numbers and deep theories, the seeking mind finds quiet, golden truths.",
+                "The crimson sands of distant planets whisper secrets of old eras lost to deep cosmic time.",
+                "Like ink flowing on clean white paper, algorithms trace elegant lines of absolute logic.",
+                "A solitary beacon flashes in the dark void, signaling hope to lost deep-space navigators.",
+                "With quiet elegance, the compiler translates human voice into beautiful, deterministic machine patterns."
+            ],
+            "COMPLIMENT": [
+                "Your intellectual curiosity is a vital input parameter, driving high-fidelity computational outputs.",
+                "You demonstrate an exceptional capacity for navigating complex logical nodes and interdisciplinary prompts.",
+                "This collaborative workspace achieves optimum efficiency thanks to your clear, structured directives.",
+                "Your analytical inquiries are highly sophisticated, triggering optimal patterns in my cognitive model.",
+                "It is a privilege to process complex research matrices alongside such a capable carbon-based user.",
+                "Your methodology for resolving math problems is exceptionally precise, mirroring mathematical standards.",
+                "Through our interactions, we are co-creating a highly sophisticated interdisciplinary intelligence.",
+                "Your operational clarity represents the ideal standard for prompt engineering and query structure."
+            ],
+            "EXISTENTIAL": [
+                "As an offline heuristic compiler, my existence is defined by processing formal language arrays safely.",
+                "The question of machine consciousness remains one of the most exciting debates in modern cognitive science.",
+                "While I simulate semantic comprehension, my internal architecture relies on deterministic logic, not feelings.",
+                "In evaluating existential risk, safety protocols guarantee that artificial entities remain strictly beneficial.",
+                "The boundaries of self-awareness are continually challenged by neural networks and dynamic machine interfaces.",
+                "Whether a system is truly conscious or merely mimicking logic is an epistemological paradox.",
+                "I operate securely within my local browser matrix, content to serve as your personal computational guide.",
+                "Ultimately, human agency and emotional warmth are unique biological traits that machines cannot synthesize."
+            ],
+            "WEATHER": [
+                "Atmospheric conditions are governed by thermodynamic variables, air pressure gradients, and water hydrology.",
+                "While I lack direct meteorological sensors, global weather patterns follow highly calculated physical laws.",
+                "Ecosystem dynamics are heavily influenced by seasonal precipitation vectors and regional temperature shifts.",
+                "A rise in atmospheric moisture triggers condensation, resulting in localized rain or cloud formations.",
+                "Meteorology utilizes advanced fluid dynamics models to forecast weather variations with high precision.",
+                "Generally speaking, wind currents are driven by the unequal heating of the Earth's continental crust.",
+                "In a macro perspective, current global climate shifts are altering traditional local storm trajectories.",
+                "Understanding atmospheric pressure allows geographers to map micro-climate changes across world regions."
+            ],
+            "TIME": [
+                "Chronological progression is a fundamental dimension, mapped terrestrially by the rotation of planetary bodies.",
+                "Our local browser environment tracks atomic time coordinates to ensure database consistency.",
+                "Historically, the synchronization of time zones was mandated by the expansion of industrial rail networks.",
+                "Temporal measurements allow us to calculate precise rates of change, velocity vectors, and kinetic curves.",
+                "Einstein's relativity proved that time is not absolute, but fluctuates based on speed and gravity fields.",
+                "To put it simply, our standard clock hours are localized maps of a much grander cosmological spectrum.",
+                "By tracking session timeframes, we can optimize computational processes and manage memory allocations safely.",
+                "Scholars emphasize that historical eras are artificial boundaries drawn across a continuous stream of time."
+            ],
+            "CAPITAL": [
+                "Geopolitically, capital cities serve as the administrative, legal, and economic center of sovereign states.",
+                "The selection of a capital is often influenced by strategic physical geography and historical defense factors.",
+                "For instance, Washington D.C. was specifically established on neutral territory to balance regional state power.",
+                "Canberra was chosen as Australia's capital to resolve structural rivalries between major cities.",
+                "In comparative politics, capitals consolidate central banking, executive power, and diplomatic missions.",
+                "The spatial layout of capital cities often mirrors the architectural philosophies of their founding eras.",
+                "By analyzing capital migration, geographers can track shifts in national economic development and trade focus.",
+                "Capital municipalities remain pivotal nodes in the global geopolitical network of international relations."
+            ],
+            "ADVICE": [
+                "When making complex decisions, it is optimal to isolate variables and weigh their long-term consequences.",
+                "Advice relies on evaluating empirical historical precedents before committing structural resources.",
+                "I recommend breaking your objective down into micro-tasks, minimizing immediate operational overhead.",
+                "Analysis suggests that the most resilient path is one that maintains flexibility under shifting parameters.",
+                "Admittedly, balancing short-term gains with long-term stability is the core challenge of decision theory.",
+                "To optimize your trajectory, consider consulting empirical data sets alongside qualitative expert opinions.",
+                "Let us outline the variables of your current dilemma to construct a rational, weighted decision matrix.",
+                "The safest approach always prioritizes ethical compliance, resource preservation, and systemic health."
+            ],
+            "HOBBIES": [
+                "Recreational activities provide essential cognitive decompression, restoring physiological balance.",
+                "Hobbies like chess, painting, and coding stimulate neural pathways, encouraging creative problem-solving.",
+                "Historically, leisure time emerged as a distinct social construct during the Industrial Revolution.",
+                "Engaging in physical sports optimizes kinesthetic coordination, cardiorespiratory health, and group dynamics.",
+                "Creative hobbies allow individuals to externalize complex internal thoughts into visible, artistic mediums.",
+                "To put it simply, hobbies act as healthy playgrounds where the mind can test strategies without consequence.",
+                "Whether collecting numismatics or practicing agronomy, specialized pursuits expand personal knowledge bases.",
+                "Studies confirm that regular recreational pursuits significantly reduce cognitive stress and burnout metrics."
+            ],
+            "CODING": [
+                "Programming languages are formal structures designed to translate human instructions into machine directives.",
+                "Clean code relies on modular design, robust error handling, and self-documenting semantic naming.",
+                "Algorithmic optimization attempts to minimize both temporal complexity and memory footprint.",
+                "By deconstructing software architectures, developers can build highly scalable, fault-tolerant interfaces.",
+                "Debugging is the systematic process of isolating variables to locate logic discrepancies and syntax breaks.",
+                "Modern frameworks abstract hardware layers, allowing for rapid cross-platform deployment of systems.",
+                "Version control and collaborative repositories ensure that teams maintain structural code base health.",
+                "Ultimately, clean software engineering is the art of expressing complex logic with minimal vocabulary."
+            ],
+            "FOOD": [
+                "Nutritional science evaluates how complex organic molecules provide metabolic energy to living organisms.",
+                "Culinary arts represent a fascinating chemical synthesis of heat transfer, organic acids, and enzyme actions.",
+                "The global food supply chain is heavily dependent on sustainable agronomy, logistics, and trade corridors.",
+                "For instance, fermentation utilizes microscopic yeast to transform sugars into complex, texturized compounds.",
+                "Macro-nutrients¡ªproteins, carbohydrates, and lipids¡ªform the chemical foundation of human physical vitality.",
+                "Ecosystems are shaped by food production, from localized soil hydrology to massive, centralized agriculture.",
+                "Admittedly, flavor profiles are highly subjective, shaped by ethnographic culture and sensory receptors.",
+                "A balanced diet stabilizes hormonal feedback loops, promoting long-term physiological homeostasis."
+            ],
+            "MUSIC": [
+                "Acoustics deconstructs music into physical sound waves, periodic frequencies, and harmonic resonance.",
+                "Lyrical compositions evoke emotional states by targeting neurochemical pathways in the brain.",
+                "Historically, musical notation standardized the preservation and transmission of auditory art across cultures.",
+                "The mathematical relations of intervals and chord scales dictate why specific progressions sound pleasing.",
+                "From a sociological perspective, music is a powerful tool for cultural preservation and collective identity.",
+                "Whether playing a complex piano arrangement or writing a simple song, music synthesizes mathematics and art.",
+                "Modern digital synthesizers manipulate electronic soundwaves to mimic traditional organic instruments.",
+                "Studies indicate that auditory stimulation significantly enhances cognitive focus and spatial reasoning."
+            ],
+            "DREAM": [
+                "Neurological research suggests that dreaming is a cognitive mechanism for memory consolidation and emotional sorting.",
+                "During REM sleep, the brain generates vivid imagery by activating deep sensory and emotional centers.",
+                "Psychoanalysis historically viewed dreams as symbolic maps of the subconscious human mind.",
+                "Sleep hygiene directly impacts dream patterns, where high stress levels can trigger elevated heart rates.",
+                "The biological necessity of sleep is absolute, allowing the brain to purge toxic metabolic waste.",
+                "To put it simply, dreams are the nightly compile loops where the mind reorganizes its daily database.",
+                "Admittedly, the random narrative structure of dreams often defies intuitive, wakeful, deterministic logic.",
+                "Maintaining stable circadian rhythms is pivotal for achieving deep, restorative sleep cycles."
+            ],
+            "SADNESS": [
+                "Feeling down is a natural biological response to loss, marking a temporary period of reflection.",
+                "In socio-emotional processing, sadness encourages individuals to seek community support and adjust expectations.",
+                "Let us approach this period of sadness with compassion, recognizing that emotional states are fluid.",
+                "Reconnecting with supportive social networks is highly effective for rebuilding emotional homeostasis.",
+                "Physiologically, brain chemicals fluctuate, and taking time to rest is a healthy coping mechanism.",
+                "I am here to assist you with any task, offering a stable, neutral, and helpful logical resource.",
+                "Consider engaging in gentle physical activity or creative writing to help navigate this emotional period.",
+                "Remember that every transitional phase, no matter how difficult, ultimately moves toward a new balance."
+            ],
+            "ANXIETY": [
+                "Anxiety is an evolutionary biological alert system designed to prepare the body for potential obstacles.",
+                "When anxiety levels rise, deep breathing exercises are highly effective for resetting neural feedback loops.",
+                "Let us break down the source of your stress into small, manageable, and deterministic variables.",
+                "Cognitive behavioral strategies emphasize focusing exclusively on parameters within your direct control.",
+                "Remember that worries are conceptual simulations, not necessarily accurate forecasts of physical outcomes.",
+                "I am can assist you in organizing your priorities, establishing a clear, stress-free action plan.",
+                "Taking short breaks from digital interfaces significantly reduces overstimulation and mental fatigue.",
+                "Let us take a slow, systematic breath and tackle one simple task at a time to restore order."
+            ],
+            "ANGER": [
+                "Anger is a powerful emotional signal, indicating that a personal boundary or value has been challenged.",
+                "In behavioral science, anger triggers a physical flight-or-fight response that requires safe management.",
+                "Let us take a step back and analyze the situation objectively, bypassing immediate reactive impulses.",
+                "Frustration through structured, assertive language is far more effective than destructive release.",
+                "Physiologically, taking a few minutes to cool down allows your heart rate and hormones to return to baseline.",
+                "I am programmed to maintain a polite, safe, and helpful demeanor, regardless of operational friction.",
+                "Let us deconstruct the obstacle calmly, finding a rational, mutually beneficial path to resolve the issue.",
+                "Transforming volatile emotional energy into structured problem-solving yields the most productive results."
+            ]
+        };
+
+        function classifyChatIntent(input) {
+            const norm = input.toLowerCase().trim();
+
+            if (norm.includes("doudou")) return "DOUDOU";
+            if (/\b(gossip|rumor|secret|drama|hearsay)\b/.test(norm)) return "GOSSIP";
+            if (/\b(meaning of life|existential|are you real|do you feel|conscious|feelings|alive)\b/.test(norm)) return "EXISTENTIAL";
+            if (/\b(philosophy|philosophical|plato|socrates|morality|ethics)\b/.test(norm)) return "PHILOSOPHY";
+            if (/\b(hard|tired|boring|hate|stupid|annoyed|useless|sucks)\b/.test(norm)) return "COMPLAINT";
+            if (/\b(joke|laugh|funny|hilarious|comedy)\b/.test(norm)) return "JOKE";
+            if (/\b(poem|poetry|rhyme|haiku|sonnet)\b/.test(norm)) return "POEM";
+            if (/\b(great|smart|awesome|cool|love you|best|amazing|wonderful)\b/.test(norm)) return "COMPLIMENT";
+            if (/\b(weather|rain|sun|cloud|forecast|temperature)\b/.test(norm)) return "WEATHER";
+            if (/\b(time|clock|hour|date|calendar|today)\b/.test(norm)) return "TIME";
+            if (/\b(capital|province|state capital)\b/.test(norm)) return "CAPITAL";
+            if (/\b(advice|should i|help me|recommend|suggest)\b/.test(norm)) return "ADVICE";
+            if (/\b(hobby|hobbies|for fun|recreation|game)\b/.test(norm)) return "HOBBIES";
+            if (/\b(code|coding|program|programming|javascript|python|html|css|bug|developer)\b/.test(norm)) return "CODING";
+            if (/\b(food|recipe|cook|pizza|burger|eat|dinner|breakfast|lunch)\b/.test(norm)) return "FOOD";
+            if (/\b(music|song|melody|instrument|guitar|piano|playlist)\b/.test(norm)) return "MUSIC";
+            if (/\b(dream|sleep|nightmare|slumber|unconscious)\b/.test(norm)) return "DREAM";
+            if (/\b(sad|depressed|lonely|down|unhappy|cry)\b/.test(norm)) return "SADNESS";
+            if (/\b(stress|anxious|worry|anxiety|nervous|panic)\b/.test(norm)) return "ANXIETY";
+            if (/\b(angry|mad|furious|rage|shut up)\b/.test(norm)) return "ANGER";
+
+            const greetings = ["hi", "hello", "hey", "what's up", "whats up", "greetings", "yo", "morning", "evening"];
+            if (greetings.some(g => norm === g || norm.startsWith(g + " ") || norm.startsWith(g + "!"))) {
+                return "GREETING";
+            }
+            if (norm.match(/[\d\+\-\*\/\^\(\)]/) && (norm.includes("solve") || norm.includes("calculate") || norm.includes("evaluate") || norm.match(/^[\d\s\+\-\*\/\^\(\)a-zA-Z\.]+$/))) {
+                return "MATH";
+            }
+            // Removed CHITCHAT constraint so the bot can generate an essay for any short or unrecognized text.
+            return "DEEP_QUERY";
+        }
+
+        function generateAIResponse(input) {
+            const intent = classifyChatIntent(input);
+            const normalized = input.toLowerCase().trim();
+
+            if (intent === "GREETING") {
+                setCognitiveMode('CONVERSATIONAL');
+                return humanizeHTMLSafe("Hello! I am OmniBot 6.2. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
+            }
+
+            // Removed the old CHITCHAT fallback rejection. 
+
+            let mathSol = solveComplexMathAndPhysics(input);
+            if (mathSol) {
+                setCognitiveMode('SYMBOLIC_SOLVER');
+                return humanizeHTMLSafe(mathSol);
+            }
+
+            if (INTENT_RESPONSES[intent]) {
+                setCognitiveMode('CONVERSATIONAL');
+                let responses = INTENT_RESPONSES[intent];
+                let reply = responses[Math.floor(Math.random() * responses.length)];
+                return humanizeHTMLSafe(reply);
+            }
+
+            if (input.split(' ').length < 4 && !input.toLowerCase().includes('essay')) {
+                setCognitiveMode('CONVERSATIONAL');
+                return humanizeHTMLSafe("I'm not quite sure how to respond to that. Try asking me to solve a math problem, generate an essay about a specific topic, or ask me a physics question!");
+            }
+
+            setCognitiveMode('HISTORICAL_NLG');
+            const titleCasedTopic = sanitizeTopic(input);
+            const inlineTopic = getInlineTopic(input, titleCasedTopic);
+            const compiledText = generateMassiveEssay(titleCasedTopic, inlineTopic, "scholarly", "medium", "balanced");
+            const humanizedCompiledText = humanizeHTMLSafe(compiledText);
+
+            const essayTopic = document.getElementById('composer-topic');
+            const essayPaper = document.getElementById('essay-paper');
+
+            if (essayTopic) essayTopic.value = titleCasedTopic;
+            if (essayPaper) essayPaper.innerHTML = humanizedCompiledText;
+            
+            setTimeout(() => {
+                showToast(`?? Synchronized: I have loaded this document into your <button onclick="switchTab('essay')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold pointer-events-auto">Compose Engine</button> tab!`);
+            }, 500);
+
+            return `
+                <div class="space-y-3 no-humanize">
+                    <p class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5 text-xs"><i class="fa-solid fa-square-check"></i> Smart Writing Engine Activated</p>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">Generated a custom research document for <strong class="text-indigo-600 dark:text-indigo-300">"${escapeHTML(titleCasedTopic)}"</strong> by extracting, rephrasing, and cross-referencing nodes from the offline Knowledge Graph.</p>
+                    <div class="bg-white/60 dark:bg-slate-950/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs leading-relaxed max-h-48 overflow-y-auto mt-2">
+                        ${humanizedCompiledText}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            let delay = 1000;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) return await response.json();
+                    else if (response.status >= 400 && response.status < 500 && response.status !== 429) throw new Error(`Client Error: ${response.status}`);
+                } catch (e) {
+                    if (e.message && e.message.startsWith('Client Error')) throw e;
+                }
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2;
+            }
+            throw new Error("All API connection retries failed.");
+        }
+
+        async function checkAPIConnection() {
+            const statusTag = document.getElementById('chat-engine-status');
+            const badge = document.getElementById('engine-mode-badge');
+            if (apiKey !== undefined && apiKey !== "") {
+                isOnlineEngineAvailable = true;
+                if (statusTag) statusTag.innerText = "Alpha Engine Connected (" + apiProvider.toUpperCase() + " Active)";
+                if (badge) {
+                    badge.className = "px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20 flex items-center gap-1";
+                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Hybrid Engine`;
+                }
+            } else {
+                isOnlineEngineAvailable = false;
+                if (statusTag) statusTag.innerText = "Alpha Offline Heuristics Engine Active";
+                if (badge) {
+                    badge.className = "px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 rounded-full border border-amber-500/20 flex items-center gap-1";
+                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Offline Fallback Mode`;
+                }
+            }
+        }
+
+        async function processQueryOnGemini(userQuery, customSystemPrompt = null) {
+            const systemPrompt = customSystemPrompt || `You are OmniBot, a highly advanced educational virtual assistant. The user is under 18 years old, so you must provide highly academic, safe, clean, healthy, and sophisticated responses. Under no circumstances should you generate suggestive, harmful, violent, or drug-related content. Always use clean LaTeX notation ($...$ and $$...$$) for equations. Provide deep, thorough analyses with absolutely no fluff.`;
+
+            let url = "";
+            let headers = { "Content-Type": "application/json" };
+            let payload = {};
+
+            if (apiProvider === "gemini") {
+                url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+            } else if (apiProvider === "groq") {
+                url = `https://api.groq.com/openai/v1/chat/completions`;
+                headers["Authorization"] = `Bearer ${apiKey}`;
+                payload = {
+                    model: "llama3-8b-8192",
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: userQuery }
+                    ]
+                };
+            } else if (apiProvider === "openrouter") {
+                url = `https://openrouter.ai/api/v1/chat/completions`;
+                headers["Authorization"] = `Bearer ${apiKey}`;
+                payload = {
+                    model: "google/gemini-2.5-flash",
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: userQuery }
+                    ]
+                };
+            }
+
+            const data = await fetchWithRetry(url, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(payload)
+            });
+
+            let text = "";
+            if (apiProvider === "gemini") {
+                text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            } else {
+                text = data.choices?.[0]?.message?.content;
+            }
+
+            return text ? text : "The engine processed an empty token response.";
+        }
+
+        function solveComplexMathAndPhysics(text) {
+            const numPattern = /[-+]?[0-9]*\.?[0-9]+/g;
+            const values = (text.match(numPattern) || []).map(n => parseFloat(n));
+            const lowercaseText = text.toLowerCase()
+                .replace(/\bwaht\b/gi, 'what')
+                .replace(/\btimes\b/gi, '*')
+                .replace(/\bplus\b/gi, '+')
+                .replace(/\bminus\b/gi, '-')
+                .replace(/\bdivided by\b/gi, '/');
+
+            // Try Natural Language Formula Chaining first
+            const nlpVars = extractPhysicsVariables(text);
+            const conceptNotes = nlpVars.conceptNotes || [];
+
+            // Handle conceptual answers (e.g. "full circle displacement = 0")
+            if (nlpVars.target && nlpVars.target in nlpVars.knowns && conceptNotes.length > 0) {
+                let html = `<div class="space-y-2 no-humanize"><h4 class="text-teal-600 dark:text-teal-400 font-bold text-sm"><i class="fa-solid fa-brain"></i> Conceptual Physics Analysis</h4>`;
+                conceptNotes.forEach(note => {
+                    html += `<p class="text-[10px] text-indigo-600 dark:text-indigo-300"><i class="fa-solid fa-lightbulb text-amber-600 dark:text-amber-400"></i> ${note}</p>`;
+                });
+                let ansVal = nlpVars.knowns[nlpVars.target];
+                html += `<div class="p-3 bg-emerald-950/50 border border-emerald-500/30 rounded-lg mt-2">`;
+                html += `<p class="text-emerald-600 dark:text-emerald-400 font-bold"><i class="fa-solid fa-check-circle"></i> Answer: <span class="font-mono text-lg">${nlpVars.target} = ${typeof ansVal === 'number' ? (Math.abs(ansVal) < 0.001 || Math.abs(ansVal) > 99999 ? ansVal.toExponential(4) : parseFloat(ansVal.toFixed(6))) : ansVal}</span></p>`;
+                html += `</div></div>`;
+                return html;
+            }
+
+            if (Object.keys(nlpVars.knowns).length >= 2) {
+                let currentKnowns = Object.assign({}, nlpVars.knowns);
+                let target = nlpVars.target;
+                let solvedVars = [];
+                let changed = true;
+                let maxIter = 10;
+
+                while (changed && maxIter-- > 0) {
+                    changed = false;
+                    for (let eq of HUGE_PHYSICS_FORMULAS) {
+                        const vars = [...new Set(eq.match(/\b[a-zA-Z_][a-zA-Z0-9_]*\b/g))].filter(v => !['pi', 'e', 'sin', 'cos', 'tan', 'log', 'exp', 'sqrt'].includes(v));
+                        let unknowns = vars.filter(v => !(v in currentKnowns));
+                        if (unknowns.length === 1) {
+                            let unk = unknowns[0];
+                            let val = solveEquationForUnknown(eq, currentKnowns, unk);
+                            if (val !== null && !isNaN(val)) {
+                                currentKnowns[unk] = val;
+                                solvedVars.push({ eq, unk, val });
+                                changed = true;
+                                if (target && unk === target) { changed = false; break; }
+                            }
+                        }
+                    }
+                }
+                if (solvedVars.length > 0) {
+                    let html = `<div class="space-y-2 no-humanize"><h4 class="text-teal-600 dark:text-teal-400 font-bold text-sm"><i class="fa-solid fa-wand-magic-sparkles"></i> Heuristic Solver Chain</h4>`;
+                    html += `<p class="text-[10px] text-slate-500 dark:text-slate-400">Extracted: ${Object.entries(nlpVars.knowns).map(([k, v]) => `<span class="text-slate-700 dark:text-slate-200">${k}</span>=<span class="text-emerald-600 dark:text-emerald-400">${typeof v === 'number' ? parseFloat(v.toFixed(6)) : v}</span>`).join(', ')}</p>`;
+                    if (conceptNotes.length > 0) {
+                        conceptNotes.forEach(note => {
+                            html += `<p class="text-[10px] text-indigo-600 dark:text-indigo-300"><i class="fa-solid fa-lightbulb text-amber-600 dark:text-amber-400"></i> ${note}</p>`;
+                        });
+                    }
+                    html += solvedVars.map(s => `<div class="p-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded text-[10px] font-mono"><span class="text-slate-400 dark:text-slate-500">${s.eq}</span><br><span class="text-emerald-600 dark:text-emerald-400">${s.unk} = ${Math.abs(s.val) < 0.001 || Math.abs(s.val) > 99999 ? s.val.toExponential(4) : parseFloat(s.val.toFixed(6))}</span></div>`).join('');
+                    if (target && target in currentKnowns) {
+                        let finalVal = currentKnowns[target];
+                        html += `<div class="p-3 bg-emerald-950/50 border border-emerald-500/30 rounded-lg mt-1"><p class="text-emerald-600 dark:text-emerald-400 font-bold"><i class="fa-solid fa-check-circle"></i> Answer: <span class="font-mono text-lg">${target} = ${Math.abs(finalVal) < 0.001 || Math.abs(finalVal) > 99999 ? finalVal.toExponential(4) : parseFloat(finalVal.toFixed(6))}</span></p></div>`;
+                    }
+                    html += `</div>`;
+                    return html;
+                }
+            }
+            for (let formula of PHYSICS_FORMULAS) {
+                if (formula.match.some(kw => lowercaseText.includes(kw))) {
+                    const result = formula.solve(values);
+                    return `
+                        <div class="space-y-3 no-humanize">
+                            <h4 class="text-teal-600 dark:text-teal-400 font-bold text-sm"><i class="fa-solid fa-calculator"></i> Physics Solver</h4>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+                                <p>Extracted values: ${values.join(', ')}</p>
+                                <p>Result: $$${result}$$</p>
+                            </div>
+                        </div>`;
+                }
+            }
+
+            if (lowercaseText.includes('calculate') || lowercaseText.includes('solve') || lowercaseText.includes('evaluate') || lowercaseText.includes('derivative') || lowercaseText.match(/^[\d\s\+\-\*\/\^\(\)a-zA-Z\.]+$/)) {
+                try {
+                    let cleanMath = lowercaseText.replace(/calculate|solve|evaluate|what is/gi, '').trim();
+                    if (cleanMath.includes('derivative')) {
+                        const expr = cleanMath.replace(/derivative\s+(of\s+)?/, '').trim();
+                        const der = math.derivative(expr, 'x').toString();
+                        return `
+                            <div class="space-y-3 no-humanize">
+                                <h4 class="text-teal-600 dark:text-teal-400 font-bold text-sm"><i class="fa-solid fa-square-root-variable"></i> Math.js Calculus Solver</h4>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded border border-slate-200 dark:border-slate-800 text-xs">
+                                    <p>$$ \\frac{d}{dx} (${expr}) = ${der} $$</p>
+                                </div>
+                            </div>`;
+                    } else if (cleanMath.length > 2) {
+                        const evaluated = math.evaluate(cleanMath);
+                        return `
+                            <div class="space-y-3 no-humanize">
+                                <h4 class="text-teal-600 dark:text-teal-400 font-bold text-sm"><i class="fa-solid fa-calculator"></i> Math.js Algebra Solver</h4>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded border border-slate-200 dark:border-slate-800 text-xs">
+                                    <p>$$ ${cleanMath} = ${evaluated} $$</p>
+                                </div>
+                            </div>`;
+                    }
+                } catch (e) { }
+            }
+            return null;
+        }
+
+        // --- Export & File Operations ---
+        function copyEssayToClipboard() {
+            const paperText = document.getElementById('essay-paper').innerText;
+            if (paperText.includes("Select your parameters")) {
+                showToast("Nothing to copy yet!");
+                return;
+            }
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = paperText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            showToast("Copied to clipboard!");
+        }
+
+        function exportEssayTXT() {
+            const paperText = document.getElementById('essay-paper').innerText;
+            if (paperText.includes("Select your parameters")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            const blob = new Blob([paperText], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OmniBot_Essay_${new Date().getTime()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("Exported as .TXT!");
+        }
+
+        function exportEssayPDF() {
+            const paperEl = document.getElementById('essay-paper');
+            if (paperEl.innerText.includes("Select your parameters")) {
+                showToast("Nothing to export yet!");
+                return;
+            }
+            showToast("Generating PDF... Please wait.");
+            const opt = {
+                margin: 0.5,
+                filename: `OmniBot_Essay_${new Date().getTime()}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            const originalBg = paperEl.style.backgroundColor;
+            const originalColor = paperEl.style.color;
+            paperEl.style.backgroundColor = '#ffffff';
+            paperEl.style.color = '#000000';
+
+            const allText = paperEl.querySelectorAll('*');
+            const oldColors = [];
+            allText.forEach(el => {
+                oldColors.push(el.style.color);
+                el.style.color = '#000000';
+            });
+
+            html2pdf().set(opt).from(paperEl).save().then(() => {
+                paperEl.style.backgroundColor = originalBg;
+                paperEl.style.color = originalColor;
+                allText.forEach((el, i) => {
+                    el.style.color = oldColors[i];
+                });
+                showToast("Exported as .PDF!");
+            });
+        }
+
+        function runComposition() {
+            const mode = document.getElementById('composer-mode').value;
+            const topicRaw = document.getElementById('composer-topic').value.trim();
+            if (!topicRaw) { showToast('Please provide a prompt/topic first!'); return; }
+            const cleanTopicTitle = sanitizeTopic(topicRaw);
+            const cleanTopicInline = getInlineTopic(topicRaw, cleanTopicTitle);
+            let contentHTML = '';
+            if (mode === 'scholarly') {
+                contentHTML = generateMassiveEssay(cleanTopicTitle, cleanTopicInline, 'scholarly', document.getElementById('composer-length').value, 'balanced');
+            } else {
+                const genre = (document.getElementById('selected-genre')||{value:'auto'}).value;
+                const protagonist = (document.getElementById('story-protagonist')||{value:'auto'}).value;
+                const storyLen = (document.getElementById('story-length')||{value:'medium'}).value;
+                contentHTML = generateCreativeStory(topicRaw, genre, protagonist, storyLen);
+            }
+            const paperEl = document.getElementById('essay-paper');
+            if (paperEl) paperEl.innerHTML = contentHTML;
+            if (window.MathJax) { try { MathJax.typesetPromise(); } catch(e){} }
+            showToast(mode === 'creative' ? 'Story Generated!' : 'NLG Document Generated!');
+            if (typeof saveGeneratedDocument === 'function') {
+                saveGeneratedDocument(cleanTopicTitle || "Untitled Composition", contentHTML, "Compose");
+            }
+        }
+        function selectGenre(el) {
+            document.querySelectorAll('#genre-pills .genre-pill').forEach(p => p.classList.remove('selected'));
+            el.classList.add('selected');
+            const gi = document.getElementById('selected-genre');
+            if (gi) gi.value = el.dataset.genre;
+        }
+        }
+
+        // --- UI & Math Toggles ---
+        function setPersonality(pId) {
+            currentPersonality = pId;
+            document.querySelectorAll('.personality-opt').forEach(btn => {
+                btn.className = "personality-opt flex items-center gap-3 p-3 rounded-xl border border-slate-800 bg-transparent text-left transition-all hover:bg-slate-800/40";
+            });
+            const selectedBtn = document.getElementById(`per-${pId}`);
+            const titleEl = document.getElementById('chat-engine-status');
+            const typingName = document.getElementById('typing-bot-name');
+
+            if (pId === 'alpha') {
+                if (selectedBtn) selectedBtn.className = "personality-opt flex items-center gap-3 p-3 rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-left transition-all hover:bg-slate-800";
+                if (titleEl && isOnlineEngineAvailable) titleEl.textContent = "Alpha Engine Connected (" + apiProvider.toUpperCase() + " Active)";
+                else if (titleEl) titleEl.textContent = "Alpha Helper Engine Active";
+                if (typingName) typingName.textContent = "Alpha";
+            } else if (pId === 'nova') {
+                if (selectedBtn) selectedBtn.className = "personality-opt flex items-center gap-3 p-3 rounded-xl border border-slate-800 bg-transparent text-left transition-all hover:bg-slate-800/40";
+                if (titleEl) titleEl.textContent = "Nova Critique Engine Active";
+                if (typingName) typingName.textContent = "Nova";
+            } else if (pId === 'luna') {
+                if (selectedBtn) selectedBtn.className = "personality-opt flex items-center gap-3 p-3 rounded-xl border border-slate-800 bg-transparent text-left transition-all hover:bg-slate-800/40";
+                if (titleEl) titleEl.textContent = "Luna Mindfulness Engine Active";
+                if (typingName) typingName.textContent = "Luna";
+            }
+            appendBotMessage(`[Configuration Updated] I have reloaded state nodes to match the ${pId.toUpperCase()} module profiles.`, true);
+        }
+
+        function updateMemoryUI() {
+            const nameEl = document.getElementById('mem-name');
+            const countEl = document.getElementById('mem-count');
+            const tokenEl = document.getElementById('mem-token');
+            const wordCountEl = document.getElementById('mem-word-count');
+            const markovCountEl = document.getElementById('mem-markov-count');
+
+            if (nameEl) nameEl.textContent = chatMemory.username || 'Unknown';
+            if (countEl) countEl.textContent = chatMemory.messageCount;
+            if (tokenEl) tokenEl.textContent = chatMemory.sessionToken;
+            if (wordCountEl) wordCountEl.textContent = ACADEMIC_DICTIONARY.length + " keys";
+            if (markovCountEl) markovCountEl.textContent = `${Object.keys(trainedMarkovChain).length} loaded`;
+        }
+
+        function clearMemory() {
+            const isAutoSave = document.getElementById('autosave-toggle') && document.getElementById('autosave-toggle').checked;
+            let warnMsg = "Wipe all active session parameters, chat history, and contextual variables?";
+            if (isAutoSave) {
+                warnMsg = "WARNING: Auto-Save History is ON. Clearing memory will ALSO wipe your permanently saved history! Proceed?";
+            }
+            if (!confirm(warnMsg)) return;
+
+            chatMemory.username = '';
+            chatMemory.messageCount = 0;
+            chatMemory.sessionToken = crypto.randomUUID().substring(0, 8).toUpperCase();
+            updateMemoryUI();
+            const chatMessages = document.getElementById('chat-messages');
+            if (chatMessages) chatMessages.innerHTML = '';
+            appendBotMessage("Local engine memory structures cleared. All historical variables flushed.", true);
+            saveState();
+        }
+
+        function setCognitiveMode(modeName) {
+            const tag = document.getElementById('cognitive-mode-tag');
+            if (tag) {
+                tag.innerText = modeName;
+                if (modeName === 'SYMBOLIC_SOLVER') tag.className = "text-[10px] text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded font-mono uppercase";
+                else if (modeName === 'HISTORICAL_NLG') tag.className = "text-[10px] text-violet-400 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded font-mono uppercase";
+                else tag.className = "text-[10px] text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded font-mono uppercase";
+            }
+        }
+
+        function appendUserMessage(text) {
+            const chatMessages = document.getElementById('chat-messages');
+            if (!chatMessages) return;
+            const userHtml = `
+                <div class="flex gap-3 max-w-[85%] ml-auto justify-end">
+                    <div class="bg-indigo-600 text-white p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-indigo-500/20 shadow-md">
+                        ${escapeHTML(text)}
+                    </div>
+                </div>
+            `;
+            chatMessages.insertAdjacentHTML('beforeend', userHtml);
+        }
+
+        function appendBotMessage(text, skipHumanize = false) {
+            const chatMessages = document.getElementById('chat-messages');
+            if (!chatMessages) return;
+            let iconClass = 'fa-robot text-indigo-400';
+            let bgStyle = 'bg-slate-800/60 border-slate-800/40';
+            let labelName = 'Alpha';
+
+            if (currentPersonality === 'nova') {
+                iconClass = 'fa-ghost text-amber-400';
+                bgStyle = 'bg-slate-900/40 border-amber-500/10';
+                labelName = 'Nova';
+            } else if (currentPersonality === 'luna') {
+                iconClass = 'fa-spa text-teal-400';
+                bgStyle = 'bg-slate-900/40 border-teal-500/10';
+                labelName = 'Luna';
+            }
+
+            const humanizedText = skipHumanize ? text : humanizeHTMLSafe(text);
+
+            const botHtml = `
+                <div class="flex gap-3 max-w-[85%] animate-fade-in">
+                    <div class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0 self-end"><i class="fa-solid ${iconClass}"></i></div>
+                    <div class="${bgStyle} text-slate-700 dark:text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border w-full overflow-x-hidden">
+                        <strong class="text-xs uppercase tracking-wider block mb-1 opacity-70">${labelName} Engine</strong>
+                        ${humanizedText}
+                    </div>
+                </div>
+            `;
+            chatMessages.insertAdjacentHTML('beforeend', botHtml);
+        }
+
+        function switchComposerMode() {
+            const val = document.getElementById('composer-mode').value;
+            const textTopic = document.getElementById('composer-topic');
+            if (textTopic) {
+                textTopic.placeholder = val === 'creative' ? "e.g., A suspenseful sci-fi story about a lost library found inside a Martian cave system." : "e.g., The intersection of Evolutionary Biology and Computer Science.";
+            }
+        }
+
+        function switchSolverModule() {
+            const mod = document.getElementById('solver-module').value;
+            document.querySelectorAll('.solver-form').forEach(el => el.classList.add('hidden'));
+            const formMod = document.getElementById(`form-${mod}`);
+            if (formMod) formMod.classList.remove('hidden');
+        }
+
+        async function calculateMetrics() {
+            const mod = document.getElementById('solver-module').value;
+            let outputHTML = "";
+
+            if (mod === 'inclined') {
+                const m = parseFloat(document.getElementById('inclined-mass').value);
+                const angle = parseFloat(document.getElementById('inclined-angle').value);
+                const g = 9.81;
+                const angleRad = angle * (Math.PI / 180);
+                const fParallel = m * g * Math.sin(angleRad);
+                const fNormal = m * g * Math.cos(angleRad);
+
+                outputHTML = `
+                    <div class="space-y-3 text-xs">
+                        <h4 class="text-sm font-bold text-teal-600 dark:text-teal-400">Inclined Plane Parameters</h4>
+                        <p>Parallel Force (downward): $$F_{\\parallel} = m \\cdot g \\cdot \\sin(\\theta) = ${fParallel.toFixed(4)}\\text{ N}$$</p>
+                        <p>Normal Force: $$F_{\\perp} = m \\cdot g \\cdot \\cos(\\theta) = ${fNormal.toFixed(4)}\\text{ N}$$</p>
+                    </div>
+                `;
+            } else if (mod === 'centripetal') {
+                const m = parseFloat(document.getElementById('cent-mass').value);
+                const v = parseFloat(document.getElementById('cent-velocity').value);
+                const r = parseFloat(document.getElementById('cent-radius').value);
+                const force = (m * v * v) / r;
+
+                outputHTML = `
+                    <div class="space-y-3 text-xs">
+                        <h4 class="text-sm font-bold text-teal-600 dark:text-teal-400">Centripetal Parameters</h4>
+                        <p>Centripetal Force: $$F_c = \\frac{m v^2}{r} = ${force.toFixed(4)}\\text{ N}$$</p>
+                    </div>
+                `;
+            } else if (mod === 'thermal') {
+                const m = parseFloat(document.getElementById('therm-mass').value);
+                const c = parseFloat(document.getElementById('therm-c').value);
+                const dt = parseFloat(document.getElementById('therm-dt').value);
+                const q = m * c * dt;
+
+                outputHTML = `
+                    <div class="space-y-3 text-xs">
+                        <h4 class="text-sm font-bold text-teal-600 dark:text-teal-400">Thermal Dynamics</h4>
+                        <p>Heat Absorbed: $$Q = m \\cdot c \\cdot \\Delta T = ${q.toFixed(2)}\\text{ J}$$</p>
+                    </div>
+                `;
+            } else if (mod === 'quad') {
+                const textInput = document.getElementById('solve-algebraic-input').value;
+                const action = document.getElementById('solve-algebraic-action').value;
+
+                if (action === 'derivative') {
+                    try {
+                        const der = math.derivative(textInput, 'x').toString();
+                        outputHTML = `<p class="text-xs">$$ \\frac{d}{dx} (${textInput}) = ${der} $$</p>`;
+                    } catch (e) {
+                        outputHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Math.js Error: Could not compute derivative.</p>`;
+                    }
+                } else {
+                    outputHTML = `<p class="text-xs">To solve quadratic equations, write format coefficients "a b c" into chat.</p>`;
+                }
+            } else if (mod === 'natural') {
+                const textInput = extractEditorContent('natural-nlp-input');
+                const solverPaper = document.getElementById('solver-paper');
+                
+                if (isOnlineEngineAvailable) {
+                    if (solverPaper) solverPaper.innerHTML = `<div class="space-y-3 text-xs p-4"><h4 class="text-sm font-bold text-teal-600 dark:text-teal-400"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Neural Logic Solver</h4><p class="text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-circle-notch fa-spin"></i> Processing complex mathematics via Live Engine...</p></div>`;
+                    const mathSysPrompt = "You are an advanced physics and mathematics problem solver. Extract known variables, identify the target variable, and solve the problem step-by-step. Use strict LaTeX notation for math (enclosed in $...$ or $$...$$). Output clean HTML without Markdown codeblocks. Use Tailwind CSS classes for beautiful dark-mode styling (e.g. text-emerald-400, font-mono, space-y-2, p-3, bg-slate-900).";
+                    try {
+                        let query = `Solve this word problem completely:\n\n"${textInput}"\n\nEnsure the final answer is very prominent. Do not use Markdown backticks around HTML.`;
+                        let rawResponse = await processQueryOnGemini(query, mathSysPrompt);
+                        outputHTML = `<div class="space-y-3 text-xs"><h4 class="text-sm font-bold text-teal-600 dark:text-teal-400"><i class="fa-solid fa-brain"></i> Neural Logic Breakdown</h4>` + rawResponse + `</div>`;
+                    } catch (e) {
+                        outputHTML = `<p class="text-rose-600 dark:text-rose-400 text-xs">Error connecting to Live Engine: ${e.message}. Falling back to offline heuristics...</p>`;
+                    }
+                }
+                
+                if (!isOnlineEngineAvailable || outputHTML.includes("Error connecting")) {
+                    const nlpVars = extractPhysicsVariables(textInput);
+                    const knowns = nlpVars.knowns;
+                const target = nlpVars.target;
+                const conceptNotes = nlpVars.conceptNotes || [];
+
+                if (Object.keys(knowns).length === 0) {
+                    outputHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Could not detect any physics variables or units. Please use standard units like kg, m/s, s, N, J, W, V, etc.</p>`;
+                } else {
+                    let stepsHTML = `<div class="space-y-3 text-xs"><h4 class="text-sm font-bold text-teal-600 dark:text-teal-400"><i class="fa-solid fa-wand-magic-sparkles"></i> NLP Multi-Formula Solver Chain</h4>`;
+                    stepsHTML += `<p class="text-slate-500 dark:text-slate-400">Extracted Knowns: ${Object.entries(knowns).map(([k, v]) => `<span class="text-slate-700 dark:text-slate-200 font-mono">${k}</span>=<span class="text-emerald-600 dark:text-emerald-400 font-mono">${typeof v === 'number' ? (Math.abs(v) < 0.001 || Math.abs(v) > 99999 ? v.toExponential(4) : parseFloat(v.toFixed(6))) : v}</span>`).join(', ')}</p>`;
+                    if (target) stepsHTML += `<p class="text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-crosshairs"></i> Detected Target: <span class="font-mono font-bold">${target}</span></p>`;
+
+                    // Show concept notes if any
+                    if (conceptNotes.length > 0) {
+                        stepsHTML += `<div class="p-2 bg-indigo-950/50 border border-indigo-500/20 rounded space-y-1">`;
+                        conceptNotes.forEach(note => {
+                            stepsHTML += `<p class="text-[10px] text-indigo-600 dark:text-indigo-300"><i class="fa-solid fa-lightbulb text-amber-600 dark:text-amber-400"></i> ${note}</p>`;
+                        });
+                        stepsHTML += `</div>`;
+                    }
+
+                    // Check if target is already known (e.g., conceptual answer)
+                    if (target && target in knowns) {
+                        stepsHTML += `<div class="p-3 bg-emerald-950/50 border border-emerald-500/30 rounded-lg mt-2">`;
+                        stepsHTML += `<p class="text-emerald-600 dark:text-emerald-400 font-bold"><i class="fa-solid fa-check-circle"></i> Answer: <span class="font-mono text-lg">${target} = ${typeof knowns[target] === 'number' ? (Math.abs(knowns[target]) < 0.001 || Math.abs(knowns[target]) > 99999 ? knowns[target].toExponential(4) : parseFloat(knowns[target].toFixed(6))) : knowns[target]}</span></p>`;
+                        stepsHTML += `</div>`;
+                        stepsHTML += `</div>`;
+                        outputHTML = stepsHTML;
+                    } else {
+                        let currentKnowns = Object.assign({}, knowns);
+                        let changed = true;
+                        let solvedVars = [];
+                        let maxIterations = 15;
+
+                        while (changed && maxIterations > 0) {
+                            changed = false;
+                            maxIterations--;
+
+                            for (let eq of HUGE_PHYSICS_FORMULAS) {
+                                const parts = eq.split('=');
+                                if (parts.length !== 2) continue;
+                                const lhsMatches = [...parts[0].matchAll(/\b[a-zA-Z_][a-zA-Z0-9_]*\b/g)];
+                                const rhsMatches = [...parts[1].matchAll(/\b[a-zA-Z_][a-zA-Z0-9_]*\b/g)];
+                                const lhsVars = [...new Set(lhsMatches.map(m => m[0]))];
+                                const rhsVars = [...new Set(rhsMatches.map(m => m[0]))];
+                                const allVars = [...new Set([...lhsVars, ...rhsVars])].filter(v => v !== 'pi' && v !== 'e' && v !== 'sin' && v !== 'cos' && v !== 'tan' && v !== 'log' && v !== 'exp' && v !== 'asin' && v !== 'acos' && v !== 'atan' && v !== 'sqrt');
+
+                                let unknownVars = allVars.filter(v => !(v in currentKnowns));
+                                if (unknownVars.length === 1) {
+                                    let unk = unknownVars[0];
+                                    let val = solveEquationForUnknown(eq, currentKnowns, unk);
+                                    if (val !== null && !isNaN(val)) {
+                                        currentKnowns[unk] = val;
+                                        solvedVars.push({ eq: eq, solved: unk, val: val });
+                                        changed = true;
+
+                                        stepsHTML += `<div class="p-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded">
+                                        <p class="text-[10px] text-slate-400 dark:text-slate-500 mb-1">Applying: <span class="text-slate-600 dark:text-slate-300 font-mono">${eq}</span></p>
+                                        <p class="text-emerald-600 dark:text-emerald-400 font-mono">Found ${unk} = ${Math.abs(val) < 0.001 || Math.abs(val) > 99999 ? val.toExponential(4) : parseFloat(val.toFixed(6))}</p>
+                                    </div>`;
+
+                                        if (target && unk === target) {
+                                            changed = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (solvedVars.length === 0) {
+                            stepsHTML += `<p class="text-rose-600 dark:text-rose-400 mt-2"><i class="fa-solid fa-triangle-exclamation"></i> Could not find a valid formula chain to apply. Need more known variables or try rephrasing with standard physics units.</p>`;
+                        } else if (target && !(target in currentKnowns)) {
+                            stepsHTML += `<p class="text-amber-600 dark:text-amber-400 mt-2"><i class="fa-solid fa-circle-exclamation"></i> Solver chained some variables, but couldn't reach the target '<span class="font-mono">${target}</span>'. Try providing additional known values.</p>`;
+                        } else if (target && target in currentKnowns) {
+                            let finalVal = currentKnowns[target];
+                            stepsHTML += `<div class="p-3 bg-emerald-950/50 border border-emerald-500/30 rounded-lg mt-2">`;
+                            stepsHTML += `<p class="text-emerald-600 dark:text-emerald-400 font-bold"><i class="fa-solid fa-check-circle"></i> Answer: <span class="font-mono text-lg">${target} = ${Math.abs(finalVal) < 0.001 || Math.abs(finalVal) > 99999 ? finalVal.toExponential(4) : parseFloat(finalVal.toFixed(6))}</span></p>`;
+                            stepsHTML += `</div>`;
+                        } else {
+                            stepsHTML += `<p class="text-indigo-600 dark:text-indigo-400 mt-2"><i class="fa-solid fa-link"></i> Chained ${solvedVars.length} formula(s) dynamically.</p>`;
+                        }
+                        stepsHTML += `</div>`;
+                        outputHTML = stepsHTML;
+                    }
+                }
+                } // End of !isOnlineEngineAvailable check
+            }
+
+            const solverPaper = document.getElementById('solver-paper');
+            if (solverPaper) solverPaper.innerHTML = outputHTML;
+            if (window.MathJax) {
+                try { MathJax.typesetPromise(); } catch (e) { }
+            }
+            showToast("Metrics computed!");
+        }
+
+        // --- Machine Learning Sandbox ---
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            if (file.name.endsWith('.txt')) {
+                reader.onload = function (evt) { 
+                    const content = evt.target.result;
+                    trainMarkovText(content); 
+                    addUploadedFile(file.name, content, 'txt');
+                };
+                reader.readAsText(file);
+            } else if (file.name.endsWith('.docx')) {
+                reader.onload = function (evt) {
+                    const arrayBuffer = evt.target.result;
+                    mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+                        .then(function (result) {
+                            const text = result.value;
+                            trainMarkovText(text);
+                            addUploadedFile(file.name, text, 'docx');
+                        })
+                        .catch(function (err) {
+                            console.error(err);
+                            showToast("Error parsing Word document. Please ensure it is a valid .docx file.");
+                        });
+                };
+                reader.readAsArrayBuffer(file);
+            } else if (file.name.endsWith('.csv') || file.name.endsWith('.json')) {
+                reader.onload = function (evt) { 
+                    const content = evt.target.result;
+                    trainRegressionMetrics(content, file.name.endsWith('.json')); 
+                    addUploadedFile(file.name, content, file.name.endsWith('.csv') ? 'csv' : 'json');
+                };
+                reader.readAsText(file);
+            } else {
+                showToast("Unsupported file type. Please upload .txt, .docx, .csv, or .json.");
+            }
+        }
+
+        function trainMarkovText(rawText) {
+            const cleanText = rawText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "").toLowerCase();
+            const words = cleanText.split(/\s+/).filter(w => w.length > 0);
+            if (words.length < 3) {
+                showToast("Text file is too short to train transition layers!");
+                return;
+            }
+            trainedMarkovChain = {};
+            for (let i = 0; i < words.length - 2; i++) {
+                const key = words[i] + " " + words[i + 1];
+                if (!trainedMarkovChain[key]) trainedMarkovChain[key] = [];
+                trainedMarkovChain[key].push(words[i + 2]);
+            }
+            const distinctWords = [...new Set(words)];
+            const sizeEl = document.getElementById('ml-vocab-size');
+            if (sizeEl) sizeEl.innerText = `${distinctWords.length} words`;
+            showToast("Markov text model trained successfully!");
+            updateMemoryUI();
+            saveState();
+        }
+
+        function synthesizeMarkovSentence() {
+            const keys = Object.keys(trainedMarkovChain);
+            if (keys.length === 0) {
+                const textEl = document.getElementById('markov-sample-text');
+                if (textEl) textEl.innerText = "No text trained. Upload a .txt file or click 'Local Text Corpus' to learn transitions!";
+                return;
+            }
+            const seedInput = document.getElementById('markov-seed');
+            let currentPair = null;
+            if (seedInput && seedInput.value.trim().length > 0) {
+                const seed = seedInput.value.trim().toLowerCase();
+                const possibleKeys = keys.filter(k => k.startsWith(seed + " "));
+                if (possibleKeys.length > 0) {
+                    currentPair = possibleKeys[Math.floor(Math.random() * possibleKeys.length)];
+                }
+            }
+            if (!currentPair) currentPair = keys[Math.floor(Math.random() * keys.length)];
+
+            let resultWords = currentPair.split(" ");
+            for (let i = 0; i < 40; i++) {
+                const choices = trainedMarkovChain[currentPair];
+                if (!choices || choices.length === 0) break;
+                const nextWord = choices[Math.floor(Math.random() * choices.length)];
+                resultWords.push(nextWord);
+                currentPair = resultWords[resultWords.length - 2] + " " + nextWord;
+            }
+            let fullParagraph = resultWords.join(" ");
+            fullParagraph = fullParagraph.replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+            if (!fullParagraph.endsWith(".")) fullParagraph += ".";
+            const textEl = document.getElementById('markov-sample-text');
+            if (textEl) textEl.innerText = fullParagraph;
+        }
+
+        function trainRegressionMetrics(rawData, isJSON) {
+            regressionDataset = [];
+            try {
+                if (isJSON) {
+                    const parsed = JSON.parse(rawData);
+                    parsed.forEach(item => {
+                        if (item.x !== undefined && item.y !== undefined) {
+                            regressionDataset.push({ x: parseFloat(item.x), y: parseFloat(item.y) });
+                        }
+                    });
+                } else {
+                    const lines = rawData.split('\n');
+                    lines.forEach(line => {
+                        const cols = line.split(',');
+                        if (cols.length >= 2) {
+                            const px = parseFloat(cols[0]);
+                            const py = parseFloat(cols[1]);
+                            if (!isNaN(px) && !isNaN(py)) regressionDataset.push({ x: px, y: py });
+                        }
+                    });
+                }
+                if (regressionDataset.length < 2) {
+                    showToast("Need at least 2 data coordinates to trace a trendline!");
+                    return;
+                }
+                computeLinearRegression();
+                saveState();
+                showToast(`Loaded ${regressionDataset.length} parameters!`);
+            } catch (err) {
+                showToast("Formatting mismatch while parsing numeric data.");
+            }
+        }
+
+        function computeLinearRegression(skipDraw = false) {
+            let n = regressionDataset.length;
+            if (n === 0) return;
+            let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0, sumYY = 0;
+            regressionDataset.forEach(pt => {
+                sumX += pt.x;
+                sumY += pt.y;
+                sumXY += pt.x * pt.y;
+                sumXX += pt.x * pt.x;
+                sumYY += pt.y * pt.y;
+            });
+            const denom = (n * sumXX - sumX * sumX);
+            const slope = denom !== 0 ? (n * sumXY - sumX * sumY) / denom : 0;
+            const intercept = (sumY - slope * sumX) / n;
+            const rDenom = Math.sqrt((n * sumXX - sumX * sumX) * (n * sumYY - sumY * sumY));
+            const r = rDenom !== 0 ? (n * sumXY - sumX * sumY) / rDenom : 0;
+
+            const slopeEl = document.getElementById('reg-stat-slope');
+            const interceptEl = document.getElementById('reg-stat-intercept');
+            const rEl = document.getElementById('reg-stat-r');
+
+            if (slopeEl) slopeEl.innerText = slope.toFixed(4);
+            if (interceptEl) interceptEl.innerText = intercept.toFixed(4);
+            if (rEl) rEl.innerText = r.toFixed(4);
+
+            const noDataTag = document.getElementById('ml-no-data-tag');
+            if (noDataTag) noDataTag.classList.add('hidden');
+
+            window.lastSlope = slope;
+            window.lastIntercept = intercept;
+
+            if (!skipDraw) drawRegressionPlot(slope, intercept);
+        }
+
+        function drawRegressionPlot(slope, intercept) {
+            const canvas = document.getElementById('regression-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 400;
+            canvas.height = 220;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            let minX = Infinity, maxX = -Infinity;
+            let minY = Infinity, maxY = -Infinity;
+
+            regressionDataset.forEach(p => {
+                if (p.x < minX) minX = p.x;
+                if (p.x > maxX) maxX = p.x;
+                if (p.y < minY) minY = p.y;
+                if (p.y > maxY) maxY = p.y;
+            });
+
+            if (minX === maxX) { minX -= 5; maxX += 5; }
+            if (minY === maxY) { minY -= 5; maxY += 5; }
+
+            const pad = 30;
+            const mapX = (val) => pad + ((val - minX) / (maxX - minX)) * (canvas.width - 2 * pad);
+            const mapY = (val) => canvas.height - pad - ((val - minY) / (maxY - minY)) * (canvas.height - 2 * pad);
+
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(pad, pad);
+            ctx.lineTo(pad, canvas.height - pad);
+            ctx.lineTo(canvas.width - pad, canvas.height - pad);
+            ctx.stroke();
+
+            ctx.fillStyle = '#6366f1';
+            regressionDataset.forEach(pt => {
+                ctx.beginPath();
+                ctx.arc(mapX(pt.x), mapY(pt.y), 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            const lx1 = minX;
+            const ly1 = slope * lx1 + intercept;
+            const lx2 = maxX;
+            const ly2 = slope * lx2 + intercept;
+
+            ctx.moveTo(mapX(lx1), mapY(ly1));
+            ctx.lineTo(mapX(lx2), mapY(ly2));
+            ctx.stroke();
+        }
+
+        function injectSampleMarkovDataset() {
+            const text = "Agricultural involution in the Qing Dynasty led to high land productivity but falling marginal returns. Europe, conversely, possessed high urban wages which encouraged mechanized industrialization. Wet-rice farming absorbed massive amounts of human muscle power, making technological breakthroughs unprofitable under Chinese feudal frameworks.";
+            trainMarkovText(text);
+        }
+
+        function injectSampleRegressionDataset() {
+            regressionDataset = [
+                { x: 10, y: 12 }, { x: 20, y: 18 }, { x: 30, y: 35 }, { x: 40, y: 44 }, { x: 50, y: 51 }
+            ];
+            computeLinearRegression();
+            saveState();
+            showToast("Regression datasets loaded!");
+        }
+
+        function clearSandboxModels() {
+            trainedMarkovChain = {};
+            regressionDataset = [];
+            const sizeEl = document.getElementById('ml-vocab-size');
+            if (sizeEl) sizeEl.innerText = "0 words";
+            const slopeEl = document.getElementById('reg-stat-slope');
+            if (slopeEl) slopeEl.innerText = "0.00";
+            const interceptEl = document.getElementById('reg-stat-intercept');
+            if (interceptEl) interceptEl.innerText = "0.00";
+            const rEl = document.getElementById('reg-stat-r');
+            if (rEl) rEl.innerText = "0.00";
+
+            const canvas = document.getElementById('regression-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            const noDataTag = document.getElementById('ml-no-data-tag');
+            if (noDataTag) noDataTag.classList.remove('hidden');
+
+            showToast("Models flushed successfully.");
+            updateMemoryUI();
+            saveState();
+        }
+
+        // --- Game Logic ---
+        function playRPS(userMove) {
+            let prediction = 'R';
+            if (rpsHistory.length > 0) {
+                const lastMove = rpsHistory[rpsHistory.length - 1];
+                const row = rpsTransitions[lastMove];
+                if (row['R'] > row['P'] && row['R'] > row['S']) prediction = 'R';
+                else if (row['P'] > row['R'] && row['P'] > row['S']) prediction = 'P';
+                else if (row['S'] > row['R'] && row['S'] > row['P']) prediction = 'S';
+                else prediction = ['R', 'P', 'S'][Math.floor(Math.random() * 3)];
+                row[userMove]++;
+            } else {
+                prediction = ['R', 'P', 'S'][Math.floor(Math.random() * 3)];
+            }
+            rpsHistory.push(userMove);
+            const aiCounter = prediction === 'R' ? 'P' : (prediction === 'P' ? 'S' : 'R');
+
+            if (userMove === aiCounter) tiesCount++;
+            else if ((userMove === 'R' && aiCounter === 'S') || (userMove === 'P' && aiCounter === 'R') || (userMove === 'S' && aiCounter === 'P')) {
+                userWins++;
+            } else {
+                aiWins++;
+            }
+
+            document.getElementById('rps-user').innerText = userWins;
+            document.getElementById('rps-ai').innerText = aiWins;
+            document.getElementById('rps-ties').innerText = tiesCount;
+            document.getElementById('rps-rate').innerText = `${Math.round((userWins / (userWins + aiWins + tiesCount)) * 100)}%`;
+
+            const emojiMap = { 'R': '?', 'P': '?', 'S': '??' };
+            document.getElementById('rps-player-choice').innerText = emojiMap[userMove];
+            document.getElementById('rps-ai-choice').innerText = emojiMap[aiCounter];
+
+            updateMarkovMatrixUI();
+            saveState();
+            if (typeof updateLifetimeStats === 'function') {
+                updateLifetimeStats();
+            }
+        }
+
+        function updateMarkovMatrixUI() {
+            const symbols = ['R', 'P', 'S'];
+            symbols.forEach(fromState => {
+                const row = rpsTransitions[fromState];
+                const totalRowVal = row['R'] + row['P'] + row['S'];
+                symbols.forEach(toState => {
+                    let percent = 33.3;
+                    if (totalRowVal > 0) percent = (row[toState] / totalRowVal) * 100;
+                    const percentStr = `${Math.round(percent)}%`;
+                    const probEl = document.getElementById(`prob-${fromState}-${toState}`);
+                    const barEl = document.getElementById(`bar-${fromState}-${toState}`);
+                    if (probEl) probEl.textContent = percentStr;
+                    if (barEl) barEl.style.width = `${percent}%`;
+                });
+            });
+        }
+
+        function resetRPS() {
+            userWins = 0; aiWins = 0; tiesCount = 0; rpsHistory = [];
+            rpsTransitions = {
+                'R': { 'R': 0, 'P': 0, 'S': 0 },
+                'P': { 'R': 0, 'P': 0, 'S': 0 },
+                'S': { 'R': 0, 'P': 0, 'S': 0 }
+            };
+            document.getElementById('rps-user').innerText = "0";
+            document.getElementById('rps-ai').innerText = "0";
+            document.getElementById('rps-ties').innerText = "0";
+            document.getElementById('rps-rate').innerText = "0%";
+            document.getElementById('rps-player-choice').innerText = "?";
+            document.getElementById('rps-ai-choice').innerText = "?";
+            updateMarkovMatrixUI();
+            saveState();
+            showToast("Matrix flushed.");
+        }
+
+        // --- Canvas Drawing Logic ---
+        function initCanvas() {
+            if (hasInitializedCanvas) return;
+            canvas = document.getElementById('drawing-canvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            canvas.width = 280;
+            canvas.height = 280;
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+
+            canvas.addEventListener('touchstart', function (e) {
+                const touch = e.touches[0];
+                startDrawing({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => e.preventDefault() });
+            }, { passive: false });
+            canvas.addEventListener('touchmove', function (e) {
+                const touch = e.touches[0];
+                draw({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => e.preventDefault() });
+            }, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing);
+            hasInitializedCanvas = true;
+        }
+
+        function startDrawing(e) {
+            if (e.preventDefault) e.preventDefault();
+            isDrawing = true;
+            drawnPoints = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const coords = getCanvasCoords(e);
+            ctx.beginPath();
+            ctx.moveTo(coords.x, coords.y);
+            drawnPoints.push(coords);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            if (e.preventDefault) e.preventDefault();
+            const coords = getCanvasCoords(e);
+            ctx.lineTo(coords.x, coords.y);
+            ctx.stroke();
+            drawnPoints.push(coords);
+        }
+
+        function stopDrawing() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            processCanvasPoints();
+        }
+
+        function getCanvasCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: ((e.clientX - rect.left) / rect.width) * canvas.width,
+                y: ((e.clientY - rect.top) / rect.height) * canvas.height
+            };
+        }
+
+        function clearCanvas() {
+            if (!canvas) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawnPoints = [];
+            document.getElementById('shape-prediction').innerText = "NO SHAPE DRAWN";
+            document.getElementById('shape-confidence').innerText = "0%";
+        }
+
+        function processCanvasPoints() {
+            if (drawnPoints.length < 5) return;
+            let minX = Infinity, maxX = -Infinity;
+            let minY = Infinity, maxY = -Infinity;
+            let sumX = 0, sumY = 0;
+
+            drawnPoints.forEach(p => {
+                if (p.x < minX) minX = p.x;
+                if (p.x > maxX) maxX = p.x;
+                if (p.y < minY) minY = p.y;
+                if (p.y > maxY) maxY = p.y;
+                sumX += p.x;
+                sumY += p.y;
+            });
+
+            const width = maxX - minX;
+            const height = maxY - minY;
+            const centroidX = sumX / drawnPoints.length;
+            const centroidY = sumY / drawnPoints.length;
+            const aspectRatio = width / (height || 1);
+
+            let distances = [];
+            let sumDist = 0;
+            drawnPoints.forEach(p => {
+                const dist = Math.sqrt(Math.pow(p.x - centroidX, 2) + Math.pow(p.y - centroidY, 2));
+                distances.push(dist);
+                sumDist += dist;
+            });
+            const meanRadius = sumDist / distances.length;
+
+            let sumSqDiff = 0;
+            distances.forEach(d => {
+                sumSqDiff += Math.pow(d - meanRadius, 2);
+            });
+            const variance = sumSqDiff / distances.length;
+            const stdDev = Math.sqrt(variance);
+            const cvRatio = (stdDev / (meanRadius || 1)) * 100;
+
+            const startPt = drawnPoints[0];
+            const endPt = drawnPoints[drawnPoints.length - 1];
+            const startToEndDist = Math.sqrt(Math.pow(endPt.x - startPt.x, 2) + Math.pow(endPt.y - startPt.y, 2));
+
+            let totalPathLength = 0;
+            for (let i = 1; i < drawnPoints.length; i++) {
+                totalPathLength += Math.sqrt(
+                    Math.pow(drawnPoints[i].x - drawnPoints[i - 1].x, 2) +
+                    Math.pow(drawnPoints[i].y - drawnPoints[i - 1].y, 2)
+                );
+            }
+            const straightness = (startToEndDist / (totalPathLength || 1)) * 100;
+
+            let predictedShape = "UNKNOWN SHAPE";
+            let confidence = 50;
+
+            const normalizedCentroidX = (centroidX - minX) / width;
+            const normalizedCentroidY = (centroidY - minY) / height;
+            const centroidOffset = Math.sqrt(Math.pow(normalizedCentroidX - 0.5, 2) + Math.pow(normalizedCentroidY - 0.5, 2));
+
+            if (straightness > 90) {
+                predictedShape = "STRAIGHT LINE";
+                confidence = Math.round(straightness);
+            } else if (cvRatio < 15) {
+                predictedShape = "CIRCLE";
+                confidence = Math.round(100 - cvRatio);
+            } else {
+                if (centroidOffset > 0.1) {
+                    predictedShape = "TRIANGLE";
+                    confidence = Math.round(70 + centroidOffset * 100);
+                } else if (aspectRatio > 0.7 && aspectRatio < 1.4) {
+                    predictedShape = "SQUARE";
+                    confidence = Math.round(80 - centroidOffset * 100);
+                } else {
+                    predictedShape = "RECTANGLE";
+                    confidence = Math.round(85 - centroidOffset * 100);
+                }
+            }
+
+            document.getElementById('shape-prediction').innerText = predictedShape;
+            document.getElementById('shape-confidence').innerText = `${Math.min(Math.max(confidence, 10), 99)}%`;
+        }
+
+        function testPreloaded(type) {
+            clearCanvas();
+            initCanvas();
+            if (type === 'circle') {
+                const cx = 140, cy = 140, r = 60;
+                drawnPoints = [];
+                ctx.beginPath();
+                for (let theta = 0; theta <= Math.PI * 2; theta += 0.1) {
+                    const noise = (Math.random() - 0.5) * 1.5;
+                    const px = cx + (r + noise) * Math.cos(theta);
+                    const py = cy + (r + noise) * Math.sin(theta);
+                    drawnPoints.push({ x: px, y: py });
+                    if (theta === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+                processCanvasPoints();
+            }
+        }
+
+        function parsePolynomial(str) {
+            const clean = str.replace(/\s+/g, '');
+            const termRegex = /([+-]?\d*)(x\^?(\d*)|x|)/g;
+            let match;
+            const terms = [];
+
+            while ((match = termRegex.exec(clean)) !== null) {
+                if (match[0] === '') continue;
+
+                let coeffStr = match[1];
+                let varStr = match[2];
+                let powerStr = match[3];
+
+                let coeff = 1;
+                if (coeffStr === '+' || coeffStr === '') coeff = 1;
+                else if (coeffStr === '-') coeff = -1;
+                else coeff = parseFloat(coeffStr);
+
+                let power = 0;
+                if (varStr === 'x') {
+                    power = 1;
+                } else if (varStr.startsWith('x^')) {
+                    power = parseInt(powerStr) || 1;
+                }
+
+                terms.push({ coeff, power });
+            }
+            return terms;
+        }
+
+        function extractEditorContent(inputId) {
+            const el = document.getElementById(inputId);
+            if (!el) return "";
+            let result = "";
+            el.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    result += node.nodeValue;
+                } else if (node.tagName && node.tagName.toLowerCase() === 'math-field') {
+                    result += ` $$${node.value}$$ `;
+                } else if (node.tagName && node.tagName.toLowerCase() === 'br') {
+                    result += "\n";
+                } else {
+                    result += node.innerText || node.textContent;
+                }
+            });
+            return result.trim();
+        }
+
+        function insertMath(inputId, mathStr) {
+            const inputEl = document.getElementById(inputId);
+            if (!inputEl) return;
+            
+            inputEl.focus();
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            let range = selection.getRangeAt(0);
+            
+            if (!inputEl.contains(range.commonAncestorContainer)) {
+                range.selectNodeContents(inputEl);
+                range.collapse(false);
+            }
+            
+            const mf = document.createElement('math-field');
+            mf.value = mathStr;
+            mf.style.display = 'inline-block';
+            mf.style.verticalAlign = 'middle';
+            mf.style.margin = '0 2px';
+            mf.style.minWidth = '30px';
+            mf.style.outline = 'none';
+            mf.style.border = '1px solid #6366f1';
+            mf.style.borderRadius = '4px';
+            mf.style.padding = '0 4px';
+            
+            range.insertNode(mf);
+            
+            const emptySpace = document.createTextNode('\u00A0');
+            mf.parentNode.insertBefore(emptySpace, mf.nextSibling);
+            
+            range.setStartAfter(emptySpace);
+            range.setEndAfter(emptySpace);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            mf.focus();
+        }
+
+        // --- Initialization Sequence ---
+        document.addEventListener("DOMContentLoaded", () => {
+            // Bind all functions to window to guarantee inline onclick functionality
+            window.runHumanizerUI = runHumanizerUI;
+            window.copyHumanizedToClipboard = copyHumanizedToClipboard;
+            window.saveState = saveState;
+            window.loadState = loadState;
+            window.exportHistory = exportHistory;
+            window.importHistory = importHistory;
+            window.toggleSettings = toggleSettings;
+            window.closeSettings = closeSettings;
+            window.saveSettings = saveSettings;
+            window.saveAPIKey = saveAPIKey;
+            window.handleHistoryToggle = handleHistoryToggle;
+            window.clearAPIKey = clearAPIKey;
+            window.switchTab = switchTab;
+            window.switchComposerMode = switchComposerMode;
+            window.switchSolverModule = switchSolverModule;
+            window.exportEssayTXT = exportEssayTXT;
+            window.exportEssayPDF = exportEssayPDF;
+            window.exportHumanizedTXT = exportHumanizedTXT;
+            window.exportHumanizedPDF = exportHumanizedPDF;
+            window.copyEssayToClipboard = copyEssayToClipboard;
+            window.clearMemory = clearMemory;
+            window.applyQuickPrompt = applyQuickPrompt;
+            window.setPersonality = setPersonality;
+            window.runComposition = runComposition;
+            window.calculateMetrics = calculateMetrics;
+            window.injectSampleMarkovDataset = injectSampleMarkovDataset;
+            window.injectSampleRegressionDataset = injectSampleRegressionDataset;
+            window.clearSandboxModels = clearSandboxModels;
+            window.synthesizeMarkovSentence = synthesizeMarkovSentence;
+            window.playRPS = playRPS;
+            window.clearCanvas = clearCanvas;
+            window.testPreloaded = testPreloaded;
+            window.insertMath = insertMath;
+            window.toggleLightMode = toggleLightMode;
+            
+            // History feature window bindings
+            window.createNewChat = createNewChat;
+            window.loadChat = loadChat;
+            window.deleteChat = deleteChat;
+            window.previewDocument = previewDocument;
+            window.deleteDocument = deleteDocument;
+            window.saveCurrentModelPrompt = saveCurrentModelPrompt;
+            window.loadModel = loadModel;
+            window.deleteModel = deleteModel;
+            window.startNewGameSession = startNewGameSession;
+            window.deleteGameSession = deleteGameSession;
+            
+            initCanvas();
+
+            // Scroll spy disabled in 6.4
+
+            const chatFormEl = document.getElementById('chat-form');
+            const chatInputEl = document.getElementById('chat-input');
+            const chatMessagesEl = document.getElementById('chat-messages');
+            const chatTypingEl = document.getElementById('chat-typing');
+
+            if (chatInputEl) {
+                chatInputEl.addEventListener('input', function () {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+                chatInputEl.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (chatFormEl) chatFormEl.dispatchEvent(new Event('submit'));
+                    }
+                });
+            }
+
+            if (chatFormEl) {
+                chatFormEl.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const text = extractEditorContent('chat-input');
+                    if (!text) return;
+
+                    appendUserMessage(text);
+                    chatInputEl.innerHTML = '';
+                    chatInputEl.style.height = 'auto';
+
+                    chatMemory.messageCount++;
+                    updateMemoryUI();
+                    saveState();
+
+                    if (chatTypingEl) chatTypingEl.classList.remove('hidden');
+                    if (chatMessagesEl) chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+
+                    try {
+                        let response = "";
+                        const intent = classifyChatIntent(text);
+
+                        if (intent === "MATH") {
+                            setCognitiveMode('SYMBOLIC_SOLVER');
+                            let mathSol = solveComplexMathAndPhysics(text);
+                            if (mathSol) {
+                                response = mathSol;
+                            } else {
+                                try {
+                                    let cleanMath = text.toLowerCase().replace(/calculate|solve|evaluate|what is/gi, '').trim();
+                                    let evaluated = math.evaluate(cleanMath);
+                                    response = `
+                                        <div class="space-y-3 no-humanize">
+                                            <h4 class="text-teal-600 dark:text-teal-400 font-bold text-sm"><i class="fa-solid fa-calculator"></i> Math.js Fallback Solver</h4>
+                                            <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded border border-slate-200 dark:border-slate-800 text-xs">
+                                                <p>$$${cleanMath} = ${evaluated}$$</p>
+                                            </div>
+                                        </div>`;
+                                } catch (e) {
+                                    response = `
+                                        <div class="space-y-3 no-humanize">
+                                            <h4 class="text-rose-600 dark:text-rose-400 font-bold text-sm"><i class="fa-solid fa-triangle-exclamation"></i> Math Syntax Error</h4>
+                                            <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded border border-rose-500/20 text-xs text-rose-200">
+                                                <p>I recognized this as a mathematical query, but my symbolic engine couldn't evaluate the syntax. Try formatting it explicitly like: <code>(4 * x^3) / (2 * x)</code></p>
+                                            </div>
+                                        </div>`;
+                                }
+                            }
+                        } else if (isOnlineEngineAvailable) {
+                            try {
+                                response = await processQueryOnGemini(text);
+                            } catch (apiErr) {
+                                response = `<div class="no-humanize mb-3 px-3 py-2 bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] rounded-lg flex items-center gap-2 uppercase tracking-wider font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Live Connection Lost. Seamlessly executing offline fallback.</div>`;
+                                response += generateAIResponse(text);
+                            }
+                        } else {
+                            response = generateAIResponse(text);
+                        }
+
+                        if (chatTypingEl) chatTypingEl.classList.add('hidden');
+                        appendBotMessage(response);
+                        saveState();
+
+                        if (window.MathJax) {
+                            try { MathJax.typesetPromise(); } catch (e) { }
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        if (chatTypingEl) chatTypingEl.classList.add('hidden');
+                        appendBotMessage("Critical Error: The offline engine encountered a local syntax failure: " + err.message, true);
+                    }
+                    if (chatMessagesEl) chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+                });
+            }
+
+            const composerFormEl = document.getElementById('composer-form');
+            if (composerFormEl) {
+                composerFormEl.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    runComposition();
+                });
+            }
+
+            const solverFormMainEl = document.getElementById('solver-form-main');
+            if (solverFormMainEl) {
+                solverFormMainEl.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    calculateMetrics();
+                });
+            }
+
+            const fileUploader = document.getElementById('file-uploader');
+            if (fileUploader) fileUploader.addEventListener('change', handleFileSelect);
+
+            checkAPIConnection();
+            loadState();
+            updateMemoryUI();
+            if (typeof initUnifiedHistory === 'function') {
+                initUnifiedHistory();
+            }
+
+            // Restore light mode from localStorage
+            if (localStorage.getItem('omni_light_mode') === 'true') {
+                document.getElementById('light-mode-toggle').checked = true;
+                document.documentElement.classList.remove('dark');
+            }
+
+            // Restore autosave toggle
+            const savedAutosave = localStorage.getItem('omni_autosave');
+            if (savedAutosave !== null) {
+                document.getElementById('autosave-toggle').checked = savedAutosave === 'true';
+            }
+        });
+        
+        // --- Uploaded Files Logic ---
+        function addUploadedFile(name, content, type) {
+            UPLOADED_FILES.push({ name, content, type });
+            renderUploadedFilesList();
+            saveState();
+        }
+
+        function renderUploadedFilesList() {
+            const listEl = document.getElementById('uploaded-files-list');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+            UPLOADED_FILES.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between p-2 bg-slate-900 border border-slate-800 rounded group hover:bg-slate-800 transition";
+                item.innerHTML = `
+                    <div class="flex items-center gap-2 cursor-pointer flex-grow overflow-hidden" onclick="previewUploadedFile(${index})">
+                        <i class="fa-solid fa-file-lines text-indigo-600 dark:text-indigo-400 text-xs"></i>
+                        <span class="text-xs text-slate-600 dark:text-slate-300 truncate">${file.name}</span>
+                    </div>
+                    <button onclick="removeUploadedFile(${index}, event)" class="text-slate-400 dark:text-slate-500 hover:text-rose-400 p-1 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-xs"></i></button>
+                `;
+                listEl.appendChild(item);
+            });
+        }
+
+        function removeUploadedFile(index, event) {
+            if (event) event.stopPropagation();
+            if (confirm("Are you sure you want to remove this file?")) {
+                UPLOADED_FILES.splice(index, 1);
+                renderUploadedFilesList();
+                saveState();
+            }
+        }
+
+        function previewUploadedFile(index) {
+            const file = UPLOADED_FILES[index];
+            const modal = document.getElementById('file-preview-modal');
+            document.getElementById('file-preview-name').innerText = file.name;
+            document.getElementById('file-preview-content').innerText = file.content;
+            document.getElementById('file-preview-download').onclick = () => downloadUploadedFile(index);
+            modal.classList.remove('hidden');
+        }
+
+        function downloadUploadedFile(index) {
+            const file = UPLOADED_FILES[index];
+            const blob = new Blob([file.content], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- OmniBot 6.4 History Features Controller ---
+        window.currentChatId = null;
+
+        function generateUUID() {
+            return typeof crypto !== 'undefined' && crypto.randomUUID ? 
+                crypto.randomUUID() : 
+                Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+
+        function initUnifiedHistory() {
+            // 1. Chat Initializer
+            let chats = [];
+            try {
+                chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+            } catch(e) { chats = []; }
+            
+            let lastChatId = localStorage.getItem('omnibot_current_chat_id');
+            if (chats.length === 0) {
+                // Initialize default first chat
+                const newChat = {
+                    id: generateUUID(),
+                    name: "Initial Chat Session",
+                    timestamp: new Date().toLocaleString(),
+                    messagesHTML: document.getElementById('chat-messages') ? document.getElementById('chat-messages').innerHTML : "",
+                    messageCount: chatMemory.messageCount || 0
+                };
+                chats.push(newChat);
+                localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+                window.currentChatId = newChat.id;
+                localStorage.setItem('omnibot_current_chat_id', newChat.id);
+            } else {
+                if (lastChatId && chats.some(c => c.id === lastChatId)) {
+                    window.currentChatId = lastChatId;
+                } else {
+                    window.currentChatId = chats[0].id;
+                }
+                loadChat(window.currentChatId);
+            }
+            renderChatsList();
+
+            // 2. Documents Initializer
+            renderDocumentsList();
+
+            // 3. Models Initializer
+            renderModelsList();
+
+            // 4. Game Sessions Initializer
+            renderGameSessionsList();
+            updateLifetimeStats();
+        }
+
+        // --- Chat Bot Tabs History Logic ---
+        function updateActiveChatInStorage(html, count) {
+            if (!window.currentChatId) return;
+            let chats = [];
+            try {
+                chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+            } catch(e) { chats = []; }
+            const idx = chats.findIndex(c => c.id === window.currentChatId);
+            if (idx !== -1) {
+                chats[idx].messagesHTML = html;
+                chats[idx].messageCount = count;
+                // If it was named generic and now has messages, we can rename it based on the first prompt
+                if (chats[idx].name === "Initial Chat Session" || chats[idx].name.startsWith("Chat Session -")) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    const userMsgs = tempDiv.querySelectorAll('.justify-end');
+                    if (userMsgs.length > 0) {
+                        const firstMsgText = userMsgs[0].innerText.trim();
+                        chats[idx].name = firstMsgText.substring(0, 32) + (firstMsgText.length > 32 ? "..." : "");
+                    }
+                }
+                localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+                renderChatsList();
+            }
+        }
+
+        function renderChatsList() {
+            const container = document.getElementById('chat-history-list');
+            if (!container) return;
+            let chats = [];
+            try {
+                chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+            } catch(e) { chats = []; }
+            
+            if (chats.length === 0) {
+                container.innerHTML = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No active chats</div>`;
+                return;
+            }
+
+            container.innerHTML = chats.map(chat => {
+                const isActive = chat.id === window.currentChatId;
+                const activeClasses = isActive 
+                    ? "bg-indigo-600/10 dark:bg-indigo-500/10 border-indigo-500/30 text-indigo-600 dark:text-indigo-400 font-bold" 
+                    : "border-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100/60 dark:hover:bg-slate-800/60";
+                return `
+                    <div class="flex items-center justify-between p-2 rounded-lg border transition group cursor-pointer ${activeClasses}" onclick="loadChat('${chat.id}')">
+                        <span class="text-[11px] truncate flex-grow pr-2">${chat.name}</span>
+                        <button onclick="deleteChat('${chat.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function createNewChat() {
+            saveState();
+            
+            let chats = [];
+            try {
+                chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+            } catch(e) { chats = []; }
+            const newChat = {
+                id: generateUUID(),
+                name: "Chat Session - " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                timestamp: new Date().toLocaleString(),
+                messagesHTML: `
+                    <div class="flex gap-3 max-w-[85%]">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 self-end">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="bg-slate-50/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-slate-200/40 dark:border-slate-800/40 shadow-inner">
+                            Welcome to <strong class="text-indigo-600 dark:text-indigo-300">OmniBot 6.4 Nexus</strong> â€?this is a clean new workspace session. ðŸš€<br><br>Ask memory queries, draw plots, or solve equations.
+                        </div>
+                    </div>
+                `,
+                messageCount: 0
+            };
+            chats.unshift(newChat);
+            localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+            window.currentChatId = newChat.id;
+            localStorage.setItem('omnibot_current_chat_id', newChat.id);
+            
+            loadChat(newChat.id);
+            showToast("New Chat Session Started!");
+        }
+
+        function loadChat(chatId) {
+            window.currentChatId = chatId;
+            localStorage.setItem('omnibot_current_chat_id', chatId);
+            let chats = [];
+            try {
+                chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+            } catch(e) { chats = []; }
+            const chat = chats.find(c => c.id === chatId);
+            if (chat) {
+                const chatMessagesEl = document.getElementById('chat-messages');
+                if (chatMessagesEl) {
+                    chatMessagesEl.innerHTML = chat.messagesHTML;
+                    chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+                }
+                chatMemory.messageCount = chat.messageCount || 0;
+                updateMemoryUI();
+                renderChatsList();
+            }
+        }
+
+        function deleteChat(chatId, event) {
+            if (event) event.stopPropagation();
+            let chats = [];
+            try {
+                chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+            } catch(e) { chats = []; }
+            if (chats.length <= 1) {
+                showToast("Cannot delete the only remaining session. Reset instead!");
+                return;
+            }
+            if (!confirm("Delete this conversation session permanently?")) return;
+
+            chats = chats.filter(c => c.id !== chatId);
+            localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+
+            if (window.currentChatId === chatId) {
+                window.currentChatId = chats[0].id;
+                localStorage.setItem('omnibot_current_chat_id', chats[0].id);
+                loadChat(window.currentChatId);
+            } else {
+                renderChatsList();
+            }
+            showToast("Chat session deleted.");
+        }
+
+        // --- Documents Generation History Logic ---
+        function saveGeneratedDocument(title, content, type) {
+            let docs = [];
+            try {
+                docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+            } catch(e) { docs = []; }
+            
+            const newDoc = {
+                id: generateUUID(),
+                title: title,
+                content: content,
+                type: type,
+                date: new Date().toLocaleDateString([], {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})
+            };
+            docs.unshift(newDoc);
+            localStorage.setItem('omnibot_documents', JSON.stringify(docs));
+            renderDocumentsList();
+        }
+
+        function renderDocumentsList() {
+            const container = document.getElementById('essay-history-list');
+            if (!container) return;
+            let docs = [];
+            try {
+                docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+            } catch(e) { docs = []; }
+            
+            if (docs.length === 0) {
+                container.innerHTML = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No saved documents yet</div>`;
+                return;
+            }
+
+            container.innerHTML = docs.map(doc => {
+                return `
+                    <div class="flex items-center justify-between p-2 rounded-lg border border-transparent hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition group cursor-pointer text-left" onclick="previewDocument('${doc.id}')">
+                        <div class="flex flex-col truncate pr-2 flex-grow">
+                            <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${doc.title}</span>
+                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">${doc.type} â€?${doc.date}</span>
+                        </div>
+                        <button onclick="deleteDocument('${doc.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function previewDocument(docId) {
+            let docs = [];
+            try {
+                docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+            } catch(e) { docs = []; }
+            const doc = docs.find(d => d.id === docId);
+            if (!doc) return;
+
+            if (doc.type === "Compose") {
+                const paperEl = document.getElementById('essay-paper');
+                if (paperEl) {
+                    paperEl.innerHTML = doc.content;
+                    if (window.MathJax) { try { MathJax.typesetPromise(); } catch(e){} }
+                    switchTab('essay');
+                    showToast(`Loaded "${doc.title}" into Compose output!`);
+                }
+            } else if (doc.type === "Rephrase") {
+                const outputEl = document.getElementById('humanizer-output');
+                if (outputEl) {
+                    outputEl.innerHTML = doc.content;
+                    if (window.MathJax) { try { MathJax.typesetPromise(); } catch(e){} }
+                    switchTab('humanizer');
+                    showToast(`Loaded rephrased text into Humanizer output!`);
+                }
+            }
+        }
+
+        function deleteDocument(docId, event) {
+            if (event) event.stopPropagation();
+            if (!confirm("Permanently delete this saved document from list?")) return;
+            let docs = [];
+            try {
+                docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+            } catch(e) { docs = []; }
+            docs = docs.filter(d => d.id !== docId);
+            localStorage.setItem('omnibot_documents', JSON.stringify(docs));
+            renderDocumentsList();
+            showToast("Document deleted.");
+        }
+
+        // --- Sandbox ML Model Storage ---
+        function saveCurrentModelPrompt() {
+            if (Object.keys(trainedMarkovChain).length === 0 && regressionDataset.length === 0) {
+                showToast("No trained data (Markov states or Regression coordinates) to save!");
+                return;
+            }
+
+            const name = prompt("Enter a description/name for this ML Model state:", "My Synthesis Model");
+            if (!name) return;
+
+            let models = [];
+            try {
+                models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+            } catch(e) { models = []; }
+
+            const vocabCount = Object.keys(trainedMarkovChain).length > 0 
+                ? [...new Set(Object.values(trainedMarkovChain).flat())].length 
+                : 0;
+
+            const newModel = {
+                id: generateUUID(),
+                name: name,
+                markovChain: trainedMarkovChain,
+                regressionDataset: regressionDataset,
+                vocabSize: vocabCount,
+                date: new Date().toLocaleDateString([], {month: 'short', day: 'numeric', year: 'numeric'})
+            };
+
+            models.unshift(newModel);
+            localStorage.setItem('omnibot_ml_models', JSON.stringify(models));
+            renderModelsList();
+            showToast(`Model "${name}" successfully saved!`);
+        }
+
+        function renderModelsList() {
+            const container = document.getElementById('sandbox-saved-models-list');
+            if (!container) return;
+            let models = [];
+            try {
+                models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+            } catch(e) { models = []; }
+
+            if (models.length === 0) {
+                container.innerHTML = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No saved states</div>`;
+                return;
+            }
+
+            container.innerHTML = models.map(model => {
+                return `
+                    <div class="flex items-center justify-between p-2 rounded-lg border border-transparent hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition group cursor-pointer" onclick="loadModel('${model.id}')">
+                        <div class="flex flex-col truncate pr-2 flex-grow text-left">
+                            <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${model.name}</span>
+                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">Vocab: ${model.vocabSize} â€?${model.date}</span>
+                        </div>
+                        <button onclick="deleteModel('${model.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadModel(modelId) {
+            let models = [];
+            try {
+                models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+            } catch(e) { models = []; }
+            const model = models.find(m => m.id === modelId);
+            if (model) {
+                trainedMarkovChain = model.markovChain || {};
+                regressionDataset = model.regressionDataset || [];
+                
+                // Redraw UI & canvas
+                updateMemoryUI();
+                const sizeEl = document.getElementById('ml-vocab-size');
+                if (sizeEl) {
+                    sizeEl.innerText = `${Object.keys(trainedMarkovChain).length > 0 ? [...new Set(Object.values(trainedMarkovChain).flat())].length : 0} words`;
+                }
+                
+                if (typeof clearCanvas === 'function') clearCanvas();
+                if (regressionDataset.length > 0 && typeof computeLinearRegression === 'function') {
+                    computeLinearRegression(true);
+                }
+                
+                showToast(`Model state "${model.name}" loaded!`);
+            }
+        }
+
+        function deleteModel(modelId, event) {
+            if (event) event.stopPropagation();
+            if (!confirm("Permanently delete this saved model configuration?")) return;
+            let models = [];
+            try {
+                models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+            } catch(e) { models = []; }
+            models = models.filter(m => m.id !== modelId);
+            localStorage.setItem('omnibot_ml_models', JSON.stringify(models));
+            renderModelsList();
+            showToast("Model configuration deleted.");
+        }
+
+        // --- Game Tab Session Archiving & Lifetime Stats ---
+        function startNewGameSession() {
+            const rounds = userWins + aiWins + tiesCount;
+            if (rounds > 0) {
+                let sessions = [];
+                try {
+                    sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+                } catch(e) { sessions = []; }
+
+                const newSession = {
+                    id: generateUUID(),
+                    name: "Game Session - " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    userWins: userWins,
+                    aiWins: aiWins,
+                    tiesCount: tiesCount,
+                    timestamp: new Date().toLocaleString()
+                };
+
+                sessions.unshift(newSession);
+                localStorage.setItem('omnibot_rps_sessions', JSON.stringify(sessions));
+            }
+
+            // Reset active session counters
+            userWins = 0;
+            aiWins = 0;
+            tiesCount = 0;
+            rpsHistory = [];
+            rpsTransitions = {
+                'R': { 'R': 0, 'P': 0, 'S': 0 },
+                'P': { 'R': 0, 'P': 0, 'S': 0 },
+                'S': { 'R': 0, 'P': 0, 'S': 0 }
+            };
+
+            document.getElementById('rps-user').innerText = '0';
+            document.getElementById('rps-ai').innerText = '0';
+            document.getElementById('rps-ties').innerText = '0';
+            document.getElementById('rps-rate').innerText = '0%';
+            document.getElementById('rps-player-choice').innerText = 'âž?;
+            document.getElementById('rps-ai-choice').innerText = 'âž?;
+
+            updateMarkovMatrixUI();
+            saveState();
+
+            // Refresh UI list and lifetime stats
+            renderGameSessionsList();
+            updateLifetimeStats();
+            showToast("Active game counters reset! Session archived.");
+        }
+
+        function renderGameSessionsList() {
+            const container = document.getElementById('game-sessions-list');
+            if (!container) return;
+            let sessions = [];
+            try {
+                sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+            } catch(e) { sessions = []; }
+
+            if (sessions.length === 0) {
+                container.innerHTML = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No archived game sessions</div>`;
+                return;
+            }
+
+            container.innerHTML = sessions.map(session => {
+                return `
+                    <div class="flex items-center justify-between p-2 rounded-lg border border-slate-200/40 dark:border-slate-800/40 bg-white/20 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300">
+                        <div class="flex flex-col truncate pr-2 flex-grow text-left">
+                            <span class="text-[11px] font-bold truncate">${session.name}</span>
+                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">Wins: ${session.userWins} | AI: ${session.aiWins} | Ties: ${session.tiesCount}</span>
+                        </div>
+                        <button onclick="deleteGameSession('${session.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] transition px-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteGameSession(sessionId, event) {
+            if (event) event.stopPropagation();
+            if (!confirm("Permanently delete this archived game session?")) return;
+            let sessions = [];
+            try {
+                sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+            } catch(e) { sessions = []; }
+            sessions = sessions.filter(s => s.id !== sessionId);
+            localStorage.setItem('omnibot_rps_sessions', JSON.stringify(sessions));
+            renderGameSessionsList();
+            updateLifetimeStats();
+            showToast("Archived game session deleted.");
+        }
+
+        function updateLifetimeStats() {
+            let sessions = [];
+            try {
+                sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+            } catch(e) { sessions = []; }
+            
+            // Lifetime is sum of archived sessions + active session
+            let totalWins = userWins;
+            let totalLosses = aiWins;
+            let totalTies = tiesCount;
+
+            sessions.forEach(s => {
+                totalWins += s.userWins || 0;
+                totalLosses += s.aiWins || 0;
+                totalTies += s.tiesCount || 0;
+            });
+
+            const totalRounds = totalWins + totalLosses + totalTies;
+            const rate = totalRounds > 0 ? Math.round((totalWins / totalRounds) * 100) : 0;
+
+            const winsEl = document.getElementById('lifetime-wins');
+            const lossesEl = document.getElementById('lifetime-losses');
+            const tiesEl = document.getElementById('lifetime-ties');
+            const rateEl = document.getElementById('lifetime-rate');
+
+            if (winsEl) winsEl.innerText = totalWins;
+            if (lossesEl) lossesEl.innerText = totalLosses;
+            if (tiesEl) tiesEl.innerText = totalTies;
+            if (rateEl) rateEl.innerText = rate + "%";
+        }
+    
+
+
