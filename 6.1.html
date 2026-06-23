@@ -133,6 +133,14 @@
         body.light-mode [class*="text-cyan-400"] { color: #0891b2; }
         body.light-mode [class*="text-violet-400"] { color: #7c3aed; }
 
+        /* Ensure elements with indigo backgrounds retain white text in light mode */
+        body.light-mode [class*="bg-indigo-600"].text-white,
+        body.light-mode [class*="bg-indigo-600"] .text-white,
+        body.light-mode [class*="bg-indigo-500"].text-white,
+        body.light-mode [class*="bg-indigo-500"] .text-white {
+            color: #ffffff;
+        }
+
         /* --- Borders --- */
         body.light-mode [class*="border-slate-"] { border-color: #e2e8f0; }
         body.light-mode [class*="border-indigo-"] { border-color: #c7d2fe; }
@@ -4202,6 +4210,10 @@
             let predictedShape = "UNKNOWN SHAPE";
             let confidence = 50;
 
+            const normalizedCentroidX = (centroidX - minX) / width;
+            const normalizedCentroidY = (centroidY - minY) / height;
+            const centroidOffset = Math.sqrt(Math.pow(normalizedCentroidX - 0.5, 2) + Math.pow(normalizedCentroidY - 0.5, 2));
+
             if (straightness > 90) {
                 predictedShape = "STRAIGHT LINE";
                 confidence = Math.round(straightness);
@@ -4209,13 +4221,15 @@
                 predictedShape = "CIRCLE";
                 confidence = Math.round(100 - cvRatio);
             } else {
-                if (aspectRatio > 0.7 && aspectRatio < 1.4) {
-                    const normalizedCentroidY = (centroidY - minY) / height;
-                    predictedShape = normalizedCentroidY > 0.58 ? "TRIANGLE" : "SQUARE";
-                    confidence = 80;
+                if (centroidOffset > 0.1) {
+                    predictedShape = "TRIANGLE";
+                    confidence = Math.round(70 + centroidOffset * 100);
+                } else if (aspectRatio > 0.7 && aspectRatio < 1.4) {
+                    predictedShape = "SQUARE";
+                    confidence = Math.round(80 - centroidOffset * 100);
                 } else {
                     predictedShape = "RECTANGLE";
-                    confidence = 75;
+                    confidence = Math.round(85 - centroidOffset * 100);
                 }
             }
 
@@ -4291,8 +4305,19 @@
             const previewEl = document.getElementById(previewId);
             if (!inputEl || !previewEl) return;
             let text = inputEl.value;
-            if (text.includes('$') || text.includes('\\(') || text.includes('\\[')) {
-                previewEl.innerHTML = `<div class="p-2 bg-slate-900 border border-slate-800 rounded text-xs text-slate-300 mb-2">Preview: ${text}</div>`;
+            if (!text.trim()) {
+                previewEl.innerHTML = '';
+                return;
+            }
+            let hasDelimiters = text.includes('$') || text.includes('\\(') || text.includes('\\[');
+            let hasLatexCommands = text.includes('\\') || text.includes('^');
+            
+            if (hasDelimiters || hasLatexCommands) {
+                let previewText = text;
+                if (!hasDelimiters) {
+                    previewText = `$$${text}$$`;
+                }
+                previewEl.innerHTML = `<div class="p-2 bg-slate-900 border border-slate-800 rounded text-xs text-slate-300 mb-2">Preview: ${previewText}</div>`;
                 if (window.MathJax) {
                     try { MathJax.typesetPromise([previewEl]); } catch (e) { }
                 }
