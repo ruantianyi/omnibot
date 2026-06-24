@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -2086,6 +2086,59 @@
                 };
             });
 
+
+            Object.assign(KNOWLEDGE_GRAPH, {
+                "artificial_intelligence": {
+                    tags: ["machine learning", "neural networks", "AGI", "deep learning", "cognitive architecture", "LLM", "transformers"],
+                    paragraphs: [
+                        "Artificial intelligence represents the most significant paradigm shift in modern computation, transitioning from hardcoded deterministic logic to probabilistic reasoning.",
+                        "Through the deployment of deep neural networks, systems can now autonomously map complex non-linear relationships across massive datasets.",
+                        "Large language models (LLMs) specifically utilize transformer architectures and self-attention mechanisms to understand and generate human-like text.",
+                        "As these models scale, emergent behaviors have been observed, sparking intense academic debate regarding the potential development of Artificial General Intelligence (AGI).",
+                        "The integration of these systems into socio-economic structures necessitates rigorous ethical frameworks and algorithmic alignment to prevent unintended downstream consequences."
+                    ]
+                },
+                "astrophysics": {
+                    tags: ["astrophysics", "astronomy", "black holes", "relativity", "cosmos", "universe", "galaxies", "dark matter"],
+                    paragraphs: [
+                        "Astrophysics seeks to understand the fundamental mechanics of the cosmos, applying the laws of thermodynamics and quantum mechanics to celestial phenomena.",
+                        "The study of black holes provides a unique empirical testing ground where general relativity and quantum physics violently intersect.",
+                        "Observational astronomy has revealed that the visible universe constitutes only a fraction of its total mass, leading to the theoretical proposition of dark matter and dark energy.",
+                        "As the universe undergoes accelerated expansion, understanding these invisible forces remains one of the paramount challenges in modern theoretical physics.",
+                        "Future space-based observatories and advanced gravitational wave detectors will be instrumental in mapping these elusive cosmological structures."
+                    ]
+                },
+                "cybernetics": {
+                    tags: ["cybernetics", "robotics", "bionics", "control systems", "automation", "feedback loops"],
+                    paragraphs: [
+                        "Cybernetics is the interdisciplinary study of regulatory systems, encompassing both biological organisms and artificial mechanical frameworks.",
+                        "At its core, cybernetics relies heavily on the concept of negative feedback loops, where a system continuously adjusts its output based on environmental inputs to maintain homeostasis.",
+                        "In modern applications, this theoretical foundation drives the development of advanced robotics and autonomous control systems.",
+                        "The integration of bionic prosthetics seamlessly merges organic neural pathways with synthetic hardware, redefining the physical boundaries of the human body.",
+                        "Ultimately, cybernetics provides a unified mathematical language for describing complex adaptive systems across biology, engineering, and artificial intelligence."
+                    ]
+                },
+                "quantum_mechanics": {
+                    tags: ["quantum physics", "subatomic", "entanglement", "superposition", "wave function", "particles"],
+                    paragraphs: [
+                        "Quantum mechanics provides a mathematical description of the dual particle-like and wave-like behavior and interactions of energy and matter.",
+                        "Unlike classical physics, quantum systems exist in a state of superposition, where particles occupy multiple probabilistic states simultaneously until measured.",
+                        "The phenomenon of quantum entanglement further defies classical intuition, allowing for instantaneous correlation between particles separated by vast cosmic distances.",
+                        "These theoretical principles are currently being harnessed to develop quantum computers, which utilize qubits to perform calculations exponentially faster than classical Turing machines.",
+                        "Decoding the deeper implications of the wave function collapse remains a central philosophical and empirical challenge in modern physics."
+                    ]
+                },
+                "ancient_history": {
+                    tags: ["antiquity", "archaeology", "civilizations", "mesopotamia", "egypt", "greece", "rome"],
+                    paragraphs: [
+                        "The study of ancient history reconstructs the socio-political and economic foundations of early human civilizations.",
+                        "From the fertile crescent of Mesopotamia to the monumental architecture of ancient Egypt, these early societies established the first codified laws, agricultural surpluses, and urban centers.",
+                        "Classical antiquity, dominated by the philosophical achievements of Greece and the administrative prowess of the Roman Empire, heavily influenced the trajectory of Western civilization.",
+                        "Through rigorous archaeological excavation and the translation of ancient texts, historians can piece together the daily lives, religious practices, and military conquests of these forgotten eras.",
+                        "Understanding these ancient paradigms provides crucial context for evaluating the cyclical nature of societal rise and collapse."
+                    ]
+                }
+            });
             const academicVariations = [
                 " This dynamic interaction significantly underscores the complexity of the domain.",
                 " Recent empirical analyses further validate this established premise.",
@@ -2875,17 +2928,103 @@
                 return essayHTML + paragraphsHTML;
             }
 
+                        function generateCreativeStory(topicRaw, genre, protagonist, storyLen) {
+                const title = sanitizeTopic(topicRaw) || "A Journey Into The Unknown";
+                
+                let paragraphsCount = (storyLen === 'long' || storyLen === 'Massive Deep Dive (2000+ Words)') ? 12 : 5;
+                
+                let genreSettings = {
+                    scifi: {
+                        locations: ["the neon-lit underbelly of Neo-Kyoto", "a decaying orbital station above a dying star", "the sterilized corridors of a corporate research facility", "a terraformed colony on Mars"],
+                        tropes: ["a rogue AI", "a malfunctioning cybernetic implant", "a hidden interdimensional portal", "a sudden loss of gravity"],
+                        sensory: ["the hum of fluorescent lights", "the sharp smell of ozone", "the cold touch of synthetic metal", "the taste of recycled air"]
+                    },
+                    fantasy: {
+                        locations: ["the ancient, moss-covered ruins of Eldoria", "a bustling market in the Sky-City of Aethelgard", "a dark, whispering forest", "the obsidian halls of the Mountain King"],
+                        tropes: ["a cursed artifact", "a dragon's awakening", "a betrayal by the Royal Guard", "a forgotten spell"],
+                        sensory: ["the scent of pine and old parchment", "the warm glow of a hearth fire", "the chill of a ghostly breeze", "the taste of sweet mead"]
+                    },
+                    mystery: {
+                        locations: ["a fog-drenched alleyway in Victorian London", "a quiet, seemingly perfect suburban neighborhood", "an abandoned train yard at midnight", "a dimly lit detective's office"],
+                        tropes: ["a cryptic letter with no return address", "a witness who suddenly vanished", "a hidden compartment in a desk", "a clock that stopped at the exact time of the murder"],
+                        sensory: ["the smell of stale tobacco", "the sound of rain against the windowpane", "the cold steel of a revolver", "the flickering of a streetlamp"]
+                    },
+                    horror: {
+                        locations: ["an isolated cabin in the dead of winter", "an asylum that was supposed to be empty", "a basement with no stairs leading up", "a foggy graveyard at midnight"],
+                        tropes: ["a shadow moving against the wall", "a whisper from a silent room", "a door that locks from the outside", "a reflection that doesn't match"],
+                        sensory: ["the smell of rotting wood", "the sound of scratching from the ceiling", "the freezing drop in temperature", "the taste of copper and fear"]
+                    },
+                    romance: {
+                        locations: ["a sun-drenched café in Paris", "a rainy afternoon in a cozy bookstore", "a masquerade ball where faces are hidden", "a quiet beach at sunset"],
+                        tropes: ["a fleeting glance across the room", "an accidental brush of hands", "a secret admirer's note", "a sudden realization of love"],
+                        sensory: ["the smell of fresh coffee", "the warmth of a gentle touch", "the sound of a heartbeat", "the taste of sweet wine"]
+                    },
+                    auto: {
+                        locations: ["a bustling city street", "a quiet, forgotten room", "a vibrant, chaotic marketplace", "a serene, untouched landscape"],
+                        tropes: ["a sudden discovery", "an unexpected encounter", "a lingering doubt", "a moment of absolute clarity"],
+                        sensory: ["the sound of distant voices", "the feeling of a sudden breeze", "the smell of impending rain", "the sharp contrast of light and shadow"]
+                    }
+                };
+
+                let activeGenre = genreSettings[genre] || genreSettings.auto;
+                let activeProtagonist = protagonist === "auto" ? "The protagonist" : protagonist;
+
+                let storyHTML = `<div class="mb-8">`;
+                storyHTML += `<h2 class="text-4xl font-extrabold text-slate-800 dark:text-slate-100 mb-2 tracking-tight uppercase" style="font-family: 'Space Grotesk', sans-serif;">${title}</h2>`;
+                storyHTML += `<p class="text-indigo-600 dark:text-indigo-400 font-mono text-xs tracking-wider uppercase mb-6"><i class="fa-solid fa-book-open mr-2"></i>A Procedural ${genre.toUpperCase()} Narrative generated by OmniBot</p></div>`;
+
+                let paragraphsHTML = "";
+                
+                for(let i=0; i<paragraphsCount; i++) {
+                    let location = activeGenre.locations[Math.floor(Math.random() * activeGenre.locations.length)];
+                    let trope = activeGenre.tropes[Math.floor(Math.random() * activeGenre.tropes.length)];
+                    let sensory = activeGenre.sensory[Math.floor(Math.random() * activeGenre.sensory.length)];
+                    
+                    let pContent = "";
+                    if (i === 0) {
+                        pContent = `It began in ${location}. ${activeProtagonist} stood silently, acutely aware of ${sensory}. The air felt heavy, burdened by the unspoken promise of what was to come. There was no turning back now; the journey involving ${topicRaw} had officially commenced.`;
+                    } else if (i === paragraphsCount - 1) {
+                        pContent = `In the end, as ${activeProtagonist} looked out over the remnants of the journey, the truth became undeniable. The encounter with ${trope} had changed everything. The echo of ${topicRaw} would linger long after the dust settled, a permanent scar on the fabric of reality.`;
+                    } else if (i === Math.floor(paragraphsCount / 2)) {
+                        pContent = `Suddenly, the situation escalated. The introduction of ${trope} threw all previous plans into chaos. ${activeProtagonist} had to adapt quickly, navigating the treacherous implications of ${topicRaw} while constantly haunted by ${sensory}. Every decision now carried a weight that could crush a lesser soul.`;
+                    } else {
+                        const randomSentences = [
+                            `Shadows lengthened as the reality of ${topicRaw} set in.`,
+                            `${activeProtagonist} hesitated, feeling the distinct sensation of ${sensory}.`,
+                            `There was a subtle shift in the environment, akin to ${trope}.`,
+                            `Thoughts raced, piecing together the fragmented clues regarding ${topicRaw}.`,
+                            `Silence fell, heavy and absolute, broken only by a distant, rhythmic thud.`,
+                            `A sudden realization struck ${activeProtagonist}: the path forward was inextricably linked to ${topicRaw}.`,
+                            `The atmosphere shifted, saturated with ${sensory}, making every breath feel deliberate.`
+                        ];
+                        let numSents = Math.floor(Math.random() * 3) + 3;
+                        let sents = [];
+                        for(let j=0; j<numSents; j++) {
+                            sents.push(randomSentences[Math.floor(Math.random() * randomSentences.length)]);
+                        }
+                        pContent = sents.join(" ");
+                    }
+                    
+                    if (i===0) {
+                        paragraphsHTML += `<p class="text-slate-700 dark:text-slate-300 mb-6 first-letter:text-7xl first-letter:font-black first-letter:text-transparent first-letter:bg-clip-text first-letter:bg-gradient-to-br first-letter:from-indigo-500 first-letter:to-purple-600 first-letter:mr-4 first-letter:float-left leading-relaxed text-lg" style="line-height: 1.8;">${pContent}</p>`;
+                    } else {
+                        paragraphsHTML += `<p class="text-slate-700 dark:text-slate-300 mb-6 leading-relaxed text-lg" style="line-height: 1.8;">${pContent}</p>`;
+                    }
+                }
+
+                return storyHTML + paragraphsHTML;
+            }
+
             function humanizeText(text, style = 'casual', allowHooks = true) {
                 if (!text) return "";
                 let paragraphs = text.split(/\n+/);
 
-                // Randomly split uneven paragraphs
-                if (allowHooks && Math.random() < 0.4) {
+                if (allowHooks && Math.random() < 0.6) {
                     let newParagraphs = [];
                     paragraphs.forEach(p => {
                         let sents = p.match(/(?:[^.!?]|\.(?=\d))+[.!?]+/g) || [p];
-                        if (sents.length > 3 && Math.random() < 0.5) {
-                            let splitIndex = Math.floor(sents.length / 2) + (Math.random() < 0.5 ? 1 : -1);
+                        if (sents.length > 2 && Math.random() < 0.6) {
+                            let splitIndex = Math.floor(sents.length / 2);
                             newParagraphs.push(sents.slice(0, splitIndex).join(" ").trim());
                             newParagraphs.push(sents.slice(splitIndex).join(" ").trim());
                         } else {
@@ -2895,260 +3034,96 @@
                     paragraphs = newParagraphs;
                 }
 
-                let humanizedParagraphs = paragraphs.map(para => {
+                let humanizedParagraphs = paragraphs.map((para, paraIdx) => {
                     let sentences = para.match(/(?:[^.!?]|\.(?=\d))+[.!?]+/g) || [para];
-
-                    // Splitting long sentences
-                    if (allowHooks) {
-                        let newSentences = [];
-                        sentences.forEach(sent => {
-                            if (sent.length > 100 && Math.random() < 0.6) {
-                                let parts = sent.split(/( because | and | but | however | since | although )/i);
-                                if (parts.length >= 3) {
-                                    newSentences.push(parts[0].trim() + ".");
-                                    let remainder = parts.slice(1).join("").trim();
-                                    newSentences.push(remainder.charAt(0).toUpperCase() + remainder.slice(1));
-                                    return;
-                                }
-                            }
-                            newSentences.push(sent);
-                        });
-                        sentences = newSentences;
-                    }
 
                     let humanizedSentences = sentences.map((sent, sentIdx) => {
                         let trimmed = sent.trim();
                         if (trimmed.length < 5) return trimmed;
 
-                        // Increase aggressive rewriting threshold to 85%
                         let rand = Math.random();
-                        if (allowHooks && rand < 0.35) {
+                        if (allowHooks && rand < 0.45) {
                             const transitions = {
-                                casual: ["Essentially, ", "To be completely honest, ", "If you look at the raw data, ", "Basically, ", "Generally speaking, ", "At the end of the day, ", "As it turns out, "],
-                                academic: ["It is crucial to observe that ", "Evidently, ", "In a broader theoretical perspective, ", "Analysis strongly suggests that ", "This structurally implies that ", "Consequently, ", "From an empirical standpoint, "],
-                                creative: ["Admittedly, ", "In a strange twist of fate, ", "For all intents and purposes, ", "Almost instinctively, ", "As if by design, ", "Curiously enough, "],
-                                lyrical: ["With a touch of elegance, ", "As the narrative unfolds, ", "Quietly, almost imperceptibly, ", "Through a modern prism, ", "Like a gentle breeze, "]
+                                casual: ["You know, ", "Honestly, ", "When you really think about it, ", "To be fair, ", "Essentially, ", "As it happens, ", "At the end of the day, ", "Frankly, "],
+                                academic: ["It is imperative to note that ", "Furthermore, analysis suggests that ", "Fundamentally, ", "Correspondingly, ", "In a broader theoretical context, ", "Empirical evidence indicates that ", "Consequently, "],
+                                creative: ["Without warning, ", "In a fleeting moment of clarity, ", "Almost miraculously, ", "As fate would have it, ", "Strangely enough, ", "With bated breath, "],
+                                lyrical: ["Like an unspoken promise, ", "Softly, ", "In the quiet spaces between, ", "With a delicate grace, ", "As shadows lengthened, "]
                             };
                             const pool = transitions[style] || transitions.casual;
-                            const hook = pool[Math.floor(Math.random() * pool.length)];
+                            let hook = "";
+                            
+                            if (!(paraIdx > 0 && sentIdx === 0 && Math.random() < 0.5)) {
+                                hook = pool[Math.floor(Math.random() * pool.length)];
+                            }
 
-                            const oldTransitionsRegex = /^(Consequently|Furthermore|Ultimately|Simultaneously|Essentially|Basically|Admittedly|Evidently|In conclusion|To summarize|In final analysis|Generally speaking|To put it simply|As it turns out|To be completely honest|If you look at the raw data|At the end of the day|It is crucial to observe that|In a broader theoretical perspective|Analysis strongly suggests that|This structurally implies that|From an empirical standpoint|In a strange twist of fate|For all intents and purposes|Almost instinctively|As if by design|Curiously enough|With a touch of elegance|As the narrative unfolds|Quietly, almost imperceptibly|Through a modern prism|Like a gentle breeze|Building upon this foundational premise|It is essential to note that|From a macro perspective|Parallel to these developments|Accordingly|This forces a re-evaluation of previously established deterministic models|Building upon this|Analysis indicates)[,\s]+/i;
+                            const oldTransitionsRegex = /^(Consequently|Furthermore|Ultimately|Simultaneously|Essentially|Basically|Admittedly|Evidently|In conclusion|To summarize|In final analysis|Generally speaking|To put it simply|As it turns out|To be completely honest|If you look at the raw data|At the end of the day|It is crucial to observe that|In a broader theoretical perspective|Analysis strongly suggests that|This structurally implies that|From an empirical standpoint|In a strange twist of fate|For all intents and purposes|Almost instinctively|As if by design|Curiously enough|With a touch of elegance|As the narrative unfolds|Quietly, almost imperceptibly|Through a modern prism|Like a gentle breeze|Building upon this foundational premise|It is essential to note that|From a macro perspective|Parallel to these developments|Accordingly|This forces a re-evaluation of previously established deterministic models|Building upon this|Analysis indicates|You know|Honestly|Frankly|To be fair)[,\s]+/i;
                             trimmed = trimmed.replace(oldTransitionsRegex, '');
 
                             let firstWordMatch = trimmed.match(/^[A-Za-z]+/);
                             let firstWord = firstWordMatch ? firstWordMatch[0] : "";
                             let preserveCaps = ["I", "OmniBot", "Omnibot", "Math", "AI", "API"].includes(firstWord);
-                            trimmed = hook + (preserveCaps ? trimmed : trimmed.charAt(0).toLowerCase() + trimmed.slice(1));
-                        } else if (allowHooks && rand < 0.65) {
-                            if (trimmed.includes(", ")) {
-                                let clauses = trimmed.split(", ");
-                                if (clauses.length === 2) {
-                                    const connectors = {
-                                        casual: ["; after all, ", "; to put it simply, ", "; this means ", "; which basically implies "],
-                                        academic: ["; consequently, ", "; hence, ", "; which directly underscores how ", "; thereby demonstrating that "],
-                                        creative: ["; in doing so, ", "; paving the way for ", "; wherein ", "; setting the stage for "],
-                                        lyrical: ["; as if mirroring ", "; in a quiet dance, ", "; which gently evokes "]
-                                    };
-                                    const pool = connectors[style] || connectors.casual;
-                                    const conn = pool[Math.floor(Math.random() * pool.length)];
-                                    trimmed = clauses[1].replace(/[.!?]+$/, "") + conn + clauses[0].charAt(0).toLowerCase() + clauses[0].slice(1) + ".";
-                                }
-                            }
-                        } else if (!allowHooks) {
-                            if (sentIdx === 0 && Math.random() < 0.3) {
-                                const formalHooks = ["Fundamentally, ", "Significantly, ", "Notably, ", "Importantly, ", "Therefore, "];
-                                let startWord = trimmed.split(" ")[0];
-                                if (!["It", "This", "The", "A", "I", "OmniBot", "Omnibot", "Math", "AI", "API"].includes(startWord)) {
-                                    trimmed = formalHooks[Math.floor(Math.random() * formalHooks.length)] + trimmed.charAt(0).toLowerCase() + trimmed.slice(1);
-                                }
+                            
+                            if (hook) {
+                                trimmed = hook + (preserveCaps ? trimmed : trimmed.charAt(0).toLowerCase() + trimmed.slice(1));
                             }
                         }
 
-                        // Multi-word phrase replacements
-                        trimmed = trimmed.replace(/\bis serving as\b/gi, "functions as")
-                            .replace(/\bin conclusion\b/gi, "to wrap things up")
-                            .replace(/\bat the end of the day\b/gi, "ultimately");
-
-                        const ADVANCED_SYNONYMS = {
-                            "important": ["pivotal", "crucial", "essential", "key"],
-                            "complex": ["multi-threaded", "intricate", "convoluted", "sophisticated"],
-                            "science": ["empirical inquiry", "systematic study", "scientific analysis"],
-                            "history": ["the chronological record", "historical context", "past events"],
-                            "utilizing": ["leveraging", "employing", "harnessing", "applying"],
-                            "require": ["demand", "necessitate", "call for", "mandate"],
-                            "therefore": ["thus", "hence", "consequently", "as a result", "so"],
-                            "moreover": ["what's more", "furthermore", "additionally", "in addition", "besides"],
-                            "fundamental": ["core", "foundational", "underlying", "basic", "intrinsic"],
-                            "evaluate": ["assess", "appraise", "analyze", "review"],
-                            "demonstrates": ["shows clearly", "illustrates", "reveals", "evidences"],
-                            "understanding": ["grasping", "comprehending", "interpreting", "deciphering"],
-                            "represents": ["stands as", "symbolizes", "embodies", "constitutes"],
-                            "consequently": ["as a direct result", "subsequently", "accordingly", "thus"],
-                            "analysis": ["examination", "investigation", "scrutiny"],
-                            "research": ["investigation", "exploration", "study"],
-                            "method": ["approach", "technique", "procedure", "strategy"],
-                            "significant": ["substantial", "notable", "meaningful", "profound", "considerable"],
-                            "data": ["empirical evidence", "metrics", "quantitative points"],
-                            "results": ["findings", "outcomes", "conclusions"],
-                            "system": ["framework", "architecture", "structure", "mechanism"],
-                            "however": ["nevertheless", "that said", "on the other hand", "yet", "still"],
-                            "increase": ["escalate", "augment", "amplify", "boost"],
-                            "decrease": ["diminish", "reduce", "mitigate", "curtail"],
-                            "change": ["alter", "modify", "transform", "shift"],
-                            "good": ["optimal", "beneficial", "favorable", "advantageous"],
-                            "bad": ["detrimental", "adverse", "suboptimal", "negative"],
-                            "many": ["numerous", "a multitude of", "abundant", "myriad"],
-                            "very": ["highly", "exceptionally", "notably", "markedly"],
-                            "often": ["frequently", "commonly", "routinely", "regularly"],
-                            "use": ["utilize", "employ", "leverage", "implement"],
-                            "delve": ["explore", "examine", "investigate", "look into"],
-                            "robust": ["strong", "sturdy", "solid", "reliable", "powerful"],
-                            "dynamic": ["active", "changing", "energetic", "lively"],
-                            "seamless": ["smooth", "flawless", "uninterrupted", "trouble-free"],
-                            "paramount": ["supreme", "chief", "overriding", "crucial"],
-                            "underscore": ["highlight", "emphasize", "stress", "underline"],
-                            "multifaceted": ["complex", "varied", "diverse", "multi-dimensional"],
-                            "paradigm": ["model", "pattern", "example", "standard"],
-                            "comprehensive": ["complete", "thorough", "extensive", "inclusive"],
-                            "testament": ["proof", "evidence", "testimony"],
-                            "tapestry": ["fabric", "network", "web", "complexion"],
-                            "nuances": ["subtleties", "distinctions", "variations", "fine points"],
-                            "foster": ["encourage", "promote", "cultivate", "nurture"],
-                            "leverage": ["use", "utilize", "harness", "apply"],
-                            "landscape": ["environment", "setting", "scene", "context"],
-                            "trajectory": ["path", "course", "route", "direction"],
-                            "illuminate": ["clarify", "explain", "highlight", "reveal"],
-                            "catalyze": ["trigger", "spark", "initiate", "stimulate"],
-                            "intrinsic": ["inherent", "essential", "innate", "fundamental"],
-                            "crucial": ["vital", "essential", "important", "key"],
-                            "ensure": ["make sure", "guarantee", "secure", "confirm"],
-                            "facilitate": ["make easier", "help", "assist", "smooth"],
-                            "furthermore": ["moreover", "in addition", "additionally"],
-                            "overall": ["generally", "in general", "on the whole", "all in all"],
-                            "additionally": ["also", "in addition", "moreover"],
-                            "thus": ["therefore", "hence", "consequently", "so"],
-                            "vital": ["crucial", "essential", "important", "critical"],
-                            "essential": ["crucial", "vital", "necessary", "important"],
-                            "critical": ["crucial", "vital", "essential", "key"],
-                            "key": ["crucial", "essential", "important", "major"],
-                            "primary": ["main", "chief", "principal", "leading"],
-                            "impact": ["effect", "influence", "consequence", "result"],
-                            "effect": ["impact", "result", "outcome", "consequence"],
-                            "influence": ["impact", "effect", "power", "control"],
-                            "provide": ["give", "supply", "offer", "deliver"],
-                            "support": ["back", "uphold", "endorse", "bolster"],
-                            "enhance": ["improve", "boost", "increase", "upgrade"],
-                            "improve": ["enhance", "better", "upgrade", "refine"],
-                            "develop": ["create", "build", "form", "establish"],
-                            "create": ["develop", "make", "produce", "generate"],
-                            "generate": ["create", "produce", "make", "form"],
-                            "produce": ["create", "generate", "make", "yield"]
+                        const MEGA_SYNONYMS = {
+                            "important": ["paramount", "critical", "indispensable", "vital", "consequential"],
+                            "complex": ["labyrinthine", "multifaceted", "intricate", "Byzantine"],
+                            "good": ["exceptional", "stellar", "optimal", "superb"],
+                            "bad": ["suboptimal", "detrimental", "adverse", "deleterious"],
+                            "show": ["elucidate", "illustrate", "demonstrate", "reveal"],
+                            "use": ["leverage", "employ", "utilize", "harness"],
+                            "make": ["fabricate", "generate", "construct", "formulate"],
+                            "think": ["postulate", "hypothesize", "reason", "contemplate"],
+                            "help": ["facilitate", "assist", "expedite", "bolster"],
+                            "change": ["transform", "metamorphose", "shift", "recalibrate"],
+                            "idea": ["paradigm", "concept", "framework", "notion"],
+                            "problem": ["dilemma", "predicament", "challenge", "quagmire"],
+                            "result": ["outcome", "ramification", "consequence", "corollary"],
+                            "system": ["infrastructure", "ecosystem", "architecture", "framework"]
                         };
 
                         let words = trimmed.split(/\b/);
                         let wordHumanized = words.map(w => {
                             if (!w.trim() || !/^[A-Za-z]+$/.test(w)) return w;
                             let lowerW = w.toLowerCase();
-                            if (ADVANCED_SYNONYMS[lowerW] && Math.random() < 0.70) {
-                                let options = ADVANCED_SYNONYMS[lowerW];
+                            if (MEGA_SYNONYMS[lowerW] && Math.random() < 0.85) {
+                                let options = MEGA_SYNONYMS[lowerW];
                                 let syn = options[Math.floor(Math.random() * options.length)];
-                                if (w.charAt(0) === w.charAt(0).toUpperCase()) {
-                                    return syn.charAt(0).toUpperCase() + syn.slice(1);
-                                }
+                                if (w.charAt(0) === w.charAt(0).toUpperCase()) return syn.charAt(0).toUpperCase() + syn.slice(1);
                                 return syn;
                             }
                             return w;
                         });
                         trimmed = wordHumanized.join("");
 
-                        const adv = ["very", "highly", "extremely", "notably", "significantly", "incredibly", "truly", "quite", "rather", "especially"];
-                        const adj = ["important", "crucial", "essential", "vital", "key", "significant", "fundamental", "paramount", "necessary", "critical"];
-                        const noun = ["factor", "element", "component", "aspect", "detail", "variable", "piece", "part", "portion", "section"];
-                        let tokens = trimmed.split(" ");
+                        trimmed = trimmed.replace(/\b(is very|are very|was very)\b/gi, "is profoundly")
+                                         .replace(/\b(I think that)\b/gi, "It stands to reason that")
+                                         .replace(/\b(in order to)\b/gi, "to elegantly")
+                                         .replace(/\b(due to the fact that)\b/gi, "given that")
+                                         .replace(/\b(for all intents and purposes)\b/gi, "functionally");
 
-                        function swapPhraseAnyOrder(words, replacementStr) {
-                            let matchesAll = words.every(w => trimmed.toLowerCase().includes(w));
-                            if (matchesAll) {
-                                let firstIdx = -1;
-                                for (let i = 0; i < tokens.length; i++) {
-                                    if (words.includes(tokens[i].toLowerCase())) {
-                                        if (firstIdx === -1) {
-                                            tokens[i] = replacementStr;
-                                            firstIdx = i;
-                                        } else {
-                                            tokens[i] = "";
-                                        }
-                                    }
-                                }
-                                trimmed = tokens.filter(t => t !== "").join(" ");
+                        if (style === 'casual' && Math.random() < 0.15 && trimmed.length > 40) {
+                            let splitPt = trimmed.indexOf(" ", 20);
+                            if (splitPt > -1 && splitPt < trimmed.length - 10) {
+                                trimmed = trimmed.substring(0, splitPt) + "... well, " + trimmed.substring(splitPt + 1);
                             }
                         }
 
-                        for (let a of adv) {
-                            for (let b of adj) {
-                                swapPhraseAnyOrder([a, b], "critical");
-                            }
-                        }
-                        for (let a of adv) {
-                            for (let b of adj) {
-                                for (let c of noun) {
-                                    swapPhraseAnyOrder([a, b, c], "primary focus");
-                                }
-                            }
-                        }
-                        for (let a of adj) {
-                            for (let b of noun) {
-                                swapPhraseAnyOrder([a, b], "component");
-                            }
-                        }
-                        for (let a of adv) {
-                            for (let b of noun) {
-                                swapPhraseAnyOrder([a, b], "key element");
-                            }
-                        }
-                        swapPhraseAnyOrder(["at", "the", "end", "of", "the", "day"], "ultimately");
-                        swapPhraseAnyOrder(["due", "to", "the", "fact", "that"], "because");
-                        swapPhraseAnyOrder(["in", "order", "to"], "to");
-                        swapPhraseAnyOrder(["for", "all", "intents", "and", "purposes"], "practically");
-                        swapPhraseAnyOrder(["in", "the", "event", "that"], "if");
-
-                        if (typeof nlp !== 'undefined') {
-                            let doc = nlp(trimmed);
-                            doc.normalize({
-                                whitespace: true,
-                                case: true,
-                                punctuation: true,
-                                contractions: true
-                            });
-                            doc.match('#ProperNoun').toTitleCase();
-                            doc.match('^.').toTitleCase();
-                            trimmed = doc.text();
-                        }
-
-                        // Offline fallback simple spellchecks
-                        trimmed = trimmed.replace(/\bmnany\b/gi, "many");
-                        trimmed = trimmed.replace(/\bteh\b/gi, "the");
-                        trimmed = trimmed.replace(/\brecieve\b/gi, "receive");
-
-                        trimmed = trimmed.replace(/\s+/g, " ")
-                            .replace(/\s,/g, ",")
-                            .replace(/\s\./g, ".")
-                            .replace(/,,+/g, ",")
-                            .replace(/\.\.+/g, ".")
-                            .trim();
-
+                        trimmed = trimmed.replace(/\s+/g, " ").replace(/\s,/g, ",").replace(/\s\./g, ".").replace(/,,+/g, ",").replace(/\.\.+/g, ".").trim();
                         trimmed = trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
                         return trimmed;
                     });
 
-                    // Swap sentence order for 30-60% of sentences, ignoring first and last
                     if (humanizedSentences.length > 3 && allowHooks) {
                         for (let i = 1; i < humanizedSentences.length - 2; i++) {
-                            if (Math.random() < 0.45) {
+                            if (Math.random() < 0.3) {
                                 let temp = humanizedSentences[i];
                                 humanizedSentences[i] = humanizedSentences[i + 1];
                                 humanizedSentences[i + 1] = temp;
-                                i++; // Skip the next index since it was just swapped
+                                i++; 
                             }
                         }
                     }
@@ -3157,6 +3132,7 @@
                 });
                 return humanizedParagraphs.join("\n\n");
             }
+
 
             function humanizeHTMLSafe(htmlStr, allowHooks = true) {
                 const tempDiv = document.createElement('div');
