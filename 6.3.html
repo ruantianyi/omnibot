@@ -155,11 +155,135 @@
             box-shadow: 0 0 8px rgba(99,102,241,0.3);
             color: #a5b4fc;
         }
+            /* 鈹€鈹€ Premium Glassmorphism 3.0 (Legacy Bloated/Polished Version) 鈹€鈹€ */
+        .glass-panel-v3, .glass-panel, .glass-panel-v2 {
+            background: rgba(15, 20, 45, 0.7) !important;
+            backdrop-filter: blur(32px) saturate(2.0) !important;
+            border: 1px solid rgba(139, 92, 246, 0.35) !important;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 16px 50px rgba(0, 0, 0, 0.6),
+                0 0 100px rgba(99, 102, 241, 0.1) !important;
+            border-radius: 1.8rem !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .glass-panel-v3:hover, .glass-panel:hover, .glass-panel-v2:hover {
+            border: 1px solid rgba(139, 92, 246, 0.6) !important;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 120px rgba(99, 102, 241, 0.15) !important;
+        }
+
+        html:not(.dark) .glass-panel-v3, html:not(.dark) .glass-panel, html:not(.dark) .glass-panel-v2 {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(32px) saturate(1.8) !important;
+            border: 1px solid rgba(99, 102, 241, 0.25) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.6) inset !important;
+            border-radius: 1.8rem !important;
+        }
+
+        /* 鈹€鈹€ Advanced Scrollbar System 鈹€鈹€ */
+        ::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 15, 30, 0.2);
+            border-radius: 10px;
+            margin: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(99,102,241,0.5) 0%, rgba(139,92,246,0.5) 100%);
+            border-radius: 10px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(99,102,241,0.8) 0%, rgba(139,92,246,0.8) 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        html:not(.dark) ::-webkit-scrollbar-track {
+            background: rgba(240, 240, 245, 0.5);
+        }
+        html:not(.dark) ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(99,102,241,0.3) 0%, rgba(139,92,246,0.3) 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        /* 鈹€鈹€ Typography Enhancements 鈹€鈹€ */
+        h1, h2, h3, h4 {
+            letter-spacing: -0.025em;
+            text-rendering: optimizeLegibility;
+        }
     </style>
     <style>
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 20px; }
+            /* 鈹€鈹€ Premium Glassmorphism 3.0 (Legacy Bloated/Polished Version) 鈹€鈹€ */
+        .glass-panel-v3, .glass-panel, .glass-panel-v2 {
+            background: rgba(15, 20, 45, 0.7) !important;
+            backdrop-filter: blur(32px) saturate(2.0) !important;
+            border: 1px solid rgba(139, 92, 246, 0.35) !important;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 16px 50px rgba(0, 0, 0, 0.6),
+                0 0 100px rgba(99, 102, 241, 0.1) !important;
+            border-radius: 1.8rem !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .glass-panel-v3:hover, .glass-panel:hover, .glass-panel-v2:hover {
+            border: 1px solid rgba(139, 92, 246, 0.6) !important;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 120px rgba(99, 102, 241, 0.15) !important;
+        }
+
+        html:not(.dark) .glass-panel-v3, html:not(.dark) .glass-panel, html:not(.dark) .glass-panel-v2 {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(32px) saturate(1.8) !important;
+            border: 1px solid rgba(99, 102, 241, 0.25) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.6) inset !important;
+            border-radius: 1.8rem !important;
+        }
+
+        /* 鈹€鈹€ Advanced Scrollbar System 鈹€鈹€ */
+        ::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 15, 30, 0.2);
+            border-radius: 10px;
+            margin: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(99,102,241,0.5) 0%, rgba(139,92,246,0.5) 100%);
+            border-radius: 10px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(99,102,241,0.8) 0%, rgba(139,92,246,0.8) 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        html:not(.dark) ::-webkit-scrollbar-track {
+            background: rgba(240, 240, 245, 0.5);
+        }
+        html:not(.dark) ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(99,102,241,0.3) 0%, rgba(139,92,246,0.3) 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        /* 鈹€鈹€ Typography Enhancements 鈹€鈹€ */
+        h1, h2, h3, h4 {
+            letter-spacing: -0.025em;
+            text-rendering: optimizeLegibility;
+        }
     </style>
     
     <script src="https://unpkg.com/compromise"></script>
@@ -284,7 +408,69 @@
             </button>
             <nav id="top-nav-scroll"
                 class="flex p-1 bg-white/80 dark:bg-slate-950/80 rounded-xl border border-slate-200/80 dark:border-slate-800/80 self-center lg:self-auto w-full lg:w-auto items-center justify-start gap-1 overflow-x-auto whitespace-nowrap flex-nowrap scroll-smooth" style="-ms-overflow-style: none; scrollbar-width: none;">
-                <style>#top-nav-scroll::-webkit-scrollbar { display: none; }</style>
+                <style>#top-nav-scroll::-webkit-scrollbar { display: none; }        /* 鈹€鈹€ Premium Glassmorphism 3.0 (Legacy Bloated/Polished Version) 鈹€鈹€ */
+        .glass-panel-v3, .glass-panel, .glass-panel-v2 {
+            background: rgba(15, 20, 45, 0.7) !important;
+            backdrop-filter: blur(32px) saturate(2.0) !important;
+            border: 1px solid rgba(139, 92, 246, 0.35) !important;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 16px 50px rgba(0, 0, 0, 0.6),
+                0 0 100px rgba(99, 102, 241, 0.1) !important;
+            border-radius: 1.8rem !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .glass-panel-v3:hover, .glass-panel:hover, .glass-panel-v2:hover {
+            border: 1px solid rgba(139, 92, 246, 0.6) !important;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 120px rgba(99, 102, 241, 0.15) !important;
+        }
+
+        html:not(.dark) .glass-panel-v3, html:not(.dark) .glass-panel, html:not(.dark) .glass-panel-v2 {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(32px) saturate(1.8) !important;
+            border: 1px solid rgba(99, 102, 241, 0.25) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.6) inset !important;
+            border-radius: 1.8rem !important;
+        }
+
+        /* 鈹€鈹€ Advanced Scrollbar System 鈹€鈹€ */
+        ::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 15, 30, 0.2);
+            border-radius: 10px;
+            margin: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(99,102,241,0.5) 0%, rgba(139,92,246,0.5) 100%);
+            border-radius: 10px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(99,102,241,0.8) 0%, rgba(139,92,246,0.8) 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        html:not(.dark) ::-webkit-scrollbar-track {
+            background: rgba(240, 240, 245, 0.5);
+        }
+        html:not(.dark) ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(99,102,241,0.3) 0%, rgba(139,92,246,0.3) 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        /* 鈹€鈹€ Typography Enhancements 鈹€鈹€ */
+        h1, h2, h3, h4 {
+            letter-spacing: -0.025em;
+            text-rendering: optimizeLegibility;
+        }
+    </style>
             <button onclick="switchTab('chat')" id="tab-btn-chat"
                 class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-500/10 shrink-0 font-bold">
                 <i class="fa-regular fa-comment text-blue-600 dark:text-blue-300"></i> Chat Bot

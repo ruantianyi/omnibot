@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
 <head>
@@ -818,8 +818,10 @@
                         <i class="fa-solid fa-star text-white text-[10px] hidden md:block"></i>
                     </div>
                     <div class="glass-panel p-6 rounded-2xl md:w-1/2 md:mr-auto md:ml-0 text-left relative group">
-                        <h4 class="text-xl font-bold text-white flex items-center gap-2">OmniBot 6.4 <span
-                                class="px-2 py-0.5 rounded text-[9px] bg-emerald-500/20 text-emerald-400 uppercase tracking-wider">Current</span>
+                        <h4 class="text-xl font-bold text-white flex items-center justify-between">
+                            <div class="flex items-center gap-2">OmniBot 6.4 <span
+                                class="px-2 py-0.5 rounded text-[9px] bg-emerald-500/20 text-emerald-400 uppercase tracking-wider">Current</span></div>
+                            <button onclick="handleLegacyNavigation('6.4.html', '6.4')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] rounded uppercase tracking-wider transition">Launch 6.4</button>
                         </h4>
                         <p class="text-indigo-400 text-xs font-mono mb-3">Released: June 2026</p>
                         <p class="text-slate-300 text-sm leading-relaxed">
@@ -855,7 +857,7 @@
                         <i class="fa-solid fa-code-branch text-slate-400 text-[10px] hidden md:block"></i>
                     </div>
                     <div class="glass-panel p-6 rounded-2xl md:w-1/2 md:ml-auto md:mr-0 text-left relative group">
-                        <h4 class="text-xl font-bold text-slate-300 flex items-center justify-between">OmniBot 6.4 
+                        <h4 class="text-xl font-bold text-slate-300 flex items-center justify-between">OmniBot 6.2 
                             <button onclick="handleLegacyNavigation('6.2.html', '6.2')" class="px-3 py-1 bg-slate-800 hover:bg-indigo-600 text-white text-[10px] rounded uppercase tracking-wider transition">Launch 6.2</button>
                         </h4>
                         <p class="text-slate-400 text-xs font-mono mb-3">Released: June 2026</p>
@@ -1134,29 +1136,8 @@
         }
 
         // Handle archived legacy version click
-        function handleLegacyNavigation(filePath, versionNum) {
-            // Check if file can be reached via dynamic fetch or just simulate gracefully
-            fetch(filePath, { method: 'HEAD' })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.href = filePath;
-                    } else {
-                        // Throw styled fallback warning
-                        showToaster(
-                            "Legacy File Not Found",
-                            `The environment package file for version ${versionNum} (${filePath}) is not present in your current workspace directory. Please place '${filePath}' in the directory or use the production version.`,
-                            'error'
-                        );
-                    }
-                })
-                .catch(err => {
-                    // Fallback to error directly if offline/local issues prevent head check
-                    showToaster(
-                        "Legacy Access Restricted",
-                        `Deploying legacy environment files locally is not supported unless they exist in the root folder. Please launch OmniBot 6.0.`,
-                        'error'
-                    );
-                });
+        function handleLegacyNavigation(filePath) {
+            window.location.href = filePath;
         }
     </script>
 </body>
