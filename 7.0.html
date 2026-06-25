@@ -513,10 +513,9 @@
         </div>
 
         <header
-
-            class="border-b border-indigo-900/10 dark:border-indigo-900/40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 px-4 py-3 md:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4 font-sans shadow-sm dark:shadow-none"
+            class="border-b border-indigo-900/10 dark:border-indigo-900/40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 px-4 py-2 md:px-8 flex flex-row items-center justify-between gap-4 font-sans shadow-sm dark:shadow-none h-14 min-h-[3.5rem] overflow-hidden"
             style="box-shadow: 0 4px 24px rgba(0,0,0,0.05);">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 shrink-0">
                 <div
                     class="w-10 h-10 rounded-xl flex items-center justify-center animate-pulse-glow bg-gradient-to-br from-indigo-600 to-violet-600 shadow-lg shadow-indigo-500/30">
                     <i class="fa-solid fa-brain text-white text-base"></i>
@@ -536,7 +535,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-2 w-full lg:w-auto">
+            <div class="flex items-center gap-2 w-auto min-w-0 flex-nowrap">
                 <div
                     class="relative flex items-center flex-grow overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/50">
                     <button
@@ -554,31 +553,31 @@
                             }
                         </style>
                         <button onclick="switchTab('chat')" id="tab-btn-chat"
-                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-500/20 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-500/20 shrink-0">
                             <i class="fa-regular fa-comment text-indigo-200"></i> Chat Bot
                         </button>
                         <button onclick="switchTab('essay')" id="tab-btn-essay"
-                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-pen-nib text-violet-500 dark:text-violet-400"></i> Compose
                         </button>
                         <button onclick="switchTab('humanizer')" id="tab-btn-humanizer"
-                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-wand-magic-sparkles text-pink-500 dark:text-pink-400"></i> Rephraser
                         </button>
                         <button onclick="switchTab('solver')" id="tab-btn-solver"
-                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-calculator text-teal-500 dark:text-teal-400"></i> Math
                         </button>
                         <button onclick="switchTab('sandbox')" id="tab-btn-sandbox"
-                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-laptop-code text-emerald-500 dark:text-emerald-400"></i> Sandbox
                         </button>
                         <button onclick="switchTab('game')" id="tab-btn-game"
-                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-gamepad text-amber-500 dark:text-amber-400"></i> Game
                         </button>
                         <button onclick="switchTab('lessons')" id="tab-btn-lessons"
-                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-book text-blue-500 dark:text-blue-400"></i> Lessons
                         </button>
                     </nav>
@@ -3023,34 +3022,124 @@
                 
                 let genreSettings = {
                     scifi: {
-                        locations: ["the neon-lit underbelly of Neo-Kyoto", "a decaying orbital station above a dying star", "the sterilized corridors of a corporate research facility", "a terraformed colony on Mars"],
-                        tropes: ["a rogue AI", "a malfunctioning cybernetic implant", "a hidden interdimensional portal", "a sudden loss of gravity"],
-                        sensory: ["the hum of fluorescent lights", "the sharp smell of ozone", "the cold touch of synthetic metal", "the taste of recycled air"]
+                        locations: [
+                            "the neon-lit underbelly of Neo-Kyoto", "a decaying orbital station above a dying star", 
+                            "the sterilized corridors of a corporate research facility", "a terraformed colony on Mars",
+                            "a biodome submerged in the methane oceans of Titan", "a desolate mining outpost on a rogue asteroid", 
+                            "the glittering crystalline spires of Kepler-186f", "a hyper-secure data vault floating in deep space"
+                        ],
+                        tropes: [
+                            "a rogue AI", "a malfunctioning cybernetic implant", 
+                            "a hidden interdimensional portal", "a sudden loss of gravity",
+                            "a temporal loop anomaly", "an unexpected solar flare disruption", 
+                            "an alien signal originating from inside the ship", "a system-wide consciousness merge"
+                        ],
+                        sensory: [
+                            "the hum of fluorescent lights", "the sharp smell of ozone", 
+                            "the cold touch of synthetic metal", "the taste of recycled air",
+                            "the high-pitched whine of charge-coupled thrusters", "the static feel of polarized shielding", 
+                            "the synthetic scent of scrubbed carbon dioxide", "the eerie silence of vacuum"
+                        ]
                     },
                     fantasy: {
-                        locations: ["the ancient, moss-covered ruins of Eldoria", "a bustling market in the Sky-City of Aethelgard", "a dark, whispering forest", "the obsidian halls of the Mountain King"],
-                        tropes: ["a cursed artifact", "a dragon's awakening", "a betrayal by the Royal Guard", "a forgotten spell"],
-                        sensory: ["the scent of pine and old parchment", "the warm glow of a hearth fire", "the chill of a ghostly breeze", "the taste of sweet mead"]
+                        locations: [
+                            "the ancient, moss-covered ruins of Eldoria", "a bustling market in the Sky-City of Aethelgard", 
+                            "a dark, whispering forest", "the obsidian halls of the Mountain King",
+                            "the shimmering coral castles of the Deep Merfolk", "a floating laboratory of a renegade alchemist", 
+                            "the eternal library of the Sun Elves", "a magma-carved temple beneath a sleeping volcano"
+                        ],
+                        tropes: [
+                            "a cursed artifact", "a dragon's awakening", 
+                            "a betrayal by the Royal Guard", "a forgotten spell",
+                            "an eclipse that drains all magical reserves", "an ancient prophecy translated incorrectly", 
+                            "the sudden appearance of a mythical beast", "a pact made with a trickster spirit"
+                        ],
+                        sensory: [
+                            "the scent of pine and old parchment", "the warm glow of a hearth fire", 
+                            "the chill of a ghostly breeze", "the taste of sweet mead",
+                            "the crackle of raw, unchanneled magic", "the scent of wild thyme and brimstone", 
+                            "the heavy hum of a runic monument", "the metallic tang of enchanted steel"
+                        ]
                     },
                     mystery: {
-                        locations: ["a fog-drenched alleyway in Victorian London", "a quiet, seemingly perfect suburban neighborhood", "an abandoned train yard at midnight", "a dimly lit detective's office"],
-                        tropes: ["a cryptic letter with no return address", "a witness who suddenly vanished", "a hidden compartment in a desk", "a clock that stopped at the exact time of the murder"],
-                        sensory: ["the smell of stale tobacco", "the sound of rain against the windowpane", "the cold steel of a revolver", "the flickering of a streetlamp"]
+                        locations: [
+                            "a fog-drenched alleyway in Victorian London", "a quiet, seemingly perfect suburban neighborhood", 
+                            "an abandoned train yard at midnight", "a dimly lit detective's office",
+                            "a luxury passenger blimp navigating a storm", "the dusty archives of a centuries-old university", 
+                            "a secluded island estate during a blackout", "a high-stakes underground auction house"
+                        ],
+                        tropes: [
+                            "a cryptic letter with no return address", "a witness who suddenly vanished", 
+                            "a hidden compartment in a desk", "a clock that stopped at the exact time of the murder",
+                            "a cryptic diary written in an unbreakable cipher", "an alibi that seems mathematically impossible", 
+                            "a family heirloom containing a hidden key", "a sudden anonymous phone call warning of danger"
+                        ],
+                        sensory: [
+                            "the smell of stale tobacco", "the sound of rain against the windowpane", 
+                            "the cold steel of a revolver", "the flickering of a streetlamp",
+                            "the smell of wet pavement and diesel smoke", "the soft ticking of a grandfather clock", 
+                            "the rough texture of an old linen envelope", "the cold mist rolling off the river"
+                        ]
                     },
                     horror: {
-                        locations: ["an isolated cabin in the dead of winter", "an asylum that was supposed to be empty", "a basement with no stairs leading up", "a foggy graveyard at midnight"],
-                        tropes: ["a shadow moving against the wall", "a whisper from a silent room", "a door that locks from the outside", "a reflection that doesn't match"],
-                        sensory: ["the smell of rotting wood", "the sound of scratching from the ceiling", "the freezing drop in temperature", "the taste of copper and fear"]
+                        locations: [
+                            "an isolated cabin in the dead of winter", "an asylum that was supposed to be empty", 
+                            "a basement with no stairs leading up", "a foggy graveyard at midnight",
+                            "a deep-sea research submarine with cut communications", "a ghost town swallowed by a moving dust storm", 
+                            "an ancient catacomb beneath a modern subway line", "a lighthouse whose beam keeps turning off on its own"
+                        ],
+                        tropes: [
+                            "a shadow moving against the wall", "a whisper from a silent room", 
+                            "a door that locks from the outside", "a reflection that doesn't match",
+                            "shadows that move independently of light sources", "a message written in dust on a sealed mirror", 
+                            "the feeling of breathing on the back of one's neck", "footsteps that stop exactly when you turn around"
+                        ],
+                        sensory: [
+                            "the smell of rotting wood", "the sound of scratching from the ceiling", 
+                            "the freezing drop in temperature", "the taste of copper and fear",
+                            "the damp smell of stagnant water and mold", "the screech of metal scraping against stone", 
+                            "the sudden, blinding flash of absolute darkness", "the bitter taste of ash"
+                        ]
                     },
                     romance: {
-                        locations: ["a sun-drenched caf茅 in Paris", "a rainy afternoon in a cozy bookstore", "a masquerade ball where faces are hidden", "a quiet beach at sunset"],
-                        tropes: ["a fleeting glance across the room", "an accidental brush of hands", "a secret admirer's note", "a sudden realization of love"],
-                        sensory: ["the smell of fresh coffee", "the warmth of a gentle touch", "the sound of a heartbeat", "the taste of sweet wine"]
+                        locations: [
+                            "a sun-drenched café in Paris", "a rainy afternoon in a cozy bookstore", 
+                            "a masquerade ball where faces are hidden", "a quiet beach at sunset",
+                            "a snow-covered ski chalet in the Swiss Alps", "a lively street festival under paper lanterns", 
+                            "a greenhouse filled with blooming night-jasmine", "a vintage train carriage winding through countryside"
+                        ],
+                        tropes: [
+                            "a fleeting glance across the room", "an accidental brush of hands", 
+                            "a secret admirer's note", "a sudden realization of love",
+                            "being forced to share the only shelter from a storm", "finding an old letter describing an identical love story", 
+                            "a playful debate that turns into a moment of connection", "an unexpected reunion under a starry sky"
+                        ],
+                        sensory: [
+                            "the smell of fresh coffee", "the warmth of a gentle touch", 
+                            "the sound of a heartbeat", "the taste of sweet wine",
+                            "the crackle of dry logs on a fireplace", "the soft touch of a woolen scarf", 
+                            "the sweet aroma of vanilla and spun sugar", "the gentle rustle of leaves in a quiet breeze"
+                        ]
                     },
                     auto: {
-                        locations: ["a bustling city street", "a quiet, forgotten room", "a vibrant, chaotic marketplace", "a serene, untouched landscape"],
-                        tropes: ["a sudden discovery", "an unexpected encounter", "a lingering doubt", "a moment of absolute clarity"],
-                        sensory: ["the sound of distant voices", "the feeling of a sudden breeze", "the smell of impending rain", "the sharp contrast of light and shadow"]
+                        locations: [
+                            "a bustling city street", "a quiet, forgotten room", 
+                            "a vibrant, chaotic marketplace", "a serene, untouched landscape",
+                            "a forgotten archive", "a high-speed train carriage", 
+                            "a masty harbor at dawn", "a crowded elevator in a skyscraper"
+                        ],
+                        tropes: [
+                            "a sudden discovery", "an unexpected encounter", 
+                            "a lingering doubt", "a moment of absolute clarity",
+                            "a missing key piece of information", "an unexpected connection between two separate events", 
+                            "a minor decision that changes the entire day", "a long-awaited answer to a silent question"
+                        ],
+                        sensory: [
+                            "the sound of distant voices", "the feeling of a sudden breeze", 
+                            "the smell of impending rain", "the sharp contrast of light and shadow",
+                            "the low hum of a distant engine", "the sharp aroma of citrus peel", 
+                            "the cool feel of a polished glass surface", "the pattern of dust motes dancing in a sunbeam"
+                        ]
                     }
                 };
 
