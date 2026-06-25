@@ -2679,7 +2679,7 @@
             }
 
             function sanitizeAndCorrectTopic(str) {
-                let clean = str.trim().replace(/^[\s鈥-\*\d\.#\(\)\[\]:;>]+/g, "").trim();
+                let clean = str.trim().replace(/^[\s•\-\*\d\.#\(\)\[\]:;>]+/g, "").trim();
                 const noisePatterns = [
                     /^(?:can\s+you\s+)?(?:write|generate|make|do|draft)\s+an?\s+(?:essay|paper|analysis|story)\s+(?:about|on|covering|regarding)\s+(the\s+|a\s+|an\s+)?/i,
                     /^give\s+me\s+an?\s+(?:essay|paper|analysis|story)\s+(?:about|on|covering|regarding)\s+(the\s+|a\s+|an\s+)?/i,
@@ -5439,8 +5439,8 @@
                 document.getElementById('rps-ai').innerText = '0';
                 document.getElementById('rps-ties').innerText = '0';
                 document.getElementById('rps-rate').innerText = '0%';
-                document.getElementById('rps-player-choice').innerText = '鉃?;
-                document.getElementById('rps-ai-choice').innerText = '鉃?;
+                document.getElementById('rps-player-choice').innerText = '❓';
+                document.getElementById('rps-ai-choice').innerText = '❓';
 
                 updateMarkovMatrixUI();
                 saveState();
