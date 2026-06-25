@@ -4480,9 +4480,15 @@
             const normalizedCentroidY = (centroidY - minY) / height;
             const centroidOffset = Math.sqrt(Math.pow(normalizedCentroidX - 0.5, 2) + Math.pow(normalizedCentroidY - 0.5, 2));
 
+            const bbPerimeter = 2 * (width + height);
+            const isScribble = totalPathLength > bbPerimeter * 1.5;
+
             if (straightness > 90) {
                 predictedShape = "STRAIGHT LINE";
                 confidence = Math.round(straightness);
+            } else if (straightness > 20 || isScribble) {
+                predictedShape = "UNKNOWN SHAPE";
+                confidence = 100;
             } else if (cvRatio < 15) {
                 predictedShape = "CIRCLE";
                 confidence = Math.round(100 - cvRatio);
