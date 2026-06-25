@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Physics of Elliptical Orbits: An Interactive Textbook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="knowledge_base.js"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+      options: { ignoreHtmlClass: 'tex2jax_ignore', processHtmlClass: 'tex2jax_process' }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { 50: '#f0f3ff', 100: '#e1e7ff', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81' } }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .vector-label { font-family: system-ui, -apple-system, sans-serif; font-weight: 700; }
+    
+    /* ---------------- PRINT TO PDF OPTIMIZATIONS ---------------- */
+    @media print {
+      @page { margin: 0.75in; }
+      body { background-color: #ffffff !important; color: #0f172a !important; font-size: 11pt; }
+      .no-print, header, footer, aside, nav, button, input, select, #simulator, .interactive-sim { display: none !important; }
+      main { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+      article { page-break-inside: avoid; margin-bottom: 2rem !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+      .bg-white, .bg-slate-50, .bg-indigo-50\/50 { background-color: transparent !important; border: none !important; box-shadow: none !important; }
+      h1, h2, h3, h4 { page-break-after: avoid; color: #000 !important; }
+      p { line-height: 1.6; margin-bottom: 1rem; }
+      svg { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
+      .shadow-sm, .shadow-md, .rounded-2xl, .rounded-3xl { box-shadow: none !important; border-radius: 0 !important; }
+      .border, .border-slate-200 { border: 1px solid #cbd5e1 !important; }
+      .print-border { border: 1px solid #000; padding: 1rem; margin-bottom: 1rem; }
+      .text-slate-600 { color: #334155 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
+
+  <!-- Top Decorative Bar -->
+  <div class="h-2 bg-gradient-to-r from-brand-600 via-indigo-500 to-sky-400 no-print"></div>
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm backdrop-blur-md bg-white/90 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="p-2 bg-brand-50 text-brand-600 rounded-lg">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+        </span>
+        <span class="font-bold text-lg text-slate-900 tracking-tight">CosmoMechanics</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button onclick="window.print()" class="px-5 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-bold rounded-xl text-sm transition flex items-center gap-2 shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          Save as PDF / Print Book
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-white py-12 border-b border-slate-200 overflow-hidden no-print">
+    <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-60"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+        <div class="lg:col-span-8 space-y-6">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-600 uppercase tracking-wider">
+            Interactive Physics Textbook
+          </span>
+          <h1 class="text-4xl sm:text-5xl font-black text-slate-950 tracking-tight leading-none">
+            The Orbital Mechanics of <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">Elliptical Trajectories</span>
+          </h1>
+          <p class="text-lg text-slate-600 max-w-2xl">
+            A comprehensive, rigorous study of planetary physics. Explore the historical derivations of Kepler, the Newtonian kinematic equations, orbital geometries, and specific energy state boundary limits.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <!-- ---------------- SECTION: ORBIT SIMULATOR ---------------- -->
+    <section id="simulator" class="mb-16 scroll-mt-20 interactive-sim no-print">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-6 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900">Live Dynamic Orbit Simulator</h2>
+            <p class="text-sm text-slate-500">Observe dynamic velocity scaling ($\vec{v}$) in real-time as distance ($r$) shifts.</p>
+          </div>
+        </div>
+        <div class="grid lg:grid-cols-12">
+          <div class="lg:col-span-8 p-6 bg-slate-900 relative flex flex-col items-center justify-center min-h-[400px]">
+            <canvas id="orbitCanvas" class="w-full h-full max-h-[480px] bg-slate-950 rounded-2xl shadow-inner"></canvas>
+            <div class="absolute bottom-10 left-10 text-xs bg-slate-900/95 border border-slate-700 text-slate-300 p-4 rounded-xl font-mono shadow-md">
+              <div class="text-brand-400 font-bold mb-1 border-b border-slate-700 pb-1">LIVE METRICS</div>
+              <div>Dist ($r$): <span id="valSimR" class="text-white">---</span> AU</div>
+              <div>Velocity ($v$): <span id="valSimV" class="text-emerald-400">---</span> km/s</div>
+              <div>True Anomaly (&theta;): <span id="valSimTheta" class="text-sky-400">---</span>°</div>
+            </div>
+          </div>
+          <div class="lg:col-span-4 p-6 border-l border-slate-200 bg-white flex flex-col space-y-6">
+            <h3 class="font-bold text-slate-900 text-lg border-b border-slate-100 pb-2">Simulator Controls</h3>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm font-semibold mb-1"><span class="text-slate-700">Semi-Major Axis ($a$)</span><span id="labelValA" class="text-brand-600">180 AU</span></div>
+                <input type="range" id="sliderA" min="100" max="230" step="5" value="180" class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-brand-600">
+              </div>
+              <div>
+                <div class="flex justify-between text-sm font-semibold mb-1"><span class="text-slate-700">Eccentricity ($e$)</span><span id="labelValE" class="text-brand-600">0.50</span></div>
+                <input type="range" id="sliderE" min="0" max="0.85" step="0.05" value="0.50" class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-brand-600">
+              </div>
+              <div>
+                <div class="flex justify-between text-sm font-semibold mb-1"><span class="text-slate-700">Simulation Speed</span><span id="labelValSpeed" class="text-brand-600">1x</span></div>
+                <input type="range" id="sliderSpeed" min="0.1" max="3" step="0.1" value="1.0" class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-brand-600">
+              </div>
+            </div>
+            <div class="pt-6 border-t border-slate-100 space-y-2">
+              <h4 class="text-xs font-bold text-slate-400 uppercase">Derived Parameters</h4>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="bg-slate-50 p-2.5 rounded-lg"><span class="text-slate-500 block">Periapsis ($r_p$):</span><span id="simRp" class="font-bold text-slate-800">---</span></div>
+                <div class="bg-slate-50 p-2.5 rounded-lg"><span class="text-slate-500 block">Apoapsis ($r_a$):</span><span id="simRa" class="font-bold text-slate-800">---</span></div>
+                <div class="bg-slate-50 p-2.5 rounded-lg col-span-2"><span class="text-slate-500 block">Orbital Period ($T$):</span><span id="simPeriod" class="font-bold text-slate-800">---</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+      <aside class="hidden lg:block lg:col-span-3 no-print">
+        <div class="sticky top-24 space-y-4">
+          <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Textbook Chapters</h3>
+          <nav class="space-y-1">
+            <a href="#geometry" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg">1. Geometric Foundations</a>
+            <a href="#kepler" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg">2. Keplerian Dynamics</a>
+            <a href="#forces-speeds" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg">3. Vector Forces & Speeds</a>
+            <a href="#dynamics" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg">4. Conservation & Conics</a>
+            <a href="#energy" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg">5. Energetics & Vis-Viva</a>
+            <a href="#calculator" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg">6. Mission Calculator</a>
+            <a href="#quiz" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg">7. Comprehension Quiz</a>
+            <a href="#reference-guide" class="group flex items-center px-3 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-white rounded-lg mt-4">Exam Cheat Sheet</a>
+          </nav>
+        </div>
+      </aside>
+
+      <div class="lg:col-span-9 space-y-16">
+
+        <!-- ---------------- CHAPTER 1: GEOMETRY ---------------- -->
+        <article id="geometry" class="scroll-mt-20 print-border">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">1</span>
+              Geometric Foundations of the Ellipse
+            </h2>
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                In mathematics, an ellipse is formally defined as the geometric locus of all points in a two-dimensional Euclidean plane such that the sum of the absolute distances to two fixed, immobile points (the <strong>foci</strong>) is strictly constant. If we denote these focal points as $F_1$ and $F_2$, and select any arbitrary point $P$ resting upon the perimeter of the curve, the defining invariant relationship is expressed as:
+                $$d(F_1, P) + d(F_2, P) = 2a$$
+                where the scalar $a$ represents the length of the <strong>semi-major axis</strong>. Historically, this property was utilized by ancient Greek mathematicians like Apollonius of Perga, who mapped the curve using a simple loop of string pinned at the two focal points. 
+              </p>
+              <p>
+                In the context of astrodynamics and planetary orbital mechanics, the configuration is uniquely asymmetric. The primary, dominant gravitational mass of the system (such as the Sun in our Solar System, or Earth for lunar orbits) resides exactly at a single focal point ($F_1$). The secondary focal point ($F_2$) is merely a mathematical coordinate—completely empty space. This fundamental geometric eccentricity guarantees that as the satellite progresses along its orbital track, its radial distance $r$ from the central star continuously dilates and contracts, forming a rhythmic harmonic cycle of varying distances known as periapsis and apoapsis.
+              </p>
+            </div>
+
+            <!-- Fig 1.1: Geometric Anatomy of an Ellipse -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 mb-6 print-border">
+              <span class="text-xs font-bold text-slate-500 block mb-3 text-center uppercase tracking-wider">Figure 1.1: The Geometric Anatomy and Vectors of a Planetary Ellipse</span>
+              <svg viewBox="0 0 800 450" width="100%" height="auto" class="rounded-lg bg-white">
+                <defs><pattern id="light-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f1f5f9" stroke-width="1"/></pattern></defs>
+                <rect width="100%" height="100%" fill="url(#light-grid)" class="no-print" />
+                <line x1="100" y1="225" x2="700" y2="225" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4" />
+                <line x1="400" y1="50" x2="400" y2="400" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4" />
+                <ellipse cx="400" cy="225" rx="250" ry="150" fill="none" stroke="#4f46e5" stroke-width="3" />
+                
+                <!-- Focus 1 -->
+                <circle cx="200" cy="225" r="16" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                <text x="200" y="270" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Focus 1 (Central Star)</text>
+                <text x="200" y="270" fill="#d97706" class="vector-label text-sm" text-anchor="middle">Focus 1 (Central Star)</text>
+                
+                <!-- Focus 2 -->
+                <circle cx="600" cy="225" r="6" fill="#94a3b8" />
+                <text x="600" y="205" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Focus 2 (Empty)</text>
+                <text x="600" y="205" fill="#64748b" class="vector-label text-xs" text-anchor="middle">Focus 2 (Empty)</text>
+                
+                <!-- Center -->
+                <circle cx="400" cy="225" r="4" fill="#334155" />
+                <text x="400" y="210" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Center</text>
+                <text x="400" y="210" fill="#334155" class="vector-label text-xs" text-anchor="middle">Center</text>
+                
+                <!-- Planet -->
+                <circle cx="576.8" cy="118.9" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text x="590" y="110" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm">Planet (P)</text>
+                <text x="590" y="110" fill="#2563eb" class="vector-label text-sm">Planet (P)</text>
+                
+                <line x1="200" y1="225" x2="576.8" y2="118.9" stroke="#f87171" stroke-width="2.5" stroke-dasharray="3" />
+                <line x1="600" y1="225" x2="576.8" y2="118.9" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3" />
+
+                <!-- Axes -->
+                <line x1="400" y1="385" x2="650" y2="385" stroke="#4f46e5" stroke-width="2" />
+                <line x1="400" y1="380" x2="400" y2="390" stroke="#4f46e5" stroke-width="1.5" />
+                <line x1="650" y1="380" x2="650" y2="390" stroke="#4f46e5" stroke-width="1.5" />
+                <text x="525" y="405" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Semi-major axis (a)</text>
+                <text x="525" y="405" fill="#4f46e5" class="vector-label text-xs" text-anchor="middle">Semi-major axis (a)</text>
+
+                <line x1="420" y1="225" x2="420" y2="75" stroke="#16a34a" stroke-width="2" />
+                <line x1="415" y1="225" x2="425" y2="225" stroke="#16a34a" stroke-width="1.5" />
+                <line x1="415" y1="75" x2="425" y2="75" stroke="#16a34a" stroke-width="1.5" />
+                <text x="440" y="150" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle" transform="rotate(-90 440 150)">Semi-minor axis (b)</text>
+                <text x="440" y="150" fill="#16a34a" class="vector-label text-xs" text-anchor="middle" transform="rotate(-90 440 150)">Semi-minor axis (b)</text>
+
+                <line x1="200" y1="305" x2="400" y2="305" stroke="#d97706" stroke-width="1.5" />
+                <line x1="200" y1="300" x2="200" y2="310" stroke="#d97706" stroke-width="1" />
+                <line x1="400" y1="300" x2="400" y2="310" stroke="#d97706" stroke-width="1" />
+                <text x="300" y="325" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Linear Eccentricity (c = ae)</text>
+                <text x="300" y="325" fill="#d97706" class="vector-label text-xs" text-anchor="middle">Linear Eccentricity (c = ae)</text>
+
+                <text x="115" y="210" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Periapsis (rp)</text>
+                <text x="115" y="210" fill="#e11d48" class="vector-label text-xs" text-anchor="middle">Periapsis (rp)</text>
+                
+                <text x="685" y="210" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Apoapsis (ra)</text>
+                <text x="685" y="210" fill="#e11d48" class="vector-label text-xs" text-anchor="middle">Apoapsis (ra)</text>
+                
+                <text x="375" y="180" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm italic">r</text>
+                <text x="375" y="180" fill="#ef4444" class="vector-label text-sm italic">r</text>
+
+                <!-- True Anomaly - Correctly anchored to Periapsis line -->
+                <path d="M 235 225 A 35 35 0 0 0 220 195" fill="none" stroke="#ef4444" stroke-width="2" />
+                <text x="250" y="190" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">&theta; (True Anomaly)</text>
+                <text x="250" y="190" fill="#ef4444" class="vector-label text-xs">&theta; (True Anomaly)</text>
+              </svg>
+            </div>
+
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                The <strong>eccentricity</strong> ($e$) of the orbit dictates the severity of the orbital oval. It is defined fundamentally by the ratio of the focal distance to the semi-major axis, formulated precisely as:
+                $$e = \sqrt{1 - \frac{b^2}{a^2}}$$
+                For bound planetary systems, the value is strictly constrained between $0 \le e < 1$. A zero eccentricity yields a perfect circle ($b=a$), meaning the two foci merge into a single central point. 
+              </p>
+              <p>
+                When establishing a coordinate framework, astrodynamicists abandon Cartesian $(x,y)$ coordinates centered at $(0,0)$ in favor of polar coordinates $(r, \theta)$ anchored securely on the active focus ($F_1$). By defining $\theta = 0^\circ$ at the exact point of closest approach, the true path distance equation seamlessly elegantly resolves to:
+                $$r(\theta) = \frac{a(1 - e^2)}{1 + e\cos\theta}$$
+                This equation maps the satellite's exact radial position vector solely using geometric constants and the sweeping <em>true anomaly</em> angle $\theta$.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---------------- CHAPTER 2: KEPLER ---------------- -->
+        <article id="kepler" class="scroll-mt-20 print-border">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">2</span>
+              Keplerian Dynamics and Area Sweeps
+            </h2>
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                Johannes Kepler’s profound analysis of Tycho Brahe's meticulous Mars tracking data culminated in three monumental empirical laws published between 1609 and 1619. These laws systematically dismantled millennia of Aristotelian dogma, proving conclusively that nature preferred elliptical, non-uniform motion over perfectly spherical, constant-speed crystalline shells.
+              </p>
+              <p>
+                Kepler's <strong>Second Law (The Law of Areas)</strong> asserts that "A line segment joining a planet and the Sun sweeps out equal areas during equal intervals of time." This is not merely a geometric coincidence, but rather a direct physical consequence of the conservation of angular momentum ($L$). As a planet approaches the star, its radial distance $r$ drastically decreases. To ensure the sweeping angular product $r^2 \dot{\theta}$ remains invariant, the angular velocity $\dot{\theta}$ must violently spike upward. 
+              </p>
+              <p>
+                Calculus rigorously verifies this. The differential area $dA$ swept by the position vector over an infinitesimal time $dt$ is the area of an infinitely thin triangle: $dA = \frac{1}{2} r (r d\theta)$. Dividing by $dt$ provides the areal velocity:
+                $$\frac{dA}{dt} = \frac{1}{2} r^2 \frac{d\theta}{dt} = \frac{L}{2m} = \text{Constant}$$
+              </p>
+            </div>
+
+            <!-- Fig 1.2: Law of Areas -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 mb-6 print-border">
+              <span class="text-xs font-bold text-slate-500 block mb-3 text-center uppercase tracking-wider">Figure 1.2: Kepler's Second Law — Area and Velocity Conservation</span>
+              <svg viewBox="0 0 800 350" width="100%" height="auto" class="rounded-lg bg-white">
+                <!-- Swept paths perfectly locked to the focus point -->
+                <path d="M 152 175 L 157.5 110 A 280 130 0 0 0 157.5 240 Z" fill="#ef4444" fill-opacity="0.15" stroke="#ef4444" stroke-width="1.5" />
+                <path d="M 152 175 L 670.4 141.4 A 280 130 0 0 1 670.4 208.6 Z" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5" />
+
+                <ellipse cx="400" cy="175" rx="280" ry="130" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="3" class="no-print" />
+                <ellipse cx="400" cy="175" rx="280" ry="130" fill="none" stroke="#4f46e5" stroke-width="2.5" />
+                
+                <circle cx="152" cy="175" r="18" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                <text x="152" y="215" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Sun Focus</text>
+                <text x="152" y="215" fill="#d97706" class="vector-label text-sm" text-anchor="middle">Sun Focus</text>
+                
+                <text x="210" y="179" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Area A₁</text>
+                <text x="210" y="179" fill="#b91c1c" class="vector-label text-sm" text-anchor="middle">Area A₁</text>
+                
+                <text x="130" y="75" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">t₀ to t₁ (Fast Sweep)</text>
+                <text x="130" y="75" fill="#64748b" class="vector-label text-xs">t₀ to t₁ (Fast Sweep)</text>
+                
+                <text x="500" y="180" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Area A₂</text>
+                <text x="500" y="180" fill="#047857" class="vector-label text-sm" text-anchor="middle">Area A₂</text>
+                
+                <text x="645" y="110" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">t₂ to t₃ (Slow Sweep)</text>
+                <text x="645" y="110" fill="#64748b" class="vector-label text-xs">t₂ to t₃ (Slow Sweep)</text>
+
+                <text x="400" y="325" fill="#1e293b" class="vector-label text-sm" text-anchor="middle">Area A₁ = Area A₂ IF the time difference (t₁ - t₀) is exactly equal to (t₃ - t₂)</text>
+              </svg>
+            </div>
+            
+            <p class="text-slate-600 leading-relaxed text-justify">
+              Kepler's <strong>Third Law (The Law of Periods)</strong> establishes a mathematical proportionality connecting the overall geometric size of the orbit (the semi-major axis $a$) and the chronological time required to complete one full revolution ($T$). 
+            </p>
+            
+            <!-- Interactive 3 -->
+            <div class="bg-indigo-50/50 rounded-2xl border border-indigo-100 p-6 shadow-sm interactive-sim no-print">
+              <h3 class="text-lg font-bold text-indigo-950 mb-1">Interactive Simulator: Keplerian Grapher</h3>
+              <p class="text-xs text-indigo-700 mb-4">Click planets to plot them on a real \(T^2\) vs \(a^3\) linear graph.</p>
+              <div class="grid md:grid-cols-12 gap-6">
+                <div class="md:col-span-5 space-y-2">
+                  <div class="bg-white border border-indigo-100 rounded-xl p-3 overflow-y-auto max-h-[220px] text-xs">
+                    <table class="w-full text-left">
+                      <thead><tr class="border-b border-indigo-100 text-indigo-900 font-bold"><th>Planet</th><th>a (AU)</th><th>T (Yrs)</th><th>Plot</th></tr></thead>
+                      <tbody id="keplerTableBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="md:col-span-7 bg-white border border-indigo-100 rounded-xl p-4">
+                  <svg id="keplerGraph" viewBox="0 0 300 180" width="100%" height="auto" class="overflow-visible">
+                    <line x1="30" y1="150" x2="280" y2="150" stroke="#94a3b8" stroke-width="1.5" />
+                    <line x1="30" y1="20" x2="30" y2="150" stroke="#94a3b8" stroke-width="1.5" />
+                    <text x="150" y="175" class="fill-slate-500 text-[10px]" text-anchor="middle">Semi-Major Axis Cubed (a³)</text>
+                    <text x="8" y="90" class="fill-slate-500 text-[10px]" text-anchor="middle" transform="rotate(-90 8 90)">Period Squared (T²)</text>
+                    <line x1="30" y1="150" x2="270" y2="30" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="2" />
+                    <g id="keplerPointsGroup"></g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- ---------------- CHAPTER 3: FORCES & SPEEDS ---------------- -->
+        <article id="forces-speeds" class="scroll-mt-20 print-border">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">3</span>
+              Kinematic Force Vectors and Speeds
+            </h2>
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                A fundamental principle of orbital mechanics relies on the Work-Energy Theorem, expressed mathematically as $W = \int \vec{F} \cdot d\vec{r} = \Delta K$. In a purely circular orbit, the satellite's velocity vector $\vec{v}$ is perpetually orthogonal (perpendicular) to the radial gravitational force $\vec{F}_g$. Because the dot product of perpendicular vectors is strictly zero ($\vec{F} \cdot \vec{v} = 0$), gravity performs absolutely zero net work on the satellite, ensuring its kinetic energy—and thus its speed—remains perpetually unvarying.
+              </p>
+              <p>
+                In an elliptical track, this symmetry is broken. The $90^\circ$ geometric orthogonality occurs <strong>exclusively</strong> at the two extreme vertices: periapsis and apoapsis. At every other infinitesimally small interval along the curve, the gravitational vector possesses a parallel (or anti-parallel) tangent component relative to the satellite's motion.
+              </p>
+              <p>
+                As the satellite ejects away from the star (ascending from periapsis towards apoapsis), the angle between the velocity vector and gravity becomes obtuse ($>90^\circ$). The dot product becomes mathematically negative, bleeding kinetic energy out of the system and radically decelerating the craft. Conversely, when falling back into the gravity well, the angle becomes acute ($<90^\circ$), resulting in massive positive work and severe acceleration.
+              </p>
+            </div>
+
+            <!-- Fig 3.1: Forces, Speeds, and Tangents -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 mb-6 print-border">
+              <span class="text-xs font-bold text-slate-500 block mb-3 text-center uppercase tracking-wider">Figure 3.1: Transient Deceleration and Vector Alignment along the Path</span>
+              <svg viewBox="0 0 800 450" width="100%" height="auto" class="rounded-lg bg-white">
+                <defs>
+                  <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" /></marker>
+                  <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444" /></marker>
+                </defs>
+                <ellipse cx="400" cy="225" rx="260" ry="140" fill="none" stroke="#4f46e5" stroke-width="2.5" />
+
+                <!-- Central Mass -->
+                <circle cx="181" cy="225" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2" />
+                <text x="181" y="260" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Central Body (M)</text>
+                <text x="181" y="260" fill="#d97706" class="vector-label text-xs" text-anchor="middle">Central Body (M)</text>
+
+                <!-- Point A: Periapsis -->
+                <circle cx="140" cy="225" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                <line x1="140" y1="225" x2="140" y2="105" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+                <text x="95" y="105" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">v_max (Fastest)</text>
+                <text x="95" y="105" fill="#047857" class="vector-label text-xs">v_max (Fastest)</text>
+
+                <!-- Perfect 90 degree Square Bracket -->
+                <path d="M 140 212 L 153 212 L 153 225" fill="none" stroke="#94a3b8" stroke-width="2" />
+                <line x1="140" y1="225" x2="167" y2="225" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+                <text x="140" y="250" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Fg</text>
+                <text x="140" y="250" fill="#b91c1c" class="vector-label text-xs">Fg</text>
+                <text x="90" y="229" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">90° Angle</text>
+                <text x="90" y="229" fill="#64748b" class="vector-label text-xs">90° Angle</text>
+
+                <!-- Point B: Descending Path -->
+                <circle cx="350" cy="90" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                <line x1="350" y1="90" x2="430" y2="105" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-green)" />
+                <text x="440" y="110" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">v (Slowing Down)</text>
+                <text x="440" y="110" fill="#047857" class="vector-label text-xs">v (Slowing Down)</text>
+
+                <line x1="350" y1="90" x2="231" y2="185" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arrow-red)" />
+                <text x="280" y="140" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Fg</text>
+                <text x="280" y="140" fill="#b91c1c" class="vector-label text-xs">Fg</text>
+                
+                <!-- Obtuse indicator -->
+                <path d="M 330 106 A 25 25 0 0 1 365 105" fill="none" stroke="#64748b" stroke-width="1.5" />
+                <text x="365" y="125" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Obtuse Angle</text>
+                <text x="365" y="125" fill="#64748b" class="vector-label text-xs">Obtuse Angle</text>
+
+                <!-- Point C: Apoapsis -->
+                <circle cx="660" cy="225" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                <line x1="660" y1="225" x2="660" y2="295" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-green)" />
+                <text x="670" y="285" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">v_min (Slowest)</text>
+                <text x="670" y="285" fill="#047857" class="vector-label text-xs">v_min (Slowest)</text>
+
+                <line x1="660" y1="225" x2="610" y2="225" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arrow-red)" />
+                <text x="625" y="210" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Fg</text>
+                <text x="625" y="210" fill="#b91c1c" class="vector-label text-xs">Fg</text>
+                <text x="680" y="229" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">90° Angle</text>
+                <text x="680" y="229" fill="#64748b" class="vector-label text-xs">90° Angle</text>
+              </svg>
+            </div>
+            
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                In practical spaceflight maneuvering, aerospace engineers leverage these specific speed differentials to alter orbits efficiently. This is modeled beautifully by the <strong>Hohmann Transfer Orbit</strong>. To shift a spacecraft from an inner circular orbit (like Earth) to an outer one (like Mars), the craft executes an intense prograde burn ($\Delta v_1$). This violently shoves the craft into an elliptical transfer track, mathematically positioning the departure burn point exactly at the new periapsis. 
+              </p>
+              <p>
+                The craft then silently coasts for months uphill through the gravitational well, bleeding off all the excess kinetic energy until it arrives at the outer orbit apoapsis. A final circularization burn ($\Delta v_2$) is commanded precisely at the $90^\circ$ tangent mark to restore stable circular geometry.
+              </p>
+            </div>
+            
+            <!-- Fig 2.1: Hohmann Transfer -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 mb-6 print-border">
+              <span class="text-xs font-bold text-slate-500 block mb-3 text-center uppercase tracking-wider">Figure 3.2: Geometric Precision of the Hohmann Transfer</span>
+              <svg viewBox="0 0 800 350" width="100%" height="auto" class="rounded-lg bg-white">
+                <defs>
+                  <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#4f46e5" /></marker>
+                </defs>
+                <circle cx="400" cy="175" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" />
+                <text x="400" y="205" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Sun Focus</text>
+                <text x="400" y="205" fill="#d97706" class="vector-label text-xs" text-anchor="middle">Sun Focus</text>
+                
+                <circle cx="400" cy="175" r="60" fill="none" stroke="#10b981" stroke-width="1.5" />
+                <circle cx="400" cy="175" r="130" fill="none" stroke="#ef4444" stroke-width="1.5" />
+                
+                <!-- True math tangential ellipse -->
+                <ellipse cx="435" cy="175" rx="95" ry="88.3" fill="none" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4" />
+                
+                <line x1="340" y1="175" x2="340" y2="125" stroke="#4f46e5" stroke-width="2.5" marker-end="url(#arrow-blue)" />
+                <text x="290" y="145" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Thrust (Δv₁)</text>
+                <text x="290" y="145" fill="#4f46e5" class="vector-label text-xs">Thrust (Δv₁)</text>
+
+                <line x1="530" y1="175" x2="530" y2="225" stroke="#4f46e5" stroke-width="2.5" marker-end="url(#arrow-blue)" />
+                <text x="545" y="210" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Thrust (Δv₂)</text>
+                <text x="545" y="210" fill="#4f46e5" class="vector-label text-xs">Thrust (Δv₂)</text>
+
+                <text x="400" y="255" fill="#10b981" class="vector-label text-xs" text-anchor="middle">Orbit 1 (Earth)</text>
+                <text x="400" y="320" fill="#ef4444" class="vector-label text-xs" text-anchor="middle">Orbit 2 (Mars)</text>
+                <text x="460" y="75" fill="#4f46e5" class="vector-label text-xs">Transfer trajectory</text>
+              </svg>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---------------- CHAPTER 4: CONICS & MOMENTUM ---------------- -->
+        <article id="dynamics" class="scroll-mt-20 print-border">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">4</span>
+              Angular Momentum and Conic Boundaries
+            </h2>
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                According to the fundamental laws of classical physics, a system's angular momentum vector $\vec{L}$ can only be modified by the application of an external torque ($\vec{\tau} = \vec{r} \times \vec{F}$). Because Newton's Law of Universal Gravitation strictly defines gravity as a purely central, radial force, the force vector $\vec{F}$ is always perfectly parallel (or anti-parallel) to the position vector $\vec{r}$.
+              </p>
+              <p>
+                The cross product of two parallel vectors is identically zero. Therefore, absolutely zero torque exists in an isolated orbital system. This forces the specific angular momentum vector ($\vec{h} = \vec{r} \times \vec{v}$) to remain rigidly constant in both scalar magnitude and spatial direction. The constancy of the directional vector rigorously confines the entire planetary orbit onto a perfectly flat, two-dimensional geometric plane floating in 3D space, preventing the satellite from drifting "up" or "down".
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-stretch mb-6">
+              <!-- Fig 4.1: Momentum Vector -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 print-border">
+                <span class="text-xs font-bold text-slate-500 block mb-3 uppercase tracking-wider text-center">Fig 4.1: Orbital Plane Rigidity</span>
+                <svg viewBox="0 0 400 200" width="100%" height="auto" class="rounded-lg bg-white">
+                  <polygon points="50,150 350,150 280,70 20,70" fill="#e0e7ff" fill-opacity="0.5" stroke="#4f46e5" stroke-width="1.5" />
+                  <ellipse cx="170" cy="110" rx="90" ry="35" fill="none" stroke="#6366f1" stroke-width="2" />
+                  <line x1="170" y1="110" x2="170" y2="20" stroke="#10b981" stroke-width="3.5" />
+                  <path d="M170 20 L166 28 L174 28 Z" fill="#10b981" />
+                  <text x="180" y="30" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">h = r × v</text>
+                  <text x="180" y="30" fill="#10b981" class="vector-label text-xs">h = r × v</text>
+                  <text x="180" y="130" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Orbital Plane</text>
+                  <text x="180" y="130" fill="#6366f1" class="vector-label text-xs">Orbital Plane</text>
+                </svg>
+              </div>
+
+              <!-- Fig 4.2: 3D Elements -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 print-border">
+                <span class="text-xs font-bold text-slate-500 block mb-3 uppercase tracking-wider text-center">Fig 4.2: 3D Orbital Elements</span>
+                <svg viewBox="0 0 400 200" width="100%" height="auto" class="rounded-lg bg-white">
+                  <polygon points="75,130 325,130 275,70 25,70" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="2" />
+                  <text x="40" y="80" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">Reference Plane</text>
+                  <text x="40" y="80" fill="#64748b" class="vector-label text-[10px]">Reference Plane</text>
+                  <polygon points="90,150 310,110 250,50 30,90" fill="#e0e7ff" fill-opacity="0.4" stroke="#4f46e5" stroke-dasharray="4" />
+                  <text x="40" y="105" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">Inclined Plane</text>
+                  <text x="40" y="105" fill="#4f46e5" class="vector-label text-[10px]">Inclined Plane</text>
+                  <line x1="60" y1="110" x2="280" y2="90" stroke="#dc2626" stroke-width="2" />
+                  <text x="180" y="95" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">Line of Nodes</text>
+                  <text x="180" y="95" fill="#dc2626" class="vector-label text-[10px]">Line of Nodes</text>
+                  <path d="M 260 110 A 20 20 0 0 0 270 92" fill="none" stroke="#0891b2" stroke-width="2" />
+                  <text x="275" y="105" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">i (Inclination)</text>
+                  <text x="275" y="105" fill="#0891b2" class="vector-label text-[10px]">i (Inclination)</text>
+                  <circle cx="170" cy="100" r="8" fill="#fbbf24" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                But what determines if an orbit will loop endlessly like an ellipse, or fly apart forever? The mathematical boundaries of gravity precisely mimic the geometric intersection of a 3-dimensional double cone and a flat 2-dimensional bisection plane.
+              </p>
+              <p>
+                When a spacecraft lacks the velocity to escape, it is energetically trapped, producing a horizontal or slanted slice that yields closed curves (circles or ellipses). If the spacecraft is injected with massive surplus energy, it traces a steep vertical slice yielding a <strong>hyperbola</strong>. Interstellar rogue comets, entirely unbounded by the Sun's gravity, follow highly eccentric hyperbolic lines—falling in briefly before ripping back out to deep space on a radically different asymptotic heading.
+              </p>
+            </div>
+
+            <!-- Fig 4.3: Conic Sections Geometry -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 mb-6 print-border">
+              <span class="text-xs font-bold text-slate-500 block mb-3 text-center uppercase tracking-wider">Fig 4.3: Generating Kinematic Curves via Conic Slicing</span>
+              <svg viewBox="0 0 800 450" width="100%" height="auto" class="rounded-lg bg-white">
+                <defs>
+                  <linearGradient id="coneGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#cbd5e1" stop-opacity="0.8"/><stop offset="50%" stop-color="#f8fafc" stop-opacity="0.3"/><stop offset="100%" stop-color="#94a3b8" stop-opacity="0.9"/>
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="#fafafa" class="no-print" />
+                <!-- The 3D Cone -->
+                <path d="M 250 50 L 350 200 L 450 50 Z" fill="url(#coneGrad)" stroke="#64748b" stroke-width="1" />
+                <ellipse cx="350" cy="50" rx="100" ry="20" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5" />
+                <path d="M 250 350 L 350 200 L 450 350 Z" fill="url(#coneGrad)" stroke="#64748b" stroke-width="1" />
+                <ellipse cx="350" cy="350" rx="100" ry="20" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5" />
+                <line x1="350" y1="20" x2="350" y2="380" stroke="#475569" stroke-width="1.5" stroke-dasharray="5 5" />
+
+                <!-- 1. Circle -->
+                <ellipse cx="350" cy="90" rx="73" ry="15" fill="none" stroke="#0ea5e9" stroke-width="3" />
+                <line x1="350" y1="90" x2="520" y2="90" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="2" />
+                <circle cx="350" cy="90" r="3" fill="#0ea5e9" />
+                <text x="530" y="94" fill="#0ea5e9" class="vector-label text-xs">Circle (e = 0) - Perpendicular Cut</text>
+
+                <!-- 2. Ellipse -->
+                <ellipse cx="340" cy="140" rx="60" ry="18" fill="none" stroke="#4f46e5" stroke-width="3" transform="rotate(-12 340 140)" />
+                <line x1="340" y1="140" x2="520" y2="140" stroke="#4f46e5" stroke-width="1.5" stroke-dasharray="2" />
+                <circle cx="340" cy="140" r="3" fill="#4f46e5" />
+                <text x="530" y="144" fill="#4f46e5" class="vector-label text-xs">Ellipse (0 &lt; e &lt; 1) - Angled Cut</text>
+
+                <!-- 3. Parabola -->
+                <path d="M 285 275 Q 350 180 395 285" fill="none" stroke="#f59e0b" stroke-width="3" />
+                <line x1="345" y1="230" x2="520" y2="230" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2" />
+                <circle cx="345" cy="230" r="3" fill="#f59e0b" />
+                <text x="530" y="234" fill="#f59e0b" class="vector-label text-xs">Parabola (e = 1) - Parallel to Side</text>
+
+                <!-- 4. Hyperbola -->
+                <path d="M 270 30 Q 320 80 270 130" fill="none" stroke="#ef4444" stroke-width="3" />
+                <path d="M 270 270 Q 320 320 270 370" fill="none" stroke="#ef4444" stroke-width="3" />
+                <line x1="295" y1="80" x2="140" y2="80" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="2" />
+                <circle cx="295" cy="80" r="3" fill="#ef4444" />
+                <text x="130" y="84" fill="#ef4444" class="vector-label text-xs" text-anchor="end">Hyperbola (e &gt; 1) - Cuts both nappes</text>
+              </svg>
+            </div>
+            
+            <!-- Conic Sandbox -->
+            <div class="bg-indigo-50/50 rounded-3xl border border-indigo-100 p-6 shadow-sm interactive-sim no-print">
+              <h3 class="text-lg font-bold text-indigo-950 mb-1">Interactive Sandbox: Conic Slicer</h3>
+              <div class="grid md:grid-cols-12 gap-6 items-center">
+                <div class="md:col-span-4 space-y-4">
+                  <div>
+                    <label class="block text-xs font-bold text-indigo-900 mb-1">Set Eccentricity (\(e\)):</label>
+                    <div class="flex items-center gap-3">
+                      <input type="range" id="conicSlider" min="0" max="2.2" step="0.1" value="0.5" class="w-full accent-indigo-600">
+                      <span id="conicSliderVal" class="font-bold text-indigo-700 text-sm">0.50</span>
+                    </div>
+                  </div>
+                  <div class="p-3.5 bg-white border border-indigo-100 rounded-xl text-xs space-y-2">
+                    <div><strong>Orbit Class:</strong> <span id="conicClass" class="font-bold text-indigo-600">Ellipse</span></div>
+                    <div><strong>Energy State:</strong> <span id="conicEnergy" class="font-bold text-indigo-600">Bound (Negative)</span></div>
+                  </div>
+                </div>
+                <div class="md:col-span-8 bg-white border border-indigo-100 rounded-xl p-4 flex items-center justify-center">
+                  <svg id="conicSvg" viewBox="0 0 300 180" width="100%" height="auto" class="rounded bg-white">
+                    <circle cx="100" cy="90" r="10" fill="#fbbf24" stroke="#d97706" />
+                    <path id="conicPath" d="" fill="none" stroke="#4f46e5" stroke-width="3" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- ---------------- CHAPTER 5: ENERGETICS ---------------- -->
+        <article id="energy" class="scroll-mt-20 print-border">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">5</span>
+              Energetics, Vis-Viva & Hierarchy
+            </h2>
+            <div class="text-slate-600 space-y-4 leading-relaxed text-justify">
+              <p>
+                Specific energy ($\varepsilon = E/m$) is the foundational scaler mapping orbital shape classification. Integrating the universal gravitational formula provides us with the specific potential energy parameter ($U = -\frac{GM}{r}$). Note the crucial negative sign: it implies that a mass falling inward loses potential potential and becomes "trapped" in the deep gravitational potential well of the star. 
+              </p>
+              <p>
+                Adding the specific kinetic energy ($\frac{1}{2}v^2$) yields the total energetic state equation: $\varepsilon = \frac{1}{2}v^2 - \frac{GM}{r}$. By equating this localized calculation to the global bound energy parameter ($-\frac{GM}{2a}$), mathematicians deduced the master Vis-Viva equation—a singular algebraic tool capable of revealing spacecraft velocities at any arbitrary celestial longitude.
+              </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6 print-border">
+              <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-600">
+                <div class="space-y-2">
+                  <h4 class="font-bold text-slate-950">Specific Orbital Energy</h4>
+                  <div class="font-mono text-xs text-brand-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    \[\varepsilon = \frac{1}{2}v^2 - \frac{GM}{r} = -\frac{GM}{2a}\]
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <h4 class="font-bold text-slate-950">The Famous Vis-Viva Equation</h4>
+                  <div class="font-mono text-xs text-emerald-600 bg-emerald-50 p-3 rounded-lg border border-emerald-100 font-bold">
+                    \[v^2 = GM \left( \frac{2}{r} - \frac{1}{a} \right)\]
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 items-stretch pt-4 border-t border-slate-100">
+                <!-- Fig 5.1: Gravitational Potential Well FIXED -->
+                <div>
+                  <span class="text-xs font-bold text-slate-500 block mb-3 uppercase tracking-wider text-center">Fig 5.1: Deep Gravitational Well</span>
+                  <svg viewBox="0 0 400 200" width="100%" height="auto" class="rounded-lg bg-slate-50 border border-slate-100">
+                    <path d="M 20 50 Q 180 50 190 190 L 210 190 Q 220 50 380 50" fill="none" stroke="#64748b" stroke-width="2.5" />
+                    <line x1="60" y1="120" x2="340" y2="120" stroke="#f43f5e" stroke-width="2" stroke-dasharray="3" />
+                    <!-- Point fixed EXACTLY on the curve using the math computed: (171.2, 120) -->
+                    <circle cx="171.2" cy="120" r="7" fill="#3b82f6" />
+                    <text x="200" y="110" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs" text-anchor="middle">Bound Elliptical Energy (E &lt; 0)</text>
+                    <text x="200" y="110" fill="#f43f5e" class="vector-label text-xs" text-anchor="middle">Bound Elliptical Energy (E &lt; 0)</text>
+                    <text x="185" y="140" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Orbiting Body</text>
+                    <text x="185" y="140" fill="#334155" class="vector-label text-xs">Orbiting Body</text>
+                  </svg>
+                </div>
+                
+                <!-- Fig 5.2: Velocity Hierarchy FIXED ALIGNMENT -->
+                <div>
+                  <span class="text-xs font-bold text-slate-500 block mb-3 uppercase tracking-wider text-center">Fig 5.2: Orbital Hierarchy (Shared Periapsis)</span>
+                  <svg viewBox="0 0 400 300" width="100%" height="auto" class="rounded-lg bg-white border border-slate-100">
+                    <circle cx="180" cy="150" r="10" fill="#fbbf24" stroke="#d97706" />
+                    <circle cx="80" cy="150" r="4" fill="#475569" />
+                    <text x="70" y="154" fill="#475569" class="vector-label text-[10px]" text-anchor="end">Common Periapsis (rp)</text>
+                    
+                    <!-- Circle r=100 (Center 180,150) -->
+                    <path d="M 80 150 A 100 100 0 1 1 80 150.01" fill="none" stroke="#10b981" stroke-width="2" />
+                    <!-- Ellipse rx=150, ry=111.8 (Center 230,150) -->
+                    <path d="M 80 150 A 150 111.8 0 1 1 80 150.01" fill="none" stroke="#4f46e5" stroke-width="2" />
+                    <!-- Parabola mathematically routed through (80,150) -> vertex -->
+                    <path d="M 380 20 Q -70 150 380 280" fill="none" stroke="#f59e0b" stroke-width="2" />
+                    <!-- Hyperbola sharper -->
+                    <path d="M 270 10 Q 0 150 270 290" fill="none" stroke="#ef4444" stroke-width="2" />
+                    
+                    <text x="160" y="60" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">Circle</text>
+                    <text x="160" y="60" fill="#10b981" class="vector-label text-[10px]">Circle</text>
+                    <text x="220" y="50" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">Ellipse</text>
+                    <text x="220" y="50" fill="#4f46e5" class="vector-label text-[10px]">Ellipse</text>
+                    <text x="280" y="30" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">Parabola</text>
+                    <text x="280" y="30" fill="#f59e0b" class="vector-label text-[10px]">Parabola</text>
+                    <text x="220" y="15" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-[10px]">Hyperbola</text>
+                    <text x="220" y="15" fill="#ef4444" class="vector-label text-[10px]">Hyperbola</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- INTERACTIVE 6: Lagrange Locator -->
+            <div class="bg-indigo-50/50 rounded-3xl border border-indigo-100 p-6 shadow-sm interactive-sim no-print">
+              <h3 class="text-lg font-bold text-indigo-950 mb-1">Interactive Sandbox: Lagrange Points Locator</h3>
+              <div class="grid md:grid-cols-12 gap-6 items-center">
+                <div class="md:col-span-7 bg-white border border-indigo-100 rounded-xl p-4 flex items-center justify-center">
+                  <svg id="lagrangeSvg" viewBox="0 0 300 200" width="100%" height="auto" class="rounded bg-white overflow-visible select-none">
+                    <circle cx="110" cy="100" r="14" fill="#f59e0b" />
+                    <circle cx="110" cy="100" r="65" fill="none" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2" />
+                    <circle cx="175" cy="100" r="6" fill="#3b82f6" />
+                    <circle cx="158" cy="100" r="5" fill="#f43f5e" class="cursor-pointer hover:scale-125 transition" onclick="selectLagrange('L1')" />
+                    <text x="158" y="93" class="fill-slate-600 text-[8px] font-bold" text-anchor="middle">L1</text>
+                    <circle cx="193" cy="100" r="5" fill="#f43f5e" class="cursor-pointer hover:scale-125 transition" onclick="selectLagrange('L2')" />
+                    <text x="193" y="93" class="fill-slate-600 text-[8px] font-bold" text-anchor="middle">L2</text>
+                    <circle cx="45" cy="100" r="5" fill="#f43f5e" class="cursor-pointer hover:scale-125 transition" onclick="selectLagrange('L3')" />
+                    <text x="45" y="93" class="fill-slate-600 text-[8px] font-bold" text-anchor="middle">L3</text>
+                    <circle cx="142" cy="44" r="5" fill="#f43f5e" class="cursor-pointer hover:scale-125 transition" onclick="selectLagrange('L4')" />
+                    <text x="142" y="37" class="fill-slate-600 text-[8px] font-bold" text-anchor="middle">L4</text>
+                    <circle cx="142" cy="156" r="5" fill="#f43f5e" class="cursor-pointer hover:scale-125 transition" onclick="selectLagrange('L5')" />
+                    <text x="142" y="149" class="fill-slate-600 text-[8px] font-bold" text-anchor="middle">L5</text>
+                  </svg>
+                </div>
+                <div class="md:col-span-5 bg-white border border-indigo-100 rounded-xl p-4 space-y-2">
+                  <h4 id="lagrangeTitle" class="font-bold text-slate-900 text-base">Select a Point (L1 - L5)</h4>
+                  <p id="lagrangeBody" class="text-xs text-slate-500 leading-relaxed">Lagrange points are positions in space where gravitational forces produce enhanced regions of attraction and equilibrium.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- INTERACTIVE 7: Vis-Viva Live Graph Profiler -->
+            <div class="bg-indigo-50/50 rounded-3xl border border-indigo-100 p-6 shadow-sm interactive-sim no-print">
+              <h3 class="text-lg font-bold text-indigo-950 mb-1">Interactive Sandbox: Vis-Viva Live Energy Profiler</h3>
+              <div class="grid md:grid-cols-12 gap-6 items-center">
+                <div class="md:col-span-7 bg-white border border-indigo-100 rounded-xl p-4 flex items-center justify-center">
+                  <canvas id="profilerCanvas" class="w-full h-[180px] bg-slate-950 rounded-lg"></canvas>
+                </div>
+                <div class="md:col-span-5 space-y-3 text-xs">
+                  <div class="bg-white p-3 rounded-xl border border-indigo-50 space-y-2 shadow-sm">
+                    <span class="font-bold text-indigo-900 block border-b border-indigo-50 pb-1">Real-time Energy Exchange</span>
+                    <div class="flex justify-between"><span class="text-slate-500">Specific Kinetic:</span><span id="profKinetic" class="font-bold text-emerald-600">---</span></div>
+                    <div class="flex justify-between"><span class="text-slate-500">Specific Potential:</span><span id="profPotential" class="font-bold text-red-500">---</span></div>
+                    <div class="flex justify-between border-t border-slate-100 pt-1.5 font-bold"><span class="text-slate-800">Total Net Energy (\(E\)):</span><span id="profTotal" class="text-indigo-600">---</span></div>
+                  <div id="quiz-score" class="mt-6 p-4 rounded-xl text-center hidden"></div>
+            </div>
+
+            <!-- General AI Tutor Section -->
+            <div class="mt-8 border border-indigo-200 rounded-xl overflow-hidden shadow-sm no-print">
+              <div class="bg-indigo-600 text-white p-4 font-bold flex items-center gap-2">
+                <i class="fa-solid fa-robot"></i> OmniBot Offline AI Tutor
+              </div>
+              <div class="p-4 bg-indigo-50/30">
+                <p class="text-sm text-slate-600 mb-3">Ask a general question about orbital mechanics. I run fully locally using heuristic keyword matching!</p>
+                <div class="flex gap-2">
+                  <input type="text" id="ai-query-input" class="flex-grow border border-slate-300 rounded-lg p-2.5 text-sm outline-none focus:border-indigo-600 shadow-sm" placeholder="e.g. What happens to velocity at apoapsis?" onkeydown="if(event.key==='Enter') askAITutor()">
+                  <button onclick="askAITutor()" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition">Ask AI</button>
+                </div>
+                <div id="ai-tutor-response" class="mt-4 empty:hidden"></div>
+              </div>
+            </div>
+            
+            <script src="knowledge_base.js"></script>
+            <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+            <script>
+              function askAITutor() {
+                const input = document.getElementById('ai-query-input');
+                const out = document.getElementById('ai-tutor-response');
+                if(!input.value.trim()) return;
+                const responseHtml = window.queryAI ? window.queryAI(input.value) : '<div class="text-rose-600">AI Database not loaded.</div>';
+                out.innerHTML = `<div class="mb-2 text-xs font-bold text-slate-400 uppercase">You asked: ${input.value}</div>${responseHtml}`;
+                if(window.MathJax) MathJax.typesetPromise();
+                input.value = '';
+              }
+            </script>
+          </div>
+        </article>
+
+        <!-- ---------------- CHAPTER 6: CALCULATOR ---------------- -->
+        <article id="calculator" class="scroll-mt-20 print-border no-print">
+          <div class="space-y-6">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base">6</span>
+              Orbital Mission Calculator
+            </h2>
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-8">
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold text-slate-700">Central Body</label>
+                  <select id="calcBody" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-brand-600 outline-none">
+                    <option value="sun">Sun (M = 1.989 × 10³⁰ kg)</option>
+                    <option value="earth" selected>Earth (M = 5.972 × 10²⁴ kg)</option>
+                    <option value="mars">Mars (M = 6.417 × 10²³ kg)</option>
+                    <option value="custom">Custom Mass</option>
+                  </select>
+                  <div id="customMassDiv" class="hidden space-y-2 pt-2">
+                    <label class="block text-xs font-bold text-slate-500">Custom Mass (×10²⁴ kg)</label>
+                    <input type="number" id="calcCustomMass" value="10" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-sm">
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold text-slate-700">Semi-Major Axis (a, km)</label>
+                  <input type="number" id="calcA" value="7500" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-brand-600 outline-none">
+                  <label class="block text-sm font-bold text-slate-700 pt-2">Eccentricity (e)</label>
+                  <input type="number" id="calcE" value="0.1" step="0.01" min="0" max="0.95" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-brand-600 outline-none">
+                </div>
+                <div class="space-y-2">
+                  <label class="block text-sm font-bold text-slate-700">Current Position (r, km)</label>
+                  <input type="number" id="calcR" value="7000" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-brand-600 outline-none">
+                  <p class="text-xs text-slate-400">Must be between Periapsis and Apoapsis distances.</p>
+                </div>
+              </div>
+              <div class="mt-8 border-t border-slate-100 pt-6">
+                <button id="btnCalculate" class="w-full py-4 bg-brand-600 text-white font-bold rounded-2xl hover:bg-brand-700 active:scale-95 transition tracking-wide text-sm">Compute Flight Calculations</button>
+              </div>
+              <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100"><span class="text-xs text-slate-500 block">Periapsis Distance (rp)</span><span id="outRp" class="text-lg font-black text-slate-900">---</span></div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100"><span class="text-xs text-slate-500 block">Apoapsis Distance (ra)</span><span id="outRa" class="text-lg font-black text-slate-900">---</span></div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100"><span class="text-xs text-slate-500 block">Orbital Period (T)</span><span id="outT" class="text-lg font-black text-slate-900">---</span></div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100"><span class="text-xs text-slate-500 block">Velocity at Position (v)</span><span id="outV" class="text-lg font-black text-emerald-600">---</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---------------- CHAPTER 7: COMPREHENSION QUIZ ---------------- -->
+        <article id="quiz" class="scroll-mt-20 print-border no-print">
+          <div class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+              <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base">7</span>
+                Interactive Comprehension Quiz
+              </h2>
+              <button onclick="initQuiz()" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold rounded-xl text-xs transition shadow-sm">
+                Generate New Quiz
+              </button>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Test your knowledge! This quiz generates 10 random questions from a library of 100, progressively increasing in difficulty from basic definitions to complex reasoning. 
+            </p>
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-8">
+              <div id="quiz-container" class="space-y-2"></div>
+              <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4 pt-6 border-t border-slate-100">
+                <button onclick="submitQuiz()" class="w-full md:w-auto px-8 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 active:scale-95 transition shadow-sm">
+                  Submit Answers
+                </button>
+                <div id="quiz-score" class="hidden text-base bg-indigo-50 border border-indigo-100 text-indigo-900 px-6 py-3 rounded-xl"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---------------- ORBITAL FORMULA REFERENCE CHEAT SHEET ---------------- -->
+        <article id="reference-guide" class="scroll-mt-20 print-border">
+          <div class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">8</span>
+                Orbital Mechanics Exam Cheat Sheet
+              </h2>
+              <div class="flex items-center space-x-2 no-print">
+                <button onclick="window.print()" class="px-3.5 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                  Print Study Guide
+                </button>
+                <button onclick="downloadCheatSheet()" class="px-3.5 py-1.5 bg-indigo-600 text-white hover:bg-indigo-700 font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                  Download Text Ref
+                </button>
+              </div>
+            </div>
+            <p class="text-sm text-slate-500 leading-relaxed no-print">
+              An all-inclusive, rapid-lookup reference designed for exam solving. Memorize these conversions and mathematical shortcuts.
+            </p>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden p-6 md:p-8 space-y-8 print-border">
+              
+              <!-- SECTION 1: ELLIPSE GEOMETRY & BOUNDS -->
+              <div>
+                <h3 class="text-sm font-bold text-indigo-900 uppercase tracking-wider border-b border-slate-100 pb-2 mb-4">1. Elliptical Geometry Relations</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Semi-Minor Axis (\(b\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$b = a\sqrt{1-e^2}$$</div>
+                    <p class="text-[11px] text-slate-500">Calculates ellipse width. Always shorter than major radius \(a\).</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Linear Eccentricity (\(c\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$c = ae = \sqrt{a^2 - b^2}$$</div>
+                    <p class="text-[11px] text-slate-500">Focal distance from center. Standard focal offset parameter.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Semi-Latus Rectum (\(p\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$p = a(1-e^2) = \frac{b^2}{a}$$</div>
+                    <p class="text-[11px] text-slate-500">Orbit radius scale factor at exactly \(90^\circ\) true anomaly.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">True Path Distance (\(r\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$r(\theta) = \frac{p}{1 + e\cos\theta}$$</div>
+                    <p class="text-[11px] text-slate-500">Finds radius distance \(r\) given polar anomaly angle \(\theta\).</p>
+                  </div>
+                </div>
+                <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 font-medium no-print">
+                  <strong>Exam Tip:</strong> If given apoapsis \(r_a\) and periapsis \(r_p\), find semi-major axis instantly using: <span class="font-mono text-brand-700">\(a = \frac{r_a + r_p}{2}\)</span> and focal distance with: <span class="font-mono text-brand-700">\(c = \frac{r_a - r_p}{2}\)</span>.
+                </div>
+              </div>
+
+              <!-- SECTION 2: CRITICAL POSITIONS & VELOCITIES -->
+              <div>
+                <h3 class="text-sm font-bold text-indigo-900 uppercase tracking-wider border-b border-slate-100 pb-2 mb-4">2. Velocity & Vis-Viva Relations</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Speed at any Point (\(v\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$v = \sqrt{GM\left(\frac{2}{r} - \frac{1}{a}\right)}$$</div>
+                    <p class="text-[11px] text-slate-500">The Vis-Viva equation. Total key constraint of all kinematics.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Circular Orbital Speed (\(v_{circ}\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$v_{circ} = \sqrt{\frac{GM}{r}}$$</div>
+                    <p class="text-[11px] text-slate-500">Speed when eccentricity is zero. (Derived from \(a = r\)).</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Max Velocity (At Periapsis, \(v_p\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$v_p = \sqrt{\frac{GM}{a}\left(\frac{1+e}{1-e}\right)}$$</div>
+                    <p class="text-[11px] text-slate-500">Fastest velocity point occurring at closest approach.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Min Velocity (At Apoapsis, \(v_a\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$v_a = \sqrt{\frac{GM}{a}\left(\frac{1-e}{1+e}\right)}$$</div>
+                    <p class="text-[11px] text-slate-500">Slowest velocity point occurring at furthest approach.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 md:col-span-2 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Escape Velocity (\(v_{esc}\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$v_{esc} = \sqrt{\frac{2GM}{r}} = \sqrt{2} \cdot v_{circ}$$</div>
+                    <p class="text-[11px] text-slate-500">Minimum speed needed to break planetary bounds. Constant multiplier relation to circular limit.</p>
+                  </div>
+                </div>
+                <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-900 font-medium no-print">
+                  <strong>Critical Unit Check:</strong> Always convert inputs to base SI units: radius/axis \(r, a, R\) must be converted from km to meters (multiply by \(1000\)) and masses from \(10^{24}\text{ kg}\) to base kg before computing!
+                </div>
+              </div>
+
+              <!-- SECTION 3: SYSTEM CONSERVATION LAWS -->
+              <div>
+                <h3 class="text-sm font-bold text-indigo-900 uppercase tracking-wider border-b border-slate-100 pb-2 mb-4">3. Conservation Laws & Periods</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Kepler's Period Equation (\(T\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$T = 2\pi\sqrt{\frac{a^3}{GM}}$$</div>
+                    <p class="text-[11px] text-slate-500">Period squared is proportional to semi-major axis cubed.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Kepler Period Ratio (Comparison)</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$\left(\frac{T_1}{T_2}\right)^2 = \left(\frac{a_1}{a_2}\right)^3$$</div>
+                    <p class="text-[11px] text-slate-500">Compare multiple orbits around same body. No G/M constants needed.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Specific Mechanical Energy (\(\varepsilon\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$\varepsilon = \frac{1}{2}v^2 - \frac{GM}{r} = -\frac{GM}{2a}$$</div>
+                    <p class="text-[11px] text-slate-500">Sum of specific kinetic and potential energy. Stays constant everywhere.</p>
+                  </div>
+                  <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 print-border">
+                    <span class="text-xs font-semibold text-slate-500 block mb-1">Conserved Momentum (\(h\))</span>
+                    <div class="font-mono text-sm font-bold text-slate-900 my-1">$$r_p v_p = r_a v_a = \sqrt{GM a(1-e^2)}$$</div>
+                    <p class="text-[11px] text-slate-500">Velocity at extremes is perfectly perpendicular to radius vector.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 mt-20 py-12 text-slate-500 text-sm no-print font-bold">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <div class="flex items-center justify-center space-x-2">
+        <span class="p-1.5 bg-slate-100 text-slate-500 rounded-md">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        </span>
+        <span class="font-bold text-slate-800">Advanced Planetary Kinematics</span>
+      </div>
+      <p class="max-w-md mx-auto text-xs text-slate-400">
+        Created for interactive school modules, physics classrooms, and satellite exploration sandboxes. Safety checked, ad-free, and designed with high educational integrity.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ---------------- CODE & SCRIPT LOGIC ---------------- -->
+  <script>
+    // --- Global Shared Space ---
+    let currentSharedR = 1.0;
+    let currentSharedV = 1.0;
+    let currentSharedA = 180;
+    let currentSharedE = 0.5;
+
+    // --- 1. SIMULATOR LOGIC ---
+    const canvas = document.getElementById('orbitCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    
+    const sliderA = document.getElementById('sliderA');
+    const sliderE = document.getElementById('sliderE');
+    const sliderSpeed = document.getElementById('sliderSpeed');
+    
+    const labelValA = document.getElementById('labelValA');
+    const labelValE = document.getElementById('labelValE');
+    const labelValSpeed = document.getElementById('labelValSpeed');
+    
+    const simRpLabel = document.getElementById('simRp');
+    const simRaLabel = document.getElementById('simRa');
+    const simPeriodLabel = document.getElementById('simPeriod');
+    const valSimR = document.getElementById('valSimR');
+    const valSimV = document.getElementById('valSimV');
+    const valSimTheta = document.getElementById('valSimTheta');
+    
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const btnReset = document.getElementById('btnReset');
+
+    let isPlaying = true;
+    let time = 0;
+    const G = 1;
+    const M = 10000;
+    
+    function resizeCanvas() {
+      if(!canvas) return;
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = 360;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    if(btnPlayPause) {
+      btnPlayPause.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        btnPlayPause.innerHTML = isPlaying 
+          ? `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z"/></svg><span>Pause</span>` 
+          : `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 101.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg><span>Resume</span>`;
+      });
+    }
+
+    if(btnReset) {
+      btnReset.addEventListener('click', () => {
+        time = 0;
+      });
+    }
+
+    function animate() {
+      if(!canvas || !ctx) return;
+      if (isPlaying) {
+        const speedMultiplier = sliderSpeed ? parseFloat(sliderSpeed.value) : 1.0;
+        time += 0.015 * speedMultiplier;
+      }
+      
+      const a = sliderA ? parseInt(sliderA.value) : 180;
+      const e = sliderE ? parseFloat(sliderE.value) : 0.5;
+      
+      if(labelValA) labelValA.innerText = `${a} AU`;
+      if(labelValE) labelValE.innerText = e.toFixed(2);
+      if(labelValSpeed && sliderSpeed) labelValSpeed.innerText = `${parseFloat(sliderSpeed.value).toFixed(1)}x`;
+      
+      ctx.fillStyle = '#090d16';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.strokeStyle = '#111827';
+      ctx.lineWidth = 0.5;
+      for (let i = 40; i < canvas.width; i += 40) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke(); }
+      for (let i = 40; i < canvas.height; i += 40) { ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke(); }
+
+      const b = a * Math.sqrt(1 - e * e);
+      const c = a * e;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const focusX = centerX - c;
+      const focusY = centerY;
+
+      ctx.beginPath();
+      ctx.ellipse(centerX, centerY, a, b, 0, 0, 2 * Math.PI);
+      ctx.strokeStyle = 'rgba(79, 70, 229, 0.4)';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      const meanAnomaly = time % (2 * Math.PI);
+      let eccentricAnomaly = meanAnomaly;
+      for (let i = 0; i < 5; i++) {
+        eccentricAnomaly = eccentricAnomaly - (eccentricAnomaly - e * Math.sin(eccentricAnomaly) - meanAnomaly) / (1 - e * Math.cos(eccentricAnomaly));
+      }
+
+      const px = -a * Math.cos(eccentricAnomaly);
+      const py = -b * Math.sin(eccentricAnomaly);
+      const planetX = centerX + px;
+      const planetY = centerY + py;
+      
+      const dx = planetX - focusX;
+      const dy = planetY - focusY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const simV = Math.sqrt(G * M * (2 / dist - 1 / a));
+
+      currentSharedR = dist;
+      currentSharedV = simV;
+      currentSharedA = a;
+      currentSharedE = e;
+
+      ctx.beginPath();
+      ctx.moveTo(focusX, focusY);
+      ctx.lineTo(planetX, planetY);
+      ctx.strokeStyle = 'rgba(99, 102, 241, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(focusX, focusY, 12, 0, 2 * Math.PI);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(planetX, planetY);
+      const fgLength = 50 * (1 / (dist * dist)) * 8000;
+      ctx.lineTo(planetX - (dx / dist) * Math.min(fgLength, 75), planetY - (dy / dist) * Math.min(fgLength, 75));
+      ctx.strokeStyle = '#f87171';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      const vx = a * Math.sin(eccentricAnomaly);
+      const vy = -b * Math.cos(eccentricAnomaly);
+      const vLen = Math.sqrt(vx * vx + vy * vy);
+      ctx.beginPath();
+      ctx.moveTo(planetX, planetY);
+      ctx.lineTo(planetX + (vx / vLen) * (simV * 8), planetY + (vy / vLen) * (simV * 8));
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(planetX, planetY, 7, 0, 2 * Math.PI);
+      ctx.fillStyle = '#3b82f6';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.fill();
+      ctx.stroke();
+
+      if(valSimR) valSimR.innerText = dist.toFixed(1);
+      if(valSimV) valSimV.innerText = (simV * 2).toFixed(1);
+      
+      let thetaDeg = Math.round(Math.atan2(-dy, -dx) * (180 / Math.PI));
+      if (thetaDeg < 0) thetaDeg += 360;
+      if(valSimTheta) valSimTheta.innerText = thetaDeg;
+
+      const rp = a * (1 - e);
+      const ra = a * (1 + e);
+      const tPeriod = 2 * Math.PI * Math.sqrt(Math.pow(a, 3) / (G * M));
+
+      if(simRpLabel) simRpLabel.innerText = `${rp.toFixed(1)} AU`;
+      if(simRaLabel) simRaLabel.innerText = `${ra.toFixed(1)} AU`;
+      if(simPeriodLabel) simPeriodLabel.innerText = `${tPeriod.toFixed(1)} Days`;
+
+      updateProfilerGraph();
+      requestAnimationFrame(animate);
+    }
+
+    // --- 2. INTERACTIVE 3: KEPLER'S 3RD LAW CALCULATOR ---
+    const solarSystemData = [
+      { name: 'Mercury', a: 0.387, T: 0.241 },
+      { name: 'Venus',   a: 0.723, T: 0.615 },
+      { name: 'Earth',   a: 1.000, T: 1.000 },
+      { name: 'Mars',    a: 1.524, T: 1.881 },
+      { name: 'Jupiter', a: 5.203, T: 11.86 },
+      { name: 'Saturn',  a: 9.582, T: 29.46 }
+    ];
+
+    const keplerTableBody = document.getElementById('keplerTableBody');
+    const keplerPointsGroup = document.getElementById('keplerPointsGroup');
+    const custBodyA = document.getElementById('custBodyA');
+    const btnPlotCustom = document.getElementById('btnPlotCustom');
+
+    function buildKeplerTable() {
+      if(!keplerTableBody) return;
+      keplerTableBody.innerHTML = '';
+      solarSystemData.forEach((planet, index) => {
+        const tr = document.createElement('tr');
+        tr.className = "border-b border-slate-100";
+        tr.innerHTML = `<td class="py-1 font-semibold">${planet.name}</td><td class="py-1">${planet.a.toFixed(2)}</td><td class="py-1">${planet.T.toFixed(2)}</td><td class="py-1"><input type="checkbox" id="chk-${index}" checked class="accent-indigo-600 cursor-pointer" onchange="drawKeplerGraph()"></td>`;
+        keplerTableBody.appendChild(tr);
+      });
+    }
+
+    function drawKeplerGraph() {
+      if(!keplerPointsGroup) return;
+      keplerPointsGroup.innerHTML = '';
+      
+      solarSystemData.forEach((planet, index) => {
+        const checkbox = document.getElementById(`chk-${index}`);
+        if (checkbox && checkbox.checked) {
+          const a3 = Math.pow(planet.a, 3);
+          const t2 = Math.pow(planet.T, 2);
+          
+          const x = 30 + (a3 / 1000) * 250;
+          const y = 150 - (t2 / 1000) * 130;
+
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute("cx", Math.min(x, 278));
+          circle.setAttribute("cy", Math.max(y, 22));
+          circle.setAttribute("r", "4");
+          circle.setAttribute("fill", "#4f46e5");
+          keplerPointsGroup.appendChild(circle);
+
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          let yOffset = 3;
+          let xOffset = 6;
+          if (index === 0) { yOffset = -5; xOffset = -5; text.setAttribute("text-anchor", "end"); } 
+          if (index === 1) { yOffset = 12; xOffset = 0; text.setAttribute("text-anchor", "middle"); } 
+          if (index === 2) { yOffset = 5; xOffset = 8; } 
+          
+          text.setAttribute("x", Math.min(x + xOffset, 260));
+          text.setAttribute("y", Math.max(y + yOffset, 25));
+          text.setAttribute("class", "fill-slate-600 text-[9px] font-bold");
+          text.textContent = planet.name;
+          keplerPointsGroup.appendChild(text);
+        }
+      });
+    }
+
+    if(btnPlotCustom) {
+      btnPlotCustom.addEventListener('click', () => {
+        const customValA = parseFloat(custBodyA.value);
+        if (isNaN(customValA) || customValA <= 0) {
+          alertError("Enter a valid distance!");
+          return;
+        }
+        const calculatedT = Math.pow(customValA, 1.5);
+        solarSystemData.push({
+          name: `Custom (${customValA.toFixed(1)} AU)`,
+          a: customValA,
+          T: calculatedT
+        });
+        buildKeplerTable();
+        drawKeplerGraph();
+        custBodyA.value = '';
+      });
+    }
+
+    // --- 3. INTERACTIVE 5: CONIC SLICER ---
+    const conicSlider = document.getElementById('conicSlider');
+    const conicSliderVal = document.getElementById('conicSliderVal');
+    const conicClass = document.getElementById('conicClass');
+    const conicEnergy = document.getElementById('conicEnergy');
+    const conicPath = document.getElementById('conicPath');
+
+    function updateConicSection() {
+      if(!conicSlider) return;
+      const e = parseFloat(conicSlider.value);
+      if(conicSliderVal) conicSliderVal.innerText = e.toFixed(2);
+      let dString = "";
+      if (e === 0) {
+        if(conicClass) conicClass.innerText = "Circle"; 
+        if(conicEnergy) conicEnergy.innerText = "Bound (Negative)";
+        dString = "M 40 90 A 60 60 0 1 0 160 90 A 60 60 0 1 0 40 90";
+      } else if (e > 0 && e < 1) {
+        if(conicClass) conicClass.innerText = "Ellipse"; 
+        if(conicEnergy) conicEnergy.innerText = "Bound (Negative)";
+        dString = "M 40 90 A 70 50 0 1 0 180 90 A 70 50 0 1 0 40 90";
+      } else if (Math.abs(e - 1.0) < 0.05) {
+        if(conicClass) conicClass.innerText = "Parabola"; 
+        if(conicEnergy) conicEnergy.innerText = "Escape Boundary (Zero)";
+        dString = "M 250 10 Q 80 90 250 170";
+      } else {
+        if(conicClass) conicClass.innerText = "Hyperbola"; 
+        if(conicEnergy) conicEnergy.innerText = "Unbound Escape (Positive)";
+        dString = "M 220 15 Q 110 90 220 165";
+      }
+      if(conicPath) conicPath.setAttribute("d", dString);
+    }
+    if(conicSlider) conicSlider.addEventListener('input', updateConicSection);
+
+    // --- 4. INTERACTIVE 6: LAGRANGE POINT LOCATOR ---
+    const lagrangeData = {
+      L1: { title: "Lagrange Point 1 (L1)", body: "Located directly in-between the Sun and Earth. Highly critical for solar observing spaceships (like SOHO) since it maintains an unobstructed view of our star." },
+      L2: { title: "Lagrange Point 2 (L2)", body: "Located directly behind the Earth. It provides a perfect shield from solar radiation, making L2 the absolute home of the ultra-sensitive James Webb Space Telescope." },
+      L3: { title: "Lagrange Point 3 (L3)", body: "Located on the complete opposite side of the Sun, slightly outside Earth's orbit track. Historically featured in science fiction as a hidden 'Counter-Earth'." },
+      L4: { title: "Lagrange Point 4 (L4)", body: "Leads Earth's orbit exactly 60° ahead. Extremely stable gravitational well capturing small space rocks called Trojan asteroids." },
+      L5: { title: "Lagrange Point 5 (L5)", body: "Trails Earth's orbit exactly 60° behind. Excellent stability. Space agencies study it for future planetary defense telescopes or communication relays." }
+    };
+
+    function selectLagrange(point) {
+      const title = document.getElementById('lagrangeTitle');
+      const body = document.getElementById('lagrangeBody');
+      if(title && lagrangeData[point]) title.innerText = lagrangeData[point].title;
+      if(body && lagrangeData[point]) body.innerText = lagrangeData[point].body;
+    }
+
+    // --- 5. INTERACTIVE 7: VIS-VIVA VELOCITY PROFILER ---
+    const profilerCanvas = document.getElementById('profilerCanvas');
+    const pCtx = profilerCanvas ? profilerCanvas.getContext('2d') : null;
+    const profKinetic = document.getElementById('profKinetic');
+    const profPotential = document.getElementById('profPotential');
+    const profTotal = document.getElementById('profTotal');
+
+    function updateProfilerGraph() {
+      if(!profilerCanvas || !pCtx) return;
+      pCtx.fillStyle = '#090d16';
+      pCtx.fillRect(0, 0, profilerCanvas.width, profilerCanvas.height);
+
+      pCtx.strokeStyle = '#334155';
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.moveTo(25, 10);
+      pCtx.lineTo(25, 155);
+      pCtx.lineTo(285, 155);
+      pCtx.stroke();
+
+      const localA = currentSharedA;
+      const localE = currentSharedE;
+      const rp = localA * (1 - localE);
+      const ra = localA * (1 + localE);
+
+      pCtx.strokeStyle = '#4f46e5';
+      pCtx.lineWidth = 1.5;
+      pCtx.beginPath();
+      
+      let drewFirst = false;
+      for (let xCoord = 30; xCoord < 280; xCoord++) {
+        const rVal = rp + ((xCoord - 30) / 250) * (ra - rp);
+        const calculatedV = Math.sqrt(M * (2 / rVal - 1 / localA));
+        const yCoord = 150 - (calculatedV / 18) * 120;
+        
+        if (!drewFirst) {
+          pCtx.moveTo(xCoord, yCoord);
+          drewFirst = true;
+        } else {
+          pCtx.lineTo(xCoord, yCoord);
+        }
+      }
+      pCtx.stroke();
+
+      const currentX = 30 + ((currentSharedR - rp) / (ra - rp)) * 250;
+      const currentY = 150 - (currentSharedV / 18) * 120;
+
+      pCtx.beginPath();
+      pCtx.arc(currentX, currentY, 5, 0, 2 * Math.PI);
+      pCtx.fillStyle = '#34d399'; 
+      pCtx.fill();
+
+      const specKin = 0.5 * Math.pow(currentSharedV, 2);
+      const specPot = -M / currentSharedR;
+      const specTot = specKin + specPot;
+
+      if(profKinetic) profKinetic.innerText = `${(specKin / 100).toFixed(1)} J/kg`;
+      if(profPotential) profPotential.innerText = `${(specPot / 100).toFixed(1)} J/kg`;
+      if(profTotal) profTotal.innerText = `${(specTot / 100).toFixed(1)} J/kg`;
+    }
+
+    // --- 6. ADVANCED CALCULATOR LOGIC ---
+    const calcBody = document.getElementById('calcBody');
+    const customMassDiv = document.getElementById('customMassDiv');
+    const calcCustomMass = document.getElementById('calcCustomMass');
+    const calcA = document.getElementById('calcA');
+    const calcE = document.getElementById('calcE');
+    const calcR = document.getElementById('calcR');
+    const btnCalculate = document.getElementById('btnCalculate');
+
+    const outRp = document.getElementById('outRp');
+    const outRa = document.getElementById('outRa');
+    const outT = document.getElementById('outT');
+    const outV = document.getElementById('outV');
+
+    const MASS_DICT = {
+      sun: 1.989e30,
+      earth: 5.972e24,
+      mars: 6.417e23
+    };
+    const G_REAL = 6.67430e-11;
+
+    if (calcBody) {
+      calcBody.addEventListener('change', () => {
+        if (calcBody.value === 'custom') {
+          customMassDiv.classList.remove('hidden');
+        } else {
+          customMassDiv.classList.add('hidden');
+        }
+      });
+    }
+
+    function runCalculations() {
+      let M_body = 0;
+      if (calcBody.value === 'custom') {
+        M_body = parseFloat(calcCustomMass.value) * 1e24;
+      } else {
+        M_body = MASS_DICT[calcBody.value];
+      }
+
+      const a = parseFloat(calcA.value); 
+      const e = parseFloat(calcE.value);
+      const r = parseFloat(calcR.value);
+
+      if (isNaN(a) || isNaN(e) || isNaN(r) || a <= 0 || e < 0 || e >= 1 || r <= 0) {
+        alertError("Verify numerical inputs are correct!");
+        return;
+      }
+
+      const rp = a * (1 - e);
+      const ra = a * (1 + e);
+
+      if (r < rp || r > ra) {
+        alertError(`Current position must lie between Periapsis (${rp.toFixed(1)} km) and Apoapsis (${ra.toFixed(1)} km).`);
+        return;
+      }
+
+      const a_m = a * 1000;
+      const r_m = r * 1000;
+
+      const T_seconds = 2 * Math.PI * Math.sqrt(Math.pow(a_m, 3) / (G_REAL * M_body));
+      let periodStr = "";
+      if (T_seconds < 3600) {
+        periodStr = `${(T_seconds / 60).toFixed(1)} min`;
+      } else if (T_seconds < 86400) {
+        periodStr = `${(T_seconds / 3600).toFixed(1)} hrs`;
+      } else {
+        periodStr = `${(T_seconds / 86400).toFixed(2)} days`;
+      }
+
+      const v_mps = Math.sqrt(G_REAL * M_body * (2 / r_m - 1 / a_m));
+      const v_kmps = v_mps / 1000;
+
+      if(outRp) outRp.innerText = `${rp.toLocaleString(undefined, {maximumFractionDigits:1})} km`;
+      if(outRa) outRa.innerText = `${ra.toLocaleString(undefined, {maximumFractionDigits:1})} km`;
+      if(outT) outT.innerText = periodStr;
+      if(outV) outV.innerText = `${v_kmps.toFixed(3)} km/s`;
+    }
+
+    if (btnCalculate) {
+      btnCalculate.addEventListener('click', runCalculations);
+    }
+
+    function alertError(message) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'fixed bottom-5 right-5 z-50 bg-red-600 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-semibold transition-all duration-300';
+      errorDiv.innerText = message;
+      document.body.appendChild(errorDiv);
+      setTimeout(() => {
+        errorDiv.classList.add('opacity-0');
+        setTimeout(() => errorDiv.remove(), 300);
+      }, 4000);
+    }
+
+    // --- 7. INTERACTIVE QUIZ LOGIC (100 QUESTION LIBRARY) ---
+    const qBank = [
+      // MC Diff 1 (Concepts)
+      {t:'mc', d:1, q:"What geometric shape describes a bound planetary orbit?", o:["Perfect Square","Perfect Circle","Ellipse","Straight Line"], a:2},
+      {t:'mc', d:1, q:"What lies at the primary focus of Earth's orbit?", o:["The Moon","Empty Space","The Sun","Mars"], a:2},
+      {t:'mc', d:1, q:"What lies at the secondary (empty) focus of an orbit?", o:["Nothing","A star","A black hole","The barycenter"], a:0},
+      {t:'mc', d:1, q:"What term describes the point of closest approach to the star?", o:["Apoapsis","Periapsis","Focus","Semi-latus rectum"], a:1},
+      {t:'mc', d:1, q:"What term describes the point of furthest distance from the star?", o:["Apoapsis","Periapsis","Zenith","Nadir"], a:0},
+      {t:'mc', d:1, q:"Which variable denotes the semi-major axis?", o:["e","c","b","a"], a:3},
+      {t:'mc', d:1, q:"Which variable denotes orbital eccentricity?", o:["e","a","b","c"], a:0},
+      {t:'mc', d:1, q:"A perfectly circular orbit has an eccentricity equal to:", o:["1","0.5","0","-1"], a:2},
+      {t:'mc', d:1, q:"Who formulated the three laws of planetary motion?", o:["Newton","Einstein","Galileo","Kepler"], a:3},
+      {t:'mc', d:1, q:"What provides the central force for planetary orbits?", o:["Magnetism","Gravity","Friction","Strong Nuclear Force"], a:1},
+      // MC Diff 2 (Kinematics)
+      {t:'mc', d:2, q:"According to Kepler's Second Law, a planet sweeps out equal what?", o:["Volumes in equal time","Areas in equal time","Distances in equal time","Mass in equal time"], a:1},
+      {t:'mc', d:2, q:"Where is an orbiting body travelling the fastest?", o:["At apoapsis","At periapsis","At the semi-minor axis","Speed is always constant"], a:1},
+      {t:'mc', d:2, q:"Where is an orbiting body travelling the slowest?", o:["At apoapsis","At periapsis","At the semi-minor axis","At the focus"], a:0},
+      {t:'mc', d:2, q:"Linear eccentricity (c) is the distance between:", o:["The two foci","The center and a focus","Periapsis and apoapsis","The planet and the sun"], a:1},
+      {t:'mc', d:2, q:"What angle does the velocity vector make with gravity at periapsis?", o:["0 degrees","45 degrees","90 degrees","180 degrees"], a:2},
+      {t:'mc', d:2, q:"What angle does the velocity vector make with gravity at apoapsis?", o:["0 degrees","45 degrees","90 degrees","180 degrees"], a:2},
+      {t:'mc', d:2, q:"An ellipse must have an eccentricity between:", o:["0 and 1","1 and 2","-1 and 0","It can be any number"], a:0},
+      {t:'mc', d:2, q:"If the semi-major axis increases, what happens to the orbital period?", o:["It decreases","It stays the same","It increases","It drops to zero"], a:2},
+      {t:'mc', d:2, q:"Kepler's First Law disproved what ancient belief?", o:["Gravity is an illusion","Planets orbit in perfect circles","The sun is hot","Space is a vacuum"], a:1},
+      {t:'mc', d:2, q:"Gravity is an inverse-square law, meaning force decreases with the square of:", o:["Mass","Time","Distance","Velocity"], a:2},
+      // MC Diff 3 (Energy & Momentum)
+      {t:'mc', d:3, q:"Specific orbital energy is the sum of specific kinetic energy and:", o:["Specific thermal energy","Specific potential energy","Total mass","Angular momentum"], a:1},
+      {t:'mc', d:3, q:"For an elliptical orbit, the specific mechanical energy must be:", o:["Positive","Exactly Zero","Negative","Complex"], a:2},
+      {t:'mc', d:3, q:"Which vector quantity remains strictly conserved throughout an unperturbed orbit?", o:["Velocity","Position","Acceleration","Angular Momentum"], a:3},
+      {t:'mc', d:3, q:"At what point in the orbit is gravitational potential energy highest (least negative)?", o:["Periapsis","Apoapsis","Semi-minor axis vertex","Focus"], a:1},
+      {t:'mc', d:3, q:"At what point in the orbit is kinetic energy the highest?", o:["Periapsis","Apoapsis","Semi-minor axis vertex","Focus"], a:0},
+      {t:'mc', d:3, q:"Kepler's Third Law relates Period Squared to what?", o:["Semi-major axis cubed","Eccentricity squared","Mass cubed","Velocity squared"], a:0},
+      {t:'mc', d:3, q:"The angular momentum vector of an orbit is always:", o:["Parallel to velocity","Pointing to the star","Perpendicular to the orbital plane","Zero"], a:2},
+      {t:'mc', d:3, q:"If a satellite fires its engine strictly forward (prograde) at periapsis, what increases?", o:["Periapsis altitude","Apoapsis altitude","Orbital inclination","Nothing"], a:1},
+      {t:'mc', d:3, q:"What causes a planet to accelerate as it moves from apoapsis to periapsis?", o:["Magnetic pull","Solar wind","Gravity acting partly in the direction of motion","Friction"], a:2},
+      {t:'mc', d:3, q:"The semi-minor axis (b) can be calculated using a and e as:", o:["b = a*e","b = a*(1-e)","b = a*sqrt(1-e^2)","b = a/e"], a:2},
+      // MC Diff 4 (Conics & Vis-Viva)
+      {t:'mc', d:4, q:"The Vis-Viva equation allows you to calculate orbital velocity strictly as a function of:", o:["Time","Radius from the focal body","Orbital inclination","Planetary mass alone"], a:1},
+      {t:'mc', d:4, q:"If a spacecraft's specific energy is exactly zero, what shape is its trajectory?", o:["Circle","Ellipse","Parabola","Hyperbola"], a:2},
+      {t:'mc', d:4, q:"Which conic section describes an unbound, escape trajectory with positive energy?", o:["Circle","Ellipse","Parabola","Hyperbola"], a:3},
+      {t:'mc', d:4, q:"In the Vis-Viva equation, as radius (r) approaches infinity for a parabolic orbit, velocity approaches:", o:["Infinity","Zero","Speed of light","Circular velocity"], a:1},
+      {t:'mc', d:4, q:"A Hohmann transfer is most fuel-efficient because thrust is applied parallel to velocity at:", o:["Any random point","Apoapsis and periapsis","The semi-minor axis","A 45-degree angle"], a:1},
+      {t:'mc', d:4, q:"Slicing a 3D double cone parallel to its sloping side produces what geometric curve?", o:["Hyperbola","Parabola","Ellipse","Circle"], a:1},
+      {t:'mc', d:4, q:"Slicing a 3D double cone vertically through both nappes produces what curve?", o:["Hyperbola","Parabola","Ellipse","Circle"], a:0},
+      {t:'mc', d:4, q:"The Runge-Lenz vector is a constant of motion that points exactly toward:", o:["The empty focus","The central star","Apoapsis","Periapsis"], a:3},
+      {t:'mc', d:4, q:"In a two-body system, how many Lagrange points of gravitational equilibrium exist?", o:["3","4","5","6"], a:2},
+      {t:'mc', d:4, q:"The ratio of escape velocity to circular velocity at the same radius is:", o:["2","sqrt(2)","1.5","pi"], a:1},
+      // MC Diff 5 (Advanced Mechanics)
+      {t:'mc', d:5, q:"If you instantly double a satellite's kinetic energy while in a circular orbit, what happens?", o:["It becomes a larger circle","It achieves exactly escape velocity (Parabola)","It spirals into the sun","Nothing"], a:1},
+      {t:'mc', d:5, q:"The specific angular momentum (h) relates to the semi-latus rectum (p) by:", o:["p = h^2 / GM","p = h / GM","p = GM / h^2","p = h * GM"], a:0},
+      {t:'mc', d:5, q:"Which Lagrange points are gravitationally stable (objects naturally stay there)?", o:["L1 and L2","L2 and L3","L4 and L5","All of them"], a:2},
+      {t:'mc', d:5, q:"If the semi-major axis is completely determined by total specific energy, what determines eccentricity?", o:["Mass","Angular momentum","Time","Nothing"], a:1},
+      {t:'mc', d:5, q:"What is the True Anomaly at apoapsis?", o:["0 degrees","90 degrees","180 degrees","270 degrees"], a:2},
+      {t:'mc', d:5, q:"To alter the inclination of an orbital plane efficiently, where should you burn?", o:["Periapsis","Apoapsis","At the orbital nodes","Anywhere"], a:2},
+      {t:'mc', d:5, q:"If a comet enters the solar system with hyperbolic excess velocity, its eccentricity is:", o:["e = 0","0 < e < 1","e = 1","e > 1"], a:3},
+      {t:'mc', d:5, q:"Because angular momentum is conserved, the cross product of r and v is:", o:["Zero","A constant vector","Linearly increasing","Oscillating"], a:1},
+      {t:'mc', d:5, q:"In an elliptical orbit, the scalar dot product of velocity and force (v • F) is zero:", o:["Everywhere","Nowhere","Only at periapsis and apoapsis","Only at the semi-minor axis"], a:2},
+      {t:'mc', d:5, q:"Which element defines the orientation of the ellipse within its 2D plane?", o:["Argument of Periapsis","Inclination","Semi-major axis","True Anomaly"], a:0},
+      
+      // SA Diff 1 (Vocab)
+      {t:'sa', d:1, q:"What geometric shape is the orbit of the Earth? (One word)", a:["ellipse", "elliptical"]},
+      {t:'sa', d:1, q:"What object is located at the primary focus of Earth's orbit? (One word)", a:["sun"]},
+      {t:'sa', d:1, q:"What is the eccentricity of a perfect circle?", a:0},
+      {t:'sa', d:1, q:"What is the point of closest approach to the Sun called?", a:["periapsis", "perihelion"]},
+      {t:'sa', d:1, q:"What is the point of furthest distance from the Sun called?", a:["apoapsis", "aphelion"]},
+      {t:'sa', d:1, q:"How many focal points does an ellipse have?", a:2},
+      {t:'sa', d:1, q:"What fundamental force keeps planets in orbit?", a:["gravity"]},
+      {t:'sa', d:1, q:"What is the last name of the scientist who formulated the 3 laws of planetary motion?", a:["kepler"]},
+      {t:'sa', d:1, q:"What is the last name of the scientist who formulated the law of universal gravitation?", a:["newton"]},
+      {t:'sa', d:1, q:"Is the secondary focus of a planetary orbit filled or empty?", a:["empty"]},
+      // SA Diff 2 (Basic Math)
+      {t:'sa', d:2, q:"If semi-major axis (a) = 5 and eccentricity (e) = 0, what is the semi-minor axis (b)?", a:5},
+      {t:'sa', d:2, q:"If periapsis is 2 AU and apoapsis is 4 AU, what is the semi-major axis in AU?", a:3},
+      {t:'sa', d:2, q:"If periapsis is 2 AU and apoapsis is 4 AU, what is the focal distance (c) in AU?", a:1},
+      {t:'sa', d:2, q:"If semi-major axis (a) = 10 and eccentricity (e) = 0.5, what is the focal distance (c)?", a:5},
+      {t:'sa', d:2, q:"If a=10 and e=0.1, what is the periapsis distance (a*(1-e))?", a:9},
+      {t:'sa', d:2, q:"If a=10 and e=0.1, what is the apoapsis distance (a*(1+e))?", a:11},
+      {t:'sa', d:2, q:"What is the angle (in degrees) between velocity and gravity for a circular orbit?", a:90},
+      {t:'sa', d:2, q:"If an orbit has e=1, what conic section is it?", a:["parabola"]},
+      {t:'sa', d:2, q:"If an orbit has e=1.5, what conic section is it?", a:["hyperbola"]},
+      {t:'sa', d:2, q:"If the center of an ellipse is at x=0, and a focus is at x=3, what is 'c'?", a:3},
+      // SA Diff 3 (Kepler 3 Math)
+      {t:'sa', d:3, q:"By Kepler's 3rd Law, if a = 4 AU, what is the Period (T) in years?", a:8},
+      {t:'sa', d:3, q:"By Kepler's 3rd Law, if a = 9 AU, what is the Period (T) in years?", a:27},
+      {t:'sa', d:3, q:"By Kepler's 3rd Law, if T = 64 years, what is the semi-major axis (a) in AU?", a:16},
+      {t:'sa', d:3, q:"By Kepler's 3rd Law, if T = 125 years, what is the semi-major axis (a) in AU?", a:25},
+      {t:'sa', d:3, q:"If you double the mass of the satellite, how much does its orbital period change? (Enter 0 if no change)", a:0},
+      {t:'sa', d:3, q:"What is the kinetic energy at infinity for a parabolic orbit? (Enter a number)", a:0},
+      {t:'sa', d:3, q:"At what true anomaly (in degrees) is the planet closest to the star?", a:0},
+      {t:'sa', d:3, q:"At what true anomaly (in degrees) is the planet furthest from the star?", a:180},
+      {t:'sa', d:3, q:"If orbital radius r equals semi-major axis a, what is specific energy? (Type equation: -GM/2a)", a:["-gm/2a", "-gm/(2a)"]},
+      {t:'sa', d:3, q:"How many stable Lagrange points exist in the Earth-Sun system?", a:2},
+      // SA Diff 4 (Momentum & Math Ratios)
+      {t:'sa', d:4, q:"Conservation of momentum: If rp=1, vp=10, and ra=2, what is va?", a:5},
+      {t:'sa', d:4, q:"Conservation of momentum: If rp=2, vp=6, and ra=4, what is va?", a:3},
+      {t:'sa', d:4, q:"Conservation of momentum: If va=2, ra=10, and vp=5, what is rp?", a:4},
+      {t:'sa', d:4, q:"Conservation of momentum: If va=3, ra=12, and vp=9, what is rp?", a:4},
+      {t:'sa', d:4, q:"If specific kinetic energy = 50 J/kg and specific potential = -80 J/kg, what is the total specific energy?", a:-30},
+      {t:'sa', d:4, q:"If total specific energy is -30 J/kg, is the orbit bound or unbound? (Type one word)", a:["bound"]},
+      {t:'sa', d:4, q:"If total specific energy is 10 J/kg, is the orbit bound or unbound? (Type one word)", a:["unbound"]},
+      {t:'sa', d:4, q:"If total specific energy is 0 J/kg, what conic shape is the trajectory?", a:["parabola"]},
+      {t:'sa', d:4, q:"If you slice a cone perfectly parallel to its base, what shape do you get?", a:["circle"]},
+      {t:'sa', d:4, q:"If you slice a cone vertically so it hits both the top and bottom halves, what shape is formed?", a:["hyperbola"]},
+      // SA Diff 5 (Vis-Viva & Limits)
+      {t:'sa', d:5, q:"If a satellite in a circular orbit of speed V increases its speed by a factor of 1.414 (sqrt 2), what shape does the orbit become?", a:["parabola"]},
+      {t:'sa', d:5, q:"According to Vis-Viva, if r = 2a, what is the velocity? (Enter a number)", a:0},
+      {t:'sa', d:5, q:"For an ellipse, the value of (1+e)/(1-e) is the ratio of velocity at periapsis to velocity at what point?", a:["apoapsis", "aphelion"]},
+      {t:'sa', d:5, q:"If the semi-latus rectum p = 8 and e = 0, what is the radius r everywhere?", a:8},
+      {t:'sa', d:5, q:"What is the value of the dot product between velocity and gravity vectors at periapsis?", a:0},
+      {t:'sa', d:5, q:"If an orbit has an inclination of 0 degrees, it perfectly aligns with what plane?", a:["reference", "equatorial", "equator", "reference plane", "equatorial plane"]},
+      {t:'sa', d:5, q:"What vector always points from the central body toward the periapsis point?", a:["runge-lenz", "runge lenz", "eccentricity", "eccentricity vector", "runge-lenz vector"]},
+      {t:'sa', d:5, q:"What transfer orbit uses exactly two tangent burns to move between circular orbits?", a:["hohmann", "hohmann transfer"]},
+      {t:'sa', d:5, q:"Is torque in an unperturbed orbital system positive, negative, or zero?", a:0},
+      {t:'sa', d:5, q:"If a satellite has positive total energy, will it ever return to periapsis? (yes/no)", a:["no"]}
+    ];
+
+    let currentQuiz = [];
+
+    function initQuiz() {
+      const qc = document.getElementById('quiz-container');
+      if (!qc) return;
+      qc.innerHTML = '';
+      currentQuiz = [];
+
+      for (let diff = 1; diff <= 5; diff++) {
+        const mcOpts = qBank.filter(q => q.t === 'mc' && q.d === diff);
+        const saOpts = qBank.filter(q => q.t === 'sa' && q.d === diff);
+        currentQuiz.push(mcOpts[Math.floor(Math.random() * mcOpts.length)]);
+        currentQuiz.push(saOpts[Math.floor(Math.random() * saOpts.length)]);
+      }
+
+      currentQuiz.forEach((q, index) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'p-5 bg-slate-50 border border-slate-200 rounded-xl quiz-q transition-colors';
+        qDiv.id = `qbox-${index}`;
+        
+        let html = `<div class="font-bold text-slate-800 mb-2 flex items-center gap-2">Q${index + 1} <span class="text-[10px] font-bold text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded uppercase tracking-wide">Level ${q.d} / 5</span></div>`;
+        html += `<div class="text-sm font-medium text-slate-700 mb-4">${q.q}</div>`;
+        
+        if (q.t === 'mc') {
+          html += `<div class="space-y-2">`;
+          q.o.forEach((opt, oIdx) => {
+            html += `<label class="flex items-center space-x-3 text-sm cursor-pointer hover:bg-slate-200/50 p-2 rounded-lg border border-transparent hover:border-slate-200 transition">
+              <input type="radio" name="q-${index}" value="${oIdx}" class="accent-brand-600 w-4 h-4">
+              <span class="text-slate-700">${opt}</span>
+            </label>`;
+          });
+          html += `</div>`;
+        } else {
+          html += `<input type="text" id="sa-${index}" class="w-full md:w-2/3 bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:border-brand-600 outline-none shadow-sm placeholder:text-slate-400" placeholder="Type your answer...">`;
+        }
+        
+        html += `<div id="feedback-${index}" class="mt-3 text-sm font-bold hidden px-3 py-2 rounded-lg"></div>`;
+        qDiv.innerHTML = html;
+        qc.appendChild(qDiv);
+      });
+      
+      const sb = document.getElementById('quiz-score');
+      if(sb) {
+        sb.classList.add('hidden');
+        sb.innerHTML = '';
+      }
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      let missedTopics = [];
+      currentQuiz.forEach((q, index) => {
+        const fb = document.getElementById(`feedback-${index}`);
+        const box = document.getElementById(`qbox-${index}`);
+        if(fb && box) {
+          fb.classList.remove('hidden', 'text-emerald-700', 'bg-emerald-100', 'text-rose-700', 'bg-rose-100');
+          box.classList.remove('border-emerald-300', 'bg-emerald-50/30', 'border-rose-300', 'bg-rose-50/30');
+          box.classList.add('border-slate-200');
+          
+          let isCorrect = false;
+          
+          if (q.t === 'mc') {
+            const selected = document.querySelector(`input[name="q-${index}"]:checked`);
+            if (selected && parseInt(selected.value) === q.a) isCorrect = true;
+          } else {
+            const el = document.getElementById(`sa-${index}`);
+            if(el) {
+              const userVal = el.value.trim().toLowerCase();
+              if (typeof q.a === 'number') {
+                const num = parseFloat(userVal);
+                if (!isNaN(num) && Math.abs(num - q.a) < 0.05) isCorrect = true;
+              } else if (Array.isArray(q.a)) {
+                if (q.a.some(ans => userVal === String(ans).toLowerCase())) isCorrect = true;
+              } else {
+                if (userVal === String(q.a).toLowerCase()) isCorrect = true;
+              }
+            }
+          }
+          
+          if (isCorrect) {
+            score++;
+            fb.innerHTML = "✓ Correct!";
+            fb.classList.add('text-emerald-700', 'bg-emerald-100');
+            box.classList.replace('border-slate-200', 'border-emerald-300');
+            box.classList.add('bg-emerald-50/30');
+          } else {
+            let ansText = q.t === 'mc' ? q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+            let aiExplanation = window.queryAI ? window.queryAI(q.q) : '';
+            fb.innerHTML = `✗ Incorrect. Correct answer: ${ansText}<br>${aiExplanation}`;
+            fb.classList.add('text-rose-700', 'bg-rose-100');
+            box.classList.replace('border-slate-200', 'border-rose-300');
+            box.classList.add('bg-rose-50/30');
+            
+            // Extract topic from AI explanation (naive regex)
+            const topicMatch = aiExplanation.match(/AI Tutor: (.*?)</);
+            if (topicMatch && !missedTopics.includes(topicMatch[1])) {
+              missedTopics.push(topicMatch[1]);
+            }
+          }
+        }
+      });
+      
+      const sb = document.getElementById('quiz-score');
+      if(sb) {
+        sb.classList.remove('hidden');
+        sb.innerHTML = `You scored <span class="font-black text-indigo-700 text-2xl mx-1">${score}</span> out of 10!`;
+        if (score < 10) {
+          let topicsHtml = missedTopics.map(t => `<span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded font-bold">${t}</span>`).join(' ');
+          sb.innerHTML += `<div class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-sm text-indigo-900">
+            <strong><i class="fa-solid fa-brain"></i> AI Mastery Summary:</strong> You should review the explanations above and focus your studies on the following topics:<br><div class="mt-2 flex gap-2 flex-wrap">${topicsHtml}</div></div>`;
+        } else {
+          sb.innerHTML += `<div class="mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-sm text-emerald-900">
+            <strong><i class="fa-solid fa-trophy"></i> Mastered!</strong> Perfect score. You are an orbital mechanics expert.</div>`;
+        }
+      }
+      if(window.MathJax) { MathJax.typesetPromise(); }
+    }
+
+    // --- 8. CHEAT SHEET UTILITIES (DOWNLOAD) ---
+    function downloadCheatSheet() {
+      const text = `ORBITAL PHYSICS FORMULA CHEAT SHEET\n\n` +
+        `01. Ellipse Geometry Formulas\n` +
+        `- Semi-Minor Axis (b): b = a * sqrt(1 - e^2)\n` +
+        `- Linear Eccentricity (c): c = a * e = sqrt(a^2 - b^2)\n` +
+        `- Semi-Latus Rectum (p): p = a * (1 - e^2) = b^2 / a\n` +
+        `- True Path Distance (r): r = p / (1 + e * cos(theta))\n` +
+        `- Periapsis Distance (r_p): r_p = a * (1 - e)\n` +
+        `- Apoapsis Distance (r_a): r_a = a * (1 + e)\n` +
+        `Exam Trick: Given r_a and r_p, find 'a' via: a = (r_a + r_p) / 2.\n\n` +
+        `02. Velocity & Vis-Viva Formulas\n` +
+        `- Orbit Velocity (v): v = sqrt(G * M * (2/r - 1/a))\n` +
+        `- Circular Velocity (v_circ): v_circ = sqrt(G * M / r)\n` +
+        `- Periapsis Velocity (v_p): v_p = sqrt((G * M / a) * ((1 + e) / (1 - e)))\n` +
+        `- Apoapsis Velocity (v_a): v_a = sqrt((G * M / a) * ((1 - e) / (1 + e)))\n` +
+        `- Escape Velocity (v_esc): v_esc = sqrt(2 * G * M / r) = sqrt(2) * v_circ\n` +
+        `Exam Trick: For standard circular orbits, set r = a to find v = sqrt(G * M / r).\n\n` +
+        `03. Conservation Laws & Periods\n` +
+        `- Kepler's 3rd Law (T): T^2 = (4 * pi^2 / (G * M)) * a^3\n` +
+        `- Kepler Comparison Ratio: (T_1 / T_2)^2 = (a_1 / a_2)^3\n` +
+        `- Specific Energy (epsilon): epsilon = 0.5 * v^2 - G * M / r = -G * M / (2 * a)\n` +
+        `- Angular Momentum (h): h = r_p * v_p = r_a * v_a = sqrt(G * M * a * (1 - e^2))\n` +
+        `Exam Trick: Momentum is strictly constant. If 'r' goes down, 'v' must go up!`;
+      
+      const blob = new Blob([text], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'orbital_physics_formulas.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Main download handler for entire file
+    const btnDownload = document.getElementById('btnDownload');
+    if (btnDownload) {
+      btnDownload.addEventListener('click', () => {
+        const htmlContent = document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'elliptical_orbits.html';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    // Initialize all visual modules
+    buildKeplerTable();
+    drawKeplerGraph();
+    animate(); 
+    updateConicSection();
+    initQuiz();
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const articles = document.querySelectorAll("article[id]");
+      const navLinks = document.querySelectorAll("aside nav a");
+
+      const observerOptions = {
+        root: null,
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.forEach((link) => {
+              link.classList.remove("font-bold", "text-indigo-600", "bg-indigo-50");
+              link.classList.add("text-slate-600", "hover:text-brand-600", "hover:bg-white");
+              if (link.getAttribute("href") === "#" + entry.target.id) {
+                link.classList.remove("text-slate-600", "hover:text-brand-600", "hover:bg-white");
+                link.classList.add("font-bold", "text-indigo-600", "bg-indigo-50");
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      articles.forEach((article) => {
+        observer.observe(article);
+      });
+    });
+  </script>
+</body>
+</html>

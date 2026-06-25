@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atmospheric Entry</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="knowledge_base.js"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50: '#f0f3ff', 600: '#4f46e5', 900: '#312e81' } } } }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased p-8">
+  <div class="max-w-4xl mx-auto space-y-8">
+    <header class="border-b border-slate-200 pb-6">
+      <h1 class="text-4xl font-black text-slate-900">Atmospheric Entry</h1>
+      <p class="text-slate-500 mt-2">Interactive Physics Module • OmniBot 7.0</p>
+    </header>
+
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+      <h2 class="text-2xl font-bold mb-4">Concept Overview</h2>
+      <p class="text-slate-600 mb-4">Atmospheric entry is the movement of an object from outer space into and through the gases of an atmosphere of a planet, dwarf planet, or natural satellite. Heat transfer and deceleration are the primary factors.</p>
+      
+      <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 text-center relative overflow-hidden">
+        <canvas id="simCanvas" width="600" height="300" class="mx-auto border border-slate-300 rounded bg-slate-900"></canvas>
+        <p class="text-xs text-slate-500 mt-3">Interactive Simulation Viewport</p>
+      </div>
+    </section>
+
+    <!-- General AI Tutor Section -->
+    <div class="mt-8 border border-indigo-200 rounded-xl overflow-hidden shadow-sm">
+      <div class="bg-indigo-600 text-white p-4 font-bold flex items-center gap-2">
+        <i class="fa-solid fa-robot"></i> OmniBot Offline AI Tutor
+      </div>
+      <div class="p-4 bg-indigo-50/30">
+        <p class="text-sm text-slate-600 mb-3">Ask a general question about orbital mechanics. I run fully locally using heuristic keyword matching!</p>
+        <div class="flex gap-2">
+          <input type="text" id="ai-query-input" class="flex-grow border border-slate-300 rounded-lg p-2.5 text-sm outline-none focus:border-indigo-600 shadow-sm" placeholder="e.g. What is energy?" onkeydown="if(event.key==='Enter') askAITutor()">
+          <button onclick="askAITutor()" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition">Ask AI</button>
+        </div>
+        <div id="ai-tutor-response" class="mt-4 empty:hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function askAITutor() {
+      const input = document.getElementById('ai-query-input');
+      const out = document.getElementById('ai-tutor-response');
+      if(!input.value.trim()) return;
+      const responseHtml = window.queryAI ? window.queryAI(input.value) : '<div class="text-rose-600">AI Database not loaded.</div>';
+      out.innerHTML = `<div class="mb-2 text-xs font-bold text-slate-400 uppercase">You asked: ${input.value}</div>${responseHtml}`;
+      if(window.MathJax) MathJax.typesetPromise();
+      input.value = '';
+    }
+
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    let x = 0;
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(0, '#000000'); gradient.addColorStop(1, '#3b82f6');
+      ctx.fillStyle = gradient; ctx.fillRect(0,0,canvas.width,canvas.height);
+      
+      let y = Math.pow(x/30, 2);
+      ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fca5a5'; ctx.beginPath(); ctx.moveTo(x-10, y-10); ctx.lineTo(x-30, y-20); ctx.lineTo(x-10, y+10); ctx.fill();
+      
+      x += 2;
+      if(x > 600) x = 0;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

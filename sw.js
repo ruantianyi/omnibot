@@ -1,67 +1,73 @@
-const CACHE_NAME = 'omnibot-cache-v1';
-const ASSETS_TO_PRECACHE = [
-  './6.4.html',
-  './manifest.json',
-  'https://cdn.tailwindcss.com',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+const CACHE_NAME = 'omnibot-v7-cache-v1';
+
+const urlsToCache = [
+  './7.0.html',
+  './manifest.json'
 ];
 
-// Install Event: Pre-cache core assets
-self.addEventListener('install', (event) => {
-  self.skipWaiting();
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      // Best effort caching - don't fail install if a CDN resource fails
-      return Promise.allSettled(
-        ASSETS_TO_PRECACHE.map(url => cache.add(url))
-      );
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        return cache.addAll(urlsToCache).catch(err => {
+            console.warn('Some static assets could not be cached:', err);
+        });
+      })
   );
+  self.skipWaiting();
 });
 
-// Activate Event: Clean up old caches
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.map((cacheName) => {
+        cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
         })
       );
-    }).then(() => self.clients.claim())
+    })
   );
+  self.clients.claim();
 });
 
-// Fetch Event: Network First, falling back to cache
-self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
+// Cache first, falling back to network strategy for all GET requests (including CDNs)
+self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+  
+  // Skip caching for API requests (like Gemini/OpenRouter API endpoints)
+  const url = new URL(event.request.url);
+  if (url.hostname.includes('googleapis.com') || url.hostname.includes('openrouter.ai') || url.hostname.includes('groq.com')) {
+      return;
+  }
 
   event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        // Only cache valid responses
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      
+      return fetch(event.request).then(networkResponse => {
+        // Don't cache if not a valid response or if it's an opaque cross-origin response that failed
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic' && networkResponse.type !== 'cors') {
+          return networkResponse;
         }
-        return networkResponse;
-      })
-      .catch(() => {
-        // If network fails (offline), return from cache
-        return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          // If the specific request is not in cache and it's a navigation request, return the shell
-          if (event.request.mode === 'navigate') {
-            return caches.match('./6.4.html');
-          }
+
+        // Clone the response because it can only be consumed once
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache);
         });
-      })
+
+        return networkResponse;
+      }).catch(() => {
+          // If network fails and we don't have it in cache, we just fail gracefully
+          return new Response('Offline: Resource not available in cache.', {
+              status: 503,
+              statusText: 'Service Unavailable'
+          });
+      });
+    })
   );
 });

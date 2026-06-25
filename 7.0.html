@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniBot 6.4 Workspace — Futuristic AI Suite</title>
+    <title>OmniBot 7.0 Workspace 鈥?Futuristic AI Suite</title>
     <link rel="manifest" href="manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -18,6 +18,10 @@
             tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
             svg: { fontCache: 'global' }
         };
+    </script>
+    <script type="module">
+        import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+        window.webllm = webllm;
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
@@ -54,7 +58,7 @@
                 background: #818cf8;
             }
 
-            /* ── Aurora Animated Background ── */
+            /* 鈹€鈹€ Aurora Animated Background 鈹€鈹€ */
             @keyframes aurora-shift {
                 0% {
                     background-position: 0% 50%;
@@ -111,7 +115,7 @@
                 z-index: 1;
             }
 
-            /* ── Scan-line / Grid Overlay ── */
+            /* 鈹€鈹€ Scan-line / Grid Overlay 鈹€鈹€ */
             .scan-grid {
                 position: absolute;
                 inset: 0;
@@ -124,7 +128,7 @@
                 mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, transparent 75%);
             }
 
-            /* ── Glassmorphism 2.0 panels ── */
+            /* 鈹€鈹€ Glassmorphism 2.0 panels 鈹€鈹€ */
             .glass-panel-v3 {
                 background: rgba(8, 12, 30, 0.55);
                 backdrop-filter: blur(18px) saturate(1.4);
@@ -134,7 +138,7 @@
                     0 0 60px rgba(99, 102, 241, 0.04);
             }
 
-            /* ── Neon Glow Accents ── */
+            /* 鈹€鈹€ Neon Glow Accents 鈹€鈹€ */
             .neon-indigo {
                 box-shadow: 0 0 12px rgba(99, 102, 241, 0.5), 0 0 32px rgba(99, 102, 241, 0.2);
             }
@@ -151,7 +155,7 @@
                 text-shadow: 0 0 10px rgba(129, 140, 248, 0.6), 0 0 24px rgba(129, 140, 248, 0.3);
             }
 
-            /* ── Tab Animated Indicator ── */
+            /* 鈹€鈹€ Tab Animated Indicator 鈹€鈹€ */
             .tab-btn-v3 {
                 position: relative;
                 transition: color 0.2s, background 0.2s;
@@ -176,7 +180,7 @@
                 box-shadow: 0 0 8px rgba(99, 102, 241, 0.7);
             }
 
-            /* ── Micro-animations ── */
+            /* 鈹€鈹€ Micro-animations 鈹€鈹€ */
             @keyframes fade-up {
                 from {
                     opacity: 0;
@@ -225,7 +229,7 @@
                 animation: float-y 4s ease-in-out infinite;
             }
 
-            /* ── Futuristic Button Hover ── */
+            /* 鈹€鈹€ Futuristic Button Hover 鈹€鈹€ */
             .btn-neon {
                 position: relative;
                 overflow: hidden;
@@ -250,7 +254,7 @@
                 transform: translateY(-1px);
             }
 
-            /* ── Tab Transition ── */
+            /* 鈹€鈹€ Tab Transition 鈹€鈹€ */
             .tab-content {
             }
 
@@ -258,7 +262,7 @@
                 animation: fade-up 0.3s ease;
             }
 
-            /* ── Story genre pills ── */
+            /* 鈹€鈹€ Story genre pills 鈹€鈹€ */
             .genre-pill {
                 cursor: pointer;
                 transition: all 0.2s;
@@ -382,7 +386,7 @@
 
                 <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar font-sans text-left">
 
-                    <!-- ═══ API Connection ═══ -->
+                    <!-- 鈺愨晲鈺?API Connection 鈺愨晲鈺?-->
                     <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-plug text-indigo-600 dark:text-indigo-400"></i>API Connection</h3>
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Provider</label>
@@ -407,7 +411,7 @@
                         </div>
                     </div>
 
-                    <!-- ═══ Preferences ═══ -->
+                    <!-- 鈺愨晲鈺?Preferences 鈺愨晲鈺?-->
                     <hr class="border-slate-200 dark:border-slate-800 my-2">
                     <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-palette text-indigo-600 dark:text-indigo-400"></i>Preferences</h3>
 
@@ -425,6 +429,35 @@
                             <input type="checkbox" id="autosave-toggle" class="sr-only peer" checked onchange="handleHistoryToggle(this)">
                             <div class="w-9 h-5 bg-slate-250 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500"></div>
                         </label>
+                    </div>
+
+                    <!-- 鈺愨晲鈺?Model Manager (OmniBot 7.0) 鈺愨晲鈺?-->
+                    <hr class="border-slate-200 dark:border-slate-800 my-2">
+                    <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-microchip text-indigo-600 dark:text-indigo-400"></i>Local AI Models</h3>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 mb-2">Download AI models (via WebLLM) to run offline directly in your browser without API keys.</p>
+
+                    <div class="space-y-2 mt-2">
+                        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Planner (Tiny)</h4>
+                                <p class="text-[9px] text-slate-500">Fast, ~2GB RAM. Basic logic.</p>
+                            </div>
+                            <button onclick="downloadModel('potato-planner', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                        </div>
+                        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Text (Llama-3)</h4>
+                                <p class="text-[9px] text-slate-500">High quality, ~4GB RAM.</p>
+                            </div>
+                            <button onclick="downloadModel('medium-text', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                        </div>
+                        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200">Coder (Phi-3)</h4>
+                                <p class="text-[9px] text-slate-500">Code spec, ~3GB RAM.</p>
+                            </div>
+                            <button onclick="downloadModel('potato-coder', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                        </div>
                     </div>
 
 
@@ -502,6 +535,10 @@
                         <button onclick="switchTab('game')" id="tab-btn-game"
                             class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-gamepad text-amber-500 dark:text-amber-400"></i> Game
+                        </button>
+                        <button onclick="switchTab('lessons')" id="tab-btn-lessons"
+                            class="tab-btn flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            <i class="fa-solid fa-book text-blue-500 dark:text-blue-400"></i> Lessons
                         </button>
                     </nav>
                     <button
@@ -583,6 +620,17 @@
                         </div>
                     </div>
 
+                    <!-- Local AI Model Selector -->
+                    <div class="mt-6 pt-6 border-t border-slate-200/80 dark:border-slate-800/80">
+                        <label class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+                            Local AI Engine
+                            <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
+                        </label>
+                        <select id="chat-local-model" class="local-model-selector w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors">
+                            <option value="">(Use Cloud API)</option>
+                        </select>
+                    </div>
+
                     <!-- Conversations History -->
                     <div class="pt-4 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col gap-2">
                         <div class="flex items-center justify-between">
@@ -606,7 +654,7 @@
                         </h4>
                         <div
                             class="p-3 bg-white/60 dark:bg-slate-950/60 rounded-xl border border-slate-200/80 dark:border-slate-800/80 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400 font-mono">
-                            <div>Model: <span id="mem-model-type" class="text-indigo-600 dark:text-indigo-300">6.4 Nexus
+                            <div>Model: <span id="mem-model-type" class="text-indigo-600 dark:text-indigo-300">7.0 Nexus
                                     Core</span></div>
                             <div>Extracted Topics: <span class="text-emerald-600 dark:text-emerald-300">Active</span>
                             </div>
@@ -643,15 +691,15 @@
                             </div>
                             <div
                                 class="bg-slate-50/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-slate-200/40 dark:border-slate-800/40 shadow-inner">
-                                Welcome to <strong class="text-indigo-600 dark:text-indigo-300">OmniBot 6.4
-                                    Nexus</strong> — the most advanced offline AI suite yet. 🚀<br><br>Powered by an
+                                Welcome to <strong class="text-indigo-600 dark:text-indigo-300">OmniBot 7.0
+                                    Nexus</strong> 鈥?the most advanced offline AI suite yet. 馃殌<br><br>Powered by an
                                 expanded knowledge graph, a procedural creative fiction engine, and real Math.js
                                 calculus. Add an API key in settings to unlock the full live hybrid engine.
                                 <span class="text-xs text-slate-500 dark:text-slate-400 mt-2 block leading-relaxed">Try
-                                    typing: <br>• <code
+                                    typing: <br>鈥?<code
                                         class="bg-white/80 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/80 px-1.5 py-0.5 rounded text-indigo-600 dark:text-indigo-300">write a fantasy story about a mage who lost their powers</code>
-                                    <br>• <code
-                                        class="bg-white/80 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/80 px-1.5 py-0.5 rounded text-teal-600 dark:text-teal-300">analyze the nuances of quantum mechanics</code><br>•
+                                    <br>鈥?<code
+                                        class="bg-white/80 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/80 px-1.5 py-0.5 rounded text-teal-600 dark:text-teal-300">analyze the nuances of quantum mechanics</code><br>鈥?
                                     <code
                                         class="bg-white/80 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/80 px-1.5 py-0.5 rounded text-emerald-600 dark:text-emerald-300">derivative of 4x^3 + 2x</code></span>
                             </div>
@@ -728,7 +776,7 @@
                                 <i class="fa-solid fa-wand-sparkles text-indigo-600 dark:text-indigo-400"></i> Nexus
                                 Compose Engine</h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Generates unique essays
-                                <em>and</em> original creative stories from structural libraries — never the same twice.
+                                <em>and</em> original creative stories from structural libraries 鈥?never the same twice.
                             </p>
                         </div>
 
@@ -740,8 +788,17 @@
                                 <select id="composer-mode" onchange="switchComposerMode()"
                                     class="w-full bg-white/80 dark:bg-slate-950/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
                                     style="border: 1px solid rgba(99,102,241,0.25); background: rgba(5,8,25,0.7);">
-                                    <option value="scholarly">📄 Academic Essay</option>
-                                    <option value="creative">✨ Creative Fiction / Narrative</option>
+                                    <option value="scholarly">馃搫 Academic Essay</option>
+                                    <option value="creative">鉁?Creative Fiction / Narrative</option>
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                <label class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+                                    Local AI Engine
+                                    <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
+                                </label>
+                                <select id="compose-local-model" class="local-model-selector w-full mt-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-500">
+                                    <option value="">(Use Cloud API)</option>
                                 </select>
                             </div>
                             <div>
@@ -950,6 +1007,15 @@
                                 <option value="academic">Scholarly & Dynamic</option>
                                 <option value="creative">Creative & Expressive</option>
                                 <option value="lyrical">Lyrical & Descriptive</option>
+                            </select>
+                        </div>
+                        <div class="mt-2">
+                            <label class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+                                Local AI Engine
+                                <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
+                            </label>
+                            <select id="rephraser-local-model" class="local-model-selector w-full mt-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-500">
+                                <option value="">(Use Cloud API)</option>
                             </select>
                         </div>
                         <div>
@@ -1435,27 +1501,27 @@
                     <div class="grid grid-cols-3 gap-3 my-4">
                         <button onclick="playRPS('R')"
                             class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/60 hover:border-indigo-500/50 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-center transition group"><span
-                                class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">✊</span><span
+                                class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">鉁?/span><span
                                 class="text-[10px] font-bold text-slate-600 dark:text-slate-300">Rock</span></button>
                         <button onclick="playRPS('P')"
                             class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/60 hover:border-indigo-500/50 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-center transition group"><span
-                                class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">✋</span><span
+                                class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">鉁?/span><span
                                 class="text-[10px] font-bold text-slate-600 dark:text-slate-300">Paper</span></button>
                         <button onclick="playRPS('S')"
                             class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/60 hover:border-indigo-500/50 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-center transition group"><span
-                                class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">✌️</span><span
+                                class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">鉁岋笍</span><span
                                 class="text-[10px] font-bold text-slate-600 dark:text-slate-300">Scissors</span></button>
                     </div>
                     <div
                         class="p-3 bg-white/40 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-around text-center text-xs">
                         <div><span class="text-[10px] uppercase text-slate-400 dark:text-slate-500 tracking-wider">You
                                 Played</span>
-                            <div id="rps-player-choice" class="text-2xl my-1">➖</div>
+                            <div id="rps-player-choice" class="text-2xl my-1">鉃?/div>
                         </div>
                         <div class="font-extrabold text-slate-600">VS</div>
                         <div><span class="text-[10px] uppercase text-slate-400 dark:text-slate-500 tracking-wider">AI
                                 Counter</span>
-                            <div id="rps-ai-choice" class="text-2xl my-1">➖</div>
+                            <div id="rps-ai-choice" class="text-2xl my-1">鉃?/div>
                         </div>
                     </div>
                     <div class="mt-4 pt-4 border-t border-slate-200/60 dark:border-slate-800/60">
@@ -1465,24 +1531,24 @@
                         <div class="grid grid-cols-3 gap-2 text-[11px]">
                             <div
                                 class="p-2.5 bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 rounded-lg">
-                                <div class="font-semibold text-indigo-600 dark:text-indigo-300 mb-1.5">If last was ✊:
+                                <div class="font-semibold text-indigo-600 dark:text-indigo-300 mb-1.5">If last was 鉁?
                                 </div>
                                 <div class="space-y-1.5">
-                                    <div class="flex justify-between text-[10px]"><span>✊ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁?Next:</span><span
                                             id="prob-R-R" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
                                         <div id="bar-R-R" class="bg-indigo-500 h-full transition-all duration-300"
                                             style="width: 33.3%"></div>
                                     </div>
-                                    <div class="flex justify-between text-[10px]"><span>✋ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁?Next:</span><span
                                             id="prob-R-P" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
                                         <div id="bar-R-P" class="bg-indigo-500 h-full transition-all duration-300"
                                             style="width: 33.3%"></div>
                                     </div>
-                                    <div class="flex justify-between text-[10px]"><span>✌️ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁岋笍 Next:</span><span
                                             id="prob-R-S" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
@@ -1493,23 +1559,23 @@
                             </div>
                             <div
                                 class="p-2.5 bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 rounded-lg">
-                                <div class="font-semibold text-violet-300 mb-1.5">If last was ✋:</div>
+                                <div class="font-semibold text-violet-300 mb-1.5">If last was 鉁?</div>
                                 <div class="space-y-1.5">
-                                    <div class="flex justify-between text-[10px]"><span>✊ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁?Next:</span><span
                                             id="prob-P-R" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
                                         <div id="bar-P-R" class="bg-violet-500 h-full transition-all duration-300"
                                             style="width: 33.3%"></div>
                                     </div>
-                                    <div class="flex justify-between text-[10px]"><span>✋ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁?Next:</span><span
                                             id="prob-P-P" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
                                         <div id="bar-P-P" class="bg-violet-500 h-full transition-all duration-300"
                                             style="width: 33.3%"></div>
                                     </div>
-                                    <div class="flex justify-between text-[10px]"><span>✌️ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁岋笍 Next:</span><span
                                             id="prob-P-S" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
@@ -1520,23 +1586,23 @@
                             </div>
                             <div
                                 class="p-2.5 bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 rounded-lg">
-                                <div class="font-semibold text-teal-600 dark:text-teal-300 mb-1.5">If last was ✌️:</div>
+                                <div class="font-semibold text-teal-600 dark:text-teal-300 mb-1.5">If last was 鉁岋笍:</div>
                                 <div class="space-y-1.5">
-                                    <div class="flex justify-between text-[10px]"><span>✊ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁?Next:</span><span
                                             id="prob-S-R" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
                                         <div id="bar-S-R" class="bg-teal-500 h-full transition-all duration-300"
                                             style="width: 33.3%"></div>
                                     </div>
-                                    <div class="flex justify-between text-[10px]"><span>✋ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁?Next:</span><span
                                             id="prob-S-P" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
                                         <div id="bar-S-P" class="bg-teal-500 h-full transition-all duration-300"
                                             style="width: 33.3%"></div>
                                     </div>
-                                    <div class="flex justify-between text-[10px]"><span>✌️ Next:</span><span
+                                    <div class="flex justify-between text-[10px]"><span>鉁岋笍 Next:</span><span
                                             id="prob-S-S" class="font-mono text-white">33%</span></div>
                                     <div
                                         class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 h-1 rounded-full overflow-hidden">
@@ -1596,7 +1662,45 @@
                 </div>
             </section>
 
-
+            <section id="tab-lessons" class="tab-content hidden w-full flex flex-col gap-6 flex-grow scroll-mt-24 mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+                <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+                    <h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2">Interactive Physics Lessons</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Explore interactive simulations, comprehensive textbook chapters, and AI-assisted quizzes to master orbital mechanics.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="elliptical_orbits_physics.html" target="_blank" class="block p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 hover:shadow-md transition bg-slate-50 dark:bg-slate-950">
+                            <div class="text-3xl mb-3">🌍</div>
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-1">Elliptical Orbits</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Master Kepler's laws, vis-viva equations, and orbital extremes.</p>
+                        </a>
+                        <a href="orbital_maneuvers_physics.html" target="_blank" class="block p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 hover:shadow-md transition bg-slate-50 dark:bg-slate-950">
+                            <div class="text-3xl mb-3">🚀</div>
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-1">Orbital Maneuvers</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Calculate Hohmann transfers and delta-v requirements.</p>
+                        </a>
+                        <a href="rocket_equation_physics.html" target="_blank" class="block p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 hover:shadow-md transition bg-slate-50 dark:bg-slate-950">
+                            <div class="text-3xl mb-3">🔥</div>
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-1">The Rocket Equation</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Understand mass fractions and Tsiolkovsky's famous law.</p>
+                        </a>
+                        <a href="n_body_gravity_physics.html" target="_blank" class="block p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 hover:shadow-md transition bg-slate-50 dark:bg-slate-950">
+                            <div class="text-3xl mb-3">🌌</div>
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-1">N-Body Gravity</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Learn universal gravitation and explore chaotic multi-body systems.</p>
+                        </a>
+                        <a href="atmospheric_entry_physics.html" target="_blank" class="block p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 hover:shadow-md transition bg-slate-50 dark:bg-slate-950">
+                            <div class="text-3xl mb-3">☄️</div>
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-1">Atmospheric Entry</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Analyze aerocapture physics, heating rates, and ballistic coefficients.</p>
+                        </a>
+                        <a href="interplanetary_trajectories.html" target="_blank" class="block p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-indigo-500 hover:shadow-md transition bg-slate-50 dark:bg-slate-950">
+                            <div class="text-3xl mb-3">🪐</div>
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 mb-1">Interplanetary Trajectories</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Map out patched conics and launch windows for deep space missions.</p>
+                        </a>
+                    </div>
+                </div>
+            </section>
 
         </main>
 
@@ -1949,7 +2053,7 @@
                         "At the macro level, anatomy and physiology evaluate how these cells organize into complex organ systems.",
                         "The maintenance of internal homeostasis, mediated by intricate neural signaling and hormonal feedback loops, allows complex organisms to survive in fluctuating external environments.",
                         "Evolutionary biology and microbiology contextualize life over deep time.",
-                        "Natural selection, adaptation, and speciation explain the sheer diversity of organic structures, while the study of bacteria, viruses, and fungi reveals the invisible, symbiotic ecosystem that sustains—or threatens—larger host organisms."
+                        "Natural selection, adaptation, and speciation explain the sheer diversity of organic structures, while the study of bacteria, viruses, and fungi reveals the invisible, symbiotic ecosystem that sustains鈥攐r threatens鈥攍arger host organisms."
                     ]
                 },
                 "earth_science": {
@@ -2003,7 +2107,7 @@
                         "Metaphysics expands this inquiry into the fundamental nature of reality itself.",
                         "By analyzing the mind-body problem, the illusion of free will, and the existential definition of 'being,' metaphysics challenges the empirical assumptions made by the hard physical sciences.",
                         "Ethics establishes the moral architecture of human civilization.",
-                        "Differing schools of thought—such as deontology, utilitarianism, and virtue ethics—provide competing frameworks for determining right from wrong in complex socio-political environments.",
+                        "Differing schools of thought鈥攕uch as deontology, utilitarianism, and virtue ethics鈥攑rovide competing frameworks for determining right from wrong in complex socio-political environments.",
                         "Aesthetics explores the philosophy of beauty, taste, and artistic value.",
                         "Rather than viewing art as merely subjective, aesthetic philosophy attempts to uncover the underlying psychological and cultural rules that make specific literary, visual, and musical compositions universally impactful."
                     ]
@@ -2014,11 +2118,11 @@
                         "Applied sciences and structural engineering form the backbone of modern infrastructure.",
                         "Civil, mechanical, and aerospace engineering rely on the strict application of thermodynamics, fluid dynamics, and material science to construct resilient structures and optimize propulsion systems.",
                         "Without these applied disciplines, theoretical physics cannot be translated into functional, real-world utility.",
-                        "Simultaneously, the medical and biological trades—including surgery, pharmacology, epidemiology, and nursing—apply rigorous scientific principles directly to human welfare.",
+                        "Simultaneously, the medical and biological trades鈥攊ncluding surgery, pharmacology, epidemiology, and nursing鈥攁pply rigorous scientific principles directly to human welfare.",
                         "The synthesis of organic chemistry and biostatistics enables the precise administration of therapeutics, surgical interventions, and the tracking of global disease vectors.",
                         "In the socioeconomic sphere, business administration, finance, law, and logistics provide the organizational scaffolding necessary to manage these technological advancements.",
                         "Corporate finance, supply chain logistics, and constitutional jurisprudence ensure that complex human societies can scale operations while maintaining ethical and structural stability.",
-                        "At the practical level, foundational trades and specialized disciplines—such as welding, carpentry, electrical work, culinary arts, and automotive repair—execute the granular tasks that keep civilizations functioning.",
+                        "At the practical level, foundational trades and specialized disciplines鈥攕uch as welding, carpentry, electrical work, culinary arts, and automotive repair鈥攅xecute the granular tasks that keep civilizations functioning.",
                         "Whether analyzing structural load capacities in a building, diagnosing engine mechanics, or practicing sustainable agronomy, these disciplines ground abstract theory in essential daily practice."
                     ]
                 },
@@ -2037,7 +2141,7 @@
                 }
             };
 
-            const NATIONS = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Côte d'Ivoire", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia", "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"];
+            const NATIONS = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "C么te d'Ivoire", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia", "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"];
             const nationTemplates = [
                 "The sovereign state of {NATION} operates a complex geopolitical architecture molded by its unique history.",
                 "Geographically, {NATION} encompasses diverse biomes, spanning from rural municipalities to major metropolitan cities.",
@@ -2597,7 +2701,7 @@
             }
 
             function sanitizeAndCorrectTopic(str) {
-                let clean = str.trim().replace(/^[\s•\-\*\d\.#\(\)\[\]:;>]+/g, "").trim();
+                let clean = str.trim().replace(/^[\s鈥-\*\d\.#\(\)\[\]:;>]+/g, "").trim();
                 const noisePatterns = [
                     /^(?:can\s+you\s+)?(?:write|generate|make|do|draft)\s+an?\s+(?:essay|paper|analysis|story)\s+(?:about|on|covering|regarding)\s+(the\s+|a\s+|an\s+)?/i,
                     /^give\s+me\s+an?\s+(?:essay|paper|analysis|story)\s+(?:about|on|covering|regarding)\s+(the\s+|a\s+|an\s+)?/i,
@@ -2923,7 +3027,7 @@
                         sensory: ["the smell of rotting wood", "the sound of scratching from the ceiling", "the freezing drop in temperature", "the taste of copper and fear"]
                     },
                     romance: {
-                        locations: ["a sun-drenched café in Paris", "a rainy afternoon in a cozy bookstore", "a masquerade ball where faces are hidden", "a quiet beach at sunset"],
+                        locations: ["a sun-drenched caf茅 in Paris", "a rainy afternoon in a cozy bookstore", "a masquerade ball where faces are hidden", "a quiet beach at sunset"],
                         tropes: ["a fleeting glance across the room", "an accidental brush of hands", "a secret admirer's note", "a sudden realization of love"],
                         sensory: ["the smell of fresh coffee", "the warmth of a gentle touch", "the sound of a heartbeat", "the taste of sweet wine"]
                     },
@@ -3376,7 +3480,7 @@
                     "Culinary arts represent a fascinating chemical synthesis of heat transfer, organic acids, and enzyme actions.",
                     "The global food supply chain is heavily dependent on sustainable agronomy, logistics, and trade corridors.",
                     "For instance, fermentation utilizes microscopic yeast to transform sugars into complex, texturized compounds.",
-                    "Macro-nutrients—proteins, carbohydrates, and lipids—form the chemical foundation of human physical vitality.",
+                    "Macro-nutrients鈥攑roteins, carbohydrates, and lipids鈥攆orm the chemical foundation of human physical vitality.",
                     "Ecosystems are shaped by food production, from localized soil hydrology to massive, centralized agriculture.",
                     "Admittedly, flavor profiles are highly subjective, shaped by ethnographic culture and sensory receptors.",
                     "A balanced diet stabilizes hormonal feedback loops, promoting long-term physiological homeostasis."
@@ -3474,7 +3578,7 @@
 
                 if (intent === "GREETING") {
                     setCognitiveMode('CONVERSATIONAL');
-                    return humanizeHTMLSafe("Hello! I am OmniBot 6.2. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
+                    return humanizeHTMLSafe("Hello! I am OmniBot 7.0. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
                 }
 
                 // Removed the old CHITCHAT fallback rejection. 
@@ -3510,7 +3614,7 @@
                 if (essayPaper) essayPaper.innerHTML = humanizedCompiledText;
 
                 setTimeout(() => {
-                    showToast(`💡 Synchronized: I have loaded this document into your <button onclick="switchTab('essay')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold pointer-events-auto">Compose Engine</button> tab!`);
+                    showToast(`馃挕 Synchronized: I have loaded this document into your <button onclick="switchTab('essay')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold pointer-events-auto">Compose Engine</button> tab!`);
                 }, 500);
 
                 return `
@@ -4403,7 +4507,7 @@
                 document.getElementById('rps-ties').innerText = tiesCount;
                 document.getElementById('rps-rate').innerText = `${Math.round((userWins / (userWins + aiWins + tiesCount)) * 100)}%`;
 
-                const emojiMap = { 'R': '✊', 'P': '✋', 'S': '✌️' };
+                const emojiMap = { 'R': '鉁?, 'P': '鉁?, 'S': '鉁岋笍' };
                 document.getElementById('rps-player-choice').innerText = emojiMap[userMove];
                 document.getElementById('rps-ai-choice').innerText = emojiMap[aiCounter];
 
@@ -4442,8 +4546,8 @@
                 document.getElementById('rps-ai').innerText = "0";
                 document.getElementById('rps-ties').innerText = "0";
                 document.getElementById('rps-rate').innerText = "0%";
-                document.getElementById('rps-player-choice').innerText = "➖";
-                document.getElementById('rps-ai-choice').innerText = "➖";
+                document.getElementById('rps-player-choice').innerText = "鉃?;
+                document.getElementById('rps-ai-choice').innerText = "鉃?;
                 updateMarkovMatrixUI();
                 saveState();
                 showToast("Matrix flushed.");
@@ -4759,7 +4863,7 @@
 
                 initCanvas();
 
-                // Scroll spy disabled in 6.4
+                // Scroll spy disabled in 7.0
 
                 const chatFormEl = document.getElementById('chat-form');
                 const chatInputEl = document.getElementById('chat-input');
@@ -4948,7 +5052,7 @@
                 URL.revokeObjectURL(url);
             }
 
-            // --- OmniBot 6.4 History Features Controller ---
+            // --- OmniBot 7.0 History Features Controller ---
             window.currentChatId = null;
 
             function generateUUID() {
@@ -5071,7 +5175,7 @@
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div class="bg-slate-50/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-slate-200/40 dark:border-slate-800/40 shadow-inner">
-                            Welcome to <strong class="text-indigo-600 dark:text-indigo-300">OmniBot 6.4 Nexus</strong> — this is a clean new workspace session. 🚀<br><br>Ask memory queries, draw plots, or solve equations.
+                            Welcome to <strong class="text-indigo-600 dark:text-indigo-300">OmniBot 7.0 Nexus</strong> 鈥?this is a clean new workspace session. 馃殌<br><br>Ask memory queries, draw plots, or solve equations.
                         </div>
                     </div>
                 `,
@@ -5167,7 +5271,7 @@
                         <div class="flex items-center justify-between p-2 rounded-lg border border-transparent hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition group cursor-pointer text-left" onclick="previewDocument('${doc.id}')">
                             <div class="flex flex-col truncate pr-2 flex-grow">
                                 <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${doc.title}</span>
-                                <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">${doc.type} — ${doc.date}</span>
+                                <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">${doc.type} 鈥?${doc.date}</span>
                             </div>
                             <button onclick="deleteDocument('${doc.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
                                 <i class="fa-solid fa-trash-can"></i>
@@ -5271,7 +5375,7 @@
                     <div class="flex items-center justify-between p-2 rounded-lg border border-transparent hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition group cursor-pointer" onclick="loadModel('${model.id}')">
                         <div class="flex flex-col truncate pr-2 flex-grow text-left">
                             <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${model.name}</span>
-                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">Vocab: ${model.vocabSize} — ${model.date}</span>
+                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">Vocab: ${model.vocabSize} 鈥?${model.date}</span>
                         </div>
                         <button onclick="deleteModel('${model.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
                             <i class="fa-solid fa-trash-can"></i>
@@ -5357,8 +5461,8 @@
                 document.getElementById('rps-ai').innerText = '0';
                 document.getElementById('rps-ties').innerText = '0';
                 document.getElementById('rps-rate').innerText = '0%';
-                document.getElementById('rps-player-choice').innerText = '➖';
-                document.getElementById('rps-ai-choice').innerText = '➖';
+                document.getElementById('rps-player-choice').innerText = '鉃?;
+                document.getElementById('rps-ai-choice').innerText = '鉃?;
 
                 updateMarkovMatrixUI();
                 saveState();
@@ -5478,6 +5582,106 @@
                         });
                 });
             }
+        </script>
+        <script>
+            // 鈺愨晲鈺?Model Manager Logic (OmniBot 7.0) 鈺愨晲鈺?
+            const LOCAL_MODELS = {
+                'potato-planner': { id: 'placeholder-potato-planner-q4f16_1-MLC', status: 'not-downloaded' },
+                'potato-text': { id: 'placeholder-potato-text-q4f16_1-MLC', status: 'not-downloaded' },
+                'potato-coder': { id: 'placeholder-potato-coder-q4f16_1-MLC', status: 'not-downloaded' },
+                'medium-planner': { id: 'placeholder-medium-planner-q4f16_1-MLC', status: 'not-downloaded' },
+                'medium-text': { id: 'placeholder-medium-text-q4f16_1-MLC', status: 'not-downloaded' },
+                'medium-coder': { id: 'placeholder-medium-coder-q4f16_1-MLC', status: 'not-downloaded' }
+            };
+
+            let engine = null;
+
+            async function downloadModel(modelKey, btnElement) {
+                if (!window.webllm) {
+                    showToast('WebLLM is still loading. Please wait.');
+                    return;
+                }
+
+                const modelId = LOCAL_MODELS[modelKey].id;
+                
+                btnElement.disabled = true;
+                const originalText = btnElement.innerText;
+                
+                try {
+                    const initProgressCallback = (initProgress) => {
+                        const progress = Math.round(initProgress.progress * 100);
+                        btnElement.innerText = 'Downloading... ' + progress + '%';
+                    };
+                    
+                    btnElement.innerText = 'Initializing...';
+                    
+                    engine = await window.webllm.CreateMLCEngine(
+                        modelId, 
+                        { initProgressCallback: initProgressCallback }
+                    );
+                    
+                    LOCAL_MODELS[modelKey].status = 'downloaded';
+                    btnElement.innerText = 'Ready';
+                    btnElement.classList.replace('bg-slate-200', 'bg-emerald-500');
+                    btnElement.classList.replace('text-black', 'text-white');
+                    showToast(modelKey + ' downloaded successfully and is ready for offline use!');
+                    
+                    saveModelManifest();
+                } catch (error) {
+                    console.error('Error downloading model:', error);
+                    showToast('Failed to download model: ' + error.message);
+                    btnElement.innerText = 'Failed (Retry)';
+                    btnElement.disabled = false;
+                }
+            }
+
+            function saveModelManifest() {
+                const downloaded = Object.keys(LOCAL_MODELS).filter(k => LOCAL_MODELS[k].status === 'downloaded');
+                localStorage.setItem('omnibot_local_models', JSON.stringify(downloaded));
+                populateModelSelectors();
+            }
+
+            function loadModelManifest() {
+                const saved = localStorage.getItem('omnibot_local_models');
+                if (saved) {
+                    const downloaded = JSON.parse(saved);
+                    downloaded.forEach(k => {
+                        if (LOCAL_MODELS[k]) {
+                            LOCAL_MODELS[k].status = 'downloaded';
+                            const btn = document.querySelector('[onclick="downloadModel(\'' + k + '\', this)"]');
+                            if (btn) {
+                                btn.innerText = 'Ready';
+                                btn.classList.add('bg-emerald-500', 'text-white');
+                                btn.classList.remove('bg-slate-200', 'dark:bg-slate-700');
+                            }
+                        }
+                    });
+                }
+                populateModelSelectors();
+            }
+
+            function populateModelSelectors() {
+                const selectors = document.querySelectorAll('.local-model-selector');
+                const downloadedKeys = Object.keys(LOCAL_MODELS).filter(k => LOCAL_MODELS[k].status === 'downloaded');
+                
+                selectors.forEach(select => {
+                    const firstOpt = select.options[0];
+                    select.innerHTML = '';
+                    if (firstOpt) select.appendChild(firstOpt);
+                    else select.innerHTML = '<option value="">(Use Cloud API)</option>';
+                    
+                    downloadedKeys.forEach(k => {
+                        const opt = document.createElement('option');
+                        opt.value = LOCAL_MODELS[k].id;
+                        opt.textContent = 'Local: ' + k;
+                        select.appendChild(opt);
+                    });
+                });
+            }
+
+            window.addEventListener('load', () => {
+                setTimeout(loadModelManifest, 500);
+            });
         </script>
         </body>
     </html>
