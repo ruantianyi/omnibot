@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Foundations: Wave-Particle Duality & Interference</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="apple-touch-icon" href="/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+            options: { ignoreHtmlClass: 'tex2jax_ignore', processHtmlClass: 'tex2jax_process' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        quantum: { 50: '#f4f6fc', 100: '#e6ebf8', 500: '#3b82f6', 700: '#1d4ed8', 900: '#1e3a8a', 950: '#172554' },
+                        photon: { 400: '#f472b6', 500: '#ec4899', 600: '#db2777' },
+                        gold: { 500: '#eab308', 600: '#ca8a04' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        body { font-family: 'Inter', sans-serif; }
+        .math-block { overflow-x: auto; padding: 1.5rem; background: #ffffff; border-radius: 0.75rem; border: 1px solid #e2e8f0; margin: 1.5rem 0; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+        
+        .nav-link.active {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border-left-color: #3b82f6;
+            font-weight: 600;
+        }
+
+        #interference-canvas {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-quantum-100 selection:text-quantum-900">
+
+    <!-- Top Navigation / Hero -->
+    <header class="bg-quantum-950 text-white border-b border-quantum-900 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    <span class="font-bold text-xl tracking-tight hidden sm:block">Physics Foundations Interactive</span>
+                    <span class="font-bold text-xl tracking-tight sm:hidden">Physics Interactive</span>
+                </div>
+                <div>
+                    <button id="btnDownload" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold transition-colors shadow-sm flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span class="hidden sm:inline">Download Formula Sheet</span>
+                        <span class="sm:hidden">Formulas</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-8 relative">
+        
+        <!-- Left Sidebar Navigation -->
+        <aside class="w-full md:w-64 flex-shrink-0 md:sticky md:top-24 h-fit z-10">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Table of Contents</h3>
+                <nav class="space-y-1" id="toc-nav">
+                    <a href="#classical-failure" class="nav-link block px-3 py-2 text-sm text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 transition-colors">1. The Classical Failure</a>
+                    <a href="#photoelectric" class="nav-link block px-3 py-2 text-sm text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 transition-colors">2. The Photoelectric Effect</a>
+                    <a href="#matter-waves" class="nav-link block px-3 py-2 text-sm text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 transition-colors">3. De Broglie Matter Waves</a>
+                    <a href="#double-slit" class="nav-link block px-3 py-2 text-sm text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 transition-colors">4. Double-Slit Interference</a>
+                    <a href="#uncertainty" class="nav-link block px-3 py-2 text-sm text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 transition-colors">5. Heisenberg's Uncertainty</a>
+                    <a href="#strategy" class="nav-link block px-3 py-2 text-sm text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 transition-colors">6. Master Strategy</a>
+                    <a href="#quiz" class="nav-link block px-3 py-2 text-sm text-slate-600 border-l-4 border-transparent hover:bg-slate-50 hover:text-slate-900 transition-colors">7. Concept Check Quiz</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 min-w-0">
+            
+            <!-- Hero Title -->
+            <div class="mb-12 border-b border-slate-200 pb-8">
+                <div class="inline-flex items-center space-x-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide mb-4 border border-blue-200">
+                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                    <span>Modern Physics Module</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Wave-Particle Duality & Quantum Interference</h1>
+                <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
+                    A comprehensive guide to the foundations of quantum mechanics. Explore the mathematical derivations and physical implications of a universe where light acts as discrete particles and solid matter behaves like spreading waves.
+                </p>
+            </div>
+
+            <!-- 1. The Classical Failure -->
+            <section id="classical-failure" class="mb-16 scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-quantum-100 text-quantum-700 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">1. The Classical Failure & The Quantum Birth</h2>
+                </div>
+                <div class="prose prose-slate max-w-none text-slate-700 space-y-4 text-lg">
+                    <p>
+                        By the late 19th century, physicists believed they had completed the framework of the universe. Isaac Newton had perfectly described the deterministic laws of localized point particles (matter), while James Clerk Maxwell had unified electricity and magnetism into continuous, undulating waves (light). The universe was neatly divided: <strong>matter is particles, light is waves.</strong>
+                    </p>
+                    <p>
+                        However, cracks began to appear. Classical physics predicted that a theoretical "blackbody" at thermal equilibrium would emit infinite high-frequency radiation—an impossibility dubbed the <em>Ultraviolet Catastrophe</em>. In 1900, Max Planck solved this by mathematically restricting energy exchange to discrete, indivisible packets he called <strong>quanta</strong>. Planck assumed this was merely a mathematical trick, but Albert Einstein soon proved it was physical reality.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 2. The Photoelectric Effect -->
+            <section id="photoelectric" class="mb-16 scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-photon-100 text-photon-600 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">2. The Particle Nature of Light: The Photoelectric Effect</h2>
+                </div>
+                <div class="prose prose-slate max-w-none text-slate-700 space-y-4 text-lg mb-8">
+                    <p>
+                        When light shines on a metal surface, it can eject electrons. Classical wave theory predicted that increasing the <em>intensity</em> (brightness) of light would increase the kinetic energy of the ejected electrons, and that any frequency of light would eventually eject an electron if given enough time. 
+                    </p>
+                    <p>
+                        Experiments showed the exact opposite: electrons were ejected instantaneously, but <strong>only if the light's frequency exceeded a specific threshold</strong>, regardless of how bright the light was. Einstein explained this by adopting Planck's hypothesis: light travels as localized particle-like packets called <strong>photons</strong>.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Photoelectric Math -->
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-4">The Photoelectric Equation</h3>
+                        <p class="text-slate-600">The energy of a single incoming photon is directly proportional to its frequency ($\nu$) via Planck's constant ($h = 6.626 \times 10^{-34}\text{ J}\cdot\text{s}$):</p>
+                        <div class="math-block text-center text-xl">
+                            $$E_{photon} = h\nu = \frac{hc}{\lambda}$$
+                        </div>
+                        <p class="text-slate-600">To eject an electron, the photon must overcome the metal's intrinsic binding energy, called the <strong>Work Function ($\Phi$)</strong>. Any leftover energy becomes the maximum kinetic energy ($K_{max}$) of the ejected electron:</p>
+                        <div class="math-block text-center text-xl bg-photon-50 border-photon-200">
+                            $$K_{max} = h\nu - \Phi$$
+                        </div>
+                        <p class="text-slate-600 text-sm mt-4"><em>Note: If we apply a reverse voltage to stop the fastest electrons, we find the Stopping Potential ($V_s$), where $K_{max} = eV_s$.</em></p>
+                    </div>
+
+                    <!-- SVG Diagram: K max vs Frequency -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-center items-center">
+                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 w-full text-left">Kinetic Energy vs. Frequency</h3>
+                        <svg viewBox="0 0 400 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Grid -->
+                            <g stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4">
+                                <line x1="50" y1="50" x2="380" y2="50" />
+                                <line x1="50" y1="100" x2="380" y2="100" />
+                                <line x1="50" y1="150" x2="380" y2="150" />
+                                <line x1="50" y1="200" x2="380" y2="200" />
+                            </g>
+                            <!-- Axes -->
+                            <line x1="50" y1="20" x2="50" y2="200" stroke="#0f172a" stroke-width="2" />
+                            <line x1="50" y1="200" x2="380" y2="200" stroke="#0f172a" stroke-width="2" />
+                            
+                            <!-- Arrow Heads -->
+                            <polygon points="45,25 50,15 55,25" fill="#0f172a" />
+                            <polygon points="375,195 385,200 375,205" fill="#0f172a" />
+
+                            <!-- Plot Lines for Different Metals -->
+                            <line x1="150" y1="200" x2="350" y2="40" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="220" y1="200" x2="350" y2="96" stroke="#ec4899" stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- Threshold Frequency Markers -->
+                            <circle cx="150" cy="200" r="4" fill="#1d4ed8" />
+                            <circle cx="220" cy="200" r="4" fill="#db2777" />
+                            
+                            <!-- Labels -->
+                            <text x="15" y="110" transform="rotate(-90 15,110)" font-family="sans-serif" font-size="12" font-weight="bold" fill="#475569">Max Kinetic Energy (K_max)</text>
+                            <text x="180" y="235" font-family="sans-serif" font-size="12" font-weight="bold" fill="#475569">Light Frequency (ν)</text>
+                            
+                            <text x="135" y="215" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1d4ed8">ν₀ (Metal A)</text>
+                            <text x="210" y="215" font-family="sans-serif" font-size="12" font-weight="bold" fill="#db2777">ν₀ (Metal B)</text>
+                            
+                            <!-- Slope indication -->
+                            <path d="M 280 96 L 310 96 L 310 72" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="2" />
+                            <text x="320" y="90" font-family="sans-serif" font-size="12" font-style="italic" fill="#64748b">Slope = h</text>
+                        </svg>
+                        <p class="text-xs text-slate-500 mt-4 text-center">The slope of all metals is strictly Planck's constant ($h$). The x-intercept represents the threshold frequency ($\nu_0 = \Phi / h$).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. De Broglie Matter Waves -->
+            <section id="matter-waves" class="mb-16 scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-blue-100 text-blue-700 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3 -9l6 18l3 -9h5"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">3. The Wave Nature of Matter: De Broglie</h2>
+                </div>
+                
+                <div class="prose prose-slate max-w-none text-slate-700 space-y-4 text-lg mb-6">
+                    <p>
+                        In 1924, Louis de Broglie flipped Einstein's logic. If light waves can act as particles, why shouldn't massive particles (like electrons, protons, and even baseballs) act as waves? He proposed a radical unifying formula: <strong>Any object possessing linear momentum $p = mv$ has an intrinsic quantum wavelength.</strong>
+                    </p>
+                    <p>
+                        This was famously confirmed by the Davisson-Germer experiment, where a beam of solid electrons was fired at a nickel crystal and produced a diffraction pattern exactly identical to X-ray waves!
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+                    <div class="p-6 md:p-8">
+                        <h3 class="font-bold text-slate-900 text-xl mb-4">The de Broglie Wavelength</h3>
+                        <p class="text-slate-600 mb-4">The wavelength $\lambda$ is inversely proportional to momentum $p$:</p>
+                        <div class="math-block text-center text-2xl font-semibold border-blue-200 bg-blue-50">
+                            $$\lambda = \frac{h}{p} = \frac{h}{mv}$$
+                        </div>
+                        <p class="text-slate-600 mt-6 mb-4"><strong>Crucial Derivation for Charged Particles:</strong> Often, electrons are accelerated from rest across an electric potential difference $V$. The electrical potential energy ($eV$) converts entirely to kinetic energy ($K = p^2/2m$). Substituting $p = \sqrt{2mK}$, we get the highly testable form:</p>
+                        <div class="math-block text-center text-xl">
+                            $$\lambda = \frac{h}{\sqrt{2mK}} = \frac{h}{\sqrt{2meV}}$$
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Double-Slit Interference (Interactive) -->
+            <section id="double-slit" class="mb-16 scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-quantum-100 text-quantum-700 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">4. Quantum Interference: The Double-Slit Experiment</h2>
+                </div>
+                
+                <div class="prose prose-slate max-w-none text-slate-700 text-lg mb-8">
+                    <p>
+                        The ultimate demonstration of wave-particle duality is the Double-Slit Experiment. When a wavefront (be it a laser beam or a stream of de Broglie electrons) hits two narrow slits separated by distance $d$, the slits act as two new, coherent point sources.
+                    </p>
+                    <p>
+                        As these two waves expand and overlap, they superimpose. Where wave crests align, they amplify (<strong>Constructive Interference</strong>, forming bright bands). Where a crest meets a trough, they cancel out (<strong>Destructive Interference</strong>, forming dark bands). The location of these fringes on a screen at distance $L$ depends strictly on the path length difference $\Delta L = d\sin\theta$.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        <span class="block text-sm font-bold text-blue-600 uppercase tracking-wider mb-2">Bright Fringes (Constructive)</span>
+                        <div class="math-block bg-transparent border-none m-0 p-0 text-lg">$$d\sin\theta = m\lambda \quad (m = 0, 1, 2...)$$</div>
+                    </div>
+                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        <span class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Dark Fringes (Destructive)</span>
+                        <div class="math-block bg-transparent border-none m-0 p-0 text-lg">$$d\sin\theta = \left(m + \frac{1}{2}\right)\lambda \quad (m = 0, 1...)$$</div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-100 rounded-lg border border-slate-200 mb-8 text-center text-slate-700">
+                    <p class="mb-2"><strong>Small-Angle Approximation:</strong> If $L \gg d$, then $\sin\theta \approx \tan\theta = y/L$. The linear distance $y_m$ from the center to the $m$-th fringe is:</p>
+                    <span class="text-2xl font-bold font-serif text-slate-900">$$y_m = \frac{m\lambda L}{d}$$</span>
+                </div>
+                
+                <!-- Interactive Canvas Area -->
+                <div class="bg-quantum-950 rounded-2xl shadow-xl overflow-hidden border border-quantum-900 flex flex-col mb-4">
+                    <div class="relative w-full h-[400px] bg-black">
+                        <canvas id="interference-canvas" class="block w-full h-full"></canvas>
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1.5 rounded backdrop-blur-sm border border-white/10 shadow-lg">
+                            Top-Down View of Wave Propagation
+                        </div>
+                        <div class="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-3 py-1.5 rounded backdrop-blur-sm border border-white/10 shadow-lg flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                            <span>Intensity Profile $I(\theta)$ on Screen</span>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="bg-white p-6 border-t border-slate-200">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label for="wavelength" class="text-sm font-bold text-slate-700">Wavelength ($\lambda$)</label>
+                                    <span id="lambda-val" class="text-sm font-mono text-quantum-600 bg-quantum-50 px-2 py-0.5 rounded border border-quantum-100">500 nm</span>
+                                </div>
+                                <input type="range" id="wavelength" min="400" max="700" value="500" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-quantum-600">
+                                <div class="flex justify-between text-xs text-slate-400 mt-1 px-1 font-mono">
+                                    <span class="text-purple-500 font-semibold">400nm</span>
+                                    <span class="text-red-500 font-semibold">700nm</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label for="slit-dist" class="text-sm font-bold text-slate-700">Slit Separation ($d$)</label>
+                                    <span id="d-val" class="text-sm font-mono text-quantum-600 bg-quantum-50 px-2 py-0.5 rounded border border-quantum-100">2.0 µm</span>
+                                </div>
+                                <input type="range" id="slit-dist" min="1.0" max="5.0" step="0.1" value="2.0" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-quantum-600">
+                                <div class="flex justify-between text-xs text-slate-400 mt-1 px-1 font-mono">
+                                    <span>Narrow (1.0)</span>
+                                    <span>Wide (5.0)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-100 text-sm text-slate-600 flex items-start space-x-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500 flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            <p><strong>Observation:</strong> Notice how increasing the wavelength ($\lambda$) spreads the interference fringes further apart. Conversely, increasing the slit separation ($d$) squeezes the fringes closer together. This perfectly validates the proportionalities in $y_m = \frac{m\lambda L}{d}$.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Heisenberg's Uncertainty Principle -->
+            <section id="uncertainty" class="mb-16 scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-purple-100 text-purple-700 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">5. The Probabilistic Interpretation & Uncertainty</h2>
+                </div>
+                
+                <div class="prose prose-slate max-w-none text-slate-700 text-lg mb-8">
+                    <p>
+                        If an electron is a wave, exactly <em>where</em> is it? Max Born proposed that the amplitude of the matter wave squared ($|\psi|^2$) represents the <strong>probability density</strong> of finding the particle at a specific location. Quantum mechanics is fundamentally probabilistic; determinism is lost at the microscopic scale.
+                    </p>
+                    <p>
+                        This wave nature leads to an inescapable limitation derived by Werner Heisenberg. To create a localized "particle-like" wave packet, you must superimpose many waves of different wavelengths (and thus, different momentums). 
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                    <div class="p-6 md:p-8 bg-purple-50/30">
+                        <h3 class="font-bold text-slate-900 text-xl mb-4 text-center">Heisenberg Uncertainty Principle</h3>
+                        <p class="text-slate-600 mb-4 text-center">It is physically impossible to simultaneously know both the exact position ($x$) and exact linear momentum ($p_x$) of a particle.</p>
+                        <div class="math-block text-center text-2xl font-semibold border-purple-200 bg-white">
+                            $$\Delta x \cdot \Delta p_x \ge \frac{h}{4\pi}$$
+                        </div>
+                        <div class="flex justify-center items-center mt-6 space-x-12 opacity-80">
+                            <div class="text-center">
+                                <p class="text-sm font-bold text-slate-700 mb-2">Infinite $\Delta x$, Zero $\Delta p$</p>
+                                <svg width="150" height="40" viewBox="0 0 150 40">
+                                    <path d="M0,20 Q12.5,0 25,20 T50,20 T75,20 T100,20 T125,20 T150,20" fill="none" stroke="#6b21a8" stroke-width="2"/>
+                                </svg>
+                                <p class="text-xs text-slate-500 mt-1">Pure sine wave. Exact momentum,<br>but position is everywhere.</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-sm font-bold text-slate-700 mb-2">Small $\Delta x$, Large $\Delta p$</p>
+                                <svg width="150" height="40" viewBox="0 0 150 40">
+                                    <path d="M0,20 L50,20 Q65,20 70,5 Q75,35 80,5 Q85,20 100,20 L150,20" fill="none" stroke="#6b21a8" stroke-width="2"/>
+                                </svg>
+                                <p class="text-xs text-slate-500 mt-1">Localized wave packet. Position known,<br>but momentum is uncertain.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. Problem-Solving Master Strategy -->
+            <section id="strategy" class="mb-16 scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-slate-800 text-white p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">6. Master Problem-Solving Strategy</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Photoelectric -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-photon-300 transition-colors">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-photon-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2 flex items-center">
+                            <span class="w-6 h-6 rounded bg-photon-100 text-photon-600 flex items-center justify-center text-xs mr-2">1</span> 
+                            Photoelectric Units
+                        </h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Work functions are almost always given in <strong>Electron-Volts (eV)</strong>. Before calculating frequencies or Joules using $K_{max} = hc/\lambda - \Phi$, you MUST convert eV to Joules by multiplying by $1.6 \times 10^{-19}$ J/eV. Alternatively, use $hc = 1240 \text{ eV}\cdot\text{nm}$ for massive speed shortcuts!
+                        </p>
+                    </div>
+
+                    <!-- De Broglie -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-blue-300 transition-colors">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2 flex items-center">
+                            <span class="w-6 h-6 rounded bg-blue-100 text-blue-600 flex items-center justify-center text-xs mr-2">2</span> 
+                            Particle vs. Photon Formulas
+                        </h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            The deadliest exam mistake: Using $E = hc/\lambda$ for an electron. That equation is strictly for massless photons! For massive particles like electrons, convert kinetic energy $K$ to momentum via $p = \sqrt{2mK}$, then use $\lambda = h/p$.
+                        </p>
+                    </div>
+
+                    <!-- Interference -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-quantum-300 transition-colors">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-quantum-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2 flex items-center">
+                            <span class="w-6 h-6 rounded bg-quantum-100 text-quantum-600 flex items-center justify-center text-xs mr-2">3</span> 
+                            Fringe Order Alignment
+                        </h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Read interference questions carefully. Is it a bright or dark fringe? Map out the order $m$ explicitly. $m=0$ represents the central bright maximum. However, $m=0$ is also used in the formula for the <em>first</em> dark fringe located at $\frac{1}{2}\lambda$.
+                        </p>
+                    </div>
+
+                    <!-- Uncertainty -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-purple-300 transition-colors">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-purple-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2 flex items-center">
+                            <span class="w-6 h-6 rounded bg-purple-100 text-purple-600 flex items-center justify-center text-xs mr-2">4</span> 
+                            Uncertainty Precision
+                        </h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Questions often give position uncertainty as an absolute size, e.g., "an electron confined to a 0.1nm atom". Treat $\Delta x = 0.1 \times 10^{-9}$ m. Then calculate $\Delta p$, and convert it to velocity uncertainty via $\Delta v = \Delta p / m_{electron}$.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Concept Check Quiz -->
+            <section id="quiz" class="mb-16 scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-green-100 text-green-700 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">7. Interactive Concept Check</h2>
+                </div>
+
+                <div id="quiz-container" class="space-y-6">
+                    <!-- Quiz questions injected here by JS -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. TOC Scroll Highlight Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // --- 2. Interactive Canvas Simulation ---
+        const canvas = document.getElementById('interference-canvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        
+        let width, height;
+        let time = 0;
+        
+        // State variables
+        let lambda = 500; // nm
+        let d = 2.0; // µm
+        
+        // DOM Elements
+        const lambdaSlider = document.getElementById('wavelength');
+        const dSlider = document.getElementById('slit-dist');
+        const lambdaVal = document.getElementById('lambda-val');
+        const dVal = document.getElementById('d-val');
+
+        function resizeCanvas() {
+            // Setup high-DPI canvas
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            
+            width = rect.width;
+            height = rect.height;
+            
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            
+            ctx.scale(dpr, dpr);
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Convert wavelength (nm) to an RGB color for visuals
+        function nmToRGB(wavelength) {
+            let R, G, B;
+            if (wavelength >= 380 && wavelength < 440) {
+                R = -(wavelength - 440) / (440 - 380);
+                G = 0.0;
+                B = 1.0;
+            } else if (wavelength >= 440 && wavelength < 490) {
+                R = 0.0;
+                G = (wavelength - 440) / (490 - 440);
+                B = 1.0;
+            } else if (wavelength >= 490 && wavelength < 510) {
+                R = 0.0;
+                G = 1.0;
+                B = -(wavelength - 510) / (510 - 490);
+            } else if (wavelength >= 510 && wavelength < 580) {
+                R = (wavelength - 510) / (580 - 510);
+                G = 1.0;
+                B = 0.0;
+            } else if (wavelength >= 580 && wavelength < 645) {
+                R = 1.0;
+                G = -(wavelength - 645) / (645 - 580);
+                B = 0.0;
+            } else if (wavelength >= 645 && wavelength <= 780) {
+                R = 1.0;
+                G = 0.0;
+                B = 0.0;
+            } else {
+                R = 0.0; G = 0.0; B = 0.0;
+            }
+
+            // Intensity Falloff near vision limits
+            let intensity;
+            if (wavelength >= 380 && wavelength < 420) {
+                intensity = 0.3 + 0.7 * (wavelength - 380) / (420 - 380);
+            } else if (wavelength >= 420 && wavelength <= 700) {
+                intensity = 1.0;
+            } else if (wavelength > 700 && wavelength <= 780) {
+                intensity = 0.3 + 0.7 * (780 - wavelength) / (780 - 700);
+            } else {
+                intensity = 0.0;
+            }
+
+            return {
+                r: Math.round(R * intensity * 255),
+                g: Math.round(G * intensity * 255),
+                b: Math.round(B * intensity * 255)
+            };
+        }
+
+        function drawSimulation() {
+            // Clear background
+            ctx.fillStyle = '#0f172a'; // tailwind slate-900
+            ctx.fillRect(0, 0, width, height);
+
+            // Simulation Coordinates & Scaling
+            const barrierX = width * 0.3; // Barrier placed at 30% width
+            const screenX = width * 0.9;  // Screen placed at 90% width
+            
+            const scaleY = height / 10; // 10 units high
+            const slitDistancePixels = d * scaleY;
+            const slitY1 = height / 2 - slitDistancePixels / 2;
+            const slitY2 = height / 2 + slitDistancePixels / 2;
+
+            // Normalize wavelength for drawing waves (map 400-700 to pixels visually)
+            const baseWavelengthPx = (lambda / 500) * 20; 
+            const waveColor = nmToRGB(lambda);
+            
+            // 1. Draw Incident Waves (Left of barrier)
+            ctx.strokeStyle = `rgba(${waveColor.r}, ${waveColor.g}, ${waveColor.b}, 0.5)`;
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 15; i++) {
+                let xOffset = (time * 20) % baseWavelengthPx;
+                let xPos = barrierX - xOffset - (i * baseWavelengthPx);
+                if (xPos > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(xPos, 0);
+                    ctx.lineTo(xPos, height);
+                    ctx.stroke();
+                }
+            }
+
+            // 2. Draw Interference Pattern (Heatmap approximation)
+            ctx.lineWidth = 2;
+            const numArcs = 30;
+            for(let i=0; i<numArcs; i++) {
+                let radius = (time * 20) % baseWavelengthPx + (i * baseWavelengthPx);
+                
+                // Slit 1
+                ctx.beginPath();
+                ctx.arc(barrierX, slitY1, radius, -Math.PI/2, Math.PI/2);
+                ctx.strokeStyle = `rgba(${waveColor.r}, ${waveColor.g}, ${waveColor.b}, ${Math.max(0, 0.4 - radius/(width*1.5))})`;
+                ctx.stroke();
+
+                // Slit 2
+                ctx.beginPath();
+                ctx.arc(barrierX, slitY2, radius, -Math.PI/2, Math.PI/2);
+                ctx.strokeStyle = `rgba(${waveColor.r}, ${waveColor.g}, ${waveColor.b}, ${Math.max(0, 0.4 - radius/(width*1.5))})`;
+                ctx.stroke();
+            }
+
+            // 3. Draw Barrier
+            ctx.fillStyle = '#475569'; // slate-600
+            const slitAperture = Math.max(4, scaleY * 0.2);
+            ctx.fillRect(barrierX - 4, 0, 8, slitY1 - slitAperture/2); // Top
+            ctx.fillRect(barrierX - 4, slitY1 + slitAperture/2, 8, slitY2 - slitY1 - slitAperture); // Middle
+            ctx.fillRect(barrierX - 4, slitY2 + slitAperture/2, 8, height - slitY2); // Bottom
+            
+            // 4. Draw Screen & Intensity Profile on the Right
+            ctx.fillStyle = '#1e293b'; // screen base
+            ctx.fillRect(screenX, 0, width - screenX, height);
+            
+            ctx.beginPath();
+            ctx.moveTo(screenX, 0);
+            
+            // Calculate Intensity Plot
+            const L = (screenX - barrierX);
+            const physicalLambda = lambda * 1e-9;
+            const physicalD = d * 1e-6;
+            
+            for (let y = 0; y <= height; y++) {
+                // Map y coordinate to physical distance from center
+                let physicalY = (y - height/2) / scaleY * 1e-6; 
+                
+                // Real physics equation applied to visual scale
+                let phase = (Math.PI * physicalD * physicalY) / (physicalLambda * L / scaleY * 1e-6 * 20); 
+                let intensity = Math.pow(Math.cos(phase), 2);
+                
+                // Draw intensity curve
+                let xPlot = screenX + (width - screenX) * 0.9 * intensity;
+                ctx.lineTo(xPlot, y);
+                
+                // Paint the screen pixel color based on intensity
+                ctx.fillStyle = `rgba(${waveColor.r}, ${waveColor.g}, ${waveColor.b}, ${intensity})`;
+                ctx.fillRect(screenX, y, 4, 1);
+            }
+            
+            ctx.strokeStyle = '#f8fafc';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            time += 0.05;
+            requestAnimationFrame(drawSimulation);
+        }
+
+        function initSimulation() {
+            lambdaSlider.addEventListener('input', (e) => {
+                lambda = parseFloat(e.target.value);
+                lambdaVal.innerText = `${lambda} nm`;
+                lambdaVal.style.color = `rgb(${nmToRGB(lambda).r}, ${nmToRGB(lambda).g}, ${nmToRGB(lambda).b})`;
+                lambdaVal.style.borderColor = lambdaVal.style.color;
+            });
+
+            dSlider.addEventListener('input', (e) => {
+                d = parseFloat(e.target.value);
+                dVal.innerText = `${d.toFixed(1)} µm`;
+            });
+            
+            lambdaVal.style.color = `rgb(${nmToRGB(lambda).r}, ${nmToRGB(lambda).g}, ${nmToRGB(lambda).b})`;
+            lambdaVal.style.borderColor = lambdaVal.style.color;
+            drawSimulation();
+        }
+
+        // --- 3. Interactive Quiz Logic ---
+        const quizData = [
+            {
+                question: "In the Photoelectric Effect, what happens to the ejected electrons if you increase the INTENSITY (brightness) of the light, assuming the frequency is already above the threshold?",
+                options: [
+                    "The maximum kinetic energy of the electrons increases.",
+                    "More electrons are ejected per second, but their maximum kinetic energy stays the same.",
+                    "The electrons are ejected faster (shorter time delay).",
+                    "The work function of the metal decreases."
+                ],
+                correct: 1,
+                explanation: "Correct! Classical physics predicted higher intensity = higher kinetic energy. But quantum mechanics shows that higher intensity just means MORE photons. Each photon still has the same energy (E=hf), so the max kinetic energy is identical, but more total electrons are ejected."
+            },
+            {
+                question: "According to de Broglie's hypothesis, what happens to the quantum wavelength of an electron if its linear momentum is doubled?",
+                options: [
+                    "The wavelength is doubled.",
+                    "The wavelength is halved.",
+                    "The wavelength remains the same.",
+                    "The wavelength increases by a factor of 4."
+                ],
+                correct: 1,
+                explanation: "Correct! The de Broglie wavelength is given by λ = h/p. Since wavelength is inversely proportional to momentum (p), doubling the momentum halves the wavelength."
+            },
+            {
+                question: "In a double-slit experiment, a dark fringe (destructive interference) occurs when the path length difference ΔL is:",
+                options: [
+                    "An integer multiple of the wavelength (mλ).",
+                    "Exactly zero.",
+                    "A half-integer multiple of the wavelength ((m + 1/2)λ).",
+                    "Independent of the wavelength."
+                ],
+                correct: 2,
+                explanation: "Correct! Dark fringes occur due to destructive interference, which requires the waves to be perfectly out of phase (crest meets trough). This happens when the path length difference is a half-integer multiple of λ."
+            },
+            {
+                question: "If you decrease the slit separation (d) in a double-slit setup while keeping the wavelength constant, what happens to the distance between the bright fringes on the screen?",
+                options: [
+                    "They move closer together.",
+                    "They move further apart.",
+                    "They remain exactly the same.",
+                    "The pattern disappears entirely."
+                ],
+                correct: 1,
+                explanation: "Correct! Based on the equation y_m = (mλL)/d, the distance to a fringe (y) is inversely proportional to the slit separation (d). Therefore, decreasing d increases y, spreading the fringes further apart."
+            },
+            {
+                question: "According to Heisenberg's Uncertainty Principle, if you confine an electron to a very tiny box (extremely small Δx), what must happen?",
+                options: [
+                    "Its mass must decrease to compensate.",
+                    "Its wavelength becomes perfectly known.",
+                    "Its momentum becomes highly uncertain (large Δp), meaning it could be moving very fast.",
+                    "It stops moving entirely to satisfy absolute zero."
+                ],
+                correct: 2,
+                explanation: "Correct! The principle states Δx * Δp >= h/4π. If position uncertainty (Δx) is forced to be incredibly small, momentum uncertainty (Δp) must become incredibly large to balance the inequality."
+            }
+        ];
+
+        function initQuiz() {
+            const container = document.getElementById('quiz-container');
+            
+            quizData.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'bg-white border border-slate-200 rounded-xl p-6 shadow-sm';
+                
+                const title = document.createElement('h3');
+                title.className = 'font-bold text-slate-900 mb-4 text-lg';
+                title.innerText = `Q${index + 1}: ${q.question}`;
+                questionDiv.appendChild(title);
+                
+                const optionsGrid = document.createElement('div');
+                optionsGrid.className = 'space-y-3';
+                
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'mt-4 text-sm hidden p-4 rounded-md border';
+
+                q.options.forEach((opt, optIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'w-full text-left px-5 py-3 border-2 border-slate-100 rounded-lg hover:bg-slate-50 hover:border-blue-300 transition-colors text-slate-700 text-sm font-medium';
+                    btn.innerText = opt;
+                    
+                    btn.addEventListener('click', () => {
+                        const allBtns = optionsGrid.querySelectorAll('button');
+                        allBtns.forEach(b => {
+                            b.disabled = true;
+                            b.classList.remove('hover:bg-slate-50', 'hover:border-blue-300');
+                            b.classList.add('opacity-50', 'cursor-not-allowed');
+                        });
+                        
+                        btn.classList.remove('opacity-50');
+                        btn.classList.add('font-bold');
+
+                        feedbackDiv.classList.remove('hidden');
+
+                        if (optIndex === q.correct) {
+                            btn.classList.add('bg-green-50', 'border-green-500', 'text-green-800');
+                            feedbackDiv.classList.add('bg-green-50', 'text-green-800', 'border-green-200');
+                            feedbackDiv.innerHTML = `<span class="flex items-center font-bold mb-1"><svg class="w-4 h-4 mr-1 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Correct!</span> ${q.explanation}`;
+                        } else {
+                            btn.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+                            
+                            allBtns[q.correct].classList.remove('opacity-50');
+                            allBtns[q.correct].classList.add('bg-green-50', 'border-green-500', 'text-green-800', 'opacity-100');
+
+                            feedbackDiv.classList.add('bg-red-50', 'text-red-800', 'border-red-200');
+                            feedbackDiv.innerHTML = `<span class="flex items-center font-bold mb-1"><svg class="w-4 h-4 mr-1 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Incorrect.</span> ${q.explanation}`;
+                        }
+                    });
+                    optionsGrid.appendChild(btn);
+                });
+                
+                questionDiv.appendChild(optionsGrid);
+                questionDiv.appendChild(feedbackDiv);
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // --- 4. Download Functionality ---
+        const btnDownload = document.getElementById('btnDownload');
+        if (btnDownload) {
+            btnDownload.addEventListener('click', () => {
+                const text = 
+`WAVE-PARTICLE DUALITY & QUANTUM INTERFERENCE - FORMULA SHEET
+=============================================================
+Constants:
+h = 6.626 x 10^-34 J*s (Planck's Constant)
+c = 3.0 x 10^8 m/s (Speed of Light)
+1 eV = 1.6 x 10^-19 Joules
+hc = 1240 eV*nm (Useful Shortcut!)
+
+1. The Photoelectric Effect (Photons/Light)
+-------------------------------------------
+- Photon Energy: E = h*f = hc/lambda
+- Kinetic Energy of Ejected Electron: K_max = h*f - Phi
+- Where Phi (Work Function) is the binding energy of the metal.
+- Stopping Potential: eV_s = K_max
+
+2. De Broglie Wavelength (Massive Particles)
+-------------------------------------------
+- Wavelength: lambda = h / p = h / (m*v)
+- If given Kinetic Energy (K): p = sqrt(2*m*K)
+- If accelerated by Voltage (V): lambda = h / sqrt(2*m*e*V)
+
+3. Heisenberg Uncertainty Principle
+-------------------------------------------
+- Position & Momentum: Delta(x) * Delta(p) >= h / (4*pi)
+- Remember: Delta(p) = m * Delta(v)
+
+4. Double-Slit Interference Geometry
+-------------------------------------------
+- Constructive (Bright Fringes): d * sin(theta) = m * lambda
+- Destructive (Dark Fringes): d * sin(theta) = (m + 0.5) * lambda
+- Small Angle Approx (y_m): y_m = (m * lambda * L) / d
+
+MASTER STRATEGY CHECKLIST:
+[ ] Did I convert the Work Function from eV to Joules?
+[ ] Did I use h/p for matter, and hc/lambda for light?
+[ ] Is the question asking for a bright (m) or dark (m+0.5) fringe?
+[ ] Is L >> d before I use the y_m shortcut equation?
+`;
+                const blob = new Blob([text], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'quantum_physics_formulas.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // Boot up
+        initSimulation();
+        initQuiz();
+
+    </script>
+</body>
+</html>

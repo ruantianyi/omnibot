@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering Electromagnetic Induction: Faraday, Lenz, and Beyond</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="apple-touch-icon" href="/logo.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- MathJax for LaTeX Equations -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                tags: 'ams'
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 800: '#1e40af', 900: '#1e3a8a' },
+                        magnet: { n: '#ef4444', s: '#3b82f6' }, // Red for North, Blue for South
+                        flux: '#10b981', // Emerald for magnetic fields
+                        emf: '#f59e0b'   // Amber for electricity/current
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Interactive Elements */
+        .slider-custom {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            outline: none;
+        }
+        .slider-custom::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .slider-custom::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        
+        /* Math formatting */
+        .math-block {
+            overflow-x: auto;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            border-left: 4px solid #3b82f6;
+            margin: 1.5rem 0;
+        }
+        
+        /* Content formatting */
+        .text-content p { margin-bottom: 1.25rem; line-height: 1.75; color: #334155; }
+        .text-content h2 { margin-top: 2.5rem; margin-bottom: 1.25rem; font-size: 1.875rem; font-weight: 700; color: #0f172a; }
+        .text-content h3 { margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.5rem; font-weight: 600; color: #1e293b; }
+        .text-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; color: #334155; }
+        .text-content li { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-100 selection:text-primary-900">
+
+    <!-- Top Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">Electrodynamics<span class="text-primary-600">.edu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#flux" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Magnetic Flux</a>
+                    <a href="#faraday" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Faraday's Law</a>
+                    <a href="#lenz" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Lenz's Law</a>
+                    <a href="#applications" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Applications</a>
+                    <button id="btnDownloadNav" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition transform hover:-translate-y-0.5">
+                        Download Cheat Sheet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Layout -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-8">
+        
+        <!-- Table of Contents Sidebar -->
+        <aside class="w-full md:w-64 flex-shrink-0 hidden lg:block">
+            <div class="sticky top-24 bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                <h4 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Table of Contents</h4>
+                <nav class="space-y-2 text-sm">
+                    <a href="#intro" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">1. The Governing Physics</a>
+                    <a href="#flux" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">2. Magnetic Flux ($\Phi_B$)</a>
+                    <a href="#faraday" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">3. Faraday's Law & Mechanics</a>
+                    <a href="#lenz" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">4. Lenz's Law & The Right Hand</a>
+                    <a href="#motional" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">5. Motional EMF</a>
+                    <a href="#advanced" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">6. Inductance & Eddy Currents</a>
+                    <a href="#strategy" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">7. Problem-Solving Strategy</a>
+                    <a href="#quiz" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">8. Concept Check Quiz</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Textbook Content -->
+        <main class="flex-1 min-w-0 bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-10 text-content tex2jax_process">
+            
+            <!-- Hero Header -->
+            <header class="mb-12 border-b border-slate-100 pb-8">
+                <div class="inline-flex items-center rounded-full bg-primary-100 px-3 py-1 text-sm font-medium text-primary-800 mb-4">
+                    Physics Unit 6
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Electromagnetic Induction & Lenz's Law</h1>
+                <p class="text-xl text-slate-500 leading-relaxed">
+                    Discover how dynamic magnetic fields conjure electric currents out of thin air, forming the foundation of modern power generation, electric motors, and wireless technology.
+                </p>
+            </header>
+
+            <section id="intro">
+                <h2>1. The Governing Physics</h2>
+                <p>
+                    Electromagnetic induction details the profound relationship between magnetism and electricity: <strong>changing magnetic environments produce electrical responses</strong>. First discovered by Michael Faraday in 1831, this principle shifted human civilization from the steam age to the electrical age.
+                </p>
+                <p>
+                    When the total magnetic flux ($\Phi_B$) cutting through a conducting loop changes over time, an electromotive force (EMF, denoted as $\mathcal{E}$) is induced within the wire. This induced voltage acts as a "pump," generating a current whose own secondary magnetic field behaves like an inertial stabilizer, directly opposing the external change in flux—a phenomenon formalized as <strong>Lenz's Law</strong>.
+                </p>
+            </section>
+
+            <section id="flux">
+                <h2>2. Magnetic Flux ($\Phi_B$)</h2>
+                <p>
+                    Before we can change flux, we must define it. Magnetic flux measures the "amount" of magnetic field passing through a given surface area. It is defined as the dot product of the magnetic field vector $\vec{B}$ and the area vector $\vec{A}$ (which is normal/perpendicular to the surface).
+                </p>
+                <div class="math-block">
+                    $$\Phi_B = \int \vec{B} \cdot d\vec{A}$$
+                    $$\text{For a uniform field:} \quad \Phi_B = \vec{B} \cdot \vec{A} = B A \cos\theta$$
+                </div>
+                <ul>
+                    <li><strong>$B$</strong>: Magnetic field strength (measured in Teslas, $T$).</li>
+                    <li><strong>$A$</strong>: Area of the loop (measured in square meters, $m^2$).</li>
+                    <li><strong>$\theta$</strong>: The angle between the magnetic field lines and the <em>normal</em> (perpendicular) vector of the area.</li>
+                    <li><strong>Unit</strong>: The unit of magnetic flux is the Weber ($Wb$), where $1 \text{ Wb} = 1 \text{ T}\cdot\text{m}^2$.</li>
+                </ul>
+
+                <!-- Interactive Simulation 1: Magnetic Flux -->
+                <div class="my-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800">
+                        <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        Interactive Simulation: Magnetic Flux vs. Angle
+                    </h4>
+                    <p class="text-sm text-slate-600 mb-4">Adjust the angle of the loop relative to the magnetic field to see how flux changes. Maximum flux occurs when the field is parallel to the area normal ($\theta = 0^\circ$).</p>
+                    
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1 relative aspect-video bg-white rounded-lg border border-slate-200 overflow-hidden shadow-inner">
+                            <canvas id="simFluxCanvas" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="w-full md:w-64 flex flex-col justify-center space-y-6">
+                            <div>
+                                <label for="fluxAngleSlider" class="block text-sm font-medium text-slate-700 mb-1">Angle ($\theta$): <span id="fluxAngleValue">0</span>°</label>
+                                <input type="range" id="fluxAngleSlider" min="0" max="180" value="0" class="slider-custom">
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                                <div class="text-xs text-slate-500 uppercase font-semibold mb-1">Calculated Flux</div>
+                                <div class="text-2xl font-mono text-flux">$\Phi_B = $<span id="fluxDisplayCalc">1.00</span></div>
+                                <div class="text-sm text-slate-400 mt-1">Relative Units ($\cos\theta$)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faraday">
+                <h2>3. Mathematical Derivations & Induction Mechanics</h2>
+                <p>
+                    <strong>Faraday's Law of Induction</strong> states that the induced electromotive force ($\mathcal{E}$) in any closed circuit is equal to the negative of the time rate of change of the magnetic flux enclosed by the circuit.
+                </p>
+                <div class="math-block">
+                    $$\mathcal{E} = -N\frac{d\Phi_B}{dt}$$
+                </div>
+                <p>
+                    Where <strong>$N$</strong> is the number of turns in the wire loop. 
+                </p>
+                <h3>Expanding the Derivative</h3>
+                <p>
+                    By substituting our flux equation $\Phi_B = BA\cos\theta$ into Faraday's Law, we can use the product/chain rule to expand the derivative. This expansion mathematically proves that there are exactly <strong>three distinct physical mechanisms</strong> to induce a voltage:
+                </p>
+                <div class="math-block">
+                    $$\mathcal{E} = -N \frac{d}{dt} (B \cdot A \cdot \cos\theta)$$
+                    $$\mathcal{E} = -N \left[ \left(\frac{dB}{dt}\right)A\cos\theta + B\left(\frac{dA}{dt}\right)\cos\theta - BA\sin\theta\left(\frac{d\theta}{dt}\right) \right]$$
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+                    <div class="bg-primary-50 p-4 rounded-lg border border-primary-100">
+                        <h5 class="font-bold text-primary-800 mb-2">Term 1: $\frac{dB}{dt}$</h5>
+                        <p class="text-sm text-primary-900"><strong>Changing field strength.</strong> Example: Pushing a physical magnet into a stationary loop, or turning on an electromagnet.</p>
+                    </div>
+                    <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+                        <h5 class="font-bold text-emerald-800 mb-2">Term 2: $\frac{dA}{dt}$</h5>
+                        <p class="text-sm text-emerald-900"><strong>Changing area.</strong> Example: Distorting a malleable wire loop, or pulling a conductive frame out of a magnetic field (Motional EMF).</p>
+                    </div>
+                    <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                        <h5 class="font-bold text-amber-800 mb-2">Term 3: $\frac{d\theta}{dt}$</h5>
+                        <p class="text-sm text-amber-900"><strong>Changing angle.</strong> Example: Rotating a coil within a static magnetic field. This is the foundational mechanism of <strong>AC generators</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="lenz">
+                <h2>4. Lenz's Law & Conservation of Energy</h2>
+                <p>
+                    The negative sign in Faraday's Law is so conceptually important that it gets its own name: <strong>Lenz's Law</strong>. Formulated by Heinrich Lenz in 1834, it states:
+                </p>
+                <blockquote class="border-l-4 border-primary-500 pl-4 py-2 italic text-slate-700 bg-slate-50 my-4 rounded-r-lg">
+                    "The direction of the induced electric current is such that its own magnetic field <strong>opposes</strong> the change in magnetic flux that produced it."
+                </blockquote>
+                <p>
+                    Think of the conducting loop as an <em>inertial stabilizer</em>. It "hates" change. If external magnetic flux is increasing, the loop induces a current to create a magnetic field pointing in the opposite direction to fight the increase. If the external flux is decreasing, the loop creates a field pointing in the same direction to try and replace the lost flux.
+                </p>
+                <p>
+                    <strong>Why? Conservation of Energy.</strong> If the induced field <em>aided</em> the original change, it would increase the flux further, inducing more current, aiding it further, creating infinite free energy. Lenz's law ensures you have to do physical work (like pushing a resisting magnet) to generate electricity.
+                </p>
+
+                <!-- Interactive Simulation 2: Lenz's Law -->
+                <div class="my-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800">
+                        <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                        Interactive Simulation: Lenz's Law & Magnet Drop
+                    </h4>
+                    <p class="text-sm text-slate-600 mb-4">Drag the magnet back and forth through the conductive coil. Notice the direction of the induced current (yellow arrows) and the induced magnetic field (green arrows) opposing your motion.</p>
+                    
+                    <div class="relative aspect-video max-h-80 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-inner mb-4 cursor-ew-resize" id="simLenzContainer">
+                        <canvas id="simLenzCanvas" class="w-full h-full block"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50" id="lenzInstructions">
+                            <span class="bg-black/70 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm tracking-widest">DRAG MAGNET &#8596;</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-white p-3 rounded border border-slate-200">
+                            <span class="block text-xs uppercase text-slate-500">External Flux Change ($\frac{d\Phi}{dt}$)</span>
+                            <span id="lenzFluxStatus" class="font-bold text-slate-700">Stable</span>
+                        </div>
+                        <div class="bg-white p-3 rounded border border-slate-200">
+                            <span class="block text-xs uppercase text-slate-500">Induced Current</span>
+                            <span id="lenzCurrentStatus" class="font-bold text-emf">Zero</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="motional">
+                <h2>5. Motional EMF ($Term\ 2:\ \frac{dA}{dt}$)</h2>
+                <p>
+                    A classic application of Faraday's Law involves a conductive bar sliding along parallel conducting rails within a uniform, constant magnetic field. As the bar moves, the area of the enclosed loop changes.
+                </p>
+                <div class="math-block">
+                    $$\text{Let area } A = L \cdot x$$
+                    $$\frac{dA}{dt} = L \cdot \frac{dx}{dt} = L \cdot v$$
+                    $$\mathcal{E} = B \cdot \frac{dA}{dt} = B L v$$
+                </div>
+                <p>
+                    Where <strong>$L$</strong> is the length of the bar between the rails, and <strong>$v$</strong> is its velocity. The induced current is simply $I = \frac{\mathcal{E}}{R} = \frac{BLv}{R}$.
+                </p>
+
+                <!-- Interactive Simulation 3: Motional EMF -->
+                <div class="my-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800">
+                        <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Interactive Simulation: Motional EMF
+                    </h4>
+                    <p class="text-sm text-slate-600 mb-4">Adjust the velocity of the sliding bar. The magnetic field (X marks) points <em>into</em> the screen. The faster the bar moves, the higher the induced EMF.</p>
+                    
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1 relative aspect-[4/3] bg-[#eef2ff] rounded-lg border border-slate-300 overflow-hidden shadow-inner">
+                            <canvas id="simMotionalCanvas" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="w-full md:w-64 flex flex-col justify-center space-y-6">
+                            <div>
+                                <label for="motionalVelocitySlider" class="block text-sm font-medium text-slate-700 mb-1">Velocity ($v$): <span id="motionalVelocityValue">2.0</span> m/s</label>
+                                <input type="range" id="motionalVelocitySlider" min="-5" max="5" value="2" step="0.1" class="slider-custom">
+                                <div class="flex justify-between text-xs text-slate-400 mt-1">
+                                    <span>Left</span>
+                                    <span>Right</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-3">
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase font-semibold">Induced EMF ($\mathcal{E}$)</div>
+                                    <div class="text-xl font-mono text-emf"><span id="motionalEmfCalc">20.0</span> V</div>
+                                </div>
+                                <div class="w-full h-px bg-slate-100"></div>
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase font-semibold">Current Direction</div>
+                                    <div class="text-sm font-bold text-slate-700" id="motionalDirCalc">Counter-Clockwise</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="advanced">
+                <h2>6. Advanced Topics: Inductance & Eddy Currents</h2>
+                <h3>Self-Inductance ($L$)</h3>
+                <p>
+                    When a time-varying current flows through a coil, it creates a time-varying magnetic field. This changing field permeates the coil <em>itself</em>, inducing a back-EMF that opposes the change in current. This property is called self-inductance.
+                </p>
+                <div class="math-block">
+                    $$\mathcal{E} = -L \frac{dI}{dt}$$
+                </div>
+                <p>
+                    Here, <strong>$L$</strong> is the inductance, measured in Henrys (H). Inductors act as electrical inertia in a circuit, preventing instantaneous changes in current flow.
+                </p>
+
+                <h3>Eddy Currents & Magnetic Braking</h3>
+                <p>
+                    When a solid piece of metal (not just a wire loop) moves through a varying magnetic field, circular currents called <strong>Eddy Currents</strong> are induced throughout the bulk of the metal.
+                </p>
+                <p>
+                    According to Lenz's Law, these swirling currents create their own magnetic fields that oppose the motion of the metal, resulting in a drag force. This principle is utilized in frictionless <strong>magnetic braking systems</strong> in high-speed trains and roller coasters. The kinetic energy of the vehicle is safely dissipated as Joule heating ($I^2R$ power loss) inside the metal.
+                </p>
+            </section>
+
+            <section id="strategy">
+                <h2>7. Problem-Solving Master Strategy</h2>
+                <div class="bg-slate-800 text-slate-100 p-6 rounded-xl shadow-lg mt-6">
+                    <ol class="list-decimal list-inside space-y-4 marker:text-primary-400 marker:font-bold">
+                        <li>
+                            <strong class="text-white">Isolate the Flux Variable:</strong> Determine which parameter is changing over time.
+                            <ul class="list-disc list-inside ml-6 mt-2 text-slate-300 text-sm space-y-1">
+                                <li>Is $B$ changing? (e.g., $B(t) = 3t^2$). Use $\mathcal{E} = -NA\cos\theta \cdot \frac{dB}{dt}$.</li>
+                                <li>Is $A$ changing? (e.g., sliding bar). Use $\mathcal{E} = -NB\cos\theta \cdot \frac{dA}{dt}$.</li>
+                                <li>Is $\theta$ changing? (e.g., rotating coil where $\theta = \omega t$). Use $\mathcal{E} = NAB\omega \sin(\omega t)$.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong class="text-white">Determine the Derivative:</strong> Carefully differentiate the changing function with respect to $t$.
+                        </li>
+                        <li>
+                            <strong class="text-white">Apply the Right-Hand Rule for Lenz's Law:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2 text-slate-300 text-sm space-y-1">
+                                <li>Point your right thumb <strong>opposite</strong> to the direction of a <em>rising</em> external flux.</li>
+                                <li>Point your right thumb <strong>parallel</strong> to the direction of a <em>falling</em> external flux.</li>
+                                <li>Your naturally curling fingers indicate the exact direction of the induced current loop.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong class="text-white">Account for Resistance:</strong> Once you have $\mathcal{E}$, use Ohm's Law ($I = \frac{|\mathcal{E}|}{R}$) to link the induced voltage to the actual physical current flowing through the circuit.
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="mt-16 border-t border-slate-200 pt-10">
+                <h2>8. Concept Check Quiz</h2>
+                <p class="mb-6">Test your understanding of Faraday's and Lenz's Laws. Select an answer for immediate feedback.</p>
+                
+                <div id="quizContainer" class="space-y-6">
+                    <!-- Quiz questions injected via JS -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>&copy; 2026 Electrodynamics.edu - High-Fidelity Physics Simulations</p>
+            <p class="text-sm mt-2">Generated for educational purposes.</p>
+        </div>
+    </footer>
+
+    <!-- Core Logic & Animations -->
+    <script>
+        // Utilities & Safeguards
+        const safeGet = (id) => document.getElementById(id);
+
+        /* =========================================================
+           SIMULATION 1: MAGNETIC FLUX VS ANGLE
+           ========================================================= */
+        const canvas1 = safeGet('simFluxCanvas');
+        const ctx1 = canvas1 ? canvas1.getContext('2d') : null;
+        let fluxAngle = 0;
+
+        function initSim1() {
+            if (!canvas1 || !ctx1) return;
+            
+            const slider = safeGet('fluxAngleSlider');
+            const valDisplay = safeGet('fluxAngleValue');
+            const calcDisplay = safeGet('fluxDisplayCalc');
+
+            if (slider) {
+                slider.addEventListener('input', (e) => {
+                    fluxAngle = parseInt(e.target.value);
+                    if (valDisplay) valDisplay.textContent = fluxAngle;
+                    
+                    // Math: cos(theta)
+                    const rad = fluxAngle * Math.PI / 180;
+                    const flux = Math.cos(rad);
+                    if (calcDisplay) {
+                        calcDisplay.textContent = Math.abs(flux).toFixed(2);
+                        calcDisplay.style.opacity = Math.abs(flux) < 0.1 ? 0.3 : 1;
+                    }
+                    drawSim1();
+                });
+            }
+
+            // Handle Resize
+            const resizeObserver = new ResizeObserver(() => {
+                canvas1.width = canvas1.clientWidth * window.devicePixelRatio;
+                canvas1.height = canvas1.clientHeight * window.devicePixelRatio;
+                ctx1.scale(window.devicePixelRatio, window.devicePixelRatio);
+                drawSim1();
+            });
+            resizeObserver.observe(canvas1.parentElement);
+        }
+
+        function drawSim1() {
+            if (!ctx1) return;
+            const w = canvas1.clientWidth;
+            const h = canvas1.clientHeight;
+            const cx = w / 2;
+            const cy = h / 2;
+            
+            ctx1.clearRect(0, 0, w, h);
+
+            // Draw Magnetic Field Lines (Vertical)
+            ctx1.strokeStyle = '#10b981'; // flux green
+            ctx1.lineWidth = 2;
+            const numLines = 9;
+            const spacing = w / numLines;
+            const rad = fluxAngle * Math.PI / 180;
+            const fluxScale = Math.cos(rad); // visually modify lines based on flux
+
+            for(let i=1; i<numLines; i++) {
+                let x = i * spacing;
+                // Dash line if it's not passing "through" effectively
+                if (Math.abs(fluxScale) < 0.1) {
+                    ctx1.setLineDash([5, 10]);
+                    ctx1.strokeStyle = '#a7f3d0';
+                } else {
+                    ctx1.setLineDash([]);
+                    ctx1.strokeStyle = '#10b981';
+                }
+                
+                // Draw Arrow
+                ctx1.beginPath();
+                ctx1.moveTo(x, h);
+                ctx1.lineTo(x, 0);
+                ctx1.stroke();
+                
+                // Arrowhead
+                ctx1.beginPath();
+                ctx1.moveTo(x, 20);
+                ctx1.lineTo(x - 5, 30);
+                ctx1.lineTo(x + 5, 30);
+                ctx1.fillStyle = ctx1.strokeStyle;
+                ctx1.fill();
+            }
+            ctx1.setLineDash([]);
+
+            // Draw Loop (ellipse rotated in 3D projection)
+            const loopRadius = Math.min(w, h) * 0.3;
+            // The height of the ellipse represents the tilt. 
+            // When angle=0 (horizontal), height=radius*0.2. When angle=90, height=radius.
+            const perpTilt = Math.abs(Math.sin(rad));
+            const yRadius = loopRadius * 0.2 + loopRadius * 0.8 * perpTilt;
+            
+            ctx1.save();
+            ctx1.translate(cx, cy);
+            
+            // Fill based on flux intensity
+            ctx1.beginPath();
+            ctx1.ellipse(0, 0, loopRadius, yRadius, 0, 0, 2*Math.PI);
+            ctx1.fillStyle = `rgba(59, 130, 246, ${0.1 + Math.abs(fluxScale)*0.3})`;
+            ctx1.fill();
+            
+            // Loop border
+            ctx1.lineWidth = 6;
+            ctx1.strokeStyle = '#2563eb';
+            ctx1.stroke();
+            
+            // Draw Area Normal Vector (red arrow)
+            ctx1.rotate(-rad);
+            ctx1.beginPath();
+            ctx1.moveTo(0, 0);
+            ctx1.lineTo(0, -loopRadius * 1.5);
+            ctx1.strokeStyle = '#ef4444';
+            ctx1.lineWidth = 3;
+            ctx1.stroke();
+            
+            // Normal Arrowhead
+            ctx1.beginPath();
+            ctx1.moveTo(0, -loopRadius * 1.5);
+            ctx1.lineTo(-6, -loopRadius * 1.5 + 10);
+            ctx1.lineTo(6, -loopRadius * 1.5 + 10);
+            ctx1.fillStyle = '#ef4444';
+            ctx1.fill();
+            
+            ctx1.restore();
+        }
+
+        /* =========================================================
+           SIMULATION 2: LENZ'S LAW (MAGNET DRAG)
+           ========================================================= */
+        const canvas2 = safeGet('simLenzCanvas');
+        const container2 = safeGet('simLenzContainer');
+        const ctx2 = canvas2 ? canvas2.getContext('2d') : null;
+        
+        let magnetX = 100;
+        let targetMagnetX = 100;
+        let isDraggingMagnet = false;
+        let lastMagnetX = 100;
+        let velocity = 0;
+        
+        function initSim2() {
+            if (!canvas2 || !ctx2 || !container2) return;
+            
+            // Hide instructions on interaction
+            const inst = safeGet('lenzInstructions');
+            const hideInst = () => { if(inst) inst.style.opacity = '0'; };
+
+            // Mouse Events
+            container2.addEventListener('mousedown', (e) => {
+                isDraggingMagnet = true;
+                targetMagnetX = getMousePos(canvas2, e).x;
+                hideInst();
+            });
+            window.addEventListener('mouseup', () => isDraggingMagnet = false);
+            window.addEventListener('mousemove', (e) => {
+                if(isDraggingMagnet) {
+                    const rect = canvas2.getBoundingClientRect();
+                    const scaleX = canvas2.width / rect.width / window.devicePixelRatio;
+                    targetMagnetX = (e.clientX - rect.left) * scaleX;
+                }
+            });
+
+            // Touch Events
+            container2.addEventListener('touchstart', (e) => {
+                isDraggingMagnet = true;
+                targetMagnetX = getTouchPos(canvas2, e).x;
+                hideInst();
+                e.preventDefault();
+            });
+            window.addEventListener('touchend', () => isDraggingMagnet = false);
+            window.addEventListener('touchmove', (e) => {
+                if(isDraggingMagnet) {
+                    targetMagnetX = getTouchPos(canvas2, e).x;
+                }
+            }, {passive: false});
+
+            // Resize
+            const resizeObserver = new ResizeObserver(() => {
+                canvas2.width = container2.clientWidth * window.devicePixelRatio;
+                canvas2.height = container2.clientHeight * window.devicePixelRatio;
+                ctx2.scale(window.devicePixelRatio, window.devicePixelRatio);
+                magnetX = canvas2.clientWidth * 0.2; // default position
+                targetMagnetX = magnetX;
+                lastMagnetX = magnetX;
+            });
+            resizeObserver.observe(container2);
+
+            requestAnimationFrame(animLoop2);
+        }
+
+        function getMousePos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            return { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
+        }
+        function getTouchPos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            return { x: evt.touches[0].clientX - rect.left, y: evt.touches[0].clientY - rect.top };
+        }
+
+        function animLoop2() {
+            if(!ctx2) return;
+            
+            // Physics / Animation Step
+            // Smoothly move magnet to target
+            magnetX += (targetMagnetX - magnetX) * 0.3;
+            
+            // Calculate velocity (derivative of position)
+            velocity = magnetX - lastMagnetX;
+            lastMagnetX = magnetX;
+
+            // Draw
+            const w = canvas2.clientWidth;
+            const h = canvas2.clientHeight;
+            const coilX = w * 0.7; // Coil is fixed on the right
+            
+            ctx2.clearRect(0, 0, w, h);
+
+            // Distance from magnet to coil
+            const dist = coilX - magnetX;
+            
+            // Draw Coil
+            ctx2.lineWidth = 15;
+            ctx2.strokeStyle = '#94a3b8'; // gray
+            ctx2.lineCap = 'round';
+            ctx2.beginPath();
+            ctx2.ellipse(coilX, h/2, 20, Math.min(h*0.3, 80), 0, -Math.PI/2, Math.PI/2);
+            ctx2.stroke();
+            
+            // Draw Magnet
+            const magW = 100;
+            const magH = 40;
+            const mY = h/2 - magH/2;
+            
+            // Magnet body
+            ctx2.fillStyle = '#ef4444'; // North (Red) right side
+            ctx2.fillRect(magnetX, mY, magW/2, magH);
+            ctx2.fillStyle = '#3b82f6'; // South (Blue) left side
+            ctx2.fillRect(magnetX - magW/2, mY, magW/2, magH);
+            
+            ctx2.fillStyle = 'white';
+            ctx2.font = 'bold 16px sans-serif';
+            ctx2.textAlign = 'center';
+            ctx2.textBaseline = 'middle';
+            ctx2.fillText('S', magnetX - magW/4, h/2);
+            ctx2.fillText('N', magnetX + magW/4, h/2);
+
+            // --- Lenz's Law Logic ---
+            // N pole faces coil. 
+            // If moving right (v > 0), dist decreases -> Flux (Rightwards) INCREASES.
+            // Lenz says: Induced B must point LEFT. Current flows accordingly.
+            const fluxStatus = safeGet('lenzFluxStatus');
+            const curStatus = safeGet('lenzCurrentStatus');
+            
+            const sensitivity = 0.5;
+            let inducedB = 0; // -1 to 1 (left to right)
+            
+            if (Math.abs(velocity) > sensitivity) {
+                if (velocity > 0 && dist > magW/2) {
+                    // Moving towards: induced B left
+                    inducedB = -1;
+                    if(fluxStatus) { fluxStatus.textContent = "Increasing (↑)"; fluxStatus.className = "font-bold text-red-600"; }
+                    if(curStatus) { curStatus.textContent = "Counter-Clockwise"; curStatus.className = "font-bold text-amber-600"; }
+                } else if (velocity < 0 && dist > magW/2) {
+                    // Moving away: induced B right
+                    inducedB = 1;
+                    if(fluxStatus) { fluxStatus.textContent = "Decreasing (↓)"; fluxStatus.className = "font-bold text-blue-600"; }
+                    if(curStatus) { curStatus.textContent = "Clockwise"; curStatus.className = "font-bold text-amber-600"; }
+                } else {
+                    inducedB = 0;
+                    resetLenzStatus(fluxStatus, curStatus);
+                }
+            } else {
+                resetLenzStatus(fluxStatus, curStatus);
+            }
+
+            // Draw Induced Field (Green Arrows)
+            if (inducedB !== 0) {
+                ctx2.strokeStyle = '#10b981'; // Green
+                ctx2.lineWidth = 4;
+                ctx2.beginPath();
+                const arrowX = coilX - 50 * inducedB;
+                ctx2.moveTo(coilX, h/2);
+                ctx2.lineTo(arrowX, h/2);
+                ctx2.stroke();
+                
+                // Arrowhead
+                ctx2.beginPath();
+                ctx2.moveTo(arrowX, h/2);
+                ctx2.lineTo(arrowX + 10*inducedB, h/2 - 8);
+                ctx2.lineTo(arrowX + 10*inducedB, h/2 + 8);
+                ctx2.fillStyle = '#10b981';
+                ctx2.fill();
+            }
+
+            // Draw Coil Front Half (Overlaps magnet if it passes through)
+            ctx2.lineWidth = 15;
+            ctx2.strokeStyle = '#cbd5e1';
+            ctx2.beginPath();
+            ctx2.ellipse(coilX, h/2, 20, Math.min(h*0.3, 80), 0, Math.PI/2, 3*Math.PI/2);
+            ctx2.stroke();
+            
+            // Draw Induced Current Indicators (Yellow nodes on coil)
+            if (inducedB !== 0) {
+                ctx2.fillStyle = '#f59e0b'; // Amber
+                const dir = inducedB; // 1 or -1
+                const offset = (Date.now() / 5) % 100; // Animation
+                
+                for(let i=0; i<3; i++) {
+                    const angle = (offset + i*33) / 100 * Math.PI; // Top half
+                    const cx = coilX + 20 * Math.cos(angle * dir);
+                    const cy = h/2 - Math.min(h*0.3, 80) * Math.sin(angle);
+                    
+                    ctx2.beginPath();
+                    ctx2.arc(cx, cy, 4, 0, 2*Math.PI);
+                    ctx2.fill();
+                }
+            }
+
+            requestAnimationFrame(animLoop2);
+        }
+
+        function resetLenzStatus(f, c) {
+            if(f) { f.textContent = "Stable"; f.className = "font-bold text-slate-500"; }
+            if(c) { c.textContent = "Zero"; c.className = "font-bold text-slate-500"; }
+        }
+
+        /* =========================================================
+           SIMULATION 3: MOTIONAL EMF
+           ========================================================= */
+        const canvas3 = safeGet('simMotionalCanvas');
+        const ctx3 = canvas3 ? canvas3.getContext('2d') : null;
+        let motionalV = 2.0; // velocity
+        let barX = 50;
+
+        function initSim3() {
+            if (!canvas3 || !ctx3) return;
+
+            const slider = safeGet('motionalVelocitySlider');
+            const valDisplay = safeGet('motionalVelocityValue');
+            const emfDisplay = safeGet('motionalEmfCalc');
+            const dirDisplay = safeGet('motionalDirCalc');
+
+            if (slider) {
+                slider.addEventListener('input', (e) => {
+                    motionalV = parseFloat(e.target.value);
+                    if (valDisplay) valDisplay.textContent = motionalV.toFixed(1);
+                    
+                    // EMF = BLv. Let B=1, L=10
+                    const emf = Math.abs(10 * motionalV);
+                    if (emfDisplay) emfDisplay.textContent = emf.toFixed(1);
+                    
+                    if (dirDisplay) {
+                        if (motionalV > 0) {
+                            dirDisplay.textContent = "Counter-Clockwise (Up)";
+                            dirDisplay.className = "text-sm font-bold text-amber-600";
+                        } else if (motionalV < 0) {
+                            dirDisplay.textContent = "Clockwise (Down)";
+                            dirDisplay.className = "text-sm font-bold text-amber-600";
+                        } else {
+                            dirDisplay.textContent = "None";
+                            dirDisplay.className = "text-sm font-bold text-slate-400";
+                        }
+                    }
+                });
+            }
+
+            // Resize
+            const resizeObserver = new ResizeObserver(() => {
+                canvas3.width = canvas3.clientWidth * window.devicePixelRatio;
+                canvas3.height = canvas3.clientHeight * window.devicePixelRatio;
+                ctx3.scale(window.devicePixelRatio, window.devicePixelRatio);
+            });
+            resizeObserver.observe(canvas3.parentElement);
+
+            requestAnimationFrame(animLoop3);
+        }
+
+        function animLoop3() {
+            if(!ctx3) return;
+            const w = canvas3.clientWidth;
+            const h = canvas3.clientHeight;
+            
+            // Update Bar Position
+            barX += motionalV * 2; // scale speed visually
+            if (barX > w - 20) barX = 20; // loop around bounds
+            if (barX < 20) barX = w - 20;
+
+            ctx3.clearRect(0, 0, w, h);
+
+            // Draw Magnetic Field (X marks into page)
+            ctx3.strokeStyle = 'rgba(148, 163, 184, 0.4)'; // light slate
+            ctx3.lineWidth = 2;
+            const gridSpacing = 40;
+            for(let x=20; x<w; x+=gridSpacing) {
+                for(let y=20; y<h; y+=gridSpacing) {
+                    ctx3.beginPath();
+                    ctx3.moveTo(x-4, y-4); ctx3.lineTo(x+4, y+4);
+                    ctx3.moveTo(x+4, y-4); ctx3.lineTo(x-4, y+4);
+                    ctx3.stroke();
+                }
+            }
+
+            // Draw Rails
+            const railTop = h * 0.25;
+            const railBot = h * 0.75;
+            const L = railBot - railTop;
+            
+            ctx3.strokeStyle = '#475569';
+            ctx3.lineWidth = 6;
+            ctx3.beginPath();
+            ctx3.moveTo(10, railTop); ctx3.lineTo(w-10, railTop);
+            ctx3.moveTo(10, railBot); ctx3.lineTo(w-10, railBot);
+            ctx3.stroke();
+
+            // Draw Resistor/Connecting end (Left side)
+            ctx3.beginPath();
+            ctx3.moveTo(20, railTop);
+            ctx3.lineTo(20, railBot);
+            ctx3.stroke();
+            
+            // Draw Sliding Bar
+            ctx3.fillStyle = '#cbd5e1'; // metal
+            ctx3.strokeStyle = '#334155';
+            ctx3.lineWidth = 3;
+            ctx3.fillRect(barX - 8, railTop - 10, 16, L + 20);
+            ctx3.strokeRect(barX - 8, railTop - 10, 16, L + 20);
+
+            // Draw Current Arrows
+            if (Math.abs(motionalV) > 0.1) {
+                ctx3.fillStyle = '#f59e0b';
+                
+                // On the bar
+                const cy = h/2;
+                ctx3.beginPath();
+                if (motionalV > 0) {
+                    // Current Up
+                    ctx3.moveTo(barX, cy - 15);
+                    ctx3.lineTo(barX - 8, cy + 5);
+                    ctx3.lineTo(barX + 8, cy + 5);
+                } else {
+                    // Current Down
+                    ctx3.moveTo(barX, cy + 15);
+                    ctx3.lineTo(barX - 8, cy - 5);
+                    ctx3.lineTo(barX + 8, cy - 5);
+                }
+                ctx3.fill();
+            }
+
+            // Draw Area Shading
+            ctx3.fillStyle = 'rgba(245, 158, 11, 0.1)';
+            if (barX > 20) {
+                ctx3.fillRect(20, railTop, barX - 20, L);
+            } else {
+                ctx3.fillRect(barX, railTop, 20 - barX, L);
+            }
+
+            requestAnimationFrame(animLoop3);
+        }
+
+        /* =========================================================
+           QUIZ LOGIC
+           ========================================================= */
+        const quizQuestions = [
+            {
+                q: "A circular wire loop is placed in a uniform magnetic field. Which of the following will NOT induce an EMF in the loop?",
+                opts: ["Crushing the loop into an oval shape.", "Moving the loop at a constant velocity parallel to the field lines.", "Rotating the loop about an axis perpendicular to the field.", "Decreasing the strength of the magnetic field over time."],
+                ans: 1,
+                exp: "Moving the loop parallel to uniform field lines doesn't change the area, angle, or field strength enclosed. Therefore, total flux $\\Phi_B$ is constant, and $d\\Phi_B/dt = 0$."
+            },
+            {
+                q: "According to Lenz's Law, the magnetic field produced by an induced current will:",
+                opts: ["Always point in the same direction as the external field.", "Always point in the opposite direction to the external field.", "Oppose the CHANGE in the external magnetic flux.", "Maximize the total magnetic flux in the system."],
+                ans: 2,
+                exp: "Lenz's Law is about opposing the *change*. If flux is decreasing, the induced field points *with* the external field to replace it. If increasing, it points *against* it."
+            },
+            {
+                q: "A conducting bar of length $L$ moves at velocity $v$ perpendicularly across a uniform magnetic field $B$. The induced EMF is given by:",
+                opts: ["$\\mathcal{E} = BL/v$", "$\\mathcal{E} = B/Lv$", "$\\mathcal{E} = B^2Lv$", "$\\mathcal{E} = BLv$"],
+                ans: 3,
+                exp: "This is the standard Motional EMF formula derived from $\\mathcal{E} = B \\cdot (dA/dt)$. Since area $A = L \\cdot x$, the derivative is $L \\cdot (dx/dt) = Lv$."
+            }
+        ];
+
+        function initQuiz() {
+            const container = safeGet('quizContainer');
+            if (!container) return;
+
+            quizQuestions.forEach((item, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'bg-white p-6 rounded-xl border border-slate-200 shadow-sm';
+                
+                const title = document.createElement('h4');
+                title.className = 'font-bold text-slate-800 mb-4';
+                title.innerHTML = `Q${index + 1}: ${item.q}`;
+                qDiv.appendChild(title);
+
+                const optsDiv = document.createElement('div');
+                optsDiv.className = 'space-y-2';
+
+                item.opts.forEach((opt, oIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-primary-300 transition text-sm text-slate-700';
+                    // Re-render math inside buttons
+                    btn.innerHTML = opt;
+                    
+                    btn.onclick = () => {
+                        // Disable all buttons in this group
+                        const allBtns = optsDiv.querySelectorAll('button');
+                        allBtns.forEach(b => { b.disabled = true; b.classList.remove('hover:bg-slate-50'); });
+                        
+                        // Check answer
+                        const isCorrect = (oIndex === item.ans);
+                        if (isCorrect) {
+                            btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                        } else {
+                            btn.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+                            // Highlight correct one
+                            allBtns[item.ans].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                        }
+
+                        // Show explanation
+                        let expDiv = qDiv.querySelector('.exp-div');
+                        if (!expDiv) {
+                            expDiv = document.createElement('div');
+                            expDiv.className = `exp-div mt-4 p-4 rounded-lg text-sm ${isCorrect ? 'bg-emerald-50 text-emerald-900' : 'bg-red-50 text-red-900'}`;
+                            expDiv.innerHTML = `<strong>${isCorrect ? 'Correct!' : 'Incorrect.'}</strong> ${item.exp}`;
+                            qDiv.appendChild(expDiv);
+                            
+                            // Re-run MathJax on new dynamic content
+                            if (window.MathJax) {
+                                window.MathJax.typesetPromise([expDiv]).catch((err) => console.log(err));
+                            }
+                        }
+                    };
+                    optsDiv.appendChild(btn);
+                });
+
+                qDiv.appendChild(optsDiv);
+                container.appendChild(qDiv);
+            });
+            
+            // Queue MathJax for quiz content initially added
+            if (window.MathJax) {
+                window.MathJax.typesetPromise([container]).catch((err) => console.log(err));
+            }
+        }
+
+        /* =========================================================
+           DOWNLOAD LOGIC
+           ========================================================= */
+        const btnDownloadNav = safeGet('btnDownloadNav');
+        if (btnDownloadNav) {
+            btnDownloadNav.addEventListener('click', () => {
+                const cheatSheetText = `
+ELECTROMAGNETIC INDUCTION & LENZ'S LAW - CHEAT SHEET
+----------------------------------------------------
+
+1. Magnetic Flux (Phi_B)
+Formula: Phi_B = B * A * cos(theta)
+Units: Webers (Wb) = Tesla * m^2
+Desc: The amount of magnetic field penetrating a specific area.
+
+2. Faraday's Law of Induction
+Formula: E = -N * (dPhi_B / dt)
+Desc: Induced EMF is proportional to the rate of change of magnetic flux.
+
+Expanded Mechanisms:
+E = -N * [ A*cos(theta)*(dB/dt) + B*cos(theta)*(dA/dt) - B*A*sin(theta)*(d_theta/dt) ]
+- Term 1 (dB/dt): Changing field strength.
+- Term 2 (dA/dt): Changing area (Motional EMF).
+- Term 3 (d_theta/dt): Changing angle (Generators).
+
+3. Motional EMF (Sliding Bar)
+Formula: E = B * L * v
+Current: I = (B * L * v) / R
+Desc: For a bar of length L moving at velocity v in field B.
+
+4. Self-Inductance
+Formula: E = -L * (dI/dt)
+Units: Henrys (H)
+Desc: Back-EMF generated by a coil resisting changes in its own current.
+
+5. Lenz's Law (Direction Rule)
+"The induced current produces a magnetic field that OPPOSES the change in flux."
+- Flux increasing -> Induced B points opposite to external B.
+- Flux decreasing -> Induced B points parallel to external B.
+                `.trim();
+
+                const blob = new Blob([cheatSheetText], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Electrodynamics_Cheat_Sheet.txt';
+                document.body.appendChild(a); // For Firefox compatibility
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // Initialize Everything on Load
+        window.addEventListener('load', () => {
+            initSim1();
+            initSim2();
+            initSim3();
+            initQuiz();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide to Rotational Dynamics & Angular Acceleration</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="apple-touch-icon" href="/logo.png">
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- MathJax for rendering equations -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Tailwind Configuration & Styling -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        physics: {
+                            50: '#f4f6f8',
+                            100: '#e3e8ee',
+                            500: '#3b82f6',
+                            700: '#1d4ed8',
+                            900: '#0f172a',
+                            accent: '#f59e0b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .math-serif { font-family: 'Merriweather', serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Canvas Styles */
+        canvas { touch-action: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+
+        /* Component Transitions */
+        .interactive-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .interactive-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="antialiased tex2jax_process">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-physics-900 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="rotate-cw" class="w-6 h-6 text-physics-accent"></i>
+                    <span class="font-bold text-lg tracking-tight">Physics Interactive Lessons</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4 text-sm font-medium">
+                        <a href="#governing-physics" class="hover:text-physics-accent transition-colors">Kinematics</a>
+                        <a href="#torque" class="hover:text-physics-accent transition-colors">Torque</a>
+                        <a href="#inertia" class="hover:text-physics-accent transition-colors">Moment of Inertia</a>
+                        <a href="#dynamics" class="hover:text-physics-accent transition-colors">Dynamics & Energy</a>
+                        <a href="#strategy" class="hover:text-physics-accent transition-colors">Master Strategy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-physics-900 via-physics-700 to-blue-800 text-white py-20 px-4 shadow-inner">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-6 backdrop-blur-sm">
+                <i data-lucide="compass" class="w-8 h-8 text-physics-accent"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight math-serif">
+                Rotational Dynamics & <br/>Angular Acceleration
+            </h1>
+            <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto font-light leading-relaxed mb-8">
+                Master the physics of rotating bodies. From the vector mechanics of torque to the intricate energy distributions of rolling objects, this guide maps Newton's laws into the angular domain.
+            </p>
+            <button id="btnDownloadCheatSheet" class="bg-physics-accent hover:bg-yellow-500 text-physics-900 font-bold py-3 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 mx-auto transition-colors">
+                <i data-lucide="download" class="w-5 h-5"></i>
+                Download Formula Cheat Sheet
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row gap-12">
+        
+        <!-- Main Article -->
+        <main class="w-full lg:w-3/4 space-y-16">
+            
+            <!-- SECTION 1: Governing Physics -->
+            <section id="governing-physics" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="book-open" class="text-physics-700 w-6 h-6"></i></div>
+                    <h2 class="text-3xl font-bold text-slate-800">1. The Governing Physics</h2>
+                </div>
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                    <p class="text-lg leading-relaxed">
+                        <strong>Rotational dynamics</strong> maps Newton's classical laws of linear motion into an angular coordinate system. In linear kinematics, we analyze objects moving along straight paths. In rotational kinematics, we analyze extended, rigid bodies spinning around an axis.
+                    </p>
+                    <p>
+                        A critical realization is that every point mass within a rigid rotating body experiences a linear acceleration that depends heavily on its distance ($r$) from the axis of rotation. While the entire object shares the same <em>angular</em> velocity, the <em>linear</em> velocity varies.
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 interactive-card">
+                        <h3 class="text-xl font-semibold mb-4 text-physics-900 border-b pb-2">The Angular-Linear Dictionary</h3>
+                        <p class="text-sm text-slate-500 mb-4">To master rotational dynamics, you must learn to translate between linear and angular variables.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <ul class="space-y-3">
+                                <li><strong>Position:</strong> $x \rightarrow \theta$ (Angle)</li>
+                                <li><strong>Velocity:</strong> $v \rightarrow \omega = \frac{d\theta}{dt}$</li>
+                                <li><strong>Acceleration:</strong> $a \rightarrow \alpha = \frac{d\omega}{dt}$</li>
+                            </ul>
+                            <ul class="space-y-3">
+                                <li><strong>Mass (Inertia):</strong> $m \rightarrow I$ (Moment of Inertia)</li>
+                                <li><strong>Force:</strong> $F \rightarrow \tau$ (Torque)</li>
+                                <li><strong>Momentum:</strong> $p \rightarrow L = I\omega$</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Torque & Vector Math -->
+            <section id="torque" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="crosshair" class="text-physics-700 w-6 h-6"></i></div>
+                    <h2 class="text-3xl font-bold text-slate-800">2. Mathematical Derivations: Torque ($\vec{\tau}$)</h2>
+                </div>
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                    <p>
+                        To alter a system's angular velocity ($\vec{\omega}$), a net external <strong>torque</strong> ($\vec{\tau}$) must be applied. Torque is the rotational equivalent of force. It measures how effectively a force can cause an object to rotate.
+                    </p>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg my-8">
+                        <p class="font-bold text-blue-900 mb-2">The Vector Cross Product Definition</p>
+                        <p>The torque generated by a force $\vec{F}$ applied at a position vector $\vec{r}$ relative to a pivot point is defined via the vector cross product:</p>
+                        <div class="text-center overflow-x-auto">
+                            $$\vec{\tau} = \vec{r} \times \vec{F} \implies \tau = r F \sin\phi$$
+                        </div>
+                        <p class="mt-4 text-sm">Where $\phi$ is the angle between the position vector $\vec{r}$ and the force vector $\vec{F}$.</p>
+                    </div>
+
+                    <!-- Interactive Torque Simulation -->
+                    <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden mt-8">
+                        <div class="bg-slate-50 border-b border-slate-200 p-4 flex justify-between items-center">
+                            <h3 class="font-semibold text-slate-800"><i data-lucide="mouse-pointer-click" class="inline w-4 h-4 mr-2"></i>Interactive Torque Visualizer</h3>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="col-span-1 space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Applied Force ($F$): <span id="valF" class="font-mono text-physics-700">100</span> N</label>
+                                    <input type="range" id="sliderF" min="10" max="200" value="100" class="w-full accent-physics-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Radius ($r$): <span id="valR" class="font-mono text-physics-700">2.0</span> m</label>
+                                    <input type="range" id="sliderR" min="0.5" max="4.0" step="0.1" value="2.0" class="w-full accent-physics-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Angle ($\phi$): <span id="valAngle" class="font-mono text-physics-700">90</span>°</label>
+                                    <input type="range" id="sliderAngle" min="0" max="180" value="90" class="w-full accent-physics-500">
+                                </div>
+                                <div class="bg-physics-50 p-4 rounded-lg text-center mt-4 border border-physics-100">
+                                    <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Resulting Torque</p>
+                                    <p class="text-3xl font-bold text-physics-900 mt-1"><span id="outTau">200.0</span> <span class="text-lg font-normal">N·m</span></p>
+                                </div>
+                            </div>
+                            <div class="col-span-1 md:col-span-2 flex justify-center items-center bg-slate-100 rounded-lg overflow-hidden relative" style="height: 300px;">
+                                <canvas id="torqueCanvas" width="500" height="300" class="w-full h-full object-contain"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-500 italic mt-2">
+                        <strong>Simulation Notes:</strong> Notice how torque is maximized when the force is strictly perpendicular ($\phi = 90^\circ$). When pushing directly parallel to the wrench ($\phi = 0^\circ$ or $180^\circ$), the torque is zero, regardless of the force magnitude!
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 3: Moment of Inertia -->
+            <section id="inertia" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="disc-3" class="text-physics-700 w-6 h-6"></i></div>
+                    <h2 class="text-3xl font-bold text-slate-800">3. Moment of Inertia & Mass Distribution</h2>
+                </div>
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                    <p>
+                        A net torque acts against the system's rotational inertia—defined formally as the <strong>moment of inertia</strong> ($I$). Unlike linear mass ($m$), which is an intrinsic property, the moment of inertia depends heavily on <em>how that mass is distributed</em> relative to the axis of rotation.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-2">Discrete Point Masses</h4>
+                            <p class="text-sm mb-4">For a collection of distinct point masses, sum the products of each mass and the square of its perpendicular distance from the axis:</p>
+                            <div class="text-center bg-slate-50 py-3 rounded-lg">$$I = \sum_{i=1}^{n} m_i r_i^2$$</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-2">Continuous Solid Bodies</h4>
+                            <p class="text-sm mb-4">For continuous solid masses, the summation generalizes to a volume integral involving mass density ($\rho$):</p>
+                            <div class="text-center bg-slate-50 py-3 rounded-lg">$$I = \int r^2 \, dm = \int \rho r^2 \, dV$$</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-lg">
+                        <h4 class="font-bold text-emerald-900 mb-2 flex items-center gap-2">
+                            <i data-lucide="move" class="w-5 h-5"></i>
+                            The Parallel-Axis Theorem
+                        </h4>
+                        <p>
+                            Formulas for $I$ are typically given for an axis passing through the body's Center of Mass ($I_{\text{cm}}$). If the actual rotation axis is shifted parallel by a distance $d$ away from the center of mass, calculate the new moment of inertia using:
+                        </p>
+                        <div class="text-center my-4 text-xl">
+                            $$I_{\text{new}} = I_{\text{cm}} + Md^2$$
+                        </div>
+                        <p class="text-sm">This theorem highlights that it is always "hardest" to rotate an object around an axis that is far from its center of mass.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Dynamics & Energy -->
+            <section id="dynamics" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="zap" class="text-physics-700 w-6 h-6"></i></div>
+                    <h2 class="text-3xl font-bold text-slate-800">4. Newton's 2nd Law & Rolling Energy</h2>
+                </div>
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                    <p>
+                        Newton's Second Law for rotation unites the concepts of Torque and Inertia to yield angular acceleration:
+                    </p>
+                    <div class="text-center overflow-x-auto bg-slate-50 py-4 rounded-xl border border-slate-200 my-6">
+                        $$\vec{\tau}_{\text{net}} = I\vec{\alpha} \quad \text{where} \quad \vec{\alpha} = \frac{d\vec{\omega}}{dt}$$
+                    </div>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-4">Rolling Without Slipping</h3>
+                    <p>
+                        When a solid body rolls without slipping along a surface, static friction does zero work (the contact point is instantaneously at rest). Its total kinetic energy splits perfectly into <strong>translational</strong> and <strong>rotational</strong> components:
+                    </p>
+                    <div class="text-center overflow-x-auto bg-slate-50 py-4 rounded-xl border border-slate-200 my-6">
+                        $$K_{\text{total}} = K_{\text{trans}} + K_{\text{rot}} = \frac{1}{2}Mv_{\text{cm}}^2 + \frac{1}{2}I_{\text{cm}}\omega^2$$
+                    </div>
+                    <p>
+                        Because it rolls without slipping, the crucial <strong>kinematic constraint</strong> couples these two terms, allowing you to solve for final velocities seamlessly:
+                    </p>
+                    <div class="text-center font-bold text-physics-700 my-4 text-xl">
+                        $$v_{\text{cm}} = \omega R \quad \text{and} \quad a_{\text{cm}} = \alpha R$$
+                    </div>
+
+                    <!-- Interactive Rolling Race -->
+                    <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden mt-10">
+                        <div class="bg-slate-50 border-b border-slate-200 p-4 flex justify-between items-center">
+                            <h3 class="font-semibold text-slate-800"><i data-lucide="play-circle" class="inline w-5 h-5 mr-2 text-physics-600"></i>Simulation: The Great Incline Race</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-sm mb-4">
+                                Three objects of <strong>equal mass ($M$) and radius ($R$)</strong> race down an incline, rolling without slipping. Because their Moments of Inertia differ, their rotational kinetic energy requirements differ. Watch who wins!
+                            </p>
+                            
+                            <div class="flex flex-wrap gap-4 mb-4 justify-center">
+                                <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-blue-500"></div><span class="text-sm">Solid Sphere ($I = \frac{2}{5}MR^2$)</span></div>
+                                <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-green-500"></div><span class="text-sm">Solid Cylinder ($I = \frac{1}{2}MR^2$)</span></div>
+                                <div class="flex items-center gap-2"><div class="w-4 h-4 border-4 border-red-500 rounded-full"></div><span class="text-sm">Hollow Hoop ($I = 1MR^2$)</span></div>
+                            </div>
+
+                            <div class="relative bg-slate-100 rounded-lg overflow-hidden border border-slate-300" style="height: 350px;">
+                                <canvas id="raceCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+                                
+                                <!-- Controls Overlay -->
+                                <div class="absolute bottom-4 left-4 flex gap-3">
+                                    <button id="btnStartRace" class="bg-physics-600 hover:bg-physics-700 text-white px-4 py-2 rounded-lg shadow font-medium transition-colors">Start Race</button>
+                                    <button id="btnResetRace" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg shadow font-medium transition-colors">Reset</button>
+                                </div>
+                                <div class="absolute bottom-4 right-4 bg-white/90 p-3 rounded-lg shadow text-xs">
+                                    <label class="font-bold block mb-1">Incline Angle: <span id="valSlope">30</span>°</label>
+                                    <input type="range" id="sliderSlope" min="10" max="60" value="30" class="w-24 accent-physics-500">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 bg-slate-50 p-4 rounded-lg text-sm border border-slate-200">
+                                <strong>Physics Breakdown:</strong> The solid sphere wins. Why? It has the smallest moment of inertia constant ($c=0.4$). This means it "spends" less of its gravitational potential energy on rotational kinetic energy, leaving more for translational kinetic energy (linear speed). The hollow hoop ($c=1.0$) is the slowest because its mass is concentrated far from the axis, making it highly resistant to angular acceleration.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: Master Strategy -->
+            <section id="strategy" class="scroll-mt-24">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="target" class="text-physics-700 w-6 h-6"></i></div>
+                    <h2 class="text-3xl font-bold text-slate-800">5. Problem-Solving Master Strategy</h2>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- Step 1 -->
+                    <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
+                        <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">1</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">Draw Extended Free-Body Diagrams</h4>
+                            <p class="text-slate-600">Standard point-mass FBDs are insufficient for rotational dynamics. You must place force vectors <strong>precisely at their physical points of application</strong>. For example, gravity always acts at the center of mass, while tension acts at the outer rim of a pulley, and friction acts exactly at the surface contact point.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
+                        <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">2</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">Apply the Parallel-Axis Theorem (If Needed)</h4>
+                            <p class="text-slate-600">Determine the axis of rotation. If the object rotates around a hinge or pivot point that is <em>not</em> its center of mass, immediately calculate the new moment of inertia using $I = I_{\text{cm}} + Md^2$ before proceeding with dynamics equations.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
+                        <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">3</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">Set Up Coupled Equations</h4>
+                            <p class="text-slate-600">Complex systems (like a mass falling while unwinding a pulley) require setting up independent systems of equations and coupling them:</p>
+                            <ul class="list-disc ml-6 mt-3 text-slate-700 space-y-1 font-mono text-sm bg-slate-50 p-4 rounded-lg">
+                                <li>Write $\sum F = ma$ for purely linear objects.</li>
+                                <li>Write $\sum \tau = I\alpha$ for rotating components.</li>
+                                <li>Link the systems strictly using the constraint equation: $a = \alpha R$.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section class="bg-physics-900 text-white p-8 rounded-2xl shadow-xl mt-12 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10">
+                    <i data-lucide="help-circle" class="w-32 h-32"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-6 relative z-10 flex items-center gap-2">
+                    <i data-lucide="pen-tool"></i> Knowledge Check
+                </h3>
+                
+                <div id="quizContainer" class="relative z-10 space-y-6">
+                    <div class="quiz-question" id="q1">
+                        <p class="font-medium mb-4 text-lg">1. If you double the distance from the pivot point where a perpendicular force is applied, how does the resulting torque change?</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q1" value="a" class="w-4 h-4 accent-physics-accent">
+                                <span>It remains the same</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q1" value="b" class="w-4 h-4 accent-physics-accent">
+                                <span>It doubles</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q1" value="c" class="w-4 h-4 accent-physics-accent">
+                                <span>It quadruples</span>
+                            </label>
+                        </div>
+                        <p class="hidden mt-3 text-sm font-medium" id="q1-feedback"></p>
+                    </div>
+
+                    <div class="quiz-question" id="q2">
+                        <p class="font-medium mb-4 text-lg mt-8 border-t border-physics-700 pt-8">2. A solid cylinder ($I=\frac{1}{2}MR^2$) and a hollow cylinder ($I=MR^2$) of equal mass and radius are released from rest at the top of an incline. Which reaches the bottom first?</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q2" value="a" class="w-4 h-4 accent-physics-accent">
+                                <span>The solid cylinder</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q2" value="b" class="w-4 h-4 accent-physics-accent">
+                                <span>The hollow cylinder</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q2" value="c" class="w-4 h-4 accent-physics-accent">
+                                <span>They tie</span>
+                            </label>
+                        </div>
+                        <p class="hidden mt-3 text-sm font-medium" id="q2-feedback"></p>
+                    </div>
+
+                    <button id="btnCheckAnswers" class="mt-8 bg-physics-accent hover:bg-yellow-500 text-physics-900 font-bold py-2 px-6 rounded shadow transition-colors">
+                        Submit Answers
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Sidebar (Table of Contents) -->
+        <aside class="hidden lg:block w-1/4">
+            <div class="sticky top-24 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h3 class="font-bold text-slate-800 mb-4 uppercase text-sm tracking-wider flex items-center gap-2">
+                    <i data-lucide="list" class="w-4 h-4"></i> Contents
+                </h3>
+                <nav class="space-y-3 text-sm">
+                    <a href="#governing-physics" class="block text-slate-600 hover:text-physics-600 hover:translate-x-1 transition-transform">1. Governing Physics</a>
+                    <a href="#torque" class="block text-slate-600 hover:text-physics-600 hover:translate-x-1 transition-transform">2. Torque ($\vec{\tau}$)</a>
+                    <a href="#inertia" class="block text-slate-600 hover:text-physics-600 hover:translate-x-1 transition-transform">3. Moment of Inertia</a>
+                    <a href="#dynamics" class="block text-slate-600 hover:text-physics-600 hover:translate-x-1 transition-transform">4. Newton's 2nd Law & Energy</a>
+                    <a href="#strategy" class="block text-slate-600 hover:text-physics-600 hover:translate-x-1 transition-transform">5. Master Strategy</a>
+                </nav>
+                
+                <div class="mt-8 pt-6 border-t border-slate-100">
+                    <h4 class="font-bold text-slate-800 mb-3 text-sm">Key Constants</h4>
+                    <ul class="text-xs text-slate-500 space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <li><strong>Sphere $I_{\text{cm}}$:</strong> $\frac{2}{5}MR^2$</li>
+                        <li><strong>Cylinder $I_{\text{cm}}$:</strong> $\frac{1}{2}MR^2$</li>
+                        <li><strong>Hoop $I_{\text{cm}}$:</strong> $MR^2$</li>
+                        <li><strong>Rod (center) $I_{\text{cm}}$:</strong> $\frac{1}{12}ML^2$</li>
+                        <li><strong>Rod (end) $I$:</strong> $\frac{1}{3}ML^2$</li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
+        <p>© 2026 Interactive Physics Lessons. Designed for conceptual mastery.</p>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // ----------------------------------------------------
+        // SIMULATION 1: Torque Visualizer
+        // ----------------------------------------------------
+        function initTorqueSim() {
+            const canvas = document.getElementById('torqueCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const sliderF = document.getElementById('sliderF');
+            const sliderR = document.getElementById('sliderR');
+            const sliderAngle = document.getElementById('sliderAngle');
+            
+            const valF = document.getElementById('valF');
+            const valR = document.getElementById('valR');
+            const valAngle = document.getElementById('valAngle');
+            const outTau = document.getElementById('outTau');
+
+            if(!sliderF || !sliderR || !sliderAngle || !valF || !valR || !valAngle || !outTau) return;
+
+            function drawTorque() {
+                // Ensure canvas scales dynamically but maintains aspect internally
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx.clearRect(0, 0, width, height);
+                
+                const F = parseFloat(sliderF.value);
+                const r = parseFloat(sliderR.value);
+                const angleDeg = parseFloat(sliderAngle.value);
+                const angleRad = angleDeg * Math.PI / 180;
+                
+                // Calculate Torque
+                const tau = r * F * Math.sin(angleRad);
+                
+                // Update text displays
+                valF.innerText = F.toFixed(0);
+                valR.innerText = r.toFixed(1);
+                valAngle.innerText = angleDeg.toFixed(0);
+                outTau.innerText = tau.toFixed(1);
+
+                // Drawing Setup
+                const pivotX = width * 0.2;
+                const pivotY = height / 2;
+                const scaleR = 60; // Pixels per meter
+                const scaleF = 0.8; // Pixels per Newton
+                
+                const endX = pivotX + r * scaleR;
+                const endY = pivotY;
+
+                // Draw Pivot point
+                ctx.beginPath();
+                ctx.arc(pivotX, pivotY, 8, 0, 2 * Math.PI);
+                ctx.fillStyle = '#1e293b'; // slate-800
+                ctx.fill();
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw Position Vector (Wrench / Rod)
+                ctx.beginPath();
+                ctx.moveTo(pivotX, pivotY);
+                ctx.lineTo(endX, endY);
+                ctx.lineWidth = 6;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = '#94a3b8'; // slate-400
+                ctx.stroke();
+
+                // Draw Position Vector Label r
+                ctx.fillStyle = '#475569';
+                ctx.font = 'italic 16px serif';
+                ctx.fillText('r', pivotX + (r*scaleR)/2, pivotY + 25);
+
+                // Draw Force Vector
+                const forceLength = F * scaleF;
+                const forceEndX = endX + forceLength * Math.cos(angleRad);
+                const forceEndY = endY - forceLength * Math.sin(angleRad); // negative because canvas Y is inverted
+
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(forceEndX, forceEndY);
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#ef4444'; // red-500
+                ctx.stroke();
+
+                // Draw Arrowhead for Force
+                const headlen = 10;
+                const angleArrow = Math.atan2(forceEndY - endY, forceEndX - endX);
+                ctx.beginPath();
+                ctx.moveTo(forceEndX, forceEndY);
+                ctx.lineTo(forceEndX - headlen * Math.cos(angleArrow - Math.PI / 6), forceEndY - headlen * Math.sin(angleArrow - Math.PI / 6));
+                ctx.lineTo(forceEndX - headlen * Math.cos(angleArrow + Math.PI / 6), forceEndY - headlen * Math.sin(angleArrow + Math.PI / 6));
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+
+                // Draw Force Vector Label F
+                ctx.fillStyle = '#ef4444';
+                ctx.fillText('F', forceEndX + 5, forceEndY - 5);
+
+                // Draw Angle Arc
+                if (angleDeg > 0 && angleDeg < 180) {
+                    ctx.beginPath();
+                    ctx.arc(endX, endY, 30, 0, -angleRad, true); // negative angle for visual representation
+                    ctx.strokeStyle = '#3b82f6'; // blue-500
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.fillText('φ', endX + 35 * Math.cos(-angleRad/2), endY + 35 * Math.sin(-angleRad/2));
+                }
+
+                // Draw "Ghost" perpendicular component
+                if (angleDeg !== 90 && angleDeg !== 0 && angleDeg !== 180) {
+                    const fPerp = F * Math.sin(angleRad);
+                    const pEndX = endX;
+                    const pEndY = endY - fPerp * scaleF;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(endX, endY);
+                    ctx.lineTo(pEndX, pEndY);
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = '#f87171'; // red-400
+                    ctx.stroke();
+                    ctx.setLineDash([]); // reset
+                }
+            }
+
+            // Add Event Listeners
+            [sliderF, sliderR, sliderAngle].forEach(el => {
+                if(el) el.addEventListener('input', drawTorque);
+            });
+            
+            // Handle resizing
+            window.addEventListener('resize', drawTorque);
+
+            // Initial draw
+            drawTorque();
+        }
+
+        // ----------------------------------------------------
+        // SIMULATION 2: The Great Incline Race
+        // ----------------------------------------------------
+        function initRaceSim() {
+            const canvas = document.getElementById('raceCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const btnStart = document.getElementById('btnStartRace');
+            const btnReset = document.getElementById('btnResetRace');
+            const sliderSlope = document.getElementById('sliderSlope');
+            const valSlope = document.getElementById('valSlope');
+
+            if(!btnStart || !btnReset || !sliderSlope || !valSlope) return;
+
+            let animationId;
+            let isRacing = false;
+            let time = 0;
+            
+            // Physics constraints
+            const g = 9.81; // m/s^2
+            const pixelToMeter = 0.05; // 1 pixel = 0.05m
+            const R = 0.5; // radius in meters
+            const pixR = R / pixelToMeter; // radius in pixels
+
+            // Racers: [Sphere, Cylinder, Hoop]
+            // c is the inertia coefficient: I = cMR^2
+            // a = (g*sin(theta)) / (1 + c)
+            let racers = [
+                { name: "Sphere", color: "#3b82f6", c: 0.4, x: 0, v: 0, rot: 0, isHollow: false },
+                { name: "Cylinder", color: "#22c55e", c: 0.5, x: 0, v: 0, rot: 0, isHollow: false },
+                { name: "Hoop", color: "#ef4444", c: 1.0, x: 0, v: 0, rot: 0, isHollow: true }
+            ];
+
+            function resetRace() {
+                cancelAnimationFrame(animationId);
+                isRacing = false;
+                time = 0;
+                racers.forEach(racer => {
+                    racer.x = 0;
+                    racer.v = 0;
+                    racer.rot = 0;
+                });
+                btnStart.innerText = "Start Race";
+                btnStart.classList.remove("bg-yellow-600", "hover:bg-yellow-700");
+                btnStart.classList.add("bg-physics-600", "hover:bg-physics-700");
+                drawRace();
+            }
+
+            function drawRace() {
+                const width = canvas.parentElement.clientWidth;
+                const height = canvas.parentElement.clientHeight;
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const angleDeg = parseFloat(sliderSlope.value);
+                const theta = angleDeg * Math.PI / 180;
+                valSlope.innerText = angleDeg;
+
+                // Setup coordinates for the incline
+                const startX = 50;
+                const startY = 50;
+                const length = width - 100;
+                const endX = startX + length * Math.cos(theta);
+                const endY = startY + length * Math.sin(theta);
+
+                // Prevent drawing beyond canvas vertically
+                const maxAllowedY = height - 50;
+                let actualLength = length;
+                if (endY > maxAllowedY) {
+                    actualLength = (maxAllowedY - startY) / Math.sin(theta);
+                }
+
+                const finalEndX = startX + actualLength * Math.cos(theta);
+                const finalEndY = startY + actualLength * Math.sin(theta);
+
+                // Draw Incline
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(finalEndX, finalEndY);
+                ctx.lineTo(finalEndX, height);
+                ctx.lineTo(startX, height);
+                ctx.fillStyle = '#e2e8f0'; // slate-200
+                ctx.fill();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#64748b'; // slate-500
+                ctx.stroke();
+
+                // Draw Finish Line
+                ctx.beginPath();
+                ctx.moveTo(finalEndX, finalEndY);
+                ctx.lineTo(finalEndX + 20 * Math.sin(theta), finalEndY - 20 * Math.cos(theta));
+                ctx.strokeStyle = '#f59e0b'; // amber-500
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw Racers
+                // Offset them slightly perpendicular to the slope so they don't overlap totally
+                const perpX = -Math.sin(theta);
+                const perpY = Math.cos(theta);
+
+                // Sort racers by x position to draw furthest back last (for z-indexing visual)
+                const sortedRacers = [...racers].sort((a,b) => a.x - b.x);
+
+                sortedRacers.forEach((racer, index) => {
+                    // Offset index for visual separation (-1, 0, 1)
+                    const offsetIdx = racers.indexOf(racer) - 1; 
+                    const depthOffset = offsetIdx * 15; // pixels
+
+                    // Calculate current position along slope
+                    let currentPos = racer.x / pixelToMeter; 
+                    
+                    // Stop at finish line
+                    if (currentPos > actualLength) {
+                        currentPos = actualLength;
+                    }
+
+                    const cx = startX + currentPos * Math.cos(theta) + (pixR + depthOffset) * perpX;
+                    const cy = startY + currentPos * Math.sin(theta) + (pixR + depthOffset) * perpY;
+
+                    ctx.save();
+                    ctx.translate(cx, cy);
+                    ctx.rotate(racer.rot);
+
+                    ctx.beginPath();
+                    ctx.arc(0, 0, pixR, 0, 2 * Math.PI);
+                    
+                    if (racer.isHollow) {
+                        ctx.strokeStyle = racer.color;
+                        ctx.lineWidth = 4;
+                        ctx.stroke();
+                    } else {
+                        ctx.fillStyle = racer.color;
+                        ctx.globalAlpha = 0.8;
+                        ctx.fill();
+                        ctx.globalAlpha = 1.0;
+                        ctx.strokeStyle = '#1e293b';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+
+                    // Draw a radial line to show rotation
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(pixR, 0);
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = racer.isHollow ? '#1e293b' : '#ffffff';
+                    ctx.stroke();
+
+                    ctx.restore();
+                });
+            }
+
+            function animate() {
+                if (!isRacing) return;
+
+                const angleDeg = parseFloat(sliderSlope.value);
+                const theta = angleDeg * Math.PI / 180;
+                
+                const dt = 1/60; // Assume 60fps for simple physics step
+                time += dt;
+
+                let allFinished = true;
+                const width = canvas.parentElement.clientWidth;
+                const maxAllowedY = canvas.parentElement.clientHeight - 50;
+                let actualLength = width - 100;
+                if ((50 + actualLength * Math.sin(theta)) > maxAllowedY) {
+                    actualLength = (maxAllowedY - 50) / Math.sin(theta);
+                }
+                const trackLengthMeters = actualLength * pixelToMeter;
+
+                racers.forEach(racer => {
+                    if (racer.x < trackLengthMeters) {
+                        allFinished = false;
+                        // Physics: a = g*sin(theta) / (1 + c)
+                        const a = (g * Math.sin(theta)) / (1 + racer.c);
+                        
+                        racer.v += a * dt;
+                        racer.x += racer.v * dt;
+                        
+                        // Rolling constraint: v = w*R => w = v/R. 
+                        // Angle = x/R
+                        racer.rot = racer.x / R;
+                    }
+                });
+
+                drawRace();
+
+                if (!allFinished) {
+                    animationId = requestAnimationFrame(animate);
+                } else {
+                    isRacing = false;
+                    btnStart.innerText = "Finished";
+                }
+            }
+
+            // Event Listeners
+            btnStart.addEventListener('click', () => {
+                if (!isRacing && time === 0) {
+                    isRacing = true;
+                    btnStart.innerText = "Racing...";
+                    btnStart.classList.replace("bg-physics-600", "bg-yellow-600");
+                    btnStart.classList.replace("hover:bg-physics-700", "hover:bg-yellow-700");
+                    animate();
+                }
+            });
+
+            btnReset.addEventListener('click', resetRace);
+            
+            sliderSlope.addEventListener('input', () => {
+                if(!isRacing) resetRace();
+            });
+
+            window.addEventListener('resize', () => {
+                if(!isRacing) drawRace();
+            });
+
+            // Init draw
+            drawRace();
+        }
+
+        // ----------------------------------------------------
+        // Quiz & Cheat Sheet Logic
+        // ----------------------------------------------------
+        function initQuizAndDownloads() {
+            const btnCheckAnswers = document.getElementById('btnCheckAnswers');
+            
+            if (btnCheckAnswers) {
+                btnCheckAnswers.addEventListener('click', () => {
+                    // Q1 Check
+                    const q1Ans = document.querySelector('input[name="q1"]:checked');
+                    const q1Feedback = document.getElementById('q1-feedback');
+                    if (q1Ans && q1Feedback) {
+                        q1Feedback.classList.remove('hidden');
+                        if (q1Ans.value === 'b') {
+                            q1Feedback.innerText = "✓ Correct! Torque is proportional to radius (τ = rF sinφ). If r doubles, τ doubles.";
+                            q1Feedback.className = "mt-3 text-sm font-bold text-green-400 block";
+                        } else {
+                            q1Feedback.innerText = "✗ Incorrect. Recall the formula τ = rF sinφ. Try again!";
+                            q1Feedback.className = "mt-3 text-sm font-bold text-red-400 block";
+                        }
+                    }
+
+                    // Q2 Check
+                    const q2Ans = document.querySelector('input[name="q2"]:checked');
+                    const q2Feedback = document.getElementById('q2-feedback');
+                    if (q2Ans && q2Feedback) {
+                        q2Feedback.classList.remove('hidden');
+                        if (q2Ans.value === 'a') {
+                            q2Feedback.innerText = "✓ Correct! The solid cylinder has a lower moment of inertia constant (1/2 vs 1), meaning it requires less rotational kinetic energy, leaving more energy for linear velocity.";
+                            q2Feedback.className = "mt-3 text-sm font-bold text-green-400 block";
+                        } else {
+                            q2Feedback.innerText = "✗ Incorrect. Think about the energy distribution. Which object needs more energy just to spin?";
+                            q2Feedback.className = "mt-3 text-sm font-bold text-red-400 block";
+                        }
+                    }
+                });
+            }
+
+            const btnDownloadCheatSheet = document.getElementById('btnDownloadCheatSheet');
+            if (btnDownloadCheatSheet) {
+                btnDownloadCheatSheet.addEventListener('click', () => {
+                    const text = 
+                        `ROTATIONAL DYNAMICS & ANGULAR ACCELERATION: CHEAT SHEET\n` +
+                        `=======================================================\n\n` +
+                        `01. Kinematics Mapping\n` +
+                        `- Linear Velocity (v) -> Angular Velocity (ω) = dθ/dt\n` +
+                        `- Linear Accel (a) -> Angular Accel (α) = dω/dt\n` +
+                        `- Mass (m) -> Moment of Inertia (I)\n` +
+                        `- Force (F) -> Torque (τ)\n\n` +
+                        `02. Torque (τ)\n` +
+                        `- Vector Cross Product: τ = r × F\n` +
+                        `- Magnitude: τ = r * F * sin(φ)\n` +
+                        `- Newton's 2nd Law for Rotation: τ_net = I * α\n\n` +
+                        `03. Moment of Inertia (I)\n` +
+                        `- Discrete points: I = Σ (m_i * r_i^2)\n` +
+                        `- Continuous bodies: I = ∫ r^2 dm\n` +
+                        `- Parallel Axis Theorem: I = I_cm + M*d^2\n\n` +
+                        `04. Kinetic Energy & Rolling\n` +
+                        `- K_total = 0.5*M*v^2 + 0.5*I*ω^2\n` +
+                        `- Rolling without slipping constraint: v = ω*R\n` +
+                        `- Exam Trick: Objects with mass concentrated at the center (smaller I) roll down inclines faster!\n`;
+                    
+                    const blob = new Blob([text], {type: 'text/plain'});
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'rotational_dynamics_formulas.txt';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+            }
+        }
+
+        // Initialize Everything on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            initTorqueSim();
+            initRaceSim();
+            initQuizAndDownloads();
+        });
+
+    </script>
+</body>
+</html>

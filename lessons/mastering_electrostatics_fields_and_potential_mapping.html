@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mastering Electrostatics: Fields and Potential Mapping</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="apple-touch-icon" href="/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+      options: { ignoreHtmlClass: 'tex2jax_ignore', processHtmlClass: 'tex2jax_process' }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { 
+            brand: { 50: '#f8fafc', 100: '#f1f5f9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e' },
+            positive: '#ef4444', // Red for positive charge
+            negative: '#3b82f6', // Blue for negative charge
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .interactive-canvas-container { position: relative; width: 100%; max-width: 800px; margin: 0 auto; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    canvas { display: block; width: 100%; height: auto; background-color: #0f172a; cursor: crosshair; }
+    
+    .math-block { overflow-x: auto; padding: 1rem 0; }
+    .nav-link { transition: color 0.2s, border-color 0.2s; }
+    .nav-link:hover { color: #0284c7; border-left-color: #0284c7; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-200 selection:text-brand-900">
+
+  <!-- Navigation / Sidebar -->
+  <div class="fixed top-0 left-0 h-full w-64 bg-white border-r border-slate-200 shadow-sm hidden lg:block overflow-y-auto z-20">
+    <div class="p-6">
+      <h2 class="text-xl font-bold text-slate-900 mb-6">Electrostatics</h2>
+      <nav class="space-y-2 text-sm font-medium text-slate-600">
+        <a href="#intro" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">1. Governing Physics</a>
+        <a href="#math-derivations" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">2. Mathematical Derivations</a>
+        <a href="#visualizing-fields" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">3. Field Lines & Equipotentials</a>
+        <a href="#simulation-lab" class="block py-2 px-3 border-l-2 border-brand-600 text-brand-700 bg-brand-50 rounded-r">Interactive Mapping Lab</a>
+        <a href="#continuous-charge" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">4. Continuous Distributions</a>
+        <a href="#problem-solving" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">5. Problem-Solving Strategy</a>
+        <a href="#quiz" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">Knowledge Check</a>
+      </nav>
+      
+      <div class="mt-10 border-t border-slate-100 pt-6">
+        <button id="btnDownloadNotes" class="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white py-2 px-4 rounded transition-colors text-sm font-semibold shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M216,112v96a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V112A16,16,0,0,1,56,96H80a8,8,0,0,1,0,16H56v96H200V112H176a8,8,0,0,1,0-16h24A16,16,0,0,1,216,112ZM122.34,133.66a8,8,0,0,0,11.32,0l48-48a8,8,0,0,0-11.32-11.32L136,108.69V24a8,8,0,0,0-16,0v84.69L85.66,74.34A8,8,0,0,0,74.34,85.66Z"></path></svg>
+          Export Summary
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="lg:ml-64 p-6 md:p-10 lg:p-16 max-w-5xl mx-auto">
+    
+    <header class="mb-12 border-b border-slate-200 pb-8" id="intro">
+      <div class="inline-block bg-brand-100 text-brand-800 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-4">Unit 5</div>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Electrostatic Fields &amp; Potential Mapping</h1>
+      <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
+        A rigorous exploration of stationary electric charges, the vector fields they generate, and the scalar potential contours that map the energy geometry of space.
+      </p>
+    </header>
+
+    <!-- Section 1 -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="bg-brand-600 text-white w-8 h-8 rounded flex items-center justify-center text-sm">1</span>
+        The Governing Physics
+      </h2>
+      <div class="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed space-y-6">
+        <p>
+          Electrostatic systems track forces exerted by stationary electric charges. The fundamental postulate of electrostatics is that <strong>every electric charge modifies the geometry of the space around it</strong>. This modification is not merely a mathematical abstraction, but a physically measurable reality that determines how other charged particles will behave when entering that space.
+        </p>
+        <p>
+          To understand this interaction without relying on "spooky action at a distance," physicists utilize two complementary models to map space:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+          <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+            <h3 class="font-bold text-slate-900 text-xl mb-2 flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-brand-600"></span> The Electric Field ($\vec{E}$)
+            </h3>
+            <p class="text-sm">
+              A <strong>vector field</strong> tracking force per unit charge. It answers the kinematic question: <em>"If I place a test charge here, in what direction and with what magnitude will it be pushed?"</em> It assigns a vector to every point $(x,y,z)$ in space.
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+            <h3 class="font-bold text-slate-900 text-xl mb-2 flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-amber-500"></span> Electric Potential ($V$)
+            </h3>
+            <p class="text-sm">
+              A <strong>scalar field</strong> tracking electrical potential energy per unit charge. It answers the energetic question: <em>"How much work is required to move a charge to this location?"</em> It assigns a single number (magnitude, no direction) to every point in space.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="mb-16" id="math-derivations">
+      <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="bg-brand-600 text-white w-8 h-8 rounded flex items-center justify-center text-sm">2</span>
+        Mathematical Derivations & Field Equations
+      </h2>
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-8 space-y-8">
+          
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 mb-4">Coulomb's Law</h3>
+            <p class="text-slate-700 mb-4">
+              The fundamental force $\vec{F}$ between two point charges $q_1$ and $q_2$ separated by a distance $r$ is an inverse-square law, governed by Coulomb's constant ($k = \frac{1}{4\pi\varepsilon_0}$):
+            </p>
+            <div class="math-block bg-slate-50 rounded-lg flex justify-center border border-slate-100">
+              $$ \vec{F} = \frac{1}{4\pi\varepsilon_0}\frac{q_1 q_2}{r^2}\hat{r} $$
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 mb-4">Vector Superposition of Fields</h3>
+            <p class="text-slate-700 mb-4">
+              The electric field vector $\vec{E}$ generated by a configuration of source charges is found by the linear vector superposition of individual contributions. At a point $P$, the total field is the vector sum:
+            </p>
+            <div class="math-block bg-slate-50 rounded-lg flex justify-center border border-slate-100">
+              $$ \vec{E} = \sum_{i=1}^{n} \frac{1}{4\pi\varepsilon_0}\frac{q_i}{r_i^2}\hat{r}_i $$
+            </div>
+            <p class="text-sm text-slate-500 mt-2 italic">Note: Because $\vec{E}$ is a vector, you must break contributions into orthogonal $x, y, z$ components before summing. Magnitudes cannot simply be added algebraically.</p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2 mb-4">Scalar Potential Integral & The Spatial Gradient</h3>
+            <p class="text-slate-700 mb-4">
+              Because the electrostatic force is entirely conservative (curl $\vec{\nabla} \times \vec{E} = 0$), the work done moving a charge between two points is independent of the path taken. We define the scalar potential difference $\Delta V$ as the negative line integral of the electric field:
+            </p>
+            <div class="math-block bg-slate-50 rounded-lg flex justify-center border border-slate-100">
+              $$ \Delta V = V_2 - V_1 = -\int_{1}^{2} \vec{E} \cdot d\vec{s} $$
+            </div>
+            <p class="text-slate-700 my-4">
+              Conversely, if the scalar potential field $V(x,y,z)$ is known, the vector electric field is precisely the spatial gradient of the potential, pointing in the direction of steepest descent (from high to low potential):
+            </p>
+            <div class="math-block bg-slate-50 rounded-lg flex justify-center border border-slate-100">
+              $$ \vec{E} = -\vec{\nabla}V = -\left(\frac{\partial V}{\partial x}\hat{i} + \frac{\partial V}{\partial y}\hat{j} + \frac{\partial V}{\partial z}\hat{k}\right) $$
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="mb-16" id="visualizing-fields">
+      <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="bg-brand-600 text-white w-8 h-8 rounded flex items-center justify-center text-sm">3</span>
+        Field Lines & Equipotential Contours
+      </h2>
+      <div class="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed mb-8">
+        <p>
+          Visualizing space via diagrams is critical to solving electrostatic problems. The dual concepts of field lines and equipotential lines map perfectly to the dual mathematical constructs of $\vec{E}$ and $V$.
+        </p>
+        <ul class="space-y-3">
+          <li><strong>Electric Field Lines:</strong> Directed trajectories tracking the path a positive, massless test charge would take. They emerge from positive source charges (sources) and terminate on negative ones (sinks). Density of lines indicates field magnitude.</li>
+          <li><strong>Equipotential Lines:</strong> Spatial paths (or 3D surfaces) along which the electric potential $V$ remains perfectly constant. Moving a charge along these lines requires exactly zero work ($W=0$).</li>
+        </ul>
+        
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-lg mt-6 shadow-sm">
+          <h4 class="text-amber-800 font-bold mb-1 text-xl">The Orthogonality Constraint Proof</h4>
+          <p class="text-amber-900 text-base mb-2">
+            Field lines and equipotential lines <strong>must intersect at exactly $90^\circ$ angles everywhere in space</strong>. Why? 
+          </p>
+          <p class="text-amber-900 text-base">
+            Recall the relation $dV = -\vec{E} \cdot d\vec{s}$. If you move a distance $d\vec{s}$ along an equipotential line, the change in potential is zero by definition ($dV = 0$). Therefore, the dot product $-\vec{E} \cdot d\vec{s} = 0$. Since neither the electric field magnitude nor the displacement magnitude is zero, the angle $\theta$ between them must be such that $\cos(\theta) = 0$, meaning $\theta = 90^\circ$.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE SIMULATION -->
+    <section class="mb-16" id="simulation-lab">
+      <div class="bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-800 text-slate-300">
+        <div class="p-6 border-b border-slate-800 bg-slate-950 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256" class="text-brand-500"><path d="M211.9,81.18a113,113,0,0,0-23.08-23.08A111.45,111.45,0,0,0,128,40,111.45,111.45,0,0,0,67.18,58.1A113,113,0,0,0,44.1,81.18,111.45,111.45,0,0,0,26,142a111.45,111.45,0,0,0,18.1,60.82A113,113,0,0,0,67.18,225.9,111.45,111.45,0,0,0,128,244a111.45,111.45,0,0,0,60.82-18.1,113,113,0,0,0,23.08-23.08A111.45,111.45,0,0,0,230,142,111.45,111.45,0,0,0,211.9,81.18ZM186.2,192.51a87.11,87.11,0,0,1-17.76,17.76A85.67,85.67,0,0,1,128,220a85.67,85.67,0,0,1-40.44-9.73A87.11,87.11,0,0,1,69.8,192.51,85.67,85.67,0,0,1,50.07,152.07a85.67,85.67,0,0,1,9.73-40.44A87.11,87.11,0,0,1,77.56,93.87,85.67,85.67,0,0,1,118,84.14v39.38a8,8,0,0,0,12-6.92V62.83a85.67,85.67,0,0,1,38.44,9.73,87.11,87.11,0,0,1,17.76,17.76A85.67,85.67,0,0,1,195.93,130.8a85.67,85.67,0,0,1-9.73,61.71Z"></path></svg>
+              Interactive Field & Potential Mapper
+            </h3>
+            <p class="text-sm text-slate-400 mt-1">Place charges to observe the generated vector fields ($\vec{E}$) and scalar contour lines ($V$). Note the precise $90^\circ$ intersections.</p>
+          </div>
+          <div class="flex gap-2 bg-slate-900 p-1 rounded-lg border border-slate-700">
+             <button id="toolPositive" class="px-4 py-2 rounded-md bg-positive text-white font-bold text-sm shadow transition-all scale-105 border-2 border-white ring-2 ring-positive ring-offset-2 ring-offset-slate-900">
+               +1 nC
+             </button>
+             <button id="toolNegative" class="px-4 py-2 rounded-md bg-slate-800 hover:bg-slate-700 text-negative font-bold text-sm transition-all border-2 border-transparent">
+               -1 nC
+             </button>
+             <button id="toolClear" class="px-3 py-2 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm transition-all ml-2">
+               Clear
+             </button>
+          </div>
+        </div>
+        
+        <div class="relative w-full aspect-[4/3] md:aspect-[21/9]">
+          <canvas id="simCanvas" width="800" height="400" class="absolute inset-0 w-full h-full touch-none"></canvas>
+          <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur border border-slate-700 text-xs px-3 py-2 rounded flex flex-col gap-1 text-slate-300 pointer-events-none">
+            <div class="flex items-center gap-2"><div class="w-3 h-0.5 bg-red-500"></div> Positive Potential ($V > 0$)</div>
+            <div class="flex items-center gap-2"><div class="w-3 h-0.5 bg-blue-500"></div> Negative Potential ($V < 0$)</div>
+            <div class="flex items-center gap-2"><div class="w-3 h-0.5 bg-white/40"></div> Electric Field Vector ($\vec{E}$)</div>
+          </div>
+        </div>
+        
+        <div class="p-4 bg-slate-950 border-t border-slate-800 text-sm flex items-center justify-between">
+          <p class="text-slate-400"><span class="text-white font-bold">Instruction:</span> Click or tap anywhere on the dark canvas above to place the selected charge.</p>
+          <div class="text-right text-xs text-slate-500">Algorithm: Marching Squares / Vector Grid Superposition</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="mb-16" id="continuous-charge">
+      <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="bg-brand-600 text-white w-8 h-8 rounded flex items-center justify-center text-sm">4</span>
+        Continuous Charge Distributions & Gauss's Law
+      </h2>
+      <div class="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed mb-8 space-y-4">
+        <p>
+          When charges are not discrete points but are smeared continuously over lines, surfaces, or volumes, summation $\Sigma$ becomes integration $\int$. We define charge densities: linear ($\lambda = dq/dl$), surface ($\sigma = dq/dA$), and volume ($\rho = dq/dV$).
+        </p>
+        <p>
+          For highly symmetric geometries (infinite lines, infinite sheets, spheres), direct integration is replaced by <strong>Gauss's Law</strong>. Gauss's Law states that the net electric flux ($\Phi_E$) passing through any closed imaginary mathematical boundary (a Gaussian surface) is strictly proportional to the total enclosed charge:
+        </p>
+        <div class="math-block bg-slate-50 rounded-lg flex justify-center border border-slate-100 p-4 shadow-inner">
+          $$ \Phi_E = \oint \vec{E} \cdot d\vec{A} = \frac{Q_{\text{enclosed}}}{\varepsilon_0} $$
+        </div>
+        <p>
+          <strong>The Symmetry Exploit:</strong> If you can choose a Gaussian surface where $\vec{E}$ is constant in magnitude and parallel to $d\vec{A}$ everywhere on the boundary, the integral collapses to $E \cdot A = Q_{\text{in}} / \varepsilon_0$.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 5 -->
+    <section class="mb-16" id="problem-solving">
+      <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="bg-brand-600 text-white w-8 h-8 rounded flex items-center justify-center text-sm">5</span>
+        Problem-Solving Master Strategy
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div class="bg-white p-6 rounded-lg border-t-4 border-t-brand-600 shadow-sm shadow-slate-200">
+          <h3 class="font-bold text-xl mb-3 text-slate-900">For Electric Fields ($\vec{E}$)</h3>
+          <ul class="space-y-3 text-slate-700">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-brand-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span><strong>Vector Superposition:</strong> When calculating $\vec{E}$, you <em>must</em> split your analysis into independent $x$ and $y$ vector components using $\cos\phi$ and $\sin\phi$ trigonometric modifiers.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-brand-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              <span><strong>Warning:</strong> Never add magnitudes directly (e.g., $E_{tot} \neq E_1 + E_2$). Magnitudes must be combined via the Pythagorean theorem.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-brand-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              <span><strong>Symmetry Identification:</strong> Always look for mirror symmetry before calculating. If a positive charge on the left cancels the x-component of a positive charge on the right, you can completely ignore integrating $dE_x$.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg border-t-4 border-t-amber-500 shadow-sm shadow-slate-200">
+          <h3 class="font-bold text-xl mb-3 text-slate-900">For Electric Potential ($V$)</h3>
+          <ul class="space-y-3 text-slate-700">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-amber-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span><strong>Scalar Superposition:</strong> When calculating $V$, add values algebraically ($V = \sum \frac{kq_i}{r_i}$). No trig components required! It is a simple arithmetic sum.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-amber-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              <span><strong>Warning:</strong> You <em>must</em> include the algebraic positive or negative signs of the source charges directly in your sum. A negative charge subtracts from the total potential.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-amber-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              <span><strong>Integration Check:</strong> If integrating $V = \int \frac{k\,dq}{r}$, note that $r$ is often constant for a ring or arc. If $r$ is constant, you can pull it out, leaving $V = \frac{k}{r}\int dq = \frac{kQ_{tot}}{r}$.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="mb-16" id="quiz">
+      <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <span class="bg-brand-600 text-white w-8 h-8 rounded flex items-center justify-center text-sm">?</span>
+        Interactive Knowledge Check
+      </h2>
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 space-y-8" id="quizContainer">
+        
+        <div class="quiz-question" data-answer="2">
+          <p class="font-bold text-lg mb-3">1. Why must electric field lines and equipotential lines intersect at exactly 90 degrees?</p>
+          <div class="space-y-2">
+            <label class="flex items-start gap-3 p-3 rounded border border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="radio" name="q1" value="0" class="mt-1">
+              <span>Because the electric field magnitude drops to zero precisely on an equipotential contour.</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded border border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="radio" name="q1" value="1" class="mt-1">
+              <span>Because Gauss's Law states that flux lines are parallel to surfaces enclosing charge.</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded border border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="radio" name="q1" value="2" class="mt-1">
+              <span>Moving along an equipotential path means $dV=0$. Since $dV = -\vec{E}\cdot d\vec{s}$, the dot product is zero, meaning $\vec{E}$ and $d\vec{s}$ are orthogonal.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-answer="1">
+          <p class="font-bold text-lg mb-3">2. When applying the superposition principle to a system of three point charges:</p>
+          <div class="space-y-2">
+            <label class="flex items-start gap-3 p-3 rounded border border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="radio" name="q2" value="0" class="mt-1">
+              <span>Both the total field $\vec{E}$ and total potential $V$ must be calculated by breaking contributions into $x$ and $y$ trigonometric components.</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded border border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="radio" name="q2" value="1" class="mt-1">
+              <span>The electric field $\vec{E}$ requires vector components, but the electric potential $V$ is a simple algebraic sum of scalar values.</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded border border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="radio" name="q2" value="2" class="mt-1">
+              <span>The potential $V$ is found by vector addition, while $\vec{E}$ is an algebraic sum of magnitudes.</span>
+            </label>
+          </div>
+        </div>
+
+        <button id="btnSubmitQuiz" class="bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-6 rounded-lg transition-colors w-full sm:w-auto">
+          Check Answers
+        </button>
+        <div id="quizResults" class="hidden font-bold text-lg p-4 rounded-lg"></div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // --- 1. QUIZ LOGIC (With Safeguards) ---
+    const btnSubmitQuiz = document.getElementById('btnSubmitQuiz');
+    const quizResults = document.getElementById('quizResults');
+    const quizContainer = document.getElementById('quizContainer');
+
+    if (btnSubmitQuiz && quizResults && quizContainer) {
+      btnSubmitQuiz.addEventListener('click', () => {
+        const questions = quizContainer.querySelectorAll('.quiz-question');
+        let score = 0;
+        let total = questions.length;
+
+        questions.forEach((q, index) => {
+          const inputs = q.querySelectorAll('input[type="radio"]');
+          const correctAnswer = q.getAttribute('data-answer');
+          let selected = null;
+          
+          inputs.forEach(input => {
+            input.parentElement.classList.remove('bg-red-50', 'border-red-300', 'bg-green-50', 'border-green-300');
+            if (input.checked) selected = input;
+          });
+
+          if (selected) {
+            if (selected.value === correctAnswer) {
+              score++;
+              selected.parentElement.classList.add('bg-green-50', 'border-green-300');
+            } else {
+              selected.parentElement.classList.add('bg-red-50', 'border-red-300');
+              // Highlight correct answer
+              inputs.forEach(input => {
+                if(input.value === correctAnswer) input.parentElement.classList.add('bg-green-50', 'border-green-300');
+              });
+            }
+          }
+        });
+
+        quizResults.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
+        if (score === total) {
+          quizResults.classList.add('bg-green-100', 'text-green-800');
+          quizResults.innerText = `Perfect! You scored ${score}/${total}. Your understanding is solid.`;
+        } else {
+          quizResults.classList.add('bg-red-100', 'text-red-800');
+          quizResults.innerText = `You scored ${score}/${total}. Review the highlighted answers and the text above.`;
+        }
+      });
+    }
+
+    // --- 2. EXPORT FUNCTIONALITY (With Safeguards) ---
+    const btnDownloadNotes = document.getElementById('btnDownloadNotes');
+    if (btnDownloadNotes) {
+      btnDownloadNotes.addEventListener('click', () => {
+        const text = 
+          `MASTERING ELECTROSTATICS: CORE FORMULAS & PRINCIPLES\n` +
+          `====================================================\n\n` +
+          `[Coulomb's Law - Force between two charges]\n` +
+          `F = (1 / 4*pi*e_0) * (q1*q2 / r^2) * r_hat\n\n` +
+          `[Electric Field - Vector Field]\n` +
+          `E = Sum [ (1 / 4*pi*e_0) * (q_i / r_i^2) * r_hat_i ]\n` +
+          `* STRATEGY: Must use vector addition (x and y components).\n\n` +
+          `[Electric Potential Difference - Work Integral]\n` +
+          `delta_V = - Integral(E dot ds)\n\n` +
+          `[Electric Potential - Scalar Field for Point Charges]\n` +
+          `V = Sum [ (1 / 4*pi*e_0) * (q_i / r_i) ]\n` +
+          `* STRATEGY: Simple algebraic sum. Include signs (+ or -) of charges directly.\n\n` +
+          `[Field from Potential - The Spatial Gradient]\n` +
+          `E = - Grad(V) = -(dV/dx i + dV/dy j + dV/dz k)\n\n` +
+          `[Orthogonality Constraint]\n` +
+          `Electric field lines and equipotential lines MUST intersect at exactly 90 degrees everywhere in space.\n`;
+        
+        const blob = new Blob([text], {type: 'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'electrostatics_formulas.txt';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    // --- 3. INTERACTIVE CANVAS LAB: VECTOR FIELDS & EQUIPOTENTIALS ---
+    const canvas = document.getElementById('simCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      const toolPositive = document.getElementById('toolPositive');
+      const toolNegative = document.getElementById('toolNegative');
+      const toolClear = document.getElementById('toolClear');
+
+      // State
+      let charges = [];
+      let currentTool = 1; // 1 for positive, -1 for negative
+      
+      // Constants
+      const K = 1000; // Visual scaling constant for k*q
+
+      // Configuration for rendering
+      let width = canvas.width;
+      let height = canvas.height;
+
+      // Handle Resize for Responsiveness
+      function resizeCanvas() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        width = canvas.width;
+        height = canvas.height;
+        drawEnvironment();
+      }
+      
+      // Initialization
+      window.addEventListener('resize', resizeCanvas);
+      // Wait a moment for DOM to settle then resize
+      setTimeout(resizeCanvas, 100);
+
+      // UI Listeners
+      if (toolPositive && toolNegative && toolClear) {
+        toolPositive.addEventListener('click', () => {
+          currentTool = 1;
+          toolPositive.classList.add('scale-105', 'border-white', 'ring-2');
+          toolPositive.classList.remove('border-transparent');
+          toolNegative.classList.remove('scale-105', 'border-white', 'ring-2');
+          toolNegative.classList.add('border-transparent');
+        });
+        toolNegative.addEventListener('click', () => {
+          currentTool = -1;
+          toolNegative.classList.add('scale-105', 'border-white', 'ring-2');
+          toolNegative.classList.remove('border-transparent');
+          toolPositive.classList.remove('scale-105', 'border-white', 'ring-2');
+          toolPositive.classList.add('border-transparent');
+        });
+        toolClear.addEventListener('click', () => {
+          charges = [];
+          drawEnvironment();
+        });
+      }
+
+      canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        charges.push({ x, y, q: currentTool });
+        drawEnvironment();
+      });
+
+      // Physics Engine
+      function getPotential(x, y) {
+        let v = 0;
+        for (const c of charges) {
+          const dx = x - c.x;
+          const dy = y - c.y;
+          const r = Math.sqrt(dx * dx + dy * dy);
+          // Clamp r to avoid singularity infinities blowing up the renderer
+          const clampedR = Math.max(r, 2.0); 
+          v += (K * c.q) / clampedR;
+        }
+        return v;
+      }
+
+      function getField(x, y) {
+        let ex = 0;
+        let ey = 0;
+        for (const c of charges) {
+          const dx = x - c.x;
+          const dy = y - c.y;
+          const r2 = dx * dx + dy * dy;
+          const r = Math.sqrt(r2);
+          if (r < 2.0) continue; // Singularity check
+          
+          // E = k * q / r^2
+          const eMag = (K * c.q) / r2; 
+          
+          // Components: E_x = E * (dx / r)
+          ex += eMag * (dx / r);
+          ey += eMag * (dy / r);
+        }
+        return { ex, ey };
+      }
+
+      // Rendering Engine
+      function drawEnvironment() {
+        ctx.clearRect(0, 0, width, height);
+        
+        if (charges.length === 0) {
+          ctx.fillStyle = '#1e293b';
+          ctx.font = '14px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('Click to add charges and view the field map.', width/2, height/2);
+          return;
+        }
+
+        // 1. Render Vector Field (Arrows)
+        drawVectorGrid();
+
+        // 2. Render Equipotential Lines (Marching Squares)
+        drawEquipotentials();
+
+        // 3. Render Charges
+        drawCharges();
+      }
+
+      function drawVectorGrid() {
+        const gridSize = 30; // Grid cell size in pixels
+        const arrowLen = 12; // Base length of arrow
+        
+        for (let y = gridSize/2; y < height; y += gridSize) {
+          for (let x = gridSize/2; x < width; x += gridSize) {
+            const field = getField(x, y);
+            const mag = Math.sqrt(field.ex * field.ex + field.ey * field.ey);
+            if (mag < 0.01) continue;
+
+            const angle = Math.atan2(field.ey, field.ex);
+            
+            // Normalize arrow magnitude for clarity, but map opacity to field strength
+            const opacity = Math.min(1.0, 0.2 + (mag * 3));
+            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx.lineWidth = 1;
+
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            // Draw shaft
+            ctx.beginPath();
+            ctx.moveTo(-arrowLen/2, 0);
+            ctx.lineTo(arrowLen/2, 0);
+            ctx.stroke();
+            
+            // Draw head
+            ctx.beginPath();
+            ctx.moveTo(arrowLen/2, 0);
+            ctx.lineTo(arrowLen/2 - 3, -3);
+            ctx.lineTo(arrowLen/2 - 3, 3);
+            ctx.fill();
+            
+            ctx.restore();
+          }
+        }
+      }
+
+      function drawEquipotentials() {
+        // Implementation of Marching Squares for scalar contours
+        const res = 10; // Resolution of marching squares grid
+        const cols = Math.floor(width / res) + 1;
+        const rows = Math.floor(height / res) + 1;
+        
+        // Compute scalar field grid
+        const vGrid = new Array(cols).fill(0).map(() => new Float32Array(rows));
+        for (let i = 0; i < cols; i++) {
+          for (let j = 0; j < rows; j++) {
+            vGrid[i][j] = getPotential(i * res, j * res);
+          }
+        }
+
+        // Iso-levels to draw lines for (potential values)
+        const levels = [];
+        for(let v = -100; v <= 100; v += 10) {
+          if (Math.abs(v) > 0.1) levels.push(v);
+        }
+
+        // Linear interpolation helper
+        function lerp(val1, val2, coord1, coord2, isoVal) {
+          if (Math.abs(val1 - val2) < 0.00001) return coord1;
+          return coord1 + (coord2 - coord1) * ((isoVal - val1) / (val2 - val1));
+        }
+
+        for (const iso of levels) {
+          // Color based on sign
+          ctx.strokeStyle = iso > 0 ? `rgba(239, 68, 68, 0.4)` : `rgba(59, 130, 246, 0.4)`;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+
+          for (let i = 0; i < cols - 1; i++) {
+            for (let j = 0; j < rows - 1; j++) {
+              let x = i * res;
+              let y = j * res;
+              
+              // Node values
+              let tl = vGrid[i][j];
+              let tr = vGrid[i+1][j];
+              let br = vGrid[i+1][j+1];
+              let bl = vGrid[i][j+1];
+
+              // State calculation (4-bit int)
+              let state = 0;
+              if (tl >= iso) state |= 8;
+              if (tr >= iso) state |= 4;
+              if (br >= iso) state |= 2;
+              if (bl >= iso) state |= 1;
+
+              // Edges interpolated coordinates
+              let topX = lerp(tl, tr, x, x + res, iso);
+              let rightY = lerp(tr, br, y, y + res, iso);
+              let bottomX = lerp(bl, br, x, x + res, iso);
+              let leftY = lerp(tl, bl, y, y + res, iso);
+
+              // Draw segments based on state
+              switch (state) {
+                case 1: ctx.moveTo(bottomX, y + res); ctx.lineTo(x, leftY); break;
+                case 2: ctx.moveTo(x + res, rightY); ctx.lineTo(bottomX, y + res); break;
+                case 3: ctx.moveTo(x + res, rightY); ctx.lineTo(x, leftY); break;
+                case 4: ctx.moveTo(topX, y); ctx.lineTo(x + res, rightY); break;
+                case 5: 
+                  ctx.moveTo(topX, y); ctx.lineTo(x, leftY); 
+                  ctx.moveTo(x + res, rightY); ctx.lineTo(bottomX, y + res); 
+                  break;
+                case 6: ctx.moveTo(topX, y); ctx.lineTo(bottomX, y + res); break;
+                case 7: ctx.moveTo(topX, y); ctx.lineTo(x, leftY); break;
+                case 8: ctx.moveTo(x, leftY); ctx.lineTo(topX, y); break;
+                case 9: ctx.moveTo(bottomX, y + res); ctx.lineTo(topX, y); break;
+                case 10: 
+                  ctx.moveTo(x, leftY); ctx.lineTo(bottomX, y + res);
+                  ctx.moveTo(topX, y); ctx.lineTo(x + res, rightY);
+                  break;
+                case 11: ctx.moveTo(x + res, rightY); ctx.lineTo(topX, y); break;
+                case 12: ctx.moveTo(x, leftY); ctx.lineTo(x + res, rightY); break;
+                case 13: ctx.moveTo(x + res, rightY); ctx.lineTo(bottomX, y + res); break;
+                case 14: ctx.moveTo(bottomX, y + res); ctx.lineTo(x, leftY); break;
+                // Cases 0 and 15 do nothing (all below or all above)
+              }
+            }
+          }
+          ctx.stroke();
+        }
+      }
+
+      function drawCharges() {
+        for (const c of charges) {
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, 8, 0, Math.PI * 2);
+          ctx.fillStyle = c.q > 0 ? '#ef4444' : '#3b82f6';
+          ctx.fill();
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          // Sign inside circle
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(c.q > 0 ? '+' : '-', c.x, c.y);
+        }
+      }
+
+      // Initial clear text
+      drawEnvironment();
+    }
+  </script>
+</body>
+</html>
