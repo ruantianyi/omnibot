@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Anthocyan AI: Interactive Physics and Mathematics Lessons library.">
+    <title>Anthocyan AI — Interactive Lessons Library</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+        }
+        
+        /* Glassmorphism custom classes */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.15);
+            background: rgba(15, 23, 42, 0.65);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col relative overflow-x-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950/80">
+    <!-- Aurora background glows -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 px-4 py-4 md:px-8 border-b border-slate-900/60 bg-slate-950/65 backdrop-blur-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-lg shadow-teal-500/30 bg-white/10">
+                    <img src="logo.png" alt="Anthocyan AI Logo" class="w-9 h-9 object-contain" />
+                </div>
+                <div>
+                    <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">ANTHOCYAN AI</span>
+                    <span class="text-[9px] block text-indigo-400 font-bold uppercase tracking-widest leading-none">AI Ecosystem</span>
+                </div>
+            </a>
+
+            <!-- Nav Actions -->
+            <div class="flex items-center gap-4">
+                <a href="7.0.html" class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 text-sm font-bold transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left text-xs"></i> Return to Workspace
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-12 md:py-16 relative z-10">
+        <!-- Title/Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest rounded-full">
+                <i class="fa-solid fa-graduation-cap"></i> Interactive Learning suite
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">
+                Anthocyan AI Lessons Library
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg">
+                Explore beautifully visualized, interactive, and advanced physics and math coursewares built to help you master complex scientific mechanics.
+            </p>
+        </div>
+
+        <!-- Lessons Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            
+            <!-- Lesson 1: Elliptical Orbits -->
+            <a href="lessons/elliptical_orbits_physics.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-circle-notch animate-spin-slow"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-teal-400 transition-colors">
+                            The Physics of Elliptical Orbits
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            An interactive textbook detailing Keplerian orbits, orbital velocity, eccentricity, and gravity well physics.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-teal-400 font-bold uppercase tracking-wider">
+                    <span>Launch Textbook</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 2: Quantum Foundations -->
+            <a href="lessons/quantum_mechanics_lesson.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-atom"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-purple-400 transition-colors">
+                            Quantum Foundations
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Learn wave-particle duality, double-slit interference, probability distributions, and core quantum state physics.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-purple-400 font-bold uppercase tracking-wider">
+                    <span>Explore Quantum</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 3: Relativity Explorer -->
+            <a href="lessons/relativity_explorer_special_relativity_lesson.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-amber-400 transition-colors">
+                            Relativity Explorer
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Discover spacetime, time dilation, length contraction, and Lorentz transformations via interactive models.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-amber-400 font-bold uppercase tracking-wider">
+                    <span>Enter Spacetime</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 4: Electromagnetic Induction -->
+            <a href="lessons/electromagnetic_induction_masterclass.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors">
+                            Electromagnetic Induction
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Masterclass on Faraday's Law, Lenz's Law, magnetic flux, and induced currents in closed circuit coils.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-blue-400 font-bold uppercase tracking-wider">
+                    <span>Start Masterclass</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 5: Fluid Dynamics -->
+            <a href="lessons/fluid_dynamics_bernoulli.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-water"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-cyan-400 transition-colors">
+                            Fluid Dynamics &amp; Bernoulli
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Interactive guide modeling pressure differentials, fluid speed, continuity equations, and lift mechanics.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-cyan-400 font-bold uppercase tracking-wider">
+                    <span>Study Fluids</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 6: Rotational Dynamics -->
+            <a href="lessons/interactive_guide_to_rotational_dynamics_angular_acceleration.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-arrows-spin"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-rose-400 transition-colors">
+                            Rotational Dynamics
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Dive into angular velocity, rotational inertia, torque, and angular momentum equations with live plotting.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-rose-400 font-bold uppercase tracking-wider">
+                    <span>Launch Rotational</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 7: Electrostatics -->
+            <a href="lessons/mastering_electrostatics_fields_and_potential_mapping.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
+                            Mastering Electrostatics
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Visualize electric fields, equipotential contour maps, Coulomb forces, and point charge field configurations.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-emerald-400 font-bold uppercase tracking-wider">
+                    <span>Map Fields</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-xs text-slate-500 border-t border-slate-900/60 mt-12 bg-slate-950/20">
+        <p>&copy; 2026 Anthocyan AI Ecosystem. All rights reserved.</p>
+    </footer>
+</body>
+</html>
