@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniBot 6.4 Workspace — Futuristic AI Suite</title>
+    <title>Anthocyan AI 6.4 Workspace — Futuristic AI Suite</title>
     <link rel="manifest" href="manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -377,7 +377,7 @@
                 <button onclick="closeSettings()"
                     class="absolute top-4 right-4 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition"><i
                         class="fa-solid fa-xmark text-lg"></i></button>
-                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1"><i class="fa-solid fa-gear text-indigo-600 dark:text-indigo-400 mr-2"></i>Omnibot Settings</h2>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1"><i class="fa-solid fa-gear text-indigo-600 dark:text-indigo-400 mr-2"></i>Anthocyan AI Settings</h2>
                 <p class="text-xs text-slate-550 dark:text-slate-400 mb-5 font-sans">Manage your workspace preferences.</p>
 
                 <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar font-sans text-left">
@@ -450,7 +450,7 @@
                 <div>
                     <div class="flex items-center gap-2 flex-wrap">
                         <span
-                            class="font-extrabold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 dark:from-white dark:via-indigo-200 dark:to-indigo-400">OMNIBOT
+                            class="font-extrabold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-800 dark:from-white dark:via-indigo-200 dark:to-indigo-400">ANTHOCYAN AI
                             6.4</span>
                         <span id="engine-mode-badge"
                             class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 border border-emerald-200 dark:text-emerald-400 dark:bg-emerald-500/10 dark:border-emerald-500/20 rounded-full flex items-center gap-1.5 shadow-sm">
@@ -643,7 +643,7 @@
                             </div>
                             <div
                                 class="bg-slate-50/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-slate-200/40 dark:border-slate-800/40 shadow-inner">
-                                Welcome to <strong class="text-indigo-600 dark:text-indigo-300">OmniBot 6.4
+                                Welcome to <strong class="text-indigo-600 dark:text-indigo-300">Anthocyan AI 6.4
                                     Nexus</strong> — the most advanced offline AI suite yet. 🚀<br><br>Powered by an
                                 expanded knowledge graph, a procedural creative fiction engine, and real Math.js
                                 calculus. Add an API key in settings to unlock the full live hybrid engine.
@@ -1602,7 +1602,7 @@
 
         <footer
             class="mt-auto border-t border-slate-900 bg-slate-50 dark:bg-slate-950 px-4 py-4 md:px-8 text-center text-xs text-slate-400 dark:text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p>&copy; 2026 OmniBot AI Suite. Crafted with client-side mathematical and linguistic compilers.</p>
+            <p>&copy; 2026 Anthocyan AI AI Suite. Crafted with client-side mathematical and linguistic compilers.</p>
             <div class="flex gap-4">
                 <span class="flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> Hybrid Engine
                     Active</span>
@@ -1648,7 +1648,7 @@
                     regression: regressionDataset,
                     uploadedFiles: UPLOADED_FILES
                 };
-                localStorage.setItem('omnibot_v6_state', JSON.stringify(state));
+                localStorage.setItem('anthocyan_v6_state', JSON.stringify(state));
 
                 // Auto update active chat in history
                 if (window.currentChatId && typeof updateActiveChatInStorage === 'function') {
@@ -1657,7 +1657,7 @@
             }
 
             function loadState() {
-                const saved = localStorage.getItem('omnibot_v6_state');
+                const saved = localStorage.getItem('anthocyan_v6_state');
                 if (saved) {
                     try {
                         const state = JSON.parse(saved);
@@ -1695,12 +1695,12 @@
 
             function exportHistory() {
                 saveState();
-                const state = localStorage.getItem('omnibot_v6_state') || "{}";
+                const state = localStorage.getItem('anthocyan_v6_state') || "{}";
                 const blob = new Blob([state], { type: "application/json" });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `OmniBot_Session_Backup_${new Date().toISOString().split('T')[0]}.json`;
+                a.download = `Anthocyan AI_Session_Backup_${new Date().toISOString().split('T')[0]}.json`;
                 a.click();
                 URL.revokeObjectURL(url);
                 showToast("Session Backup Exported to Desktop!");
@@ -1714,7 +1714,7 @@
                     try {
                         const content = e.target.result;
                         JSON.parse(content);
-                        localStorage.setItem('omnibot_v6_state', content);
+                        localStorage.setItem('anthocyan_v6_state', content);
                         loadState();
                         updateMemoryUI();
                         showToast("Session Restored Successfully!");
@@ -1790,7 +1790,7 @@
                         return;
                     }
                     // Clear history
-                    localStorage.removeItem('omnibot_v6_state');
+                    localStorage.removeItem('anthocyan_v6_state');
                     chatMemory = { messages: [], messageCount: 0, topic: "" };
                     const chatMessagesEl = document.getElementById('chat-messages');
                     if (chatMessagesEl) chatMessagesEl.innerHTML = '';
@@ -2844,7 +2844,7 @@
 
                 let essayHTML = `<div class="mb-8">`;
                 essayHTML += `<h2 class="text-3xl font-extrabold text-white mb-2 tracking-tight uppercase">${cleanTopicTitle}</h2>`;
-                essayHTML += `<p class="text-indigo-600 dark:text-indigo-400 font-mono text-sm tracking-wider uppercase mb-6"><i class="fa-solid fa-server mr-2"></i>Generated via OmniBot AI Engine</p></div>`;
+                essayHTML += `<p class="text-indigo-600 dark:text-indigo-400 font-mono text-sm tracking-wider uppercase mb-6"><i class="fa-solid fa-server mr-2"></i>Generated via Anthocyan AI AI Engine</p></div>`;
 
                 let introHtml = INTRO_TEMPLATES[Math.floor(Math.random() * INTRO_TEMPLATES.length)].replace(/\{TOPIC\}/g, cleanTopicInline);
                 let paragraphsHTML = introHtml;
@@ -2939,7 +2939,7 @@
 
                 let storyHTML = `<div class="mb-8">`;
                 storyHTML += `<h2 class="text-4xl font-extrabold text-slate-800 dark:text-slate-100 mb-2 tracking-tight uppercase" style="font-family: 'Space Grotesk', sans-serif;">${title}</h2>`;
-                storyHTML += `<p class="text-indigo-600 dark:text-indigo-400 font-mono text-xs tracking-wider uppercase mb-6"><i class="fa-solid fa-book-open mr-2"></i>A Procedural ${genre.toUpperCase()} Narrative generated by OmniBot</p></div>`;
+                storyHTML += `<p class="text-indigo-600 dark:text-indigo-400 font-mono text-xs tracking-wider uppercase mb-6"><i class="fa-solid fa-book-open mr-2"></i>A Procedural ${genre.toUpperCase()} Narrative generated by Anthocyan AI</p></div>`;
 
                 let paragraphsHTML = "";
                 
@@ -3029,7 +3029,7 @@
 
                             let firstWordMatch = trimmed.match(/^[A-Za-z]+/);
                             let firstWord = firstWordMatch ? firstWordMatch[0] : "";
-                            let preserveCaps = ["I", "OmniBot", "Omnibot", "Math", "AI", "API"].includes(firstWord);
+                            let preserveCaps = ["I", "Anthocyan AI", "Anthocyan AI", "Math", "AI", "API"].includes(firstWord);
                             
                             if (hook) {
                                 trimmed = hook + (preserveCaps ? trimmed : trimmed.charAt(0).toLowerCase() + trimmed.slice(1));
@@ -3204,7 +3204,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `OmniBot_Humanized_${new Date().getTime()}.txt`;
+                a.download = `Anthocyan AI_Humanized_${new Date().getTime()}.txt`;
                 a.click();
                 URL.revokeObjectURL(url);
                 showToast("Exported as .TXT!");
@@ -3219,7 +3219,7 @@
                 showToast("Generating PDF... Please wait.");
                 const opt = {
                     margin: 0.5,
-                    filename: `OmniBot_Humanized_${new Date().getTime()}.pdf`,
+                    filename: `Anthocyan AI_Humanized_${new Date().getTime()}.pdf`,
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2 },
                     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -3474,7 +3474,7 @@
 
                 if (intent === "GREETING") {
                     setCognitiveMode('CONVERSATIONAL');
-                    return humanizeHTMLSafe("Hello! I am OmniBot 6.2. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
+                    return humanizeHTMLSafe("Hello! I am Anthocyan AI 6.2. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
                 }
 
                 // Removed the old CHITCHAT fallback rejection. 
@@ -3561,7 +3561,7 @@
             }
 
             async function processQueryOnGemini(userQuery, customSystemPrompt = null) {
-                const systemPrompt = customSystemPrompt || `You are OmniBot, a highly advanced educational virtual assistant. The user is under 18 years old, so you must provide highly academic, safe, clean, healthy, and sophisticated responses. Under no circumstances should you generate suggestive, harmful, violent, or drug-related content. Always use clean LaTeX notation ($...$ and $$...$$) for equations. Provide deep, thorough analyses with absolutely no fluff.`;
+                const systemPrompt = customSystemPrompt || `You are Anthocyan AI, a highly advanced educational virtual assistant. The user is under 18 years old, so you must provide highly academic, safe, clean, healthy, and sophisticated responses. Under no circumstances should you generate suggestive, harmful, violent, or drug-related content. Always use clean LaTeX notation ($...$ and $$...$$) for equations. Provide deep, thorough analyses with absolutely no fluff.`;
 
                 let url = "";
                 let headers = { "Content-Type": "application/json" };
@@ -3747,7 +3747,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `OmniBot_Essay_${new Date().getTime()}.txt`;
+                a.download = `Anthocyan AI_Essay_${new Date().getTime()}.txt`;
                 a.click();
                 URL.revokeObjectURL(url);
                 showToast("Exported as .TXT!");
@@ -3762,7 +3762,7 @@
                 showToast("Generating PDF... Please wait.");
                 const opt = {
                     margin: 0.5,
-                    filename: `OmniBot_Essay_${new Date().getTime()}.pdf`,
+                    filename: `Anthocyan AI_Essay_${new Date().getTime()}.pdf`,
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2 },
                     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -4954,7 +4954,7 @@
                 URL.revokeObjectURL(url);
             }
 
-            // --- OmniBot 6.4 History Features Controller ---
+            // --- Anthocyan AI 6.4 History Features Controller ---
             window.currentChatId = null;
 
             function generateUUID() {
@@ -4967,10 +4967,10 @@
                 // 1. Chat Initializer
                 let chats = [];
                 try {
-                    chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+                    chats = JSON.parse(localStorage.getItem('anthocyan_chats') || '[]');
                 } catch (e) { chats = []; }
 
-                let lastChatId = localStorage.getItem('omnibot_current_chat_id');
+                let lastChatId = localStorage.getItem('anthocyan_current_chat_id');
                 if (chats.length === 0) {
                     // Initialize default first chat
                     const newChat = {
@@ -4981,9 +4981,9 @@
                         messageCount: chatMemory.messageCount || 0
                     };
                     chats.push(newChat);
-                    localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+                    localStorage.setItem('anthocyan_chats', JSON.stringify(chats));
                     window.currentChatId = newChat.id;
-                    localStorage.setItem('omnibot_current_chat_id', newChat.id);
+                    localStorage.setItem('anthocyan_current_chat_id', newChat.id);
                 } else {
                     if (lastChatId && chats.some(c => c.id === lastChatId)) {
                         window.currentChatId = lastChatId;
@@ -5010,7 +5010,7 @@
                 if (!window.currentChatId) return;
                 let chats = [];
                 try {
-                    chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+                    chats = JSON.parse(localStorage.getItem('anthocyan_chats') || '[]');
                 } catch (e) { chats = []; }
                 const idx = chats.findIndex(c => c.id === window.currentChatId);
                 if (idx !== -1) {
@@ -5026,7 +5026,7 @@
                             chats[idx].name = firstMsgText.substring(0, 32) + (firstMsgText.length > 32 ? "..." : "");
                         }
                     }
-                    localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+                    localStorage.setItem('anthocyan_chats', JSON.stringify(chats));
                     renderChatsList();
                 }
             }
@@ -5036,7 +5036,7 @@
                 if (!container) return;
                 let chats = [];
                 try {
-                    chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+                    chats = JSON.parse(localStorage.getItem('anthocyan_chats') || '[]');
                 } catch (e) { chats = []; }
 
                 if (chats.length === 0) {
@@ -5065,7 +5065,7 @@
 
                 let chats = [];
                 try {
-                    chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+                    chats = JSON.parse(localStorage.getItem('anthocyan_chats') || '[]');
                 } catch (e) { chats = []; }
                 const newChat = {
                     id: generateUUID(),
@@ -5077,16 +5077,16 @@
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div class="bg-slate-50/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-slate-200/40 dark:border-slate-800/40 shadow-inner">
-                            Welcome to <strong class="text-indigo-600 dark:text-indigo-300">OmniBot 6.4 Nexus</strong> — this is a clean new workspace session. 🚀<br><br>Ask memory queries, draw plots, or solve equations.
+                            Welcome to <strong class="text-indigo-600 dark:text-indigo-300">Anthocyan AI 6.4 Nexus</strong> — this is a clean new workspace session. 🚀<br><br>Ask memory queries, draw plots, or solve equations.
                         </div>
                     </div>
                 `,
                     messageCount: 0
                 };
                 chats.unshift(newChat);
-                localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+                localStorage.setItem('anthocyan_chats', JSON.stringify(chats));
                 window.currentChatId = newChat.id;
-                localStorage.setItem('omnibot_current_chat_id', newChat.id);
+                localStorage.setItem('anthocyan_current_chat_id', newChat.id);
 
                 loadChat(newChat.id);
                 showToast("New Chat Session Started!");
@@ -5094,10 +5094,10 @@
 
             function loadChat(chatId) {
                 window.currentChatId = chatId;
-                localStorage.setItem('omnibot_current_chat_id', chatId);
+                localStorage.setItem('anthocyan_current_chat_id', chatId);
                 let chats = [];
                 try {
-                    chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+                    chats = JSON.parse(localStorage.getItem('anthocyan_chats') || '[]');
                 } catch (e) { chats = []; }
                 const chat = chats.find(c => c.id === chatId);
                 if (chat) {
@@ -5116,7 +5116,7 @@
                 if (event) event.stopPropagation();
                 let chats = [];
                 try {
-                    chats = JSON.parse(localStorage.getItem('omnibot_chats') || '[]');
+                    chats = JSON.parse(localStorage.getItem('anthocyan_chats') || '[]');
                 } catch (e) { chats = []; }
                 if (chats.length <= 1) {
                     showToast("Cannot delete the only remaining session. Reset instead!");
@@ -5125,11 +5125,11 @@
                 if (!confirm("Delete this conversation session permanently?")) return;
 
                 chats = chats.filter(c => c.id !== chatId);
-                localStorage.setItem('omnibot_chats', JSON.stringify(chats));
+                localStorage.setItem('anthocyan_chats', JSON.stringify(chats));
 
                 if (window.currentChatId === chatId) {
                     window.currentChatId = chats[0].id;
-                    localStorage.setItem('omnibot_current_chat_id', chats[0].id);
+                    localStorage.setItem('anthocyan_current_chat_id', chats[0].id);
                     loadChat(window.currentChatId);
                 } else {
                     renderChatsList();
@@ -5141,7 +5141,7 @@
             function saveGeneratedDocument(title, content, type) {
                 let docs = [];
                 try {
-                    docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+                    docs = JSON.parse(localStorage.getItem('anthocyan_documents') || '[]');
                 } catch (e) { docs = []; }
 
                 const newDoc = {
@@ -5152,7 +5152,7 @@
                     date: new Date().toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                 };
                 docs.unshift(newDoc);
-                localStorage.setItem('omnibot_documents', JSON.stringify(docs));
+                localStorage.setItem('anthocyan_documents', JSON.stringify(docs));
                 renderDocumentsList();
             }
 
@@ -5161,7 +5161,7 @@
                 if (containers.length === 0) return;
                 let docs = [];
                 try {
-                    docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+                    docs = JSON.parse(localStorage.getItem('anthocyan_documents') || '[]');
                 } catch (e) { docs = []; }
 
                 let htmlStr = '';
@@ -5188,7 +5188,7 @@
             function previewDocument(docId) {
                 let docs = [];
                 try {
-                    docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+                    docs = JSON.parse(localStorage.getItem('anthocyan_documents') || '[]');
                 } catch (e) { docs = []; }
                 const doc = docs.find(d => d.id === docId);
                 if (!doc) return;
@@ -5217,10 +5217,10 @@
                 if (!confirm("Permanently delete this saved document from list?")) return;
                 let docs = [];
                 try {
-                    docs = JSON.parse(localStorage.getItem('omnibot_documents') || '[]');
+                    docs = JSON.parse(localStorage.getItem('anthocyan_documents') || '[]');
                 } catch (e) { docs = []; }
                 docs = docs.filter(d => d.id !== docId);
-                localStorage.setItem('omnibot_documents', JSON.stringify(docs));
+                localStorage.setItem('anthocyan_documents', JSON.stringify(docs));
                 renderDocumentsList();
                 showToast("Document deleted.");
             }
@@ -5237,7 +5237,7 @@
 
                 let models = [];
                 try {
-                    models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+                    models = JSON.parse(localStorage.getItem('anthocyan_ml_models') || '[]');
                 } catch (e) { models = []; }
 
                 const vocabCount = Object.keys(trainedMarkovChain).length > 0
@@ -5254,7 +5254,7 @@
                 };
 
                 models.unshift(newModel);
-                localStorage.setItem('omnibot_ml_models', JSON.stringify(models));
+                localStorage.setItem('anthocyan_ml_models', JSON.stringify(models));
                 renderModelsList();
                 showToast(`Model "${name}" successfully saved!`);
             }
@@ -5264,7 +5264,7 @@
                 if (!container) return;
                 let models = [];
                 try {
-                    models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+                    models = JSON.parse(localStorage.getItem('anthocyan_ml_models') || '[]');
                 } catch (e) { models = []; }
 
                 if (models.length === 0) {
@@ -5290,7 +5290,7 @@
             function loadModel(modelId) {
                 let models = [];
                 try {
-                    models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+                    models = JSON.parse(localStorage.getItem('anthocyan_ml_models') || '[]');
                 } catch (e) { models = []; }
                 const model = models.find(m => m.id === modelId);
                 if (model) {
@@ -5318,10 +5318,10 @@
                 if (!confirm("Permanently delete this saved model configuration?")) return;
                 let models = [];
                 try {
-                    models = JSON.parse(localStorage.getItem('omnibot_ml_models') || '[]');
+                    models = JSON.parse(localStorage.getItem('anthocyan_ml_models') || '[]');
                 } catch (e) { models = []; }
                 models = models.filter(m => m.id !== modelId);
-                localStorage.setItem('omnibot_ml_models', JSON.stringify(models));
+                localStorage.setItem('anthocyan_ml_models', JSON.stringify(models));
                 renderModelsList();
                 showToast("Model configuration deleted.");
             }
@@ -5332,7 +5332,7 @@
                 if (rounds > 0) {
                     let sessions = [];
                     try {
-                        sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+                        sessions = JSON.parse(localStorage.getItem('anthocyan_rps_sessions') || '[]');
                     } catch (e) { sessions = []; }
 
                     const newSession = {
@@ -5345,7 +5345,7 @@
                     };
 
                     sessions.unshift(newSession);
-                    localStorage.setItem('omnibot_rps_sessions', JSON.stringify(sessions));
+                    localStorage.setItem('anthocyan_rps_sessions', JSON.stringify(sessions));
                 }
 
                 // Reset active session counters
@@ -5380,7 +5380,7 @@
                 if (!container) return;
                 let sessions = [];
                 try {
-                    sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+                    sessions = JSON.parse(localStorage.getItem('anthocyan_rps_sessions') || '[]');
                 } catch (e) { sessions = []; }
 
                 if (sessions.length === 0) {
@@ -5408,10 +5408,10 @@
                 if (!confirm("Permanently delete this archived game session?")) return;
                 let sessions = [];
                 try {
-                    sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+                    sessions = JSON.parse(localStorage.getItem('anthocyan_rps_sessions') || '[]');
                 } catch (e) { sessions = []; }
                 sessions = sessions.filter(s => s.id !== sessionId);
-                localStorage.setItem('omnibot_rps_sessions', JSON.stringify(sessions));
+                localStorage.setItem('anthocyan_rps_sessions', JSON.stringify(sessions));
                 renderGameSessionsList();
                 updateLifetimeStats();
                 showToast("Archived game session deleted.");
@@ -5420,7 +5420,7 @@
             function updateLifetimeStats() {
                 let sessions = [];
                 try {
-                    sessions = JSON.parse(localStorage.getItem('omnibot_rps_sessions') || '[]');
+                    sessions = JSON.parse(localStorage.getItem('anthocyan_rps_sessions') || '[]');
                 } catch (e) { sessions = []; }
 
                 // Lifetime is sum of archived sessions + active session

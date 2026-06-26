@@ -6,8 +6,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 
 app = FastAPI(
-    title="OmniBot Web Service",
-    description="A Python FastAPI backend serving OmniBot static files and API integrations.",
+    title="Anthocyan AI Web Service",
+    description="A Python FastAPI backend serving Anthocyan AI static files and API integrations.",
     version="7.0"
 )
 
@@ -24,14 +24,14 @@ app.add_middleware(
 @app.get("/api/health")
 async def health_check():
     """Simple health check endpoint."""
-    return {"status": "healthy", "service": "OmniBot Web Service"}
+    return {"status": "healthy", "service": "Anthocyan AI Web Service"}
 
 @app.get("/api/info")
 async def get_info():
     """Returns basic workspace metadata."""
     html_files = [f for f in os.listdir(".") if f.endswith(".html")]
     return {
-        "workspace": "OmniBot",
+        "workspace": "Anthocyan AI",
         "html_pages_available": sorted(html_files),
         "active_version": "7.0"
     }
@@ -70,12 +70,12 @@ async def root():
         return FileResponse("7.0.html")
     elif os.path.exists("about.html"):
         return FileResponse("about.html")
-    return {"message": "Welcome to OmniBot. No entry pages found."}
+    return {"message": "Welcome to Anthocyan AI. No entry pages found."}
 
 # Mount static files to serve 7.0.html, 6.4.html, assets, sw.js, manifest.json, etc.
 app.mount("/", StaticFiles(directory=".", html=True), name="static")
 
 if __name__ == "__main__":
     # Run the server locally on port 8000
-    print("Starting OmniBot Web Service on http://127.0.0.1:8000")
+    print("Starting Anthocyan AI Web Service on http://127.0.0.1:8000")
     uvicorn.run("server:app", host="127.0.0.1", port=8000, reload=True)

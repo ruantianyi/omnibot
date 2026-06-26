@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniBot 6.0 Workspace</title>
+    <title>Anthocyan AI 6.0 Workspace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -186,7 +186,7 @@
         }
     </style>
     <style id="light-mode-styles">
-        /* ===== OMNIBOT LIGHT MODE — Built from scratch ===== */
+        /* ===== ANTHOCYAN AI LIGHT MODE — Built from scratch ===== */
 
         /* --- Core Page --- */
         body.light-mode {
@@ -526,7 +526,7 @@
             <button onclick="closeSettings()"
                 class="absolute top-4 right-4 text-slate-300 hover:text-white transition"><i
                     class="fa-solid fa-xmark text-lg"></i></button>
-            <h2 class="text-xl font-bold text-white mb-1"><i class="fa-solid fa-gear text-indigo-400 mr-2"></i>Omnibot Settings</h2>
+            <h2 class="text-xl font-bold text-white mb-1"><i class="fa-solid fa-gear text-indigo-400 mr-2"></i>Anthocyan AI Settings</h2>
             <p class="text-xs text-slate-400 mb-5">Manage your workspace preferences.</p>
 
             <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
@@ -618,7 +618,7 @@
             <div>
                 <div class="flex items-center gap-2">
                     <span
-                        class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent">OMNIBOT
+                        class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent">ANTHOCYAN AI
                         6.0</span>
                     <span id="engine-mode-badge"
                         class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20 flex items-center gap-1">
@@ -843,7 +843,7 @@
                         </div>
                         <div
                             class="bg-slate-800/60 text-slate-200 p-3.5 rounded-2xl rounded-bl-none text-sm leading-relaxed border border-slate-800/40 shadow-inner">
-                            Welcome to the **OmniBot 6.0 Ultimate AI Engine**! 🚀<br><br>I feature advanced
+                            Welcome to the **Anthocyan AI 6.0 Ultimate AI Engine**! 🚀<br><br>I feature advanced
                             persistent memory, a Math.js integration for true calculus and algebra, and smart Intent
                             Recognition. If you enter an API key via the settings gear above, I become fully live.
                             Otherwise, my massive offline Knowledge Graph handles everything.<br>
@@ -1512,7 +1512,7 @@
 
     <footer
         class="mt-auto border-t border-slate-900 bg-slate-950 px-4 py-4 md:px-8 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-3">
-        <p>&copy; 2026 OmniBot AI Suite. Crafted with client-side mathematical and linguistic compilers.</p>
+        <p>&copy; 2026 Anthocyan AI AI Suite. Crafted with client-side mathematical and linguistic compilers.</p>
         <div class="flex gap-4">
             <span class="flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> Hybrid Engine
                 Active</span>
@@ -1558,11 +1558,11 @@
                 regression: regressionDataset,
                 uploadedFiles: UPLOADED_FILES
             };
-            localStorage.setItem('omnibot_v6_state', JSON.stringify(state));
+            localStorage.setItem('anthocyan_v6_state', JSON.stringify(state));
         }
 
         function loadState() {
-            const saved = localStorage.getItem('omnibot_v6_state');
+            const saved = localStorage.getItem('anthocyan_v6_state');
             if (saved) {
                 try {
                     const state = JSON.parse(saved);
@@ -1600,12 +1600,12 @@
 
         function exportHistory() {
             saveState();
-            const state = localStorage.getItem('omnibot_v6_state') || "{}";
+            const state = localStorage.getItem('anthocyan_v6_state') || "{}";
             const blob = new Blob([state], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `OmniBot_Session_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `Anthocyan AI_Session_Backup_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
             showToast("Session Backup Exported to Desktop!");
@@ -1619,7 +1619,7 @@
                 try {
                     const content = e.target.result;
                     JSON.parse(content);
-                    localStorage.setItem('omnibot_v6_state', content);
+                    localStorage.setItem('anthocyan_v6_state', content);
                     loadState();
                     updateMemoryUI();
                     showToast("Session Restored Successfully!");
@@ -1705,7 +1705,7 @@
                     return;
                 }
                 // Clear history
-                localStorage.removeItem('omnibot_v6_state');
+                localStorage.removeItem('anthocyan_v6_state');
                 chatMemory = { messages: [], messageCount: 0, topic: "" };
                 const chatMessagesEl = document.getElementById('chat-messages');
                 if (chatMessagesEl) chatMessagesEl.innerHTML = '';
@@ -2684,7 +2684,7 @@
 
             let essayHTML = `<div class="mb-8">`;
             essayHTML += `<h2 class="text-3xl font-extrabold text-white mb-2 tracking-tight uppercase">${cleanTopicTitle}</h2>`;
-            essayHTML += `<p class="text-indigo-400 font-mono text-sm tracking-wider uppercase mb-6"><i class="fa-solid fa-server mr-2"></i>Generated via OmniBot AI Engine</p></div>`;
+            essayHTML += `<p class="text-indigo-400 font-mono text-sm tracking-wider uppercase mb-6"><i class="fa-solid fa-server mr-2"></i>Generated via Anthocyan AI AI Engine</p></div>`;
 
             let introHtml = INTRO_TEMPLATES[Math.floor(Math.random() * INTRO_TEMPLATES.length)].replace(/\{TOPIC\}/g, cleanTopicInline);
             let paragraphsHTML = introHtml;
@@ -3044,7 +3044,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `OmniBot_Humanized_${new Date().getTime()}.txt`;
+            a.download = `Anthocyan AI_Humanized_${new Date().getTime()}.txt`;
             a.click();
             URL.revokeObjectURL(url);
             showToast("Exported as .TXT!");
@@ -3059,7 +3059,7 @@
             showToast("Generating PDF... Please wait.");
             const opt = {
                 margin: 0.5,
-                filename: `OmniBot_Humanized_${new Date().getTime()}.pdf`,
+                filename: `Anthocyan AI_Humanized_${new Date().getTime()}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -3314,7 +3314,7 @@
 
             if (intent === "GREETING") {
                 setCognitiveMode('CONVERSATIONAL');
-                return humanizeHTMLSafe("Hello! I am OmniBot 6.0. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
+                return humanizeHTMLSafe("Hello! I am Anthocyan AI 6.0. I can solve advanced math using Math.js, generate complex academic essays from a global database, or chat about specific concepts. How can I help you today?");
             }
 
             // Removed the old CHITCHAT fallback rejection. 
@@ -3401,7 +3401,7 @@
         }
 
         async function processQueryOnGemini(userQuery, customSystemPrompt = null) {
-            const systemPrompt = customSystemPrompt || `You are OmniBot, a highly advanced educational virtual assistant. The user is under 18 years old, so you must provide highly academic, safe, clean, healthy, and sophisticated responses. Under no circumstances should you generate suggestive, harmful, violent, or drug-related content. Always use clean LaTeX notation ($...$ and $$...$$) for equations. Provide deep, thorough analyses with absolutely no fluff.`;
+            const systemPrompt = customSystemPrompt || `You are Anthocyan AI, a highly advanced educational virtual assistant. The user is under 18 years old, so you must provide highly academic, safe, clean, healthy, and sophisticated responses. Under no circumstances should you generate suggestive, harmful, violent, or drug-related content. Always use clean LaTeX notation ($...$ and $$...$$) for equations. Provide deep, thorough analyses with absolutely no fluff.`;
 
             let url = "";
             let headers = { "Content-Type": "application/json" };
@@ -3582,7 +3582,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `OmniBot_Essay_${new Date().getTime()}.txt`;
+            a.download = `Anthocyan AI_Essay_${new Date().getTime()}.txt`;
             a.click();
             URL.revokeObjectURL(url);
             showToast("Exported as .TXT!");
@@ -3597,7 +3597,7 @@
             showToast("Generating PDF... Please wait.");
             const opt = {
                 margin: 0.5,
-                filename: `OmniBot_Essay_${new Date().getTime()}.pdf`,
+                filename: `Anthocyan AI_Essay_${new Date().getTime()}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'omnibot-v7-cache-v1';
+const CACHE_NAME = 'anthocyan-v7-cache-v1';
 
 const urlsToCache = [
   './7.0.html',
