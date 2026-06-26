@@ -1,22 +1,22 @@
 {
-  "name": "Anthocyan AI 6.4",
+  "name": "Anthocyan AI",
   "short_name": "Anthocyan AI",
   "description": "An advanced procedural AI and web application interface.",
-  "start_url": "6.4.html",
+  "start_url": "7.0.html",
   "display": "standalone",
   "background_color": "#0f172a",
-  "theme_color": "#4f46e5",
+  "theme_color": "#0d9488",
   "icons": [
     {
-      "src": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/robot.svg",
+      "src": "logo.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/robot.svg",
+      "src": "logo.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ]
 }
