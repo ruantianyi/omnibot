@@ -70,7 +70,7 @@
     <!-- Main Content Area -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-12 md:py-16 relative z-10">
         <!-- Title/Header -->
-        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <div class="text-center max-w-3xl mx-auto mb-10 space-y-4">
             <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest rounded-full">
                 <i class="fa-solid fa-graduation-cap"></i> Interactive Learning suite
             </div>
@@ -80,6 +80,37 @@
             <p class="text-slate-400 text-base md:text-lg">
                 Explore beautifully visualized, interactive, and advanced physics and math coursewares built to help you master complex scientific mechanics.
             </p>
+        </div>
+
+        <!-- Search & AI Recommender -->
+        <div class="max-w-2xl mx-auto mb-16 space-y-6">
+            <div class="relative group flex items-center">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-indigo-400 transition-colors"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="Search lessons or describe what you want to learn..." 
+                    class="w-full pl-11 pr-[150px] py-4 bg-slate-900/50 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all shadow-lg backdrop-blur-md">
+                
+                <button id="aiRecommendBtn" class="absolute right-2 top-2 bottom-2 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-teal-500 hover:from-indigo-500 hover:to-teal-400 text-white font-bold text-xs shadow-[0_0_15px_rgba(99,102,241,0.5)] hover:shadow-[0_0_25px_rgba(45,212,191,0.6)] transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-sparkles"></i> AI Recommend
+                </button>
+            </div>
+
+            <!-- AI Overview Container (Hidden by default) -->
+            <div id="aiOverviewContainer" class="hidden rounded-2xl border border-indigo-500/30 bg-slate-900/80 backdrop-blur-xl p-6 shadow-[0_10px_40px_-10px_rgba(99,102,241,0.2)] relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-slate-800">
+                    <div id="aiProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-teal-400 w-0 transition-all duration-300"></div>
+                </div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-200">AI Overview</h3>
+                    <span id="aiStatusBadge" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 ml-auto">Ready</span>
+                </div>
+                <p id="aiOutputText" class="text-sm text-slate-300 leading-relaxed min-h-[40px]"></p>
+                <div id="aiModelLoadingText" class="text-xs text-slate-500 mt-4 hidden">Downloading SLM weights (runs locally, 0 server calls)... <span id="downloadPct">0</span>%</div>
+            </div>
         </div>
 
         <!-- Lessons Grid -->
@@ -239,5 +270,129 @@
     <footer class="py-8 text-center text-xs text-slate-500 border-t border-slate-900/60 mt-12 bg-slate-950/20">
         <p>&copy; 2026 Anthocyan AI Ecosystem. All rights reserved.</p>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const aiRecommendBtn = document.getElementById('aiRecommendBtn');
+            const aiOverviewContainer = document.getElementById('aiOverviewContainer');
+            const aiOutputText = document.getElementById('aiOutputText');
+            const aiStatusBadge = document.getElementById('aiStatusBadge');
+            const aiProgressBar = document.getElementById('aiProgressBar');
+            const aiModelLoadingText = document.getElementById('aiModelLoadingText');
+            const downloadPct = document.getElementById('downloadPct');
+            
+            const lessonCards = document.querySelectorAll('.glass-card');
+
+            // Collect context for the AI
+            let lessonCatalog = "";
+            lessonCards.forEach((card, index) => {
+                const title = card.querySelector('h3').innerText.trim();
+                const desc = card.querySelector('p').innerText.trim();
+                lessonCatalog += `[${index + 1}] ${title}: ${desc}\n`;
+            });
+
+            // Standard Text Filtering
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                lessonCards.forEach(card => {
+                    const title = card.querySelector('h3').innerText.toLowerCase();
+                    const desc = card.querySelector('p').innerText.toLowerCase();
+                    if (title.includes(query) || desc.includes(query)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            // AI Web Worker Setup
+            let aiWorker = null;
+
+            aiRecommendBtn.addEventListener('click', () => {
+                const prompt = searchInput.value.trim();
+                if (!prompt) {
+                    searchInput.focus();
+                    return;
+                }
+
+                // Show UI
+                aiOverviewContainer.classList.remove('hidden');
+                aiOutputText.innerText = "Thinking...";
+                aiStatusBadge.innerText = "Initializing Model";
+                aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 ml-auto";
+                aiModelLoadingText.classList.remove('hidden');
+
+                if (!aiWorker) {
+                    aiWorker = new Worker('ai_worker.js', { type: 'module' });
+                    
+                    aiWorker.onmessage = (e) => {
+                        const { type, data } = e.data;
+                        
+                        if (type === 'progress') {
+                            if (data.status === 'downloading' || data.status === 'progress') {
+                                aiStatusBadge.innerText = "Downloading SLM...";
+                                if (data.progress) {
+                                    const pct = Math.round(data.progress);
+                                    downloadPct.innerText = pct;
+                                    aiProgressBar.style.width = `${pct}%`;
+                                }
+                            } else if (data.status === 'ready') {
+                                aiProgressBar.style.width = `100%`;
+                                aiModelLoadingText.classList.add('hidden');
+                                aiStatusBadge.innerText = "Generating...";
+                                aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-400 ml-auto";
+                                aiOutputText.innerText = "";
+                                aiProgressBar.style.width = `0%`; // Reset for aesthetic
+                            }
+                        } 
+                        else if (type === 'update') {
+                            aiOutputText.innerText = data;
+                            // Attempt to filter cards dynamically based on what AI is writing
+                            highlightRecommendedCards(data);
+                        }
+                        else if (type === 'complete') {
+                            aiOutputText.innerText = data;
+                            aiStatusBadge.innerText = "Completed";
+                            aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 ml-auto";
+                            highlightRecommendedCards(data);
+                        }
+                        else if (type === 'error') {
+                            aiOutputText.innerText = `Error: ${data}`;
+                            aiStatusBadge.innerText = "Failed";
+                            aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 ml-auto";
+                        }
+                    };
+                }
+
+                // Send request
+                aiWorker.postMessage({
+                    type: 'generate',
+                    prompt: prompt,
+                    context: lessonCatalog
+                });
+            });
+
+            // Highlight recommended cards function
+            function highlightRecommendedCards(aiText) {
+                const lowerText = aiText.toLowerCase();
+                lessonCards.forEach(card => {
+                    const title = card.querySelector('h3').innerText;
+                    
+                    // Basic heuristic: check if key nouns from the title appear in the AI output
+                    // We remove small stop words to be safe
+                    const keyWords = title.toLowerCase().split(" ").filter(w => w.length > 4);
+                    const isMentioned = keyWords.some(w => lowerText.includes(w));
+                    
+                    if (isMentioned) {
+                        card.style.display = 'flex';
+                        card.classList.add('ring-2', 'ring-indigo-500', 'shadow-[0_0_20px_rgba(99,102,241,0.3)]');
+                    } else {
+                        // Keep visible if it was already matching standard search, just remove highlight
+                        card.classList.remove('ring-2', 'ring-indigo-500', 'shadow-[0_0_20px_rgba(99,102,241,0.3)]');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
