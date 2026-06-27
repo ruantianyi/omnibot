@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Physics: Simple Harmonic Motion & Resonance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure MathJax for rigorous mathematical rendering
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+        // Configure Tailwind Colors
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f4f6f8',
+                            100: '#e8ecef',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        accent: {
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Custom Scrollbar for a premium feel */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .math-block {
+            overflow-x: auto;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            border-left: 4px solid #3b82f6;
+            margin: 1.5rem 0;
+        }
+
+        /* Prevent text selection on canvases during interaction */
+        canvas {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 w-full glass-panel z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <svg class="w-8 h-8 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">Physics<span class="text-brand-600">Interactive</span></span>
+                </div>
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
+                    <a href="#theory" class="hover:text-brand-600 transition-colors">Theory & Math</a>
+                    <a href="#kinematics" class="hover:text-brand-600 transition-colors">Kinematics Sim</a>
+                    <a href="#energy" class="hover:text-brand-600 transition-colors">Energy Conservation</a>
+                    <a href="#resonance" class="hover:text-brand-600 transition-colors">Resonance</a>
+                    <a href="#quiz" class="hover:text-brand-600 transition-colors">Knowledge Check</a>
+                </div>
+                <button id="btnDownload" class="hidden md:inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Cheat Sheet
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 bg-gradient-to-b from-brand-50 to-slate-50 border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-brand-100 text-brand-800 text-sm font-semibold mb-6">
+                Unit 9: Oscillations & Waves
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Simple Harmonic Motion & Resonance
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+                Explore the universal physics of restoring forces. From the invisible vibrations of diatomic molecules to the catastrophic collapse of bridges, understanding oscillatory motion is fundamental to classical mechanics.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- Section 1: The Governing Physics -->
+        <section id="theory" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">01</div>
+                <h2 class="text-3xl font-bold text-slate-900">The Governing Physics</h2>
+            </div>
+            
+            <div class="prose prose-slate max-w-none text-slate-700 text-lg">
+                <p>
+                    <strong>Simple Harmonic Motion (SHM)</strong> occurs when an object is systematically perturbed from a stable equilibrium position by a restoring force that scales linearly with displacement. Because this restoring force always points directly back toward the central origin, the accelerating path describes a continuous sine or cosine waveform.
+                </p>
+
+                <h3 class="text-2xl font-bold text-slate-800 mt-10 mb-4">Mathematical Derivations & Governing Calculus</h3>
+                <p>
+                    Consider a mass $m$ linked to an ideal, massless spring with stiffness constant $k$. Applying <strong>Hooke's Law</strong> ($\vec{F} = -k\vec{x}$) to <strong>Newton's Second Law</strong> ($\vec{F} = m\vec{a}$) provides a linear second-order differential equation:
+                </p>
+
+                <div class="math-block">
+                    $$-k x = m \frac{d^2x}{dt^2} \implies \frac{d^2x}{dt^2} + \left(\frac{k}{m}\right)x = 0$$
+                </div>
+
+                <p>
+                    By identifying the angular frequency squared as $\omega^2 = \frac{k}{m}$, this matches the characteristic SHM template $\ddot{x} + \omega^2 x = 0$. The general analytical solution for position over time is a trigonometric function:
+                </p>
+
+                <div class="math-block">
+                    $$x(t) = A\cos(\omega t + \phi)$$
+                </div>
+
+                <p>
+                    Taking successive derivatives with respect to time ($t$) provides the velocity ($v$) and acceleration ($a$) functions. Note the crucial phase shifts introduced by the derivatives:
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                        <h4 class="font-bold text-brand-700 mb-2">Velocity Function</h4>
+                        $$v(t) = \frac{dx}{dt} = -\omega A\sin(\omega t + \phi)$$
+                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600">
+                            <strong>Max Velocity:</strong> $v_{\text{max}} = \omega A$ (Occurs at equilibrium, $x=0$)
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                        <h4 class="font-bold text-accent-600 mb-2">Acceleration Function</h4>
+                        $$a(t) = \frac{dv}{dt} = -\omega^2 A\cos(\omega t + \phi)$$
+                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600">
+                            <strong>Max Acceleration:</strong> $a_{\text{max}} = \omega^2 A$ (Occurs at extremes, $x=\pm A$)
+                        </div>
+                    </div>
+                </div>
+
+                <p>
+                    The absolute <strong>period $T$</strong> of oscillation (the time it takes to complete one full cycle) is derived directly from the angular frequency $\omega$:
+                </p>
+
+                <div class="math-block">
+                    $$T = \frac{2\pi}{\omega} = 2\pi\sqrt{\frac{m}{k}}$$
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Interactive Kinematics -->
+        <section id="kinematics" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">02</div>
+                <h2 class="text-3xl font-bold text-slate-900">Interactive Kinematics Simulator</h2>
+            </div>
+            
+            <p class="text-slate-700 text-lg mb-6">
+                Observe the phase relationships between Position ($x$), Velocity ($v$), and Acceleration ($a$). Notice how velocity peaks when position is zero, and acceleration perfectly mirrors position (scaled by $-\omega^2$).
+            </p>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
+                <div class="p-6 bg-slate-50 border-b border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Controls -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Mass ($m$): <span id="valMass" class="font-bold text-brand-600">1.0</span> kg</label>
+                        <input type="range" id="sliderMass" min="0.5" max="5.0" step="0.1" value="1.0" class="w-full accent-brand-600">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Spring Constant ($k$): <span id="valSpring" class="font-bold text-brand-600">10.0</span> N/m</label>
+                        <input type="range" id="sliderSpring" min="2.0" max="30.0" step="0.5" value="10.0" class="w-full accent-brand-600">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Amplitude ($A$): <span id="valAmp" class="font-bold text-brand-600">2.0</span> m</label>
+                        <input type="range" id="sliderAmp" min="0.5" max="4.0" step="0.1" value="2.0" class="w-full accent-brand-600">
+                    </div>
+                </div>
+                
+                <div class="relative w-full h-[400px] bg-slate-900">
+                    <canvas id="kinematicsCanvas" class="w-full h-full block"></canvas>
+                    <div class="absolute top-4 left-4 bg-slate-800/80 backdrop-blur text-white p-3 rounded-lg text-sm border border-slate-700">
+                        <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3 rounded-full bg-blue-400"></div> Position $x(t)$</div>
+                        <div class="flex items-center gap-2 mb-1"><div class="w-3 h-3 rounded-full bg-green-400"></div> Velocity $v(t)$</div>
+                        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-red-400"></div> Acceleration $a(t)$</div>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-slate-800/80 backdrop-blur text-white p-3 rounded-lg text-sm border border-slate-700 font-mono text-right">
+                        <div>$\omega = $ <span id="lblOmega">3.16</span> rad/s</div>
+                        <div>$T = $ <span id="lblPeriod">1.99</span> s</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Energy Conservation -->
+        <section id="energy" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">03</div>
+                <h2 class="text-3xl font-bold text-slate-900">Energy Conservation</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="prose prose-slate text-slate-700 text-lg">
+                    <p>
+                        In an ideal SHM system (with no non-conservative forces like friction or air resistance), the total mechanical energy $E_{\text{total}}$ remains strictly constant. It continuously transforms between Elastic Potential Energy ($U_s$) and Kinetic Energy ($K$).
+                    </p>
+                    <ul>
+                        <li><strong>Potential Energy:</strong> $U_s = \frac{1}{2}kx^2$</li>
+                        <li><strong>Kinetic Energy:</strong> $K = \frac{1}{2}mv^2$</li>
+                    </ul>
+                    <p>
+                        Adding these together at any point in time yields the constant total energy, which is equal to the maximum potential energy (at $x=\pm A$) or the maximum kinetic energy (at $x=0$):
+                    </p>
+                    <div class="bg-brand-50 border border-brand-200 p-4 rounded-lg my-4 font-bold text-center text-brand-900">
+                        $$E_{\text{total}} = \frac{1}{2}kA^2 = \frac{1}{2}mv_{\text{max}}^2 = \frac{1}{2}mv^2 + \frac{1}{2}kx^2$$
+                    </div>
+                    <p class="text-sm">
+                        <em>Exam Trick:</em> Use this energy conservation equation to easily bypass time parameters ($t$) when finding intermediate velocities at specific positions!
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-lg p-6">
+                    <h3 class="text-center font-bold text-slate-800 mb-4">Energy vs. Displacement ($x$)</h3>
+                    <div class="relative w-full h-[300px]">
+                        <canvas id="energyCanvas" class="w-full h-full block"></canvas>
+                    </div>
+                    <div class="flex justify-center gap-6 mt-4 text-sm font-medium">
+                        <span class="flex items-center gap-2"><div class="w-3 h-1 bg-brand-500"></div> Total Energy ($E$)</span>
+                        <span class="flex items-center gap-2"><div class="w-3 h-1 bg-blue-400"></div> Potential ($U_s$)</span>
+                        <span class="flex items-center gap-2"><div class="w-3 h-1 bg-emerald-400"></div> Kinetic ($K$)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Resonance -->
+        <section id="resonance" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">04</div>
+                <h2 class="text-3xl font-bold text-slate-900">Forced Oscillations & Resonance</h2>
+            </div>
+            
+            <p class="text-slate-700 text-lg mb-6">
+                If an external periodic driving force ($F_{\text{drive}} = F_0 \cos(\omega_d t)$) is applied to the system, the resulting amplitude depends heavily on how close the driving frequency ($\omega_d$) is to the system's natural frequency ($\omega_0 = \sqrt{k/m}$). 
+            </p>
+            
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-lg mb-8">
+                <p class="text-amber-900 font-medium m-0">
+                    <strong>Resonance</strong> occurs when $\omega_d \approx \omega_0$. The energy transfer efficiency maximizes, causing the system's amplitude to grow dramatically. Without sufficient damping (friction), this can lead to catastrophic mechanical failure.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
+                <div class="p-6 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="w-full md:w-1/2">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Damping Ratio ($b$): <span id="valDamping" class="font-bold text-brand-600">0.2</span> N·s/m</label>
+                        <input type="range" id="sliderDamping" min="0.05" max="1.5" step="0.05" value="0.2" class="w-full accent-brand-600">
+                        <p class="text-xs text-slate-500 mt-2">Lower damping leads to a sharper, higher resonance peak.</p>
+                    </div>
+                    <div class="w-full md:w-1/2 text-sm text-slate-700">
+                        Steady-state amplitude equation:
+                        $$A(\omega_d) = \frac{F_0}{\sqrt{m^2(\omega_0^2 - \omega_d^2)^2 + b^2\omega_d^2}}$$
+                    </div>
+                </div>
+                <div class="relative w-full h-[350px] p-4 bg-white">
+                    <canvas id="resonanceCanvas" class="w-full h-full block"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Master Strategy -->
+        <section id="strategy" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">05</div>
+                <h2 class="text-3xl font-bold text-slate-900">Problem-Solving Master Strategy</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-slate-800 text-white p-6 rounded-2xl shadow-md">
+                    <div class="text-brand-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">1. Verify the SHM Profile</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Ensure the acceleration equation can be mathematically manipulated into the exact form $a = -\text{(constant)}x$. The square root of that strictly positive constant is always your angular frequency $\omega$.
+                    </p>
+                </div>
+                
+                <div class="bg-slate-800 text-white p-6 rounded-2xl shadow-md">
+                    <div class="text-emerald-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">2. Apply Energy Conservation</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Use $E_{\text{total}} = \frac{1}{2}kA^2 = \frac{1}{2}mv^2 + \frac{1}{2}kx^2$ whenever you need to relate position directly to velocity without knowing the elapsed time.
+                    </p>
+                </div>
+
+                <div class="bg-slate-800 text-white p-6 rounded-2xl shadow-md">
+                    <div class="text-accent-400 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">3. Phasing Calibration</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Evaluate the phase constant $\phi$ using initial boundary conditions at $t=0$. If released from rest at maximum displacement, $\phi = 0$. If starting at equilibrium moving positively, $\phi = -\pi/2$.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Quiz -->
+        <section id="quiz" class="scroll-mt-24 mb-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">06</div>
+                <h2 class="text-3xl font-bold text-slate-900">Knowledge Check</h2>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
+                
+                <!-- Q1 -->
+                <div class="mb-8 border-b border-slate-100 pb-8 quiz-question" data-answer="b">
+                    <p class="font-bold text-lg text-slate-800 mb-4">1. A mass-spring system is undergoing SHM. At which point is the magnitude of acceleration at its maximum?</p>
+                    <div class="space-y-2">
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="a">A) When the mass passes through the equilibrium position.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="b">B) When the mass is at its maximum displacement (amplitude).</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="c">C) When the kinetic energy is maximized.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="d">D) Acceleration is constant throughout the motion.</button>
+                    </div>
+                    <div class="quiz-feedback hidden mt-3 p-3 rounded-lg text-sm font-medium"></div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="mb-8 border-b border-slate-100 pb-8 quiz-question" data-answer="c">
+                    <p class="font-bold text-lg text-slate-800 mb-4">2. If you quadruple ($4\times$) the mass attached to a spring, how does the period $T$ of oscillation change?</p>
+                    <div class="space-y-2">
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="a">A) The period becomes 4 times longer.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="b">B) The period becomes half as long.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="c">C) The period becomes 2 times longer.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="d">D) The period remains unchanged.</button>
+                    </div>
+                    <div class="quiz-feedback hidden mt-3 p-3 rounded-lg text-sm font-medium"></div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="mb-2 quiz-question" data-answer="a">
+                    <p class="font-bold text-lg text-slate-800 mb-4">3. Which of the following best describes Resonance?</p>
+                    <div class="space-y-2">
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="a">A) When an external driving frequency matches the system's natural frequency, maximizing amplitude.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="b">B) When the damping coefficient is so large that the system returns to equilibrium without oscillating.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="c">C) When kinetic energy is perfectly equal to potential energy at all times.</button>
+                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="d">D) When the phase constant $\phi$ is exactly $\pi/2$.</button>
+                    </div>
+                    <div class="quiz-feedback hidden mt-3 p-3 rounded-lg text-sm font-medium"></div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
+        <p>&copy; 2026 Physics Interactive Education. Created for rigor and clarity.</p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // UTILITY: Safe DOM Query & DPI Scaling
+        // ==========================================
+        function $(id) { return document.getElementById(id); }
+        
+        function setupCanvas(canvas) {
+            // Get the pixel ratio of the current display (handles retina displays nicely)
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            
+            // Set actual size in memory (scaled to account for extra pixel density)
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            
+            // Normalize coordinate system to use css pixels
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            
+            return { ctx, width: rect.width, height: rect.height };
+        }
+
+        // ==========================================
+        // SIMULATION 1: KINEMATICS (Mass-Spring)
+        // ==========================================
+        const sim1 = {
+            canvas: $('kinematicsCanvas'),
+            ctx: null, w: 0, h: 0,
+            
+            // Physics state
+            m: 1.0, k: 10.0, A: 2.0,
+            t: 0, omega: 0,
+            history: [], // For the graphs
+            
+            init() {
+                if (!this.canvas) return;
+                
+                const dims = setupCanvas(this.canvas);
+                this.ctx = dims.ctx; this.w = dims.width; this.h = dims.height;
+                
+                // Event Listeners for controls
+                const mSlider = $('sliderMass');
+                const kSlider = $('sliderSpring');
+                const aSlider = $('sliderAmp');
+                
+                if (mSlider) mSlider.addEventListener('input', (e) => { this.m = parseFloat(e.target.value); $('valMass').innerText = this.m.toFixed(1); this.calcDerived(); });
+                if (kSlider) kSlider.addEventListener('input', (e) => { this.k = parseFloat(e.target.value); $('valSpring').innerText = this.k.toFixed(1); this.calcDerived(); });
+                if (aSlider) aSlider.addEventListener('input', (e) => { this.A = parseFloat(e.target.value); $('valAmp').innerText = this.A.toFixed(1); });
+                
+                // Handle Window Resize
+                window.addEventListener('resize', () => {
+                    const d = setupCanvas(this.canvas);
+                    this.ctx = d.ctx; this.w = d.width; this.h = d.height;
+                });
+
+                this.calcDerived();
+                requestAnimationFrame(this.loop.bind(this));
+            },
+            
+            calcDerived() {
+                this.omega = Math.sqrt(this.k / this.m);
+                if($('lblOmega')) $('lblOmega').innerText = this.omega.toFixed(2);
+                if($('lblPeriod')) $('lblPeriod').innerText = (2 * Math.PI / this.omega).toFixed(2);
+            },
+            
+            drawSpring(startX, startY, endX, endY, coils, radius) {
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#94a3b8'; // Slate 400
+                this.ctx.lineWidth = 3;
+                this.ctx.lineJoin = 'round';
+                
+                this.ctx.moveTo(startX, startY);
+                const length = endX - startX;
+                const segmentLength = length / (coils * 2);
+                
+                let currentX = startX;
+                for (let i = 0; i < coils * 2; i++) {
+                    currentX += segmentLength;
+                    const yOffset = (i % 2 === 0) ? radius : -radius;
+                    this.ctx.lineTo(currentX, startY + yOffset);
+                }
+                this.ctx.lineTo(endX, endY);
+                this.ctx.stroke();
+            },
+            
+            loop() {
+                // Time update (dt)
+                this.t += 0.016; // Approx 60fps
+                
+                // Calculate current physics values
+                const currentX = this.A * Math.cos(this.omega * this.t);
+                const currentV = -this.omega * this.A * Math.sin(this.omega * this.t);
+                const currentA = -this.omega * this.omega * this.A * Math.cos(this.omega * this.t);
+                
+                // Store history for plotting
+                this.history.push({ x: currentX, v: currentV, a: currentA });
+                if (this.history.length > 300) this.history.shift(); // Keep history constrained
+                
+                // Render
+                this.ctx.clearRect(0, 0, this.w, this.h);
+                
+                const midY = this.h * 0.25; // Top quarter for spring
+                const graphY = this.h * 0.65; // Bottom area for graphs
+                const originX = this.w * 0.3; // Wall is on the left
+                const pixelsPerMeter = 25; // Scale factor
+                
+                // 1. Draw Physical System
+                // Wall
+                this.ctx.fillStyle = '#475569';
+                this.ctx.fillRect(originX - 20, midY - 40, 20, 80);
+                
+                // Equilibrium Line
+                this.ctx.beginPath();
+                this.ctx.setLineDash([5, 5]);
+                this.ctx.strokeStyle = '#334155';
+                this.ctx.moveTo(originX + 150, midY - 60);
+                this.ctx.lineTo(originX + 150, this.h);
+                this.ctx.stroke();
+                this.ctx.setLineDash([]);
+                
+                // Spring
+                const blockBaseX = originX + 150; // Equilibrium position visually
+                const blockCurrentX = blockBaseX + (currentX * pixelsPerMeter);
+                this.drawSpring(originX, midY, blockCurrentX - 25, midY, 12, 10);
+                
+                // Mass Block
+                this.ctx.fillStyle = '#3b82f6'; // Brand blue
+                this.ctx.fillRect(blockCurrentX - 25, midY - 25, 50, 50);
+                this.ctx.strokeStyle = '#1e3a8a';
+                this.ctx.lineWidth = 2;
+                this.ctx.strokeRect(blockCurrentX - 25, midY - 25, 50, 50);
+                
+                // 2. Draw Real-time Graphs
+                const graphHeight = this.h * 0.4;
+                const amplitudeScaleX = graphHeight / 2 / 4; // Max amplitude is 4
+                const amplitudeScaleV = graphHeight / 2 / (4 * Math.sqrt(30/0.5)); // Max possible velocity
+                const amplitudeScaleA = graphHeight / 2 / (4 * (30/0.5)); // Max possible acceleration
+                
+                // X-axis for graph
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#475569';
+                this.ctx.moveTo(0, graphY);
+                this.ctx.lineTo(this.w, graphY);
+                this.ctx.stroke();
+
+                // Graph Drawing helper
+                const drawGraph = (key, color, scale) => {
+                    this.ctx.beginPath();
+                    this.ctx.strokeStyle = color;
+                    this.ctx.lineWidth = 2;
+                    for (let i = 0; i < this.history.length; i++) {
+                        const px = this.w - (this.history.length - i) * 3; // Scroll left
+                        const py = graphY - (this.history[i][key] * scale);
+                        if (i === 0) this.ctx.moveTo(px, py);
+                        else this.ctx.lineTo(px, py);
+                    }
+                    this.ctx.stroke();
+                };
+
+                // Normalizing scales so they all fit nicely visually
+                const scaleX = amplitudeScaleX;
+                const scaleV = amplitudeScaleX * 0.5; // Scaled for visual clarity
+                const scaleA = amplitudeScaleX * 0.05; // Scaled for visual clarity
+
+                drawGraph('a', '#f87171', scaleA); // Red
+                drawGraph('v', '#4ade80', scaleV); // Green
+                drawGraph('x', '#60a5fa', scaleX); // Blue
+
+                requestAnimationFrame(this.loop.bind(this));
+            }
+        };
+
+        // ==========================================
+        // SIMULATION 2: ENERGY PARABOLAS
+        // ==========================================
+        const sim2 = {
+            canvas: $('energyCanvas'),
+            ctx: null, w: 0, h: 0,
+
+            init() {
+                if (!this.canvas) return;
+                const dims = setupCanvas(this.canvas);
+                this.ctx = dims.ctx; this.w = dims.width; this.h = dims.height;
+                
+                window.addEventListener('resize', () => {
+                    const d = setupCanvas(this.canvas);
+                    this.ctx = d.ctx; this.w = d.width; this.h = d.height;
+                    this.draw();
+                });
+
+                this.draw();
+            },
+
+            draw() {
+                this.ctx.clearRect(0, 0, this.w, this.h);
+                
+                const margin = 40;
+                const graphW = this.w - margin * 2;
+                const graphH = this.h - margin * 2;
+                const originX = this.w / 2;
+                const originY = this.h - margin;
+
+                // Axes
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#94a3b8';
+                this.ctx.lineWidth = 1.5;
+                // X axis
+                this.ctx.moveTo(margin, originY);
+                this.ctx.lineTo(this.w - margin, originY);
+                // Y axis
+                this.ctx.moveTo(originX, originY);
+                this.ctx.lineTo(originX, margin);
+                this.ctx.stroke();
+
+                // Labels
+                this.ctx.fillStyle = '#64748b';
+                this.ctx.font = '12px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.fillText('-A', margin + 20, originY + 20);
+                this.ctx.fillText('+A', this.w - margin - 20, originY + 20);
+                this.ctx.fillText('0', originX, originY + 20);
+                this.ctx.textAlign = 'right';
+                this.ctx.fillText('Energy', originX - 10, margin + 10);
+
+                const A = 1.0; // Normalized amplitude
+                const k = 1.0; // Normalized stiffness
+                const E_total = 0.5 * k * A * A;
+                const pixelsPerX = (graphW / 2 - 40) / A;
+                const pixelsPerY = (graphH - 20) / E_total;
+
+                // Draw Potential Energy (U) -> Parabola opening UP
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#60a5fa'; // Blue
+                this.ctx.lineWidth = 3;
+                for (let x = -A; x <= A; x += 0.05) {
+                    const px = originX + x * pixelsPerX;
+                    const py = originY - (0.5 * k * x * x) * pixelsPerY;
+                    if (x === -A) this.ctx.moveTo(px, py);
+                    else this.ctx.lineTo(px, py);
+                }
+                this.ctx.stroke();
+
+                // Draw Kinetic Energy (K) -> Parabola opening DOWN
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#34d399'; // Emerald
+                this.ctx.lineWidth = 3;
+                for (let x = -A; x <= A; x += 0.05) {
+                    const px = originX + x * pixelsPerX;
+                    const py = originY - (E_total - 0.5 * k * x * x) * pixelsPerY;
+                    if (x === -A) this.ctx.moveTo(px, py);
+                    else this.ctx.lineTo(px, py);
+                }
+                this.ctx.stroke();
+
+                // Draw Total Energy (E) -> Horizontal Line
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#3b82f6'; // Brand
+                this.ctx.setLineDash([8, 4]);
+                this.ctx.lineWidth = 2;
+                this.ctx.moveTo(originX - A * pixelsPerX, originY - E_total * pixelsPerY);
+                this.ctx.lineTo(originX + A * pixelsPerX, originY - E_total * pixelsPerY);
+                this.ctx.stroke();
+                this.ctx.setLineDash([]);
+            }
+        };
+
+        // ==========================================
+        // SIMULATION 3: RESONANCE CURVE
+        // ==========================================
+        const sim3 = {
+            canvas: $('resonanceCanvas'),
+            ctx: null, w: 0, h: 0,
+            b: 0.2, // Damping
+
+            init() {
+                if (!this.canvas) return;
+                const dims = setupCanvas(this.canvas);
+                this.ctx = dims.ctx; this.w = dims.width; this.h = dims.height;
+                
+                const slider = $('sliderDamping');
+                if (slider) {
+                    slider.addEventListener('input', (e) => {
+                        this.b = parseFloat(e.target.value);
+                        $('valDamping').innerText = this.b.toFixed(2);
+                        this.draw();
+                    });
+                }
+
+                window.addEventListener('resize', () => {
+                    const d = setupCanvas(this.canvas);
+                    this.ctx = d.ctx; this.w = d.width; this.h = d.height;
+                    this.draw();
+                });
+
+                this.draw();
+            },
+
+            draw() {
+                this.ctx.clearRect(0, 0, this.w, this.h);
+                
+                const margin = 40;
+                const graphW = this.w - margin * 2;
+                const graphH = this.h - margin * 2;
+                const originX = margin;
+                const originY = this.h - margin;
+
+                // Axes
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#94a3b8';
+                this.ctx.lineWidth = 1.5;
+                // X axis (Frequency)
+                this.ctx.moveTo(originX, originY);
+                this.ctx.lineTo(this.w - margin + 20, originY);
+                // Y axis (Amplitude)
+                this.ctx.moveTo(originX, originY);
+                this.ctx.lineTo(originX, margin - 20);
+                this.ctx.stroke();
+
+                // Labels
+                this.ctx.fillStyle = '#64748b';
+                this.ctx.font = '12px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.fillText('Driving Frequency (ω_d)', this.w / 2, originY + 30);
+                
+                this.ctx.save();
+                this.ctx.translate(margin - 25, this.h / 2);
+                this.ctx.rotate(-Math.PI / 2);
+                this.ctx.fillText('Amplitude (A)', 0, 0);
+                this.ctx.restore();
+
+                // Resonance Math: A = F0 / sqrt(m^2(w0^2 - wd^2)^2 + b^2*wd^2)
+                const F0 = 10;
+                const m = 1.0;
+                const w0 = 5.0; // Natural frequency
+                
+                const maxWd = 10.0;
+                const pixelsPerW = graphW / maxWd;
+                
+                // Dynamically scale Y so it fits, but keep scale somewhat absolute to show differences
+                // Max theoretical amplitude is roughly F0 / (b * w0) at resonance
+                const maxTheoreticalA = F0 / (0.05 * w0); // based on min damping 0.05
+                const pixelsPerA = graphH / (maxTheoreticalA * 0.4); // Zoom in a bit
+
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#ef4444'; // Accent Red
+                this.ctx.lineWidth = 3;
+                
+                for (let wd = 0; wd <= maxWd; wd += 0.05) {
+                    // Formula
+                    const denom = Math.sqrt(Math.pow(m * (w0*w0 - wd*wd), 2) + Math.pow(this.b * wd, 2));
+                    const A = F0 / denom;
+                    
+                    const px = originX + wd * pixelsPerW;
+                    const py = originY - A * pixelsPerA;
+                    
+                    // Cap py to not draw outside canvas bounds too wildly
+                    const clampedPy = Math.max(margin - 20, py);
+
+                    if (wd === 0) this.ctx.moveTo(px, clampedPy);
+                    else this.ctx.lineTo(px, clampedPy);
+                }
+                this.ctx.stroke();
+
+                // Draw dashed line for Natural Frequency (w0)
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#cbd5e1';
+                this.ctx.setLineDash([5, 5]);
+                this.ctx.moveTo(originX + w0 * pixelsPerW, originY);
+                this.ctx.lineTo(originX + w0 * pixelsPerW, margin);
+                this.ctx.stroke();
+                this.ctx.setLineDash([]);
+                
+                this.ctx.fillStyle = '#94a3b8';
+                this.ctx.fillText('ω₀', originX + w0 * pixelsPerW, originY + 15);
+            }
+        };
+
+        // ==========================================
+        // QUIZ LOGIC
+        // ==========================================
+        function initQuiz() {
+            const questions = document.querySelectorAll('.quiz-question');
+            
+            questions.forEach(q => {
+                const buttons = q.querySelectorAll('.quiz-option');
+                const feedback = q.querySelector('.quiz-feedback');
+                const correctAnswer = q.getAttribute('data-answer');
+
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Reset all buttons in this question
+                        buttons.forEach(b => {
+                            b.classList.remove('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'bg-red-50', 'border-red-500', 'text-red-900');
+                            b.classList.add('hover:bg-slate-50', 'border-slate-200');
+                        });
+
+                        const selected = this.getAttribute('data-val');
+                        feedback.classList.remove('hidden');
+
+                        if (selected === correctAnswer) {
+                            this.classList.replace('border-slate-200', 'border-emerald-500');
+                            this.classList.replace('hover:bg-slate-50', 'bg-emerald-50');
+                            this.classList.add('text-emerald-900');
+                            feedback.className = 'quiz-feedback mt-3 p-3 rounded-lg text-sm font-medium bg-emerald-100 text-emerald-800';
+                            feedback.innerHTML = '✅ <strong>Correct!</strong> Excellent understanding of the principles.';
+                        } else {
+                            this.classList.replace('border-slate-200', 'border-red-500');
+                            this.classList.replace('hover:bg-slate-50', 'bg-red-50');
+                            this.classList.add('text-red-900');
+                            feedback.className = 'quiz-feedback mt-3 p-3 rounded-lg text-sm font-medium bg-red-100 text-red-800';
+                            
+                            // Specific feedback strings based on wrong answers
+                            let hint = "Review the corresponding section above.";
+                            if (correctAnswer === 'b') hint = "Acceleration $a = -\\omega^2 x$. So max $a$ occurs when displacement $x$ is maximized ($x = \\pm A$).";
+                            if (correctAnswer === 'c') hint = "Period $T = 2\\pi\\sqrt{m/k}$. If $m$ becomes $4m$, the square root becomes $\\sqrt{4} = 2$, so period doubles.";
+                            if (correctAnswer === 'a') hint = "Resonance strictly occurs when the external driving frequency matches the natural internal frequency.";
+                            
+                            feedback.innerHTML = '❌ <strong>Incorrect.</strong> ' + hint;
+                        }
+                    });
+                });
+            });
+        }
+
+        // ==========================================
+        // DOWNLOAD CHEAT SHEET
+        // ==========================================
+        function initDownload() {
+            const btn = $('btnDownload');
+            if (!btn) return;
+
+            btn.addEventListener('click', () => {
+                const text = 
+                    `======================================================\n` +
+                    ` SHM & RESONANCE: PHYSICS CHEAT SHEET\n` +
+                    `======================================================\n\n` +
+                    `1. CORE SHM EQUATIONS\n` +
+                    `------------------------------------------------------\n` +
+                    `- Restoring Force: F = -kx\n` +
+                    `- Differential Eq: d²x/dt² + (k/m)x = 0\n` +
+                    `- Angular Frequency: ω = sqrt(k/m)\n` +
+                    `- Period: T = 2π/ω = 2π*sqrt(m/k)\n` +
+                    `- Frequency: f = 1/T = ω/(2π)\n\n` +
+                    `2. KINEMATICS (Position, Velocity, Acceleration)\n` +
+                    `------------------------------------------------------\n` +
+                    `- Position: x(t) = A*cos(ωt + φ)\n` +
+                    `- Velocity: v(t) = -ωA*sin(ωt + φ)\n` +
+                    `- Acceleration: a(t) = -ω²A*cos(ωt + φ)\n` +
+                    `- Max Velocity: v_max = ωA (at equilibrium x=0)\n` +
+                    `- Max Acceleration: a_max = ω²A (at amplitude x=±A)\n\n` +
+                    `3. ENERGY IN SHM\n` +
+                    `------------------------------------------------------\n` +
+                    `- Potential Energy: U = ½kx²\n` +
+                    `- Kinetic Energy: K = ½mv²\n` +
+                    `- Total Energy: E = ½kA² = ½mv_max² = U + K\n` +
+                    `- Conservation: ½mv_1² + ½kx_1² = ½mv_2² + ½kx_2²\n\n` +
+                    `4. PROBLEM SOLVING MASTER STRATEGY\n` +
+                    `------------------------------------------------------\n` +
+                    `A) Verify SHM Profile: Find 'a' in terms of 'x'. The factor in front of 'x' is ω².\n` +
+                    `B) Use Energy: Bypass time 't' by setting E_total = K + U.\n` +
+                    `C) Check Phase (φ): If starting at max displacement, φ=0. If starting at center moving right, φ=-π/2.\n`;
+                
+                const blob = new Blob([text], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'SHM_Physics_CheatSheet.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            sim1.init();
+            sim2.init();
+            sim3.init();
+            initQuiz();
+            initDownload();
+        });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Optics & Thin-Film Interference: Interactive Physics Guide</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- MathJax for rigorous equation rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                        secondary: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 900: '#134e4a' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        serif: ['Merriweather', 'ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar for a polished look */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1d4ed8 0%, #0d9488 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* SVG Diagram Animations */
+        @keyframes pulse-wave {
+            0% { stroke-dashoffset: 20; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .animated-wave {
+            stroke-dasharray: 4 4;
+            animation: pulse-wave 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-200 selection:text-primary-900">
+
+    <!-- Top Navigation -->
+    <header class="fixed top-0 w-full glass-panel z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span class="font-bold text-xl tracking-tight text-slate-900">Optics<span class="text-primary-600">Mastery</span></span>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-600">
+                <a href="#physics" class="hover:text-primary-600 transition-colors">The Physics</a>
+                <a href="#derivations" class="hover:text-primary-600 transition-colors">Derivations</a>
+                <a href="#simulation" class="hover:text-primary-600 transition-colors">Simulation</a>
+                <a href="#strategy" class="hover:text-primary-600 transition-colors">Strategy Guide</a>
+            </nav>
+            <button id="btnDownload" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition-all active:scale-95 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Save Notes
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 flex flex-col lg:flex-row gap-8">
+        
+        <!-- Sticky Sidebar -->
+        <aside class="hidden lg:block w-64 flex-shrink-0">
+            <div class="sticky top-28 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                <h3 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Table of Contents</h3>
+                <ul class="space-y-3 text-sm font-medium text-slate-500">
+                    <li><a href="#physics" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">1. The Governing Physics</a></li>
+                    <li><a href="#derivations" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">2. Mathematical Derivations</a></li>
+                    <li><a href="#simulation" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">3. Interactive Simulation</a></li>
+                    <li><a href="#strategy" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">4. Problem-Solving Strategy</a></li>
+                    <li><a href="#quiz" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">5. Knowledge Check</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 min-w-0 font-serif leading-relaxed text-lg text-slate-700">
+            
+            <header class="mb-12 font-sans">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-bold uppercase tracking-widest mb-4">
+                    Chapter 8
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Wave Optics & Thin-Film Interference</h1>
+                <p class="text-xl text-slate-500 font-light">Understanding how microscopic layers orchestrate light into brilliant colors through constructive and destructive phase matching.</p>
+            </header>
+
+            <!-- Section 1: The Governing Physics -->
+            <section id="physics" class="scroll-mt-28 mb-16">
+                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">1. The Governing Physics</h2>
+                <p class="mb-6">
+                    Thin-film interference tracking monitors phase shifts when light hits a microscopic medium sandwiched between two layers of alternative refractive indices. This phenomenon is responsible for the iridescent swirls of color seen in soap bubbles, oil slicks on water, and the anti-reflective coatings on camera lenses.
+                </p>
+                <p class="mb-6">
+                    When an incident ray hits the upper boundary, it splits: a portion reflects instantly, while another portion refracts into the film, reflects off the lower boundary, and escapes back out to interfere with the first reflection. Whether these two returning rays combine to form bright light (constructive) or cancel each other out (destructive) depends entirely on their phase relationship.
+                </p>
+
+                <!-- High Quality SVG Diagram -->
+                <figure class="my-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 overflow-hidden font-sans">
+                    <h4 class="text-center font-bold text-slate-800 mb-4">Anatomy of Thin-Film Interference</h4>
+                    <div class="flex justify-center w-full max-w-2xl mx-auto">
+                        <svg viewBox="0 0 600 400" class="w-full h-auto drop-shadow-md">
+                            <defs>
+                                <!-- Arrowheads -->
+                                <marker id="arrow-down" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6"/></marker>
+                                <marker id="arrow-up" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ef4444"/></marker>
+                                <marker id="arrow-out" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#10b981"/></marker>
+                                <!-- Gradients -->
+                                <linearGradient id="film-grad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#bae6fd" stop-opacity="0.6"/>
+                                    <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.8"/>
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Background Layers -->
+                            <rect x="0" y="0" width="600" height="100" fill="#f8fafc" />
+                            <rect x="0" y="100" width="600" height="150" fill="url(#film-grad)" stroke="#38bdf8" stroke-width="2" />
+                            <rect x="0" y="250" width="600" height="150" fill="#f1f5f9" />
+
+                            <!-- Layer Labels -->
+                            <text x="20" y="50" font-size="16" font-weight="bold" fill="#475569">Ambient Medium (n₁)</text>
+                            <text x="20" y="180" font-size="16" font-weight="bold" fill="#0369a1">Thin Film (n₂)</text>
+                            <text x="20" y="300" font-size="16" font-weight="bold" fill="#475569">Substrate Medium (n₃)</text>
+
+                            <!-- Thickness indicator -->
+                            <line x1="550" y1="100" x2="550" y2="250" stroke="#000" stroke-dasharray="4 2" />
+                            <line x1="540" y1="100" x2="560" y2="100" stroke="#000" />
+                            <line x1="540" y1="250" x2="560" y2="250" stroke="#000" />
+                            <text x="560" y="180" font-size="16" font-style="italic">t</text>
+
+                            <!-- Normal Lines -->
+                            <line x1="250" y1="40" x2="250" y2="300" stroke="#94a3b8" stroke-dasharray="5 5" />
+                            <line x1="350" y1="40" x2="350" y2="300" stroke="#94a3b8" stroke-dasharray="5 5" />
+
+                            <!-- Rays -->
+                            <!-- Incident Ray -->
+                            <path d="M 150,0 L 250,100" stroke="#3b82f6" stroke-width="3" fill="none" marker-end="url(#arrow-down)" />
+                            <text x="120" y="40" font-size="14" font-weight="bold" fill="#3b82f6">Incident Ray</text>
+
+                            <!-- Reflected Ray 1 (Top boundary) -->
+                            <path d="M 250,100 L 350,0" stroke="#ef4444" stroke-width="3" fill="none" marker-end="url(#arrow-up)" />
+                            <text x="310" y="40" font-size="14" font-weight="bold" fill="#ef4444">Ray 1 (Reflection)</text>
+                            
+                            <!-- Phase shift box for Ray 1 -->
+                            <rect x="365" y="15" width="165" height="40" rx="4" fill="#fee2e2" stroke="#ef4444"/>
+                            <text x="375" y="30" font-size="12" fill="#991b1b">Phase Shift: 180° (π)</text>
+                            <text x="375" y="45" font-size="12" font-style="italic" fill="#991b1b">if n₂ > n₁</text>
+
+                            <!-- Refracted Ray into film -->
+                            <path d="M 250,100 L 300,250" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrow-down)" />
+
+                            <!-- Reflected Ray inside film (Bottom boundary) -->
+                            <path d="M 300,250 L 350,100" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrow-up)" />
+                            
+                            <!-- Exiting Ray 2 -->
+                            <path d="M 350,100 L 450,0" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrow-out)" />
+                            <text x="440" y="40" font-size="14" font-weight="bold" fill="#10b981">Ray 2 (Refracted)</text>
+
+                            <!-- Phase shift box for Ray 2 -->
+                            <rect x="420" y="235" width="165" height="40" rx="4" fill="#d1fae5" stroke="#10b981"/>
+                            <text x="430" y="250" font-size="12" fill="#065f46">Phase Shift: 180° (π)</text>
+                            <text x="430" y="265" font-size="12" font-style="italic" fill="#065f46">if n₃ > n₂</text>
+
+                            <!-- Path difference label -->
+                            <path d="M 255,115 Q 300,225 345,115" stroke="#059669" stroke-width="2" stroke-dasharray="4" fill="none"/>
+                            <text x="250" y="200" font-size="14" font-weight="bold" fill="#059669">Extra Path ≈ 2t</text>
+
+                        </svg>
+                    </div>
+                    <figcaption class="text-sm text-center text-slate-500 mt-4">
+                        <strong>Figure 1:</strong> The incident ray splits at the top boundary. Ray 1 reflects immediately. Ray 2 travels through the film (distance ~2t) before exiting. Their phase relationship upon exiting determines the resulting interference pattern.
+                    </figcaption>
+                </figure>
+            </section>
+
+            <!-- Section 2: Mathematical Derivations -->
+            <section id="derivations" class="scroll-mt-28 mb-16">
+                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">2. Mathematical Derivations & Optical Conditions</h2>
+                
+                <p class="mb-4">
+                    When light transitions from a medium with index $n_1$ to a denser medium with index $n_2$ (where $n_2 > n_1$), the reflected wave undergoes an instantaneous $180^\circ$ phase inversion (equivalent to a path shift of half a wavelength, $\frac{\lambda}{2}$). This is often called a "hard reflection." If $n_2 < n_1$, the reflection causes zero phase shift ("soft reflection").
+                </p>
+
+                <div class="bg-primary-50 border-l-4 border-primary-500 p-6 rounded-r-lg my-6 font-sans">
+                    <h4 class="font-bold text-primary-900 mb-2">The Wavelength Inside the Film</h4>
+                    <p class="text-primary-800 text-sm mb-2">
+                        The ray traversing the film path travels an additional geometric round-trip distance of approximately $2t$, where $t$ is the thickness of the film. Crucially, the wavelength of light shrinks inside the film according to its refractive index:
+                    </p>
+                    <div class="text-xl text-center py-2 overflow-x-auto">
+                        $$\lambda_{\text{film}} = \frac{\lambda_{\text{vacuum}}}{n_{\text{film}}}$$
+                    </div>
+                </div>
+
+                <p class="mb-4">
+                    To evaluate whether the combined waves will produce constructive interference (bright bands) or destructive interference (dark bands), we must count how many <strong>net phase inversions</strong> occurred across both the upper and lower boundaries.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 my-8 font-sans">
+                    <!-- Case A -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xl">A</div>
+                            <h3 class="font-bold text-lg text-slate-900">Exactly ONE boundary shift</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 h-10">Occurs when e.g., $n_{\text{air}} < n_{\text{film}} > n_{\text{air}}$ (like a soap bubble).</p>
+                        
+                        <div class="bg-slate-50 p-4 rounded-lg mb-3">
+                            <span class="block text-xs font-bold text-green-600 uppercase mb-1">Constructive (Bright)</span>
+                            <div class="overflow-x-auto">
+                                $$2t = \left(m + \frac{1}{2}\right)\lambda_{\text{film}}$$
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg">
+                            <span class="block text-xs font-bold text-red-600 uppercase mb-1">Destructive (Dark)</span>
+                            <div class="overflow-x-auto">
+                                $$2t = m\lambda_{\text{film}}$$
+                            </div>
+                        </div>
+                        <p class="text-xs text-right mt-2 text-slate-400">Where $m \in \{0, 1, 2...\}$</p>
+                    </div>
+
+                    <!-- Case B -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold text-xl">B</div>
+                            <h3 class="font-bold text-lg text-slate-900">BOTH or NEITHER shift</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 h-10">Occurs when e.g., $n_{\text{air}} < n_{\text{film}} < n_{\text{glass}}$ (like lens coatings).</p>
+                        
+                        <div class="bg-slate-50 p-4 rounded-lg mb-3">
+                            <span class="block text-xs font-bold text-green-600 uppercase mb-1">Constructive (Bright)</span>
+                            <div class="overflow-x-auto">
+                                $$2t = m\lambda_{\text{film}}$$
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg">
+                            <span class="block text-xs font-bold text-red-600 uppercase mb-1">Destructive (Dark)</span>
+                            <div class="overflow-x-auto">
+                                $$2t = \left(m + \frac{1}{2}\right)\lambda_{\text{film}}$$
+                            </div>
+                        </div>
+                        <p class="text-xs text-right mt-2 text-slate-400">Where $m \in \{0, 1, 2...\}$</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Section 3: Interactive Simulation -->
+            <section id="simulation" class="scroll-mt-28 mb-16 font-sans">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">3. Interactive Optics Laboratory</h2>
+                <p class="mb-6 font-serif text-slate-700">
+                    Adjust the refractive indices, film thickness, and incident wavelength below. The simulation calculates the optical path difference and visualizes the resulting interference in real-time. Notice how the phase shifts (marked as $\pi$) appear or disappear as you change the indices.
+                </p>
+
+                <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-700 flex flex-col xl:flex-row text-white">
+                    
+                    <!-- Controls panel -->
+                    <div class="xl:w-1/3 bg-slate-800 p-6 flex flex-col gap-6">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-100 border-b border-slate-600 pb-2 mb-4">Environment Setup</h3>
+                            
+                            <!-- n1 -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="text-slate-300">Top Medium ($n_1$)</label>
+                                    <span id="lbl_n1" class="font-mono text-cyan-400 font-bold">1.00 (Air)</span>
+                                </div>
+                                <input type="range" id="sim_n1" min="1.0" max="2.5" step="0.01" value="1.0" class="w-full accent-cyan-500">
+                            </div>
+
+                            <!-- n2 -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="text-slate-300">Thin Film ($n_2$)</label>
+                                    <span id="lbl_n2" class="font-mono text-primary-400 font-bold">1.33 (Water)</span>
+                                </div>
+                                <input type="range" id="sim_n2" min="1.0" max="2.5" step="0.01" value="1.33" class="w-full accent-primary-500">
+                            </div>
+
+                            <!-- n3 -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="text-slate-300">Substrate ($n_3$)</label>
+                                    <span id="lbl_n3" class="font-mono text-emerald-400 font-bold">1.00 (Air)</span>
+                                </div>
+                                <input type="range" id="sim_n3" min="1.0" max="2.5" step="0.01" value="1.0" class="w-full accent-emerald-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-100 border-b border-slate-600 pb-2 mb-4">Physical Properties</h3>
+                            
+                            <!-- Thickness -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="text-slate-300">Thickness ($t$)</label>
+                                    <span id="lbl_t" class="font-mono text-yellow-400 font-bold">200 nm</span>
+                                </div>
+                                <input type="range" id="sim_t" min="0" max="1000" step="1" value="200" class="w-full accent-yellow-500">
+                            </div>
+
+                            <!-- Wavelength -->
+                            <div class="mb-2">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="text-slate-300">Wavelength ($\lambda$)</label>
+                                    <span id="lbl_w" class="font-mono font-bold" style="color: #00ff00;">532 nm</span>
+                                </div>
+                                <input type="range" id="sim_w" min="380" max="750" step="1" value="532" class="w-full h-2 rounded-lg appearance-none cursor-pointer" style="background: linear-gradient(to right, #7900ff, #0000ff, #00ff00, #ffff00, #ff7f00, #ff0000);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Area -->
+                    <div class="xl:w-2/3 relative h-80 xl:h-auto min-h-[400px]">
+                        <canvas id="opticsCanvas" class="absolute inset-0 w-full h-full"></canvas>
+                        
+                        <!-- Overlay Metrics -->
+                        <div class="absolute top-4 right-4 bg-slate-900/80 backdrop-blur border border-slate-600 rounded-lg p-4 w-56 pointer-events-none">
+                            <h4 class="text-xs uppercase text-slate-400 font-bold tracking-wider mb-2 border-b border-slate-700 pb-1">Interference Result</h4>
+                            
+                            <div class="mb-2">
+                                <span class="text-xs text-slate-400 block">Condition</span>
+                                <span id="res_case" class="text-sm font-bold text-white">Case A (1 Shift)</span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <span class="text-xs text-slate-400 block">Phase Diff ($\Delta\phi$)</span>
+                                <span id="res_phase" class="text-sm font-mono text-white">0.00 rad</span>
+                            </div>
+
+                            <div class="mt-3 pt-3 border-t border-slate-700">
+                                <span class="text-xs text-slate-400 block mb-1">Intensity</span>
+                                <div class="w-full bg-slate-800 rounded-full h-3">
+                                    <div id="res_intensity_bar" class="bg-green-500 h-3 rounded-full transition-all duration-300" style="width: 100%"></div>
+                                </div>
+                                <span id="res_state" class="text-xs font-bold block mt-1 text-green-400 text-center uppercase tracking-wide">Constructive</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-3 text-center">Note: Simulation assumes near-normal incidence for strict alignment with the simplified $2t$ path difference formulas.</p>
+            </section>
+
+            <!-- Section 4: Problem-Solving Master Strategy -->
+            <section id="strategy" class="scroll-mt-28 mb-16">
+                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">4. Problem-Solving Master Strategy</h2>
+                <p class="mb-6">
+                    Thin-film problems require a systematic approach. If you skip a step, you will almost certainly use the wrong equation. Follow this protocol strictly:
+                </p>
+
+                <ol class="space-y-6 list-none pl-0 font-sans">
+                    <li class="bg-white p-6 rounded-xl border-l-4 border-primary-600 shadow-sm relative">
+                        <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-primary-600 text-white font-bold flex items-center justify-center text-sm shadow-md">1</div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-2">Analyze Index Steps & Phase Shifts</h4>
+                        <p class="text-slate-600 text-sm">
+                            List out $n_{\text{ambient}}$, $n_{\text{film}}$, and $n_{\text{substrate}}$ in vertical sequence. Identify phase shifts at the upper and lower reflections. 
+                            <br><span class="inline-block mt-2 font-mono bg-slate-100 px-2 py-1 rounded text-primary-800 border border-slate-200">Rule: If traversing Low &rarr; High index, record a $\pi$ shift.</span>
+                        </p>
+                    </li>
+                    <li class="bg-white p-6 rounded-xl border-l-4 border-indigo-500 shadow-sm relative">
+                        <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center text-sm shadow-md">2</div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-2">Select the Governing Equation</h4>
+                        <p class="text-slate-600 text-sm">
+                            Choose Case A (one shift total) or Case B (zero or two shifts total) based on your boundary shift count from Step 1.
+                        </p>
+                    </li>
+                    <li class="bg-white p-6 rounded-xl border-l-4 border-teal-500 shadow-sm relative">
+                        <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-teal-500 text-white font-bold flex items-center justify-center text-sm shadow-md">3</div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-2">Isolate the Minimum Boundary Limit</h4>
+                        <p class="text-slate-600 text-sm">
+                            Often, problems ask for the "thinnest" film. Set $m=0$ or $m=1$ to find the minimum $t$. <br>
+                            <em>Example:</em> If solving for the thinnest non-zero constructive film under Case A conditions, set $m=0$, yielding:
+                            <span class="block mt-2 text-center text-lg text-slate-800">$$2t = \frac{1}{2}\lambda_{\text{film}} \implies t = \frac{\lambda_{\text{vacuum}}}{4n_{\text{film}}}$$</span>
+                        </p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Section 5: Quiz -->
+            <section id="quiz" class="scroll-mt-28 mb-16 font-sans">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">5. Knowledge Check</h2>
+                <div id="quiz-container" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <!-- Quiz dynamically injected via JS -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-8 text-center border-t border-slate-800 font-sans">
+        <p class="text-slate-400 text-sm">Interactive Physics Guide &copy; 2026. Generated for optimal learning.</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // --- 1. SIMULATION LOGIC ---
+        const canvas = document.getElementById('opticsCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // DOM Elements
+        const el_n1 = document.getElementById('sim_n1');
+        const el_n2 = document.getElementById('sim_n2');
+        const el_n3 = document.getElementById('sim_n3');
+        const el_t = document.getElementById('sim_t');
+        const el_w = document.getElementById('sim_w');
+        
+        const lbl_n1 = document.getElementById('lbl_n1');
+        const lbl_n2 = document.getElementById('lbl_n2');
+        const lbl_n3 = document.getElementById('lbl_n3');
+        const lbl_t = document.getElementById('lbl_t');
+        const lbl_w = document.getElementById('lbl_w');
+
+        const res_case = document.getElementById('res_case');
+        const res_phase = document.getElementById('res_phase');
+        const res_intensity_bar = document.getElementById('res_intensity_bar');
+        const res_state = document.getElementById('res_state');
+
+        let time = 0;
+        let animationId;
+
+        // Wavelength to RGB helper
+        function nmToRGB(wavelength){
+            let R, G, B, alpha;
+            if(wavelength >= 380 && wavelength < 440){
+                R = -(wavelength - 440) / (440 - 380); G = 0.0; B = 1.0;
+            } else if(wavelength >= 440 && wavelength < 490){
+                R = 0.0; G = (wavelength - 440) / (490 - 440); B = 1.0;
+            } else if(wavelength >= 490 && wavelength < 510){
+                R = 0.0; G = 1.0; B = -(wavelength - 510) / (510 - 490);
+            } else if(wavelength >= 510 && wavelength < 580){
+                R = (wavelength - 510) / (580 - 510); G = 1.0; B = 0.0;
+            } else if(wavelength >= 580 && wavelength < 645){
+                R = 1.0; G = -(wavelength - 645) / (645 - 580); B = 0.0;
+            } else if(wavelength >= 645 && wavelength <= 750){
+                R = 1.0; G = 0.0; B = 0.0;
+            } else { R = 0.0; G = 0.0; B = 0.0; }
+
+            if(wavelength >= 380 && wavelength < 420){
+                alpha = 0.3 + 0.7*(wavelength - 380) / (420 - 380);
+            } else if(wavelength >= 420 && wavelength < 701){
+                alpha = 1.0;
+            } else if(wavelength >= 701 && wavelength <= 750){
+                alpha = 0.3 + 0.7*(750 - wavelength) / (750 - 700);
+            } else { alpha = 0.0; }
+            
+            return `rgba(${Math.round(R * 255)}, ${Math.round(G * 255)}, ${Math.round(B * 255)}, ${alpha})`;
+        }
+
+        function getMaterialName(n) {
+            n = parseFloat(n);
+            if (n === 1.0) return "(Air)";
+            if (n === 1.33) return "(Water)";
+            if (n > 1.33 && n <= 1.4) return "(MgF2)";
+            if (n > 1.4 && n <= 1.6) return "(Glass)";
+            if (n > 1.6 && n <= 2.0) return "(Sapphire)";
+            if (n > 2.0) return "(Diamond)";
+            return "";
+        }
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawWave(ctx, startX, startY, endX, endY, amplitude, frequency, phase, color) {
+            ctx.beginPath();
+            const dist = Math.hypot(endX - startX, endY - startY);
+            const dx = (endX - startX) / dist;
+            const dy = (endY - startY) / dist;
+            
+            for(let i=0; i<dist; i+=2) {
+                const x = startX + i * dx;
+                const y = startY + i * dy;
+                
+                // Perpendicular displacement for the wave
+                const perpX = -dy;
+                const perpY = dx;
+                
+                // k = 2pi / wavelength (scaled for visual). w = frequency
+                const displacement = amplitude * Math.sin(i * frequency - time * 0.1 + phase);
+                
+                const finalX = x + perpX * displacement;
+                const finalY = y + perpY * displacement;
+                
+                if(i===0) ctx.moveTo(finalX, finalY);
+                else ctx.lineTo(finalX, finalY);
+            }
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function updateSimulation() {
+            const n1 = parseFloat(el_n1.value);
+            const n2 = parseFloat(el_n2.value);
+            const n3 = parseFloat(el_n3.value);
+            const t = parseFloat(el_t.value); // in nm
+            const w = parseFloat(el_w.value); // in nm
+
+            // Update Labels
+            lbl_n1.innerText = `${n1.toFixed(2)} ${getMaterialName(n1)}`;
+            lbl_n2.innerText = `${n2.toFixed(2)} ${getMaterialName(n2)}`;
+            lbl_n3.innerText = `${n3.toFixed(2)} ${getMaterialName(n3)}`;
+            lbl_t.innerText = `${t} nm`;
+            lbl_w.innerText = `${w} nm`;
+            lbl_w.style.color = nmToRGB(w);
+            el_w.style.setProperty('--track-color', nmToRGB(w));
+
+            // Physics Math
+            const shift1 = (n2 > n1) ? Math.PI : 0;
+            const shift2 = (n3 > n2) ? Math.PI : 0;
+            
+            // Optical Path Difference (assuming normal incidence)
+            const OPD = 2 * n2 * t; 
+            
+            // Phase difference due to path length: (2pi / lambda_vac) * OPD
+            const pathPhaseDiff = (2 * Math.PI / w) * OPD;
+            
+            // Total phase difference
+            let totalPhaseDiff = pathPhaseDiff + shift2 - shift1;
+            
+            // Normalize to 0 -> 2pi
+            totalPhaseDiff = ((totalPhaseDiff % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+            
+            // Calculate Intensity I = I_max * cos^2(delta/2)
+            const intensity = Math.pow(Math.cos(totalPhaseDiff / 2), 2);
+
+            // Update UI Metrics
+            const numShifts = (shift1 > 0 ? 1 : 0) + (shift2 > 0 ? 1 : 0);
+            res_case.innerText = numShifts === 1 ? "Case A (1 Shift)" : `Case B (${numShifts} Shifts)`;
+            res_phase.innerText = `${(totalPhaseDiff / Math.PI).toFixed(2)}π rad`;
+            
+            res_intensity_bar.style.width = `${Math.max(2, intensity * 100)}%`; // min 2% so it's visible
+            
+            if (intensity > 0.8) {
+                res_state.innerText = "Constructive";
+                res_intensity_bar.className = "h-3 rounded-full transition-all duration-300 bg-green-500 shadow-[0_0_10px_#22c55e]";
+                res_state.className = "text-xs font-bold block mt-1 text-green-400 text-center uppercase tracking-wide";
+            } else if (intensity < 0.2) {
+                res_state.innerText = "Destructive";
+                res_intensity_bar.className = "h-3 rounded-full transition-all duration-300 bg-red-500";
+                res_state.className = "text-xs font-bold block mt-1 text-red-400 text-center uppercase tracking-wide";
+            } else {
+                res_state.innerText = "Partial Interference";
+                res_intensity_bar.className = "h-3 rounded-full transition-all duration-300 bg-yellow-500";
+                res_state.className = "text-xs font-bold block mt-1 text-yellow-400 text-center uppercase tracking-wide";
+            }
+
+            // Draw Canvas
+            const W = canvas.width;
+            const H = canvas.height;
+            ctx.clearRect(0, 0, W, H);
+
+            // Draw boundaries based on physical thickness relative to max (1000)
+            const topBoundaryY = H * 0.3;
+            // Map thickness to pixel height (min 20px, max H*0.4)
+            const filmH = 20 + (t / 1000) * (H * 0.4); 
+            const bottomBoundaryY = topBoundaryY + filmH;
+
+            // Mediums background
+            ctx.fillStyle = `rgba(30, 41, 59, 1.0)`; // n1 (ambient)
+            ctx.fillRect(0, 0, W, topBoundaryY);
+            
+            // Map index n2 to brightness for visual distinction
+            const filmAlpha = (n2 - 1.0) / 1.5 * 0.5 + 0.1;
+            ctx.fillStyle = `rgba(56, 189, 248, ${filmAlpha})`; // n2
+            ctx.fillRect(0, topBoundaryY, W, filmH);
+            
+            const subAlpha = (n3 - 1.0) / 1.5 * 0.5 + 0.1;
+            ctx.fillStyle = `rgba(16, 185, 129, ${subAlpha})`; // n3
+            ctx.fillRect(0, bottomBoundaryY, W, H - bottomBoundaryY);
+
+            // Render Labels on Canvas
+            ctx.fillStyle = "rgba(255,255,255,0.4)";
+            ctx.font = "12px monospace";
+            ctx.fillText(`n₁ = ${n1.toFixed(2)}`, 10, topBoundaryY - 10);
+            ctx.fillText(`n₂ = ${n2.toFixed(2)}`, 10, topBoundaryY + 20);
+            ctx.fillText(`n₃ = ${n3.toFixed(2)}`, 10, bottomBoundaryY + 20);
+
+            // Draw Waves
+            const waveColor = nmToRGB(w);
+            const fadeColor = waveColor.replace(/[\d\.]+\)$/g, '0.3)');
+            const k = 2 * Math.PI / (w / 10); // visual scaling for frequency
+
+            // Center coords
+            const cx = W / 2.5;
+
+            // 1. Incident Wave
+            drawWave(ctx, cx - 100, 0, cx, topBoundaryY, 15, k, 0, waveColor);
+
+            // 2. Reflected Wave 1 (Top boundary)
+            drawWave(ctx, cx, topBoundaryY, cx - 80, 0, 10, k, shift1, fadeColor);
+            
+            // Draw PI shift marker if shift1
+            if(shift1 > 0) {
+                ctx.fillStyle = "#ef4444";
+                ctx.beginPath(); ctx.arc(cx, topBoundaryY, 6, 0, 2*Math.PI); ctx.fill();
+                ctx.fillText("π shift", cx + 10, topBoundaryY - 5);
+            }
+
+            // 3. Transmitted Wave inside film
+            const w_film = w / n2; // Wavelength shrinks
+            const k_film = 2 * Math.PI / (w_film / 10);
+            drawWave(ctx, cx, topBoundaryY, cx + 50, bottomBoundaryY, 10, k_film, 0, waveColor);
+
+            // 4. Reflected Wave inside film
+            // Phase at bottom is path travel down (k_film * dist) + shift2
+            const distDown = Math.hypot(50, filmH);
+            const phaseAtBottom = k_film * distDown + shift2;
+            drawWave(ctx, cx + 50, bottomBoundaryY, cx + 100, topBoundaryY, 10, k_film, phaseAtBottom, fadeColor);
+
+            if(shift2 > 0) {
+                ctx.fillStyle = "#ef4444";
+                ctx.beginPath(); ctx.arc(cx + 50, bottomBoundaryY, 6, 0, 2*Math.PI); ctx.fill();
+                ctx.fillText("π shift", cx + 60, bottomBoundaryY - 5);
+            }
+
+            // 5. Exiting Wave 2 (Combining)
+            // It exits parallel to wave 1.
+            // Visually we will just draw the SUPERPOSITION wave on the right side to show result.
+            
+            const superX = W * 0.8;
+            ctx.strokeStyle = "rgba(255,255,255,0.2)";
+            ctx.beginPath(); ctx.moveTo(superX, 0); ctx.lineTo(superX, H); ctx.stroke();
+            
+            ctx.save();
+            ctx.translate(superX, H/2);
+            ctx.beginPath();
+            for(let y = -H/2; y < H/2; y+=2) {
+                // resultant amplitude = max_amp * cos(totalPhaseDiff/2) * sin(ky - wt)
+                // We use intensity to scale the visual amplitude
+                const combinedAmp = 30 * Math.sqrt(intensity); 
+                const x = combinedAmp * Math.sin(k * y - time * 0.1);
+                if(y === -H/2) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = waveColor;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.restore();
+
+            // Label superposition
+            ctx.fillStyle = "rgba(255,255,255,0.7)";
+            ctx.textAlign = "center";
+            ctx.fillText("Resulting Output Wave", superX, H - 20);
+
+            time++;
+            animationId = requestAnimationFrame(updateSimulation);
+        }
+
+        // Add Listeners to sliders
+        [el_n1, el_n2, el_n3, el_t, el_w].forEach(el => {
+            el.addEventListener('input', () => {
+                cancelAnimationFrame(animationId);
+                updateSimulation();
+            });
+        });
+
+        // Init
+        resizeCanvas();
+        updateSimulation();
+
+        // --- 2. QUIZ LOGIC ---
+        const quizData = [
+            {
+                q: "Light travels from air ($n=1.0$) into a soap bubble film ($n=1.33$) and reflects off the inner air boundary. Which boundaries produce a phase shift?",
+                options: [
+                    "Both boundaries",
+                    "Neither boundary",
+                    "Only the top boundary (Air to Soap)",
+                    "Only the bottom boundary (Soap to Air)"
+                ],
+                correct: 2,
+                exp: "Correct! The top boundary goes from lower to higher index (1.0 -> 1.33), causing a 180° shift. The bottom boundary goes higher to lower (1.33 -> 1.0), causing no shift. This is Case A."
+            },
+            {
+                q: "For an anti-reflective coating where $n_{\\text{air}} < n_{\\text{film}} < n_{\\text{lens}}$, what is the correct formula to find the thinnest film for DESTRUCTIVE interference?",
+                options: [
+                    "$2t = m\\lambda_{\\text{film}}$ where $m=0$",
+                    "$2t = (m + 0.5)\\lambda_{\\text{film}}$ where $m=0$",
+                    "$2t = m\\lambda_{\\text{vacuum}}$ where $m=1$",
+                    "$2t = (m + 0.5)\\lambda_{\\text{vacuum}}$ where $m=0$"
+                ],
+                correct: 1,
+                exp: "Correct! Both boundaries cause a shift (Case B). For Case B destructive interference, we use $2t = (m + 0.5)\\lambda_{\\text{film}}$. Setting $m=0$ gives the thinnest film: $t = \\lambda_{\\text{film}} / 4$."
+            },
+            {
+                q: "If the wavelength of a red laser in a vacuum is 600 nm, what is its wavelength inside a glass film with an index of refraction of 1.5?",
+                options: [
+                    "900 nm",
+                    "600 nm",
+                    "400 nm",
+                    "300 nm"
+                ],
+                correct: 2,
+                exp: "Correct! The wavelength inside a medium is $\\lambda_{\\text{film}} = \\lambda_{\\text{vacuum}} / n$. Thus, 600 / 1.5 = 400 nm."
+            }
+        ];
+
+        function initQuiz() {
+            const container = document.getElementById('quiz-container');
+            
+            quizData.forEach((item, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = "mb-8 pb-8 border-b border-slate-100 last:border-0";
+                
+                const qText = document.createElement('h4');
+                qText.className = "font-bold text-lg text-slate-800 mb-4";
+                qText.innerHTML = `<span class="text-primary-600 mr-2">Q${index + 1}.</span> ${item.q}`;
+                questionBlock.appendChild(qText);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = "space-y-3";
+
+                const explanation = document.createElement('div');
+                explanation.className = "mt-4 p-4 rounded-lg bg-slate-50 text-slate-700 text-sm hidden border border-slate-200";
+
+                item.options.forEach((opt, optIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full text-left p-4 rounded-lg border border-slate-200 hover:border-primary-400 hover:bg-primary-50 transition-all font-serif text-slate-700";
+                    btn.innerHTML = opt;
+                    
+                    btn.onclick = () => {
+                        // Reset all buttons in this group
+                        Array.from(optionsContainer.children).forEach(b => {
+                            b.className = "w-full text-left p-4 rounded-lg border border-slate-200 opacity-50 cursor-not-allowed font-serif text-slate-700";
+                            b.disabled = true;
+                        });
+
+                        // Style selected
+                        if (optIndex === item.correct) {
+                            btn.className = "w-full text-left p-4 rounded-lg border-2 border-green-500 bg-green-50 font-bold text-green-900";
+                            explanation.innerHTML = `<strong>✅ ${item.exp}</strong>`;
+                            explanation.className = "mt-4 p-4 rounded-lg bg-green-50 border border-green-200 text-green-800 text-sm block";
+                        } else {
+                            btn.className = "w-full text-left p-4 rounded-lg border-2 border-red-500 bg-red-50 font-bold text-red-900";
+                            optionsContainer.children[item.correct].className = "w-full text-left p-4 rounded-lg border-2 border-green-500 bg-green-50 font-bold text-green-900";
+                            explanation.innerHTML = `<strong>❌ Incorrect.</strong> <br>${item.exp}`;
+                            explanation.className = "mt-4 p-4 rounded-lg bg-red-50 border border-red-200 text-red-800 text-sm block";
+                        }
+                        
+                        // Tell MathJax to re-render in case there's math in the explanation
+                        if(window.MathJax) {
+                            MathJax.typesetPromise([explanation]).catch((err) => console.log(err.message));
+                        }
+                    };
+                    optionsContainer.appendChild(btn);
+                });
+
+                questionBlock.appendChild(optionsContainer);
+                questionBlock.appendChild(explanation);
+                container.appendChild(questionBlock);
+            });
+            
+            // Initial MathJax render for quiz
+            if(window.MathJax) {
+                MathJax.typesetPromise([container]).catch((err) => console.log(err.message));
+            }
+        }
+        
+        initQuiz();
+
+        // --- 3. DOWNLOAD LOGIC ---
+        const btnDownload = document.getElementById('btnDownload');
+        if (btnDownload) { // Crucial check from user history constraints
+            btnDownload.addEventListener('click', () => {
+                const text = 
+                    `WAVE OPTICS & THIN-FILM INTERFERENCE FORMULA CHEAT SHEET\n` +
+                    `========================================================\n\n` +
+                    `1. Wavelength in a Medium:\n` +
+                    `lambda_film = lambda_vacuum / n_film\n\n` +
+                    `2. Phase Shift Rules:\n` +
+                    `- Low Index -> High Index Reflection: 180 deg (pi) shift\n` +
+                    `- High Index -> Low Index Reflection: 0 deg (no shift)\n\n` +
+                    `3. Master Equations (2t = Optical Path Difference):\n\n` +
+                    `CASE A (Exactly ONE boundary causes a shift):\n` +
+                    `- Constructive Interference: 2t = (m + 0.5) * lambda_film\n` +
+                    `- Destructive Interference: 2t = m * lambda_film\n\n` +
+                    `CASE B (BOTH or NEITHER boundary causes a shift):\n` +
+                    `- Constructive Interference: 2t = m * lambda_film\n` +
+                    `- Destructive Interference: 2t = (m + 0.5) * lambda_film\n\n` +
+                    `Problem Solving Hint: To find the "thinnest" film, set m=0 or m=1 depending on the equation to yield the smallest non-zero 't'.`;
+                
+                const blob = new Blob([text], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'thin_film_formulas.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+    </script>
+</body>
+</html>

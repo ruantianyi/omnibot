@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermodynamics & Heat Engines: An Interactive Physics Guide</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#fff1f2', 100: '#ffe4e6', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c', 900: '#881337' },
+                        secondary: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'ui-serif', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- MathJax for LaTeX Equations -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .math-serif { font-family: 'Merriweather', serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #e11d48, #0284c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* SVG Graph Styling */
+        .path-isobaric { stroke: #eab308; stroke-width: 3; fill: none; }
+        .path-isochoric { stroke: #22c55e; stroke-width: 3; fill: none; }
+        .path-isothermal { stroke: #3b82f6; stroke-width: 3; fill: none; }
+        .path-adiabatic { stroke: #ef4444; stroke-width: 3; fill: none; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">Physics<span class="text-primary-600">Interactive</span></span>
+                </div>
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
+                    <a href="#governing" class="hover:text-primary-600 transition-colors">Governing Physics</a>
+                    <a href="#processes" class="hover:text-primary-600 transition-colors">Mathematical Derivations</a>
+                    <a href="#simulation" class="hover:text-primary-600 transition-colors">Carnot Simulator</a>
+                    <a href="#strategy" class="hover:text-primary-600 transition-colors">Master Strategy</a>
+                </div>
+                <button id="btnDownloadHeader" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    <span>Cheat Sheet</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 bg-gradient-to-br from-slate-50 to-slate-100 border-b border-slate-200">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center space-x-2 bg-primary-50 text-primary-700 px-3 py-1 rounded-full text-sm font-semibold mb-6 border border-primary-100">
+                <span class="flex h-2 w-2 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                </span>
+                <span>Chapter 7</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
+                Thermodynamics & <span class="gradient-text">Ideal Gas Heat Engines</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto math-serif">
+                A rigorous exploration of macroscopic state parameters, cycle equations, and the theoretical limits of thermodynamic efficiency. Master the $P-V$ diagram and the Carnot Engine.
+            </p>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row gap-12">
+        
+        <!-- Main Content Area -->
+        <main class="w-full lg:w-2/3 space-y-16">
+            
+            <!-- Section: Governing Physics -->
+            <section id="governing" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg tex2jax_process">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-primary-100 p-2 rounded-lg text-primary-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900">The Governing Physics</h2>
+                </div>
+                <p class="mb-4">
+                    Thermodynamics tracks macroscopic state parameters—<strong>Pressure ($P$)</strong>, <strong>Volume ($V$)</strong>, <strong>Temperature ($T$)</strong>, and <strong>Entropy ($S$)</strong>—as thermal systems interact. 
+                </p>
+                <p class="mb-6">
+                    A <strong>heat engine</strong> operates on a closed cyclic thermodynamic path. Its primary function is absorbing thermal energy ($Q_H$) from a high-temperature reservoir, converting a fraction of it into mechanical work ($W$), and exhausting the leftover low-grade thermal waste ($Q_C$) into a cold sink. Because the engine operates in a cycle, the working fluid (usually an ideal gas) constantly returns to its initial state.
+                </p>
+
+                <!-- Visual: Heat Engine Flow Block -->
+                <div class="my-8 glass-panel rounded-xl p-8 flex flex-col items-center justify-center">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">Standard Heat Engine Flow Diagram</h3>
+                    <svg width="300" height="350" viewBox="0 0 300 350" class="overflow-visible">
+                        <!-- Hot Reservoir -->
+                        <rect x="50" y="20" width="200" height="60" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
+                        <text x="150" y="55" text-anchor="middle" font-weight="bold" fill="#b91c1c" font-size="16">Hot Reservoir ($T_H$)</text>
+                        
+                        <!-- Arrow QH -->
+                        <path d="M 150 80 L 150 140" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-red)"/>
+                        <text x="165" y="115" fill="#ef4444" font-weight="bold">$Q_H$ (Input Heat)</text>
+
+                        <!-- Engine -->
+                        <circle cx="150" cy="180" r="40" fill="#f8fafc" stroke="#64748b" stroke-width="4"/>
+                        <text x="150" y="185" text-anchor="middle" font-weight="bold" fill="#334155" font-size="14">Engine</text>
+
+                        <!-- Arrow Work -->
+                        <path d="M 190 180 L 260 180" stroke="#0ea5e9" stroke-width="6" marker-end="url(#arrow-blue)"/>
+                        <text x="225" y="170" text-anchor="middle" fill="#0ea5e9" font-weight="bold">$W_{\text{net}}$</text>
+
+                        <!-- Arrow QC -->
+                        <path d="M 150 220 L 150 280" stroke="#3b82f6" stroke-width="6" marker-end="url(#arrow-blue-down)"/>
+                        <text x="165" y="255" fill="#3b82f6" font-weight="bold">$Q_C$ (Exhaust)</text>
+
+                        <!-- Cold Reservoir -->
+                        <rect x="50" y="280" width="200" height="60" rx="8" fill="#e0f2fe" stroke="#3b82f6" stroke-width="3"/>
+                        <text x="150" y="315" text-anchor="middle" font-weight="bold" fill="#0369a1" font-size="16">Cold Sink ($T_C$)</text>
+
+                        <!-- Defs for Arrows -->
+                        <defs>
+                            <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+                            </marker>
+                            <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#0ea5e9" />
+                            </marker>
+                            <marker id="arrow-blue-down" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Section: Mathematical Derivations & Cycle Equations -->
+            <section id="processes" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg tex2jax_process">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-secondary-100 p-2 rounded-lg text-secondary-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900">Mathematical Derivations & Cycle Equations</h2>
+                </div>
+                
+                <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-6 mb-8 border-l-4 border-l-primary-500">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">The First Law of Thermodynamics</h3>
+                    <p class="text-slate-600 mb-4">The fundamental statement of the Conservation of Energy for a thermal system.</p>
+                    <div class="bg-slate-50 p-4 rounded-lg overflow-x-auto text-center font-bold text-2xl my-4">
+                        $$\Delta U = Q - W$$
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600 ml-2">
+                        <li><strong>$\Delta U$</strong>: Change in internal energy (depends <em>only</em> on temperature for an ideal gas).</li>
+                        <li><strong>$Q$</strong>: Heat <em>added to</em> the system.</li>
+                        <li><strong>$W$</strong>: Work performed <em>by</em> the gas ($+W$ indicates expansion).</li>
+                    </ul>
+                </div>
+
+                <p class="mb-6">
+                    For a continuous path on a $P-V$ diagram, work is not a mere multiplication; it is evaluated via the geometric area under the curve using integral calculus:
+                </p>
+                <div class="bg-slate-50 p-4 rounded-lg overflow-x-auto text-center font-bold text-xl mb-8">
+                    $$W = \int_{V_1}^{V_2} P \, dV$$
+                </div>
+
+                <h3 class="text-2xl font-bold text-slate-900 mt-10 mb-6">The Four Fundamental Processes</h3>
+                <p class="mb-6">Evaluating the work integral and applying the First Law yields simplified relations for four special thermodynamic paths:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                    <!-- Isobaric -->
+                    <div class="glass-panel p-6 rounded-xl border-t-4 border-t-yellow-500 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-yellow-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2">Isobaric</h4>
+                        <p class="text-sm text-yellow-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Pressure ($\Delta P = 0$)</p>
+                        <p class="text-sm mb-2 text-slate-600">The gas expands or compresses at a steady pressure.</p>
+                        <div class="text-center font-mono bg-slate-50 py-2 rounded">
+                            $$W = P(V_2 - V_1)$$
+                        </div>
+                    </div>
+                    <!-- Isochoric -->
+                    <div class="glass-panel p-6 rounded-xl border-t-4 border-t-green-500 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2">Isochoric</h4>
+                        <p class="text-sm text-green-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Volume ($\Delta V = 0$)</p>
+                        <p class="text-sm mb-2 text-slate-600">No spatial displacement occurs, thus no mechanical work is done.</p>
+                        <div class="text-center font-mono bg-slate-50 py-2 rounded">
+                            $$W = 0 \implies \Delta U = Q$$
+                        </div>
+                    </div>
+                    <!-- Isothermal -->
+                    <div class="glass-panel p-6 rounded-xl border-t-4 border-t-blue-500 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2">Isothermal</h4>
+                        <p class="text-sm text-blue-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Temperature ($\Delta T = 0$)</p>
+                        <p class="text-sm mb-2 text-slate-600">Internal energy is strictly tied to temp, so $\Delta U = 0$. Using $P = \frac{nRT}{V}$, the integral becomes a natural log.</p>
+                        <div class="text-center font-mono bg-slate-50 py-2 rounded">
+                            $$Q = W = nRT\ln\left(\frac{V_2}{V_1}\right)$$
+                        </div>
+                    </div>
+                    <!-- Adiabatic -->
+                    <div class="glass-panel p-6 rounded-xl border-t-4 border-t-red-500 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-red-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2">Adiabatic</h4>
+                        <p class="text-sm text-red-600 font-semibold mb-4 border-b border-slate-200 pb-2">No Heat Transfer ($Q = 0$)</p>
+                        <p class="text-sm mb-2 text-slate-600">The system is perfectly insulated. Expansion cools the gas natively. Follows $P V^\gamma = \text{Constant}$.</p>
+                        <div class="text-center font-mono bg-slate-50 py-2 rounded">
+                            $$\Delta U = -W$$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Combined PV Diagram SVG -->
+                <div class="my-8 glass-panel rounded-xl p-8 text-center shadow-inner">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Visualizing Expansion on the P-V Plane</h3>
+                    <p class="text-sm text-slate-500 mb-6">Starting from a single state $(P_0, V_0)$, observe how pressure drops across different expansion regimes.</p>
+                    <svg viewBox="0 0 400 300" class="w-full max-w-lg mx-auto bg-white rounded border border-slate-200 shadow-sm" aria-label="P-V Diagram showing 4 processes">
+                        <!-- Grid and Axes -->
+                        <g stroke="#e2e8f0" stroke-width="1">
+                            <line x1="50" y1="250" x2="350" y2="250" stroke="#94a3b8" stroke-width="2"/> <!-- X Axis -->
+                            <line x1="50" y1="50" x2="50" y2="250" stroke="#94a3b8" stroke-width="2"/> <!-- Y Axis -->
+                            <text x="360" y="255" font-size="14" fill="#64748b" font-weight="bold">V</text>
+                            <text x="40" y="40" font-size="14" fill="#64748b" font-weight="bold">P</text>
+                        </g>
+
+                        <!-- Starting Node -->
+                        <circle cx="100" cy="100" r="5" fill="#0f172a" />
+                        <text x="75" y="95" font-size="12" font-weight="bold">$(P_0, V_0)$</text>
+
+                        <!-- Paths (Expansion) -->
+                        <!-- Isobaric: constant P -->
+                        <line x1="100" y1="100" x2="300" y2="100" class="path-isobaric" marker-end="url(#arrow-yellow)"/>
+                        <text x="310" y="105" font-size="12" fill="#eab308" font-weight="bold">Isobaric</text>
+
+                        <!-- Isochoric: constant V (downward for pressure drop example, or upward for heat addition) -->
+                        <line x1="100" y1="100" x2="100" y2="220" class="path-isochoric" marker-end="url(#arrow-green)"/>
+                        <text x="105" y="235" font-size="12" fill="#22c55e" font-weight="bold">Isochoric (cooling)</text>
+
+                        <!-- Isothermal: P = k/V -->
+                        <path d="M 100 100 Q 150 150 300 150" class="path-isothermal" marker-end="url(#arrow-blue-path)"/>
+                        <text x="310" y="155" font-size="12" fill="#3b82f6" font-weight="bold">Isothermal ($1/V$)</text>
+
+                        <!-- Adiabatic: P = k/V^gamma -->
+                        <path d="M 100 100 Q 130 180 300 210" class="path-adiabatic" marker-end="url(#arrow-red-path)"/>
+                        <text x="310" y="215" font-size="12" fill="#ef4444" font-weight="bold">Adiabatic ($1/V^\gamma$)</text>
+
+                        <!-- Markers -->
+                        <defs>
+                            <marker id="arrow-yellow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#eab308" /></marker>
+                            <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#22c55e" /></marker>
+                            <marker id="arrow-blue-path" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" /></marker>
+                            <marker id="arrow-red-path" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" /></marker>
+                        </defs>
+                    </svg>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Engine Efficiency & The Carnot Limit</h3>
+                <p class="mb-4">
+                    The efficiency $\eta$ of <em>any</em> engine cycle is defined by the ratio of the desired output (net work) to the costly input (heat from the high-temperature reservoir):
+                </p>
+                <div class="bg-slate-50 p-4 rounded-lg overflow-x-auto text-center font-bold text-xl mb-6 border border-slate-200">
+                    $$\eta = \frac{W_{\text{net}}}{Q_H} = \frac{Q_H - |Q_C|}{Q_H} = 1 - \frac{|Q_C|}{Q_H}$$
+                </div>
+                <p class="mb-6 bg-blue-50 p-4 rounded text-blue-900 border-l-4 border-blue-500">
+                    <strong>The Carnot Limit:</strong> Sadi Carnot proved that no heat engine operating between two temperatures can be more efficient than a reversible Carnot engine operating between those same two reservoirs. The upper theoretical limit depends solely on absolute temperatures (in Kelvin):
+                </p>
+                <div class="bg-blue-900 text-white p-4 rounded-lg overflow-x-auto text-center font-bold text-2xl shadow-md mb-8">
+                    $$\eta_{\text{max}} = 1 - \frac{T_C}{T_H}$$
+                </div>
+            </section>
+
+            <!-- Section: Interactive Simulation (Carnot Engine) -->
+            <section id="simulation" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="bg-primary-600 p-2 rounded-lg text-white shadow-md shadow-primary-200">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900">Interactive Carnot Engine Simulator</h2>
+                </div>
+                
+                <p class="mb-6">
+                    Manipulate the hot ($T_H$) and cold ($T_C$) reservoirs of an idealized Carnot cycle. Watch how the P-V diagram shifts, affecting the enclosed area (Net Work) and the theoretical efficiency limit.
+                </p>
+
+                <!-- Simulator Container -->
+                <div class="glass-panel rounded-2xl shadow-xl overflow-hidden border border-slate-200 mb-10">
+                    <!-- Top Readouts -->
+                    <div class="grid grid-cols-3 divide-x divide-slate-200 bg-slate-50 border-b border-slate-200">
+                        <div class="p-4 text-center">
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Max Efficiency ($\eta$)</p>
+                            <p id="sim-efficiency" class="text-2xl font-black text-primary-600 font-mono">--%</p>
+                        </div>
+                        <div class="p-4 text-center">
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Net Work ($W_{\text{net}}$)</p>
+                            <p id="sim-work" class="text-2xl font-black text-secondary-600 font-mono">-- J</p>
+                        </div>
+                        <div class="p-4 text-center bg-slate-800 text-white">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wide">Current Phase</p>
+                            <p id="sim-phase" class="text-lg font-bold font-mono tracking-tight text-green-400 mt-1">Isothermal Exp.</p>
+                        </div>
+                    </div>
+
+                    <!-- Canvas and Piston Area -->
+                    <div class="flex flex-col md:flex-row p-6 gap-6 items-center justify-center bg-white">
+                        
+                        <!-- P-V Graph Canvas -->
+                        <div class="w-full md:w-1/2 relative bg-slate-50 rounded-xl border border-slate-200 shadow-inner p-2">
+                            <canvas id="carnotCanvas" width="400" height="300" class="w-full h-auto bg-transparent"></canvas>
+                        </div>
+
+                        <!-- Piston Animation -->
+                        <div class="w-full md:w-1/2 flex flex-col items-center">
+                            <h4 class="font-bold text-slate-700 mb-4">Cylinder Volume</h4>
+                            <div class="relative w-48 h-64 border-4 border-slate-800 rounded-b-xl border-t-0 bg-slate-100 overflow-hidden shadow-inner">
+                                <!-- Fire/Ice Indicator underneath -->
+                                <div id="reservoir-indicator" class="absolute bottom-0 w-full h-8 bg-gradient-to-t from-red-500 to-transparent opacity-50 transition-colors duration-500"></div>
+                                <!-- The Piston -->
+                                <div id="piston-head" class="absolute w-full h-6 bg-slate-800 top-20 left-0 flex items-center justify-center shadow-md">
+                                    <div class="w-2 h-full bg-slate-400 absolute left-1/2 -ml-1 -top-64"></div> <!-- Rod -->
+                                </div>
+                                <!-- Gas Particles (Simulated by background color pulse) -->
+                                <div id="gas-chamber" class="absolute bottom-0 w-full bg-red-100 transition-all duration-100" style="height: 150px; top: 104px;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="bg-slate-50 p-6 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label for="slider-th" class="font-bold text-slate-700 text-sm">Hot Reservoir ($T_H$)</label>
+                                <span id="val-th" class="text-red-600 font-mono font-bold bg-red-100 px-2 py-1 rounded text-sm">800 K</span>
+                            </div>
+                            <input type="range" id="slider-th" min="400" max="1200" value="800" step="10" class="w-full accent-red-500">
+                            <p class="text-xs text-slate-500 mt-2">Increasing $T_H$ expands the Carnot envelope upwards, vastly increasing net work and max efficiency.</p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label for="slider-tc" class="font-bold text-slate-700 text-sm">Cold Reservoir ($T_C$)</label>
+                                <span id="val-tc" class="text-blue-600 font-mono font-bold bg-blue-100 px-2 py-1 rounded text-sm">300 K</span>
+                            </div>
+                            <input type="range" id="slider-tc" min="100" max="800" value="300" step="10" class="w-full accent-blue-500">
+                            <p class="text-xs text-slate-500 mt-2">Decreasing $T_C$ expands the envelope downwards. Must be less than $T_H$.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Problem Solving Strategy -->
+            <section id="strategy" class="scroll-mt-24">
+                <div class="bg-slate-900 text-white rounded-2xl shadow-xl p-8 md:p-10 relative overflow-hidden tex2jax_process">
+                    <!-- Background decor -->
+                    <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-5 blur-3xl"></div>
+                    
+                    <h2 class="text-3xl font-extrabold mb-8 flex items-center space-x-3 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-200">
+                        <svg class="w-8 h-8 text-yellow-400 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span>Problem-Solving Master Strategy</span>
+                    </h2>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4">1</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-yellow-400 mb-1">Construct a State Table</h3>
+                                <p class="text-slate-300">Solve for $P$, $V$, and $T$ at every vertex (A, B, C, D) using the Ideal Gas Law ($PV = nRT$) before attempting to track energy metrics. The table grounds your variables.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4">2</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-yellow-400 mb-1">Calculate Work Graphically</h3>
+                                <p class="text-slate-300">Sum up work values across all individual steps ($W_{\text{net}} = W_{AB} + W_{BC} + \dots$). Remember that a <strong>clockwise loop</strong> on a $P-V$ diagram signifies net positive work output (an engine). A counter-clockwise loop implies work is done <em>on</em> the system (a refrigerator/heat pump).</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4">3</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-yellow-400 mb-1">Enforce Kelvin Temperature Scale</h3>
+                                <p class="text-slate-300">This is the most common pitfall! Always convert Celsius to Kelvin ($T_K = T_C + 273.15$) before evaluating any thermodynamic equations, especially the Carnot Efficiency equation. Using Celsius will mathematically fail.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Sidebar / Table of Contents / Quizzes -->
+        <aside class="w-full lg:w-1/3 space-y-8">
+            
+            <!-- Sticky TOC -->
+            <div class="sticky top-24 glass-panel rounded-xl p-6 hidden lg:block">
+                <h3 class="font-bold text-slate-900 uppercase tracking-wider text-sm mb-4">Table of Contents</h3>
+                <nav class="space-y-3 text-sm text-slate-600 font-medium">
+                    <a href="#governing" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">1. The Governing Physics</a>
+                    <a href="#processes" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">2. Mathematical Derivations</a>
+                    <a href="#simulation" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">3. Carnot Simulator</a>
+                    <a href="#strategy" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">4. Master Strategy</a>
+                    <a href="#quiz-container" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">5. Knowledge Check</a>
+                </nav>
+            </div>
+
+            <!-- Quiz Widget -->
+            <div id="quiz-container" class="glass-panel rounded-xl p-6 shadow-md border-t-4 border-t-primary-500 tex2jax_process">
+                <h3 class="font-bold text-xl text-slate-900 mb-2 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Knowledge Check
+                </h3>
+                <p class="text-sm text-slate-500 mb-6">Test your mastery of thermodynamic principles.</p>
+
+                <!-- Question 1 -->
+                <div class="quiz-q mb-6" data-answer="b">
+                    <p class="font-semibold text-slate-800 mb-3 text-sm">1. If a gas undergoes an isochoric heating process, what is the work done by the gas?</p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q1" value="a" class="accent-primary-600"> <span>$W = P\Delta V$</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q1" value="b" class="accent-primary-600"> <span>$W = 0$</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q1" value="c" class="accent-primary-600"> <span>$W = nRT \ln(V_2/V_1)$</span>
+                        </label>
+                    </div>
+                    <div class="feedback hidden mt-2 text-sm font-bold rounded p-2"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-q mb-6" data-answer="c">
+                    <p class="font-semibold text-slate-800 mb-3 text-sm">2. What is the theoretical maximum efficiency of a heat engine operating between $T_H = 600\text{ K}$ and $T_C = 300\text{ K}$?</p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q2" value="a" class="accent-primary-600"> <span>100%</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q2" value="b" class="accent-primary-600"> <span>25%</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q2" value="c" class="accent-primary-600"> <span>50%</span>
+                        </label>
+                    </div>
+                    <div class="feedback hidden mt-2 text-sm font-bold rounded p-2"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-q mb-6" data-answer="a">
+                    <p class="font-semibold text-slate-800 mb-3 text-sm">3. On a $P-V$ diagram, a closed cycle traced in a clockwise direction signifies:</p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q3" value="a" class="accent-primary-600"> <span>Net positive work output (Heat Engine)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q3" value="b" class="accent-primary-600"> <span>Net negative work (Refrigerator)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                            <input type="radio" name="q3" value="c" class="accent-primary-600"> <span>Zero net work</span>
+                        </label>
+                    </div>
+                    <div class="feedback hidden mt-2 text-sm font-bold rounded p-2"></div>
+                </div>
+
+                <button id="btnCheckQuiz" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-lg transition-colors mt-4">
+                    Check Answers
+                </button>
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm border-t border-slate-800 mt-12">
+        <div class="max-w-4xl mx-auto px-6">
+            <p>PhysicsInteractive &copy; 2026. Interactive Thermodynamics Lesson.</p>
+            <p class="mt-2 text-slate-500">Built for educational purposes. Math expressions powered by MathJax.</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // Ensure DOM is fully loaded before attaching listeners
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // ==========================================
+            // 1. CARNOT ENGINE SIMULATOR LOGIC
+            // ==========================================
+            const canvas = document.getElementById('carnotCanvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                
+                // Simulator State Elements
+                const sliderTh = document.getElementById('slider-th');
+                const sliderTc = document.getElementById('slider-tc');
+                const valTh = document.getElementById('val-th');
+                const valTc = document.getElementById('val-tc');
+                
+                const outEff = document.getElementById('sim-efficiency');
+                const outWork = document.getElementById('sim-work');
+                const outPhase = document.getElementById('sim-phase');
+                
+                // Piston Animation Elements
+                const pistonHead = document.getElementById('piston-head');
+                const gasChamber = document.getElementById('gas-chamber');
+                const reservoirIndicator = document.getElementById('reservoir-indicator');
+
+                // Physics Constants for the Simulation Loop
+                const n = 1; // moles
+                const R = 8.314; // ideal gas constant
+                const gamma = 1.4; // diatomic ideal gas
+                
+                // Animation Variables
+                let time = 0;
+                let animationId;
+
+                // Function to draw grid
+                function drawGrid() {
+                    ctx.strokeStyle = '#e2e8f0';
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i <= canvas.width; i += 40) {
+                        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+                    }
+                    for (let i = 0; i <= canvas.height; i += 40) {
+                        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+                    }
+                    
+                    // Axes
+                    ctx.strokeStyle = '#64748b';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(30, 270); ctx.lineTo(380, 270); ctx.stroke(); // V axis
+                    ctx.beginPath(); ctx.moveTo(30, 20); ctx.lineTo(30, 270); ctx.stroke(); // P axis
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '14px Inter';
+                    ctx.fillText('V', 385, 275);
+                    ctx.fillText('P', 15, 15);
+                }
+
+                // Core Physics Function to calculate Carnot Cycle Vertices
+                function calculateCarnotVertices(Th, Tc) {
+                    // Force Tc < Th
+                    if (Tc >= Th) {
+                        Tc = Th - 10;
+                        if(sliderTc) sliderTc.value = Tc;
+                        if(valTc) valTc.textContent = `${Tc} K`;
+                    }
+
+                    // Define state A (fixed top-leftish)
+                    const Va = 1; 
+                    const Pa = (n * R * Th) / Va;
+                    
+                    // Isothermal expansion ratio to state B
+                    const r_iso = 2; 
+                    const Vb = Va * r_iso;
+                    const Pb = (n * R * Th) / Vb;
+
+                    // Adiabatic expansion to state C (temperature drops to Tc)
+                    // Tv^(gamma-1) = const -> Th * Vb^(g-1) = Tc * Vc^(g-1)
+                    const Vc = Vb * Math.pow(Th / Tc, 1 / (gamma - 1));
+                    const Pc = (n * R * Tc) / Vc;
+
+                    // Isothermal compression to state D
+                    // Such that adiabatic compression returns to Va.
+                    const Vd = Va * Math.pow(Th / Tc, 1 / (gamma - 1));
+                    const Pd = (n * R * Tc) / Vd;
+
+                    return { 
+                        A: {v: Va, p: Pa}, 
+                        B: {v: Vb, p: Pb}, 
+                        C: {v: Vc, p: Pc}, 
+                        D: {v: Vd, p: Pd} 
+                    };
+                }
+
+                // Map physical (V, P) to Canvas (x, y) coordinates
+                function mapCoords(v, p, maxV, maxP) {
+                    // Add padding
+                    const padX = 40;
+                    const padY = 30;
+                    const useW = canvas.width - padX - 30;
+                    const useH = canvas.height - padY - 30;
+
+                    const x = padX + (v / maxV) * useW;
+                    const y = canvas.height - padY - (p / maxP) * useH;
+                    return {x, y};
+                }
+
+                // Draw an Isotherm Path (P = const/V)
+                function drawIsotherm(startV, endV, T, maxV, maxP, strokeColor) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = strokeColor;
+                    ctx.lineWidth = 3;
+                    
+                    const steps = 30;
+                    const dv = (endV - startV) / steps;
+                    
+                    for (let i = 0; i <= steps; i++) {
+                        const v = startV + i * dv;
+                        const p = (n * R * T) / v;
+                        const pos = mapCoords(v, p, maxV, maxP);
+                        
+                        if (i === 0) ctx.moveTo(pos.x, pos.y);
+                        else ctx.lineTo(pos.x, pos.y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Draw an Adiabat Path (P = const / V^gamma)
+                function drawAdiabat(startV, endV, startP, maxV, maxP, strokeColor) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = strokeColor;
+                    ctx.lineWidth = 3;
+                    
+                    const K = startP * Math.pow(startV, gamma); // constant
+                    const steps = 30;
+                    const dv = (endV - startV) / steps;
+                    
+                    for (let i = 0; i <= steps; i++) {
+                        const v = startV + i * dv;
+                        const p = K / Math.pow(v, gamma);
+                        const pos = mapCoords(v, p, maxV, maxP);
+                        
+                        if (i === 0) ctx.moveTo(pos.x, pos.y);
+                        else ctx.lineTo(pos.x, pos.y);
+                    }
+                    ctx.stroke();
+                }
+
+                // The Main Animation/Render Loop
+                function animate() {
+                    const Th = parseInt(sliderTh.value);
+                    const Tc = parseInt(sliderTc.value);
+
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    drawGrid();
+
+                    const states = calculateCarnotVertices(Th, Tc);
+                    
+                    // Determine bounds for graphing dynamically
+                    const maxV = states.C.v * 1.1; // C always has max volume
+                    const maxP = states.A.p * 1.1; // A always has max pressure
+
+                    // 1. A->B: Isothermal Expansion (Red)
+                    drawIsotherm(states.A.v, states.B.v, Th, maxV, maxP, '#ef4444');
+                    // 2. B->C: Adiabatic Expansion (Yellow/Orange)
+                    drawAdiabat(states.B.v, states.C.v, states.B.p, maxV, maxP, '#f59e0b');
+                    // 3. C->D: Isothermal Compression (Blue)
+                    drawIsotherm(states.C.v, states.D.v, Tc, maxV, maxP, '#3b82f6');
+                    // 4. D->A: Adiabatic Compression (Purple)
+                    drawAdiabat(states.D.v, states.A.v, states.D.p, maxV, maxP, '#8b5cf6');
+
+                    // Math/Output updates
+                    const efficiency = 1 - (Tc / Th);
+                    const Qh = n * R * Th * Math.log(states.B.v / states.A.v);
+                    const Wnet = Qh * efficiency;
+
+                    if(outEff) outEff.textContent = (efficiency * 100).toFixed(1) + '%';
+                    if(outWork) outWork.textContent = Wnet.toFixed(0) + ' J';
+
+                    // Time logic for tracing the dot and moving the piston
+                    time += 0.01;
+                    if (time > 4) time = 0;
+
+                    let currentV, currentP, phaseText, gasColor, resColor;
+
+                    if (time < 1) {
+                        // A->B (Isothermal Exp)
+                        const t = time;
+                        currentV = states.A.v + t * (states.B.v - states.A.v);
+                        currentP = (n * R * Th) / currentV;
+                        phaseText = "Isothermal Exp.";
+                        gasColor = '#fee2e2'; // Light red
+                        resColor = 'from-red-500 to-transparent';
+                    } else if (time < 2) {
+                        // B->C (Adiabatic Exp)
+                        const t = time - 1;
+                        currentV = states.B.v + t * (states.C.v - states.B.v);
+                        const K = states.B.p * Math.pow(states.B.v, gamma);
+                        currentP = K / Math.pow(currentV, gamma);
+                        phaseText = "Adiabatic Exp.";
+                        gasColor = '#fef3c7'; // transitioning
+                        resColor = 'from-yellow-500 to-transparent';
+                    } else if (time < 3) {
+                        // C->D (Isothermal Comp)
+                        const t = time - 2;
+                        currentV = states.C.v + t * (states.D.v - states.C.v);
+                        currentP = (n * R * Tc) / currentV;
+                        phaseText = "Isothermal Comp.";
+                        gasColor = '#e0f2fe'; // Light blue
+                        resColor = 'from-blue-500 to-transparent';
+                    } else {
+                        // D->A (Adiabatic Comp)
+                        const t = time - 3;
+                        currentV = states.D.v + t * (states.A.v - states.D.v);
+                        const K = states.D.p * Math.pow(states.D.v, gamma);
+                        currentP = K / Math.pow(currentV, gamma);
+                        phaseText = "Adiabatic Comp.";
+                        gasColor = '#f3e8ff'; // Light purple
+                        resColor = 'from-purple-500 to-transparent';
+                    }
+
+                    if(outPhase) outPhase.textContent = phaseText;
+
+                    // Draw the tracing dot on the canvas
+                    const pos = mapCoords(currentV, currentP, maxV, maxP);
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = '#0f172a';
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    // Update DOM Piston Animation
+                    // Map volume to piston height. V ranges from Va to Vc.
+                    // Max height range in pixels ~ 150. Base is fixed at bottom.
+                    if (gasChamber && pistonHead && reservoirIndicator) {
+                        const minH = 40; // minimum gas height (when V = Va)
+                        const maxH = 190; // max gas height (when V = Vc)
+                        
+                        // Normalized volume [0, 1]
+                        const normV = (currentV - states.A.v) / (states.C.v - states.A.v);
+                        const currentGasHeight = minH + normV * (maxH - minH);
+                        
+                        // Bottom of the cylinder is roughly y=256. 
+                        // The gas chamber scales upwards.
+                        gasChamber.style.height = `${currentGasHeight}px`;
+                        // Piston head sits on top of gas
+                        // Container is 256px tall.
+                        const pistonTop = 256 - currentGasHeight - 24; // 24 is piston head height
+                        pistonHead.style.top = `${pistonTop}px`;
+
+                        gasChamber.style.backgroundColor = gasColor;
+                        reservoirIndicator.className = `absolute bottom-0 w-full h-12 bg-gradient-to-t opacity-40 transition-colors duration-200 ${resColor}`;
+                    }
+
+                    animationId = requestAnimationFrame(animate);
+                }
+
+                // Event Listeners for Sliders
+                if (sliderTh) {
+                    sliderTh.addEventListener('input', (e) => {
+                        valTh.textContent = `${e.target.value} K`;
+                        // Prevent overlap
+                        if (parseInt(e.target.value) <= parseInt(sliderTc.value)) {
+                            sliderTc.value = parseInt(e.target.value) - 10;
+                            valTc.textContent = `${sliderTc.value} K`;
+                        }
+                    });
+                }
+
+                if (sliderTc) {
+                    sliderTc.addEventListener('input', (e) => {
+                        valTc.textContent = `${e.target.value} K`;
+                        // Prevent overlap
+                        if (parseInt(e.target.value) >= parseInt(sliderTh.value)) {
+                            sliderTh.value = parseInt(e.target.value) + 10;
+                            valTh.textContent = `${sliderTh.value} K`;
+                        }
+                    });
+                }
+
+                // Start loop
+                animate();
+            }
+
+            // ==========================================
+            // 2. QUIZ LOGIC
+            // ==========================================
+            const btnCheckQuiz = document.getElementById('btnCheckQuiz');
+            if (btnCheckQuiz) {
+                btnCheckQuiz.addEventListener('click', () => {
+                    const questions = document.querySelectorAll('.quiz-q');
+                    let score = 0;
+                    
+                    questions.forEach(q => {
+                        const correctAnswer = q.getAttribute('data-answer');
+                        const selectedOption = q.querySelector('input[type="radio"]:checked');
+                        const feedbackDiv = q.querySelector('.feedback');
+                        
+                        feedbackDiv.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+                        
+                        if (selectedOption) {
+                            if (selectedOption.value === correctAnswer) {
+                                score++;
+                                feedbackDiv.textContent = "✓ Correct!";
+                                feedbackDiv.classList.add('bg-green-100', 'text-green-800');
+                            } else {
+                                feedbackDiv.textContent = "✗ Incorrect. Try reviewing the sections above.";
+                                feedbackDiv.classList.add('bg-red-100', 'text-red-800');
+                            }
+                            feedbackDiv.classList.remove('hidden');
+                        } else {
+                            feedbackDiv.textContent = "Please select an answer.";
+                            feedbackDiv.classList.add('bg-yellow-100', 'text-yellow-800');
+                            feedbackDiv.classList.remove('hidden');
+                        }
+                    });
+
+                    // Update button text temporarily
+                    const originalText = btnCheckQuiz.textContent;
+                    btnCheckQuiz.textContent = `Score: ${score} / ${questions.length}`;
+                    setTimeout(() => {
+                        btnCheckQuiz.textContent = "Check Answers Again";
+                    }, 3000);
+                });
+            }
+
+            // ==========================================
+            // 3. DOWNLOAD CHEAT SHEET LOGIC
+            // ==========================================
+            const btnDownload = document.getElementById('btnDownloadHeader');
+            if (btnDownload) {
+                btnDownload.addEventListener('click', () => {
+                    const cheatSheetText = 
+`======================================================
+THERMODYNAMICS & HEAT ENGINES - CHEAT SHEET
+======================================================
+
+1. THE FIRST LAW OF THERMODYNAMICS
+   Equation: dU = Q - W
+   - dU = Change in Internal Energy (depends on Temp)
+   - Q  = Heat added TO the system
+   - W  = Work done BY the gas
+
+2. WORK EQUATIONS (by path type)
+   - Isobaric (constant P): W = P(V2 - V1)
+   - Isochoric (constant V): W = 0
+   - Isothermal (constant T): W = nRT * ln(V2/V1)
+   - Adiabatic (Q = 0): W = -dU  (PV^gamma = constant)
+
+3. CYCLE EFFICIENCY
+   - General Efficiency: n = W_net / Q_H = 1 - (Q_C / Q_H)
+   - Carnot Max Efficiency: n_max = 1 - (T_C / T_H)
+     * CRITICAL: T_C and T_H MUST be in Kelvin! 
+     * K = C + 273.15
+
+4. MASTER PROBLEM SOLVING STRATEGY
+   1. Build a State Table (Find P, V, T at every point using PV=nRT).
+   2. Calculate path work graphically (Area under P-V curve).
+   3. Clockwise loop = Positive Net Work (Heat Engine).
+   4. Convert all temperatures to Kelvin before ratio math.
+
+======================================================
+Generated via PhysicsInteractive Guide
+`;
+                    const blob = new Blob([cheatSheetText], {type: 'text/plain'});
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Thermodynamics_CheatSheet.txt';
+                    document.body.appendChild(a); // Append for safe clicking
+                    a.click();
+                    document.body.removeChild(a); // Cleanup
+                    URL.revokeObjectURL(url);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

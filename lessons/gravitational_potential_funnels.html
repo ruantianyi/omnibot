@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravitational Potential Funnels: A Complete Interactive Physics Guide</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#f0f9ff', 100: '#e0f2fe', 600: '#0284c7', 700: '#0369a1', 900: '#0c4a6e' },
+                        accent: { 500: '#10b981', 600: '#059669' },
+                        dark: { 800: '#1e293b', 900: '#0f172a' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- MathJax for rigorous mathematical typesetting -->
+    <script>
+        window.MathJax = {
+            tex: { 
+                inlineMath: [['$', '$'], ['\\(', '\\)']], 
+                displayMath: [['$$', '$$'], ['\\[', '\\]']], 
+                processEscapes: true 
+            },
+            options: { 
+                ignoreHtmlClass: 'tex2jax_ignore', 
+                processHtmlClass: 'tex2jax_process' 
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Merriweather', serif; }
+        
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .interactive-canvas {
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-color: #0f172a;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
+
+    <!-- Sticky Navigation -->
+    <nav class="fixed top-0 w-full glass-panel z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white font-bold font-serif">G</div>
+                <span class="font-bold text-lg text-slate-900 tracking-tight">Gravitational Potential Funnels</span>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm font-semibold text-slate-600">
+                <a href="#governing-physics" class="hover:text-primary-600 transition-colors">1. Governing Physics</a>
+                <a href="#well-geometry" class="hover:text-primary-600 transition-colors">2. Well Geometry & Derivations</a>
+                <a href="#master-strategy" class="hover:text-primary-600 transition-colors">3. Master Strategy</a>
+            </div>
+            <button id="btnDownload" class="hidden sm:flex bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Save Notes
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 px-4 bg-white border-b border-slate-200">
+        <div class="max-w-4xl mx-auto text-center">
+            <h4 class="text-primary-600 font-bold tracking-widest uppercase text-sm mb-3">Chapter 10</h4>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6">Planetary Gravitational Potential Funnels</h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                Discover the spatial mechanics of gravity. We will map the invisible, deep hyperbolic wells created by massive celestial bodies, calculate the exact energy required to escape them, and master complex orbital superposition calculations.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-20">
+
+        <!-- SECTION 1: Governing Physics -->
+        <section id="governing-physics" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">1</div>
+                <h2 class="text-3xl font-bold text-slate-900">The Governing Physics</h2>
+            </div>
+            
+            <div class="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed">
+                <p>
+                    Newton's law of universal gravitation mandates that every point mass attracts every other mass with a force pointing strictly along the line intersecting their centers. This force weakens as the inverse square of the distance between them.
+                </p>
+                <p>
+                    When we map the effects of this force across the three-dimensional space surrounding a massive central sphere (like a planet or star), we can describe it not just as a field of force vectors, but as a topography of <strong>Potential Energy</strong>. Because the gravitational force is always attractive, the potential energy is inherently negative relative to infinity. This creates a spatial mapping that describes a curved, hyperbolic shape resembling a deep gravitational funnel or "well".
+                </p>
+            </div>
+
+            <!-- SIMULATION 1: The Energy Well Graph -->
+            <div class="mt-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-xl font-bold text-slate-900 mb-2 font-sans">Interactive Viz: The 1D Potential Energy Well</h3>
+                <p class="text-sm text-slate-500 mb-6">Observe how the potential energy $U(r)$ approaches 0 at infinity, creating a hyperbolic "well". Adjust the object's total energy to see bounded vs. unbound states.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 relative rounded-xl overflow-hidden border border-slate-700 bg-dark-900 aspect-video">
+                        <canvas id="wellCanvas" class="w-full h-full block"></canvas>
+                        <div class="absolute top-4 left-4 text-xs font-mono text-slate-300 pointer-events-none">
+                            Y-Axis: Energy ($E, U, K$) <br>
+                            X-Axis: Radius ($r$)
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-center space-y-6 bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Total Mechanical Energy ($E$)</label>
+                            <input type="range" id="energySlider" min="-100" max="50" value="-40" class="w-full accent-primary-600">
+                            <div class="flex justify-between text-xs text-slate-500 mt-1">
+                                <span>Bound ($E < 0$)</span>
+                                <span>Escape ($E \ge 0$)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 rounded-lg bg-white border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-sm text-slate-800 mb-3 border-b pb-2">Real-time Kinematics</h4>
+                            <div class="space-y-2 font-mono text-sm">
+                                <div class="flex justify-between text-blue-600 font-bold">
+                                    <span>Total Energy $E$:</span> <span id="val-E">-40 J</span>
+                                </div>
+                                <div class="flex justify-between text-red-600">
+                                    <span>Potential $U$:</span> <span id="val-U">-100 J</span>
+                                </div>
+                                <div class="flex justify-between text-green-600">
+                                    <span>Kinetic $K$:</span> <span id="val-K">+60 J</span>
+                                </div>
+                            </div>
+                            <p id="orbit-status" class="mt-3 text-xs font-bold text-center py-1 rounded bg-slate-100 text-slate-600">
+                                Bounded Orbit (Elliptical)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Mathematical Derivations & Well Geometry -->
+        <section id="well-geometry" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">2</div>
+                <h2 class="text-3xl font-bold text-slate-900">Mathematical Derivations & Well Geometry</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="prose prose-slate max-w-none text-slate-700">
+                    <p>
+                        The conservative gravitational force vector field generated by a planet of mass $M$ on a test mass $m$ is given by Newton's law:
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center my-4 overflow-x-auto">
+                        $$\vec{F}_g = -\frac{GMm}{r^2}\hat{r}$$
+                    </div>
+                    <p>
+                        To find the <strong>Gravitational Potential Energy ($U$)</strong>, we calculate the work done by the gravitational field when bringing the test mass from an infinite distance (where the field influence is strictly zero) to a localized radius coordinate $r$. We integrate the force vector over a spatial path $d\vec{s}$:
+                    </p>
+                    <div class="bg-primary-50 p-4 rounded-lg border border-primary-100 text-center my-4 overflow-x-auto">
+                        $$U(r) = -\int_{\infty}^{r} \vec{F}_g \cdot d\vec{s} = -\frac{GMm}{r}$$
+                    </div>
+                </div>
+
+                <div class="prose prose-slate max-w-none text-slate-700">
+                    <p>
+                        Notice that mathematically, $U(r) \to 0$ as $r \to \infty$. This negative mapping explicitly indicates a <strong>bound energy state</strong>. The mass $m$ is trapped in the potential well and requires external energy to climb out.
+                    </p>
+                    <p>
+                        To achieve a parabolic escape trajectory from the base of this well, a projectile's total mechanical energy ($E = K + U$) must reach a minimum value of exactly zero:
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center my-4 overflow-x-auto">
+                        $$E = 0 \implies \frac{1}{2}m v_{\text{esc}}^2 - \frac{GMm}{r} = 0$$
+                    </div>
+                    <p>
+                        Solving for velocity parameters isolates the precise <strong>escape threshold</strong>:
+                    </p>
+                    <div class="bg-accent-50 p-4 rounded-lg border border-accent-100 text-center my-4 overflow-x-auto text-accent-700 font-bold">
+                        $$v_{\text{esc}} = \sqrt{\frac{2GM}{r}}$$
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULATION 2: Escape Velocity Cannon -->
+            <div class="mt-10 bg-dark-900 rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-slate-800">
+                <div class="w-full md:w-2/3 relative h-[400px]">
+                    <canvas id="escapeCanvas" class="w-full h-full interactive-canvas absolute inset-0"></canvas>
+                    <div class="absolute top-4 left-4 bg-dark-800/80 p-3 rounded-lg border border-slate-700 backdrop-blur-sm">
+                        <h4 class="text-white font-bold text-sm mb-1">Escape Simulator 2D</h4>
+                        <div id="sim-telemetry" class="font-mono text-xs text-slate-300 space-y-1">
+                            <div>Altitude: <span id="esc-alt" class="text-blue-400">0</span> km</div>
+                            <div>Velocity: <span id="esc-vel" class="text-green-400">0</span> m/s</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/3 bg-dark-800 p-6 border-l border-slate-700 flex flex-col justify-center">
+                    <h3 class="text-white font-bold mb-4">Launch Parameters</h3>
+                    
+                    <label class="block text-sm font-bold text-slate-300 mb-2">Initial Launch Velocity ($v_0$)</label>
+                    <input type="range" id="launchV" min="0" max="150" value="80" class="w-full accent-primary-500 mb-2">
+                    <div class="text-right text-xs text-primary-400 font-mono mb-6"><span id="launchV-readout">8.0</span> km/s</div>
+                    
+                    <button id="btnLaunch" class="w-full bg-accent-600 hover:bg-accent-500 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Ignite Engine
+                    </button>
+                    <button id="btnReset" class="w-full mt-3 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 rounded-lg transition-colors text-sm">
+                        Reset Planet
+                    </button>
+
+                    <div class="mt-6 p-4 rounded-lg bg-dark-900 border border-slate-700">
+                        <div class="text-xs text-slate-400 mb-1">Escape Velocity Required:</div>
+                        <div class="font-mono text-accent-400 font-bold text-lg">10.0 km/s</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Problem-Solving Master Strategy -->
+        <section id="master-strategy" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">3</div>
+                <h2 class="text-3xl font-bold text-slate-900">Problem-Solving Master Strategy</h2>
+            </div>
+            
+            <p class="text-lg text-slate-700 mb-8 max-w-3xl">
+                Advanced orbital mechanics problems often combine multiple gravitational sources or require precise energy transitions. Follow these three master protocols to avoid common calculation traps.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Strategy 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden group hover:border-primary-300 transition-colors">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-16 h-16 text-primary-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 7.5l-10-5v3.5l10 5 10-5v-3.5l-10 5z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-primary-200 pb-2 inline-block">1. Superposition of Wells</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                        If a satellite sits between two planets, compute the total potential energy by summing the individual <strong>scalar values</strong>. Never use vector components for energy!
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded font-mono text-xs text-slate-800 border border-slate-200">
+                        $$U_{\text{net}} = -\frac{GM_1m}{r_1} - \frac{GM_2m}{r_2}$$
+                    </div>
+                </div>
+
+                <!-- Strategy 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden group hover:border-accent-300 transition-colors">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-16 h-16 text-accent-600" fill="currentColor" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-accent-200 pb-2 inline-block">2. Escape Reference Check</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        When calculating escape velocities from deep planetary surfaces, remember to use the planet's radius $R$ for the starting distance $r$. If launching from altitude $h$, use $r = R + h$. Altitude is <strong>never</strong> the absolute radius $r$.
+                    </p>
+                </div>
+
+                <!-- Strategy 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden group hover:border-orange-300 transition-colors">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-16 h-16 text-orange-600" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-orange-200 pb-2 inline-block">3. Work Requirements</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                        To move an orbit from radius $r_1$ out to $r_2$, calculate work via $\Delta E = E_f - E_i$. Crucially, for <strong>circular orbits</strong>, use the total mechanical energy formula which accounts for kinetic orbital velocity:
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded font-mono text-xs text-slate-800 border border-slate-200">
+                        $$E = -\frac{GMm}{2r}$$
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULATION 3: Binary System Superposition Visualization -->
+            <div class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 font-sans">Binary System Superposition Profiler</h3>
+                        <p class="text-sm text-slate-500 mt-1">Visualize the scalar addition of two intersecting gravitational wells. Observe the Lagrange point (L1) peak between them.</p>
+                    </div>
+                </div>
+                
+                <div class="relative w-full h-[250px] bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                    <canvas id="superpositionCanvas" class="w-full h-full block"></canvas>
+                </div>
+                
+                <div class="mt-6 flex flex-wrap gap-8 justify-center bg-slate-100 p-4 rounded-lg">
+                    <div class="flex items-center gap-3">
+                        <label class="text-sm font-bold text-slate-700">Mass 1 ($M_1$)</label>
+                        <input type="range" id="mass1Slider" min="10" max="150" value="100" class="w-32 accent-blue-600">
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <label class="text-sm font-bold text-slate-700">Mass 2 ($M_2$)</label>
+                        <input type="range" id="mass2Slider" min="10" max="150" value="50" class="w-32 accent-orange-500">
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <label class="text-sm font-bold text-slate-700">Separation Distance</label>
+                        <input type="range" id="distSlider" min="200" max="600" value="400" class="w-32 accent-slate-600">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Concept Check Quiz -->
+        <section class="bg-primary-900 text-white rounded-3xl p-8 md:p-12 shadow-xl border border-primary-800 mt-20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 opacity-10 pointer-events-none">
+                <svg width="400" height="400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            </div>
+            
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 relative z-10 font-serif">Concept Check</h2>
+            
+            <div id="quiz-container" class="space-y-6 relative z-10 max-w-3xl">
+                <div class="bg-primary-800/50 p-6 rounded-xl border border-primary-700">
+                    <p class="font-semibold text-lg mb-4">A satellite is moved from a circular orbit of radius $R$ to a larger circular orbit of radius $3R$. What is the change in the total mechanical energy ($\Delta E$)?</p>
+                    <div class="space-y-3" id="quiz-options">
+                        <!-- Options generated by JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-4 p-4 rounded-lg hidden font-bold text-sm"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center text-sm border-t border-slate-800 mt-20">
+        <p class="max-w-xl mx-auto px-4">
+            "The mathematical mapping of gravity reveals that the cosmos is not flat, but a deeply textured landscape of invisible energy wells."
+        </p>
+        <p class="mt-4">&copy; 2026 Physics Interactive Masters. Built for advanced comprehension.</p>
+    </footer>
+
+    <!-- Interactive Logic Scripts -->
+    <script>
+        // Ensure DOM is fully loaded before selecting elements
+        window.addEventListener('DOMContentLoaded', () => {
+
+            // ==========================================
+            // MODULE 1: The 1D Energy Well Graph
+            // ==========================================
+            const canvas1 = document.getElementById('wellCanvas');
+            const ctx1 = canvas1.getContext('2d');
+            const sliderE = document.getElementById('energySlider');
+            
+            const elValE = document.getElementById('val-E');
+            const elValU = document.getElementById('val-U');
+            const elValK = document.getElementById('val-K');
+            const elStatus = document.getElementById('orbit-status');
+
+            // Constants for visualization
+            const k = 4000; // GMm constant
+            let width1, height1;
+
+            function resizeCanvas1() {
+                const rect = canvas1.parentElement.getBoundingClientRect();
+                canvas1.width = rect.width;
+                canvas1.height = rect.height;
+                width1 = rect.width;
+                height1 = rect.height;
+                drawWell();
+            }
+
+            function drawWell() {
+                ctx1.clearRect(0, 0, width1, height1);
+                
+                const E_val = parseFloat(sliderE.value);
+                const scaleY = height1 / 300; 
+                const originY = height1 / 3; // Position of E=0 line
+
+                // Draw background grid lines
+                ctx1.strokeStyle = '#334155';
+                ctx1.lineWidth = 1;
+                ctx1.beginPath();
+                ctx1.moveTo(0, originY);
+                ctx1.lineTo(width1, originY);
+                ctx1.stroke();
+                
+                ctx1.fillStyle = '#94a3b8';
+                ctx1.font = '12px monospace';
+                ctx1.fillText('E = 0 (Infinity / Escape)', 10, originY - 10);
+
+                // Draw Potential Energy Curve U(r) = -k/r
+                ctx1.beginPath();
+                ctx1.strokeStyle = '#ef4444'; // Red for Potential
+                ctx1.lineWidth = 3;
+                for (let x = 10; x < width1; x++) {
+                    let U = -k / x;
+                    let y = originY - (U * scaleY);
+                    if (x === 10) ctx1.moveTo(x, y);
+                    else ctx1.lineTo(x, y);
+                }
+                ctx1.stroke();
+
+                // Draw Total Energy Line
+                let pixelE = originY - (E_val * scaleY);
+                ctx1.beginPath();
+                ctx1.strokeStyle = '#3b82f6'; // Blue for Total Energy
+                ctx1.lineWidth = 2;
+                ctx1.setLineDash([5, 5]);
+                ctx1.moveTo(0, pixelE);
+                ctx1.lineTo(width1, pixelE);
+                ctx1.stroke();
+                ctx1.setLineDash([]);
+
+                // Find intersection (Turning Point) for bounded orbits
+                // U = E -> -k/r = E -> r = -k/E
+                let r_turn = -1;
+                if (E_val < 0) {
+                    r_turn = -k / E_val;
+                }
+
+                // Particle simulation dot
+                // Let's place it at an arbitrary r based on time, oscillating if bound
+                let time = Date.now() / 1000;
+                let particle_r;
+                
+                if (E_val < 0) {
+                    // Oscillate between some min r and r_turn
+                    let r_min = 20; 
+                    if (r_turn < r_min) r_min = r_turn * 0.5; // Prevent breaking visual
+                    let amplitude = (r_turn - r_min) / 2;
+                    let center = r_min + amplitude;
+                    particle_r = center + amplitude * Math.cos(time * 2);
+                } else {
+                    // Escaping: sweeping out linearly and wrapping for visual sake
+                    particle_r = (time * 100) % width1;
+                    if (particle_r < 20) particle_r = 20;
+                }
+
+                // Cap particle_r to width for rendering
+                particle_r = Math.min(Math.max(particle_r, 20), width1 - 10);
+
+                let particle_U = -k / particle_r;
+                let particle_K = E_val - particle_U;
+                if (particle_K < 0) particle_K = 0; // Fix small precision visual artifacts
+
+                let pixelU = originY - (particle_U * scaleY);
+
+                // Draw vertical indicator line for particle
+                ctx1.beginPath();
+                ctx1.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx1.moveTo(particle_r, originY);
+                ctx1.lineTo(particle_r, height1);
+                ctx1.stroke();
+
+                // Draw K (green) and U (red) vectors
+                // U vector (origin down to curve)
+                ctx1.beginPath();
+                ctx1.strokeStyle = '#ef4444';
+                ctx1.lineWidth = 4;
+                ctx1.moveTo(particle_r, originY);
+                ctx1.lineTo(particle_r, pixelU);
+                ctx1.stroke();
+
+                // K vector (from curve up to E line)
+                ctx1.beginPath();
+                ctx1.strokeStyle = '#22c55e';
+                ctx1.lineWidth = 4;
+                ctx1.moveTo(particle_r, pixelU);
+                ctx1.lineTo(particle_r, pixelE);
+                ctx1.stroke();
+
+                // Draw Particle Dot
+                ctx1.beginPath();
+                ctx1.fillStyle = '#f8fafc';
+                ctx1.arc(particle_r, pixelE, 6, 0, Math.PI * 2);
+                ctx1.fill();
+
+                // Update Telemetry HTML
+                elValE.innerText = `${E_val > 0 ? '+' : ''}${E_val.toFixed(1)} J`;
+                elValE.style.color = '#3b82f6';
+                
+                elValU.innerText = `${particle_U.toFixed(1)} J`;
+                
+                elValK.innerText = `+${particle_K.toFixed(1)} J`;
+                
+                if (E_val < 0) {
+                    elStatus.innerText = `Bounded Orbit (r_max ≈ ${Math.round(r_turn)})`;
+                    elStatus.className = "mt-3 text-xs font-bold text-center py-1 rounded bg-blue-100 text-blue-700";
+                } else {
+                    elStatus.innerText = "Unbound (Escaping to Infinity)";
+                    elStatus.className = "mt-3 text-xs font-bold text-center py-1 rounded bg-green-100 text-green-700";
+                }
+
+                requestAnimationFrame(drawWell);
+            }
+
+            window.addEventListener('resize', resizeCanvas1);
+            resizeCanvas1(); // kicks off animation loop
+
+
+            // ==========================================
+            // MODULE 2: Escape Velocity 2D Simulator
+            // ==========================================
+            const canvas2 = document.getElementById('escapeCanvas');
+            const ctx2 = canvas2.getContext('2d');
+            const sliderV = document.getElementById('launchV');
+            const readoutV = document.getElementById('launchV-readout');
+            const btnLaunch = document.getElementById('btnLaunch');
+            const btnReset = document.getElementById('btnReset');
+            
+            const elEscAlt = document.getElementById('esc-alt');
+            const elEscVel = document.getElementById('esc-vel');
+
+            let w2, h2;
+            let simActive = false;
+            let path2 = [];
+            
+            // Planet parameters
+            const GM = 10000;
+            const R_planet = 20;
+            const target_v_esc = Math.sqrt((2 * GM) / R_planet); // exactly 31.62
+            
+            // Note: Slider is 0 to 150. Scaled so 100 = escape velocity.
+            // V_actual = slider_val * (target_v_esc / 100)
+            
+            let obj = { x: 0, y: 0, vx: 0, vy: 0 };
+
+            function resetSim() {
+                const rect = canvas2.parentElement.getBoundingClientRect();
+                canvas2.width = rect.width;
+                canvas2.height = rect.height;
+                w2 = rect.width;
+                h2 = rect.height;
+                
+                simActive = false;
+                path2 = [];
+                obj.x = 0;
+                obj.y = -R_planet; // Sitting on top surface
+                obj.vx = 0;
+                obj.vy = 0;
+                
+                drawEscapeFrame();
+            }
+
+            function fireEngine() {
+                resetSim();
+                let sliderVal = parseFloat(sliderV.value);
+                // Launch horizontally to show orbit turning into escape trajectory
+                let v0 = sliderVal * (target_v_esc / 100); 
+                
+                obj.vx = v0; 
+                obj.vy = 0; 
+                simActive = true;
+                
+                path2.push({x: obj.x, y: obj.y});
+            }
+
+            sliderV.addEventListener('input', () => {
+                let v_display = (parseFloat(sliderV.value) / 10).toFixed(1);
+                readoutV.innerText = v_display;
+            });
+
+            if (btnLaunch) btnLaunch.addEventListener('click', fireEngine);
+            if (btnReset) btnReset.addEventListener('click', resetSim);
+
+            function updatePhysics() {
+                if (!simActive) return;
+                
+                // Physics constants and step
+                const dt = 0.1;
+                const substeps = 5; // smooth integration
+                
+                for(let i=0; i<substeps; i++) {
+                    let r2 = obj.x*obj.x + obj.y*obj.y;
+                    let r = Math.sqrt(r2);
+                    
+                    if (r < R_planet) {
+                        // Crashed into planet
+                        simActive = false;
+                        obj.x = path2[path2.length-1].x;
+                        obj.y = path2[path2.length-1].y;
+                        obj.vx = 0; obj.vy = 0;
+                        break;
+                    }
+
+                    // F = -GM/r^2
+                    // a = F/m = -GM/r^2
+                    // ax = a * (x/r) = -GMx/r^3
+                    let ax = -GM * obj.x / (r2 * r);
+                    let ay = -GM * obj.y / (r2 * r);
+
+                    obj.vx += ax * dt;
+                    obj.vy += ay * dt;
+                    
+                    obj.x += obj.vx * dt;
+                    obj.y += obj.vy * dt;
+                }
+                
+                // Add point to trace
+                if (simActive) {
+                    // Only add if moved enough to save memory
+                    let lastP = path2[path2.length-1];
+                    let dx = obj.x - lastP.x;
+                    let dy = obj.y - lastP.y;
+                    if(dx*dx + dy*dy > 0.5) {
+                        path2.push({x: obj.x, y: obj.y});
+                    }
+                    
+                    // Stop if too far out (escape success visually)
+                    if (Math.sqrt(obj.x*obj.x + obj.y*obj.y) > 1000) {
+                        simActive = false;
+                    }
+                }
+            }
+
+            function drawEscapeFrame() {
+                if(simActive) updatePhysics();
+
+                ctx2.clearRect(0, 0, w2, h2);
+                
+                // Center coordinate system
+                ctx2.save();
+                ctx2.translate(w2/2, h2/2);
+                
+                // Draw Planet
+                ctx2.beginPath();
+                ctx2.fillStyle = '#0f172a';
+                ctx2.arc(0, 0, R_planet, 0, Math.PI*2);
+                ctx2.fill();
+                
+                ctx2.strokeStyle = '#3b82f6';
+                ctx2.lineWidth = 2;
+                ctx2.stroke();
+                
+                // Draw Path
+                if(path2.length > 1) {
+                    ctx2.beginPath();
+                    ctx2.strokeStyle = '#10b981'; // accent color
+                    ctx2.lineWidth = 1.5;
+                    ctx2.moveTo(path2[0].x, path2[0].y);
+                    for(let i=1; i<path2.length; i++) {
+                        ctx2.lineTo(path2[i].x, path2[i].y);
+                    }
+                    ctx2.stroke();
+                }
+
+                // Draw Object
+                ctx2.beginPath();
+                ctx2.fillStyle = '#f8fafc';
+                ctx2.arc(obj.x, obj.y, 3, 0, Math.PI*2);
+                ctx2.fill();
+                
+                ctx2.restore();
+
+                // Update Telemetry
+                let r = Math.sqrt(obj.x*obj.x + obj.y*obj.y);
+                let alt = Math.max(0, r - R_planet);
+                let vel = Math.sqrt(obj.vx*obj.vx + obj.vy*obj.vy);
+                
+                // Scale values for display realism
+                elEscAlt.innerText = (alt * 50).toFixed(0);
+                elEscVel.innerText = (vel * 316.2).toFixed(0); 
+
+                requestAnimationFrame(drawEscapeFrame);
+            }
+
+            window.addEventListener('resize', resetSim);
+            resetSim(); // Initiate 2nd Canvas Loop
+
+
+            // ==========================================
+            // MODULE 3: Binary Superposition
+            // ==========================================
+            const canvas3 = document.getElementById('superpositionCanvas');
+            const ctx3 = canvas3.getContext('2d');
+            const m1Slider = document.getElementById('mass1Slider');
+            const m2Slider = document.getElementById('mass2Slider');
+            const distSlider = document.getElementById('distSlider');
+            
+            let w3, h3;
+
+            function resizeCanvas3() {
+                const rect = canvas3.parentElement.getBoundingClientRect();
+                canvas3.width = rect.width;
+                canvas3.height = rect.height;
+                w3 = rect.width;
+                h3 = rect.height;
+                drawSuperposition();
+            }
+
+            function drawSuperposition() {
+                ctx3.clearRect(0, 0, w3, h3);
+                
+                const M1 = parseFloat(m1Slider.value);
+                const M2 = parseFloat(m2Slider.value);
+                const D = parseFloat(distSlider.value);
+                const G_const = 50; 
+                
+                // Positions
+                let cx = w3 / 2;
+                let x1 = cx - D / 2;
+                let x2 = cx + D / 2;
+                
+                let originY = h3 * 0.1; // top is 0 potential
+                let scaleY = 3;
+                let softening = 5; // prevent infinity at exact centers
+                
+                // Draw zero energy line
+                ctx3.beginPath();
+                ctx3.strokeStyle = '#94a3b8';
+                ctx3.setLineDash([4, 4]);
+                ctx3.moveTo(0, originY);
+                ctx3.lineTo(w3, originY);
+                ctx3.stroke();
+                ctx3.setLineDash([]);
+                
+                // Draw Superposed Potential Curve
+                ctx3.beginPath();
+                ctx3.strokeStyle = '#0f172a';
+                ctx3.lineWidth = 3;
+                
+                for(let x = 0; x < w3; x++) {
+                    let d1 = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(softening, 2));
+                    let d2 = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(softening, 2));
+                    
+                    let U1 = - (G_const * M1) / d1;
+                    let U2 = - (G_const * M2) / d2;
+                    let U_net = U1 + U2; // SCALAR ADDITION
+                    
+                    let py = originY - (U_net * scaleY);
+                    
+                    if(x === 0) ctx3.moveTo(x, py);
+                    else ctx3.lineTo(x, py);
+                }
+                ctx3.stroke();
+                
+                // Draw individual dashed curves for learning
+                ctx3.beginPath(); ctx3.strokeStyle = 'rgba(37, 99, 235, 0.4)'; // blue for M1
+                for(let x=0; x<w3; x++) {
+                    let d1 = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(softening, 2));
+                    let py = originY - (- (G_const * M1) / d1 * scaleY);
+                    if(x===0) ctx3.moveTo(x, py); else ctx3.lineTo(x, py);
+                }
+                ctx3.stroke();
+                
+                ctx3.beginPath(); ctx3.strokeStyle = 'rgba(249, 115, 22, 0.4)'; // orange for M2
+                for(let x=0; x<w3; x++) {
+                    let d2 = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(softening, 2));
+                    let py = originY - (- (G_const * M2) / d2 * scaleY);
+                    if(x===0) ctx3.moveTo(x, py); else ctx3.lineTo(x, py);
+                }
+                ctx3.stroke();
+
+                // Draw Planet markers
+                ctx3.fillStyle = '#2563eb';
+                ctx3.beginPath(); ctx3.arc(x1, h3 - 20, 8 + (M1/20), 0, Math.PI*2); ctx3.fill();
+                
+                ctx3.fillStyle = '#ea580c';
+                ctx3.beginPath(); ctx3.arc(x2, h3 - 20, 8 + (M2/20), 0, Math.PI*2); ctx3.fill();
+            }
+
+            m1Slider.addEventListener('input', drawSuperposition);
+            m2Slider.addEventListener('input', drawSuperposition);
+            distSlider.addEventListener('input', drawSuperposition);
+
+            window.addEventListener('resize', resizeCanvas3);
+            resizeCanvas3(); // Initial draw
+
+
+            // ==========================================
+            // MODULE 4: Quiz Logic
+            // ==========================================
+            const quizOptions = [
+                { id: 'q_a', text: '$$ \\Delta E = -\\frac{GMm}{6R} $$', correct: false, explanation: "Incorrect. You calculated $E_{final}$ but forgot to subtract $E_{initial}$." },
+                { id: 'q_b', text: '$$ \\Delta E = +\\frac{GMm}{3R} $$', correct: true, explanation: "Correct! $\\Delta E = E_f - E_i = (-\\frac{GMm}{2(3R)}) - (-\\frac{GMm}{2(R)}) = -\\frac{GMm}{6R} + \\frac{3GMm}{6R} = +\\frac{2GMm}{6R} = +\\frac{GMm}{3R}$. Notice we use $2r$ in the denominator for circular total energy!" },
+                { id: 'q_c', text: '$$ \\Delta E = +\\frac{2GMm}{3R} $$', correct: false, explanation: "Incorrect. It looks like you used $U = -GMm/r$ instead of the total energy $E = -GMm/2r$. Remember, in circular orbits, the satellite also has kinetic energy." }
+            ];
+
+            const quizContainer = document.getElementById('quiz-options');
+            const feedbackDiv = document.getElementById('quiz-feedback');
+
+            quizOptions.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-lg bg-primary-900/50 hover:bg-primary-700/50 border border-primary-600 transition-colors flex items-center gap-4";
+                btn.innerHTML = `<span class="font-bold text-primary-300">${String.fromCharCode(65 + index)}.</span> <span>${opt.text}</span>`;
+                
+                btn.addEventListener('click', () => {
+                    // Reset all
+                    Array.from(quizContainer.children).forEach(c => {
+                        c.classList.remove('bg-green-900/50', 'border-green-500', 'bg-red-900/50', 'border-red-500');
+                        c.classList.add('bg-primary-900/50', 'border-primary-600');
+                    });
+
+                    feedbackDiv.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+                    
+                    if(opt.correct) {
+                        btn.classList.replace('bg-primary-900/50', 'bg-green-900/50');
+                        btn.classList.replace('border-primary-600', 'border-green-500');
+                        feedbackDiv.classList.add('bg-green-100', 'text-green-800');
+                    } else {
+                        btn.classList.replace('bg-primary-900/50', 'bg-red-900/50');
+                        btn.classList.replace('border-primary-600', 'border-red-500');
+                        feedbackDiv.classList.add('bg-red-100', 'text-red-800');
+                    }
+                    
+                    feedbackDiv.innerHTML = opt.explanation;
+                    
+                    // Tell MathJax to re-render the injected math
+                    if(window.MathJax) {
+                        window.MathJax.typesetPromise([feedbackDiv]).catch(err => console.log(err));
+                    }
+                });
+                
+                quizContainer.appendChild(btn);
+            });
+
+            // ==========================================
+            // MODULE 5: Notes Exporter (Safeguarded)
+            // ==========================================
+            const btnDownload = document.getElementById('btnDownload');
+            if (btnDownload) {
+                btnDownload.addEventListener('click', () => {
+                    const notes = `GRAVITATIONAL POTENTIAL FUNNELS - MASTER CHEAT SHEET\n` +
+                    `====================================================\n\n` +
+                    `1. Potential Energy (U) from Infinity:\n` +
+                    `   U(r) = - (G * M * m) / r\n` +
+                    `   Concept: Negative mapping indicates a bound energy state trapped in a "well".\n\n` +
+                    `2. Escape Velocity Threshold:\n` +
+                    `   Required mechanical energy to escape: E = 0\n` +
+                    `   v_esc = sqrt((2 * G * M) / r)\n` +
+                    `   Remember: Use (Radius_planet + Altitude) for deep launches.\n\n` +
+                    `3. Binary Superposition Rule:\n` +
+                    `   U_net = (-G * M1 * m)/r1 + (-G * M2 * m)/r2\n` +
+                    `   Warning: ADD SCALARS. Do not use vector components for energy!\n\n` +
+                    `4. Orbital Work Requirements (Circular Orbits):\n` +
+                    `   Total Energy E = - (G * M * m) / (2 * r)\n` +
+                    `   Delta_E = E_final - E_initial\n`;
+
+                    const blob = new Blob([notes], {type: 'text/plain'});
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Gravitational_Potential_Notes.txt';
+                    document.body.appendChild(a); // Append for safe click across browsers
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

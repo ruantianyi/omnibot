@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculus Deep Dive: Riemann Sums & Integration Boundaries</title>
+  
+  <!-- Tailwind CSS for robust, modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            calc: {
+              50: '#f4f6f8',
+              100: '#e4e8ed',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            },
+            accent: {
+              light: '#10b981', // Emerald
+              dark: '#059669'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Merriweather', 'Georgia', 'serif'],
+            mono: ['Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- MathJax for rendering beautiful LaTeX equations -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'ams'
+      },
+      options: {
+        ignoreHtmlClass: 'tex2jax_ignore',
+        processHtmlClass: 'tex2jax_process'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Canvas styling */
+    canvas {
+      touch-action: none; /* Prevent scrolling when interacting with canvas */
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .math-block {
+      overflow-x: auto;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body class="bg-calc-50 text-slate-800 font-sans antialiased selection:bg-calc-100 selection:text-calc-900">
+
+  <!-- Navigation -->
+  <nav class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex items-center space-x-3">
+          <svg class="w-8 h-8 text-calc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          <span class="font-bold text-xl tracking-tight text-slate-900">IntegralDynamics</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium">
+          <a href="#core-concept" class="text-slate-600 hover:text-calc-600 transition-colors">Core Concept</a>
+          <a href="#visualizer" class="text-slate-600 hover:text-calc-600 transition-colors">Interactive Visualizer</a>
+          <a href="#master-strategy" class="text-slate-600 hover:text-calc-600 transition-colors">Master Strategy</a>
+          <a href="#boundaries" class="text-slate-600 hover:text-calc-600 transition-colors">Integration Boundaries</a>
+        </div>
+        <div>
+          <button id="btnDownload" class="bg-calc-600 hover:bg-calc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-calc-600">
+            Export Notes
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+    <div class="inline-flex items-center space-x-2 bg-blue-100 text-calc-800 px-3 py-1 rounded-full text-sm font-semibold mb-6">
+      <span class="flex-1">Calculus II Module</span>
+    </div>
+    <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6 font-serif">
+      Riemann Sums & <br class="hidden md:block" />
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-calc-600 to-accent-light">Calculus Integration Boundaries</span>
+    </h1>
+    <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+      Master the foundational approximation techniques used to estimate the exact area under continuous curves. Visualize the mathematical limit as rectangles approach infinity to define the Definite Integral.
+    </p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
+
+    <!-- Section 1: The Core Concept -->
+    <section id="core-concept" class="scroll-mt-24">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12">
+        <h2 class="text-3xl font-bold text-slate-900 mb-6 font-serif border-b border-slate-100 pb-4">1. The Core Concept</h2>
+        <div class="prose prose-lg prose-slate max-w-none text-slate-700 space-y-6">
+          <p>
+            A <strong>Riemann sum</strong> is a foundational calculus approximation technique used to estimate the exact area under a continuous curve over an interval $[a, b]$. 
+          </p>
+          <p>
+            By partitioning the domain into $n$ discrete rectangular strips, calculating their individual areas, and summing them up, the total value approaches the definitive integral as the number of strips approaches infinity. This forms the bridge between discrete approximation and continuous integration.
+          </p>
+          
+          <h3 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Mathematical Formulations</h3>
+          <p>
+            Let $f(x)$ be a continuous function bounded on $[a, b]$. We divide the interval into $n$ equal subintervals. The width of each subinterval, denoted as $\Delta x$, is defined as:
+          </p>
+          <div class="math-block bg-slate-50 rounded-xl p-6 text-center border border-slate-100">
+            $$\Delta x = \frac{b - a}{n}$$
+          </div>
+          <p>
+            The total area under the curve is approximated by summing the areas of these rectangles. Depending on where the rectangle heights sample the function $f(x)$, the sums are classified into different types:
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-8 mt-8">
+            <div class="bg-blue-50/50 p-6 rounded-xl border border-blue-100">
+              <h4 class="font-bold text-calc-800 text-xl mb-3">Left Riemann Sum</h4>
+              <p class="text-sm mb-4">Coordinates evaluated at the left boundary of each subinterval. Underestimates increasing functions.</p>
+              <p class="text-sm font-mono bg-white p-2 rounded border border-blue-100">$x_i^* = a + i\Delta x$ for $i=0$ to $n-1$</p>
+            </div>
+            <div class="bg-emerald-50/50 p-6 rounded-xl border border-emerald-100">
+              <h4 class="font-bold text-emerald-800 text-xl mb-3">Right Riemann Sum</h4>
+              <p class="text-sm mb-4">Coordinates evaluated at the right boundary of each subinterval. Overestimates increasing functions.</p>
+              <p class="text-sm font-mono bg-white p-2 rounded border border-emerald-100">$x_i^* = a + i\Delta x$ for $i=1$ to $n$</p>
+            </div>
+          </div>
+
+          <p class="mt-6">The general approximation formula for the area is:</p>
+          <div class="math-block bg-slate-50 rounded-xl p-6 text-center border border-slate-100">
+            $$\text{Area} \approx \sum_{i=1}^{n} f(x_i^*) \Delta x$$
+          </div>
+
+          <div class="bg-calc-900 text-white p-8 rounded-2xl mt-10 shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+            <h4 class="text-xl font-bold mb-4 flex items-center text-blue-200">
+              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              The Definite Integral Limit
+            </h4>
+            <p class="text-slate-300 mb-4">
+              Taking the mathematical limit as the number of rectangles $n$ approaches infinity (meaning $\Delta x \to 0$) yields the exact Definite Integral:
+            </p>
+            <div class="math-block overflow-hidden">
+              <span class="text-white text-lg">
+                $$\lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*) \Delta x = \int_{a}^{b} f(x) \, dx$$
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Interactive Visualizer -->
+    <section id="visualizer" class="scroll-mt-24">
+      <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        <div class="p-6 md:p-8 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900 font-serif">Interactive Riemann Visualizer</h2>
+            <p class="text-sm text-slate-500 mt-1">Watch how increasing $n$ converges the sum to the exact integral.</p>
+          </div>
+          
+          <!-- Controls -->
+          <div class="flex flex-wrap gap-3">
+            <select id="funcSelect" class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-calc-600 focus:border-calc-600 block p-2 shadow-sm">
+              <option value="parabola">f(x) = -x² + 6x</option>
+              <option value="sine">f(x) = 3sin(x) + 4</option>
+              <option value="exponential">f(x) = e^(x/2)</option>
+            </select>
+            <select id="sumTypeSelect" class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-calc-600 focus:border-calc-600 block p-2 shadow-sm">
+              <option value="left">Left Sum</option>
+              <option value="right">Right Sum</option>
+              <option value="midpoint">Midpoint Sum</option>
+              <option value="trapezoid">Trapezoidal</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Canvas Container -->
+        <div class="relative w-full aspect-[2/1] md:aspect-[3/1] bg-white border-b border-slate-100">
+          <canvas id="riemannCanvas" class="absolute inset-0 w-full h-full cursor-crosshair"></canvas>
+        </div>
+
+        <!-- Dashboard panel -->
+        <div class="p-6 md:p-8 bg-white grid md:grid-cols-3 gap-6 items-center">
+          <div class="col-span-1 md:col-span-2">
+            <label for="nSlider" class="block text-sm font-medium text-slate-700 mb-2">
+              Number of Subintervals (n = <span id="nValueDisplay" class="font-bold text-calc-600">10</span>)
+            </label>
+            <input type="range" id="nSlider" min="1" max="150" value="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-calc-600">
+            <div class="flex justify-between text-xs text-slate-400 mt-1 px-1">
+              <span>n=1</span>
+              <span>n=150</span>
+            </div>
+          </div>
+          
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-slate-500">Approximation:</span>
+              <span id="approxArea" class="font-mono font-bold text-slate-900">0.000</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium text-slate-500">Exact Integral:</span>
+              <span id="exactArea" class="font-mono font-bold text-calc-600">0.000</span>
+            </div>
+            <div class="pt-2 mt-2 border-t border-slate-200 flex justify-between items-center">
+              <span class="text-sm font-medium text-slate-500">Absolute Error:</span>
+              <span id="errorValue" class="font-mono font-bold text-rose-500">0.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Problem Solving Strategy -->
+    <section id="master-strategy" class="scroll-mt-24">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-slate-50 to-transparent pointer-events-none"></div>
+        
+        <h2 class="text-3xl font-bold text-slate-900 mb-8 font-serif">Problem-Solving Master Strategy</h2>
+        
+        <div class="space-y-8 relative z-10">
+          
+          <div class="flex">
+            <div class="flex-shrink-0 mr-5">
+              <div class="flex items-center justify-center w-10 h-10 rounded-full bg-calc-100 text-calc-700 font-bold border-2 border-calc-200">1</div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-slate-800 mb-2">Find Subinterval Width ($\Delta x$)</h3>
+              <p class="text-slate-600">Always compute $\Delta x = \frac{b-a}{n}$ first. This represents the fixed base width of every rectangle in your approximation.</p>
+            </div>
+          </div>
+
+          <div class="flex">
+            <div class="flex-shrink-0 mr-5">
+              <div class="flex items-center justify-center w-10 h-10 rounded-full bg-calc-100 text-calc-700 font-bold border-2 border-calc-200">2</div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-slate-800 mb-2">Generate the Coordinate Sequence ($x_i$)</h3>
+              <p class="text-slate-600 mb-3">Write out the list of evaluating points based on your sum type. Let's look at an example for a Right sum on interval $[1, 3]$ with $n=4$.</p>
+              <div class="bg-slate-800 text-slate-200 p-4 rounded-lg font-mono text-sm inline-block">
+                Δx = (3 - 1) / 4 = 0.5<br><br>
+                x₀ = 1.0 (Start)<br>
+                x₁ = 1.5 (Eval 1)<br>
+                x₂ = 2.0 (Eval 2)<br>
+                x₃ = 2.5 (Eval 3)<br>
+                x₄ = 3.0 (Eval 4 - End)
+              </div>
+            </div>
+          </div>
+
+          <div class="flex">
+            <div class="flex-shrink-0 mr-5">
+              <div class="flex items-center justify-center w-10 h-10 rounded-full bg-calc-100 text-calc-700 font-bold border-2 border-calc-200">3</div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-slate-800 mb-2">Evaluate and Sum</h3>
+              <p class="text-slate-600">Compute the function output $f(x_i)$ at each coordinate point, sum the values, and multiply the final accumulated height sum by the width $\Delta x$. Factoring out $\Delta x$ saves calculation time.</p>
+              <div class="mt-4 math-block">
+                $$\text{Area} \approx \Delta x \big[ f(x_1) + f(x_2) + f(x_3) + f(x_4) \big]$$
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Integration Boundaries -->
+    <section id="boundaries" class="scroll-mt-24">
+      <div class="bg-slate-900 rounded-2xl shadow-xl border border-slate-800 p-8 md:p-12 text-slate-300">
+        <h2 class="text-3xl font-bold text-white mb-6 font-serif">Integration Boundaries Properties</h2>
+        <p class="text-lg text-slate-400 mb-8">
+          The limits of integration $[a, b]$ define the domain over which area is accumulated. Modifying these boundaries follows strict mathematical properties essential for solving complex integrals.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+          <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+            <h4 class="font-bold text-white mb-2">Reversal of Limits</h4>
+            <p class="text-sm text-slate-400 mb-4">Integrating backwards reverses the sign of the accumulated area.</p>
+            <div class="math-block">
+              $$\int_{a}^{b} f(x) dx = -\int_{b}^{a} f(x) dx$$
+            </div>
+          </div>
+          <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+            <h4 class="font-bold text-white mb-2">Zero Length Interval</h4>
+            <p class="text-sm text-slate-400 mb-4">If the upper and lower limits are identical, no area is accumulated.</p>
+            <div class="math-block">
+              $$\int_{a}^{a} f(x) dx = 0$$
+            </div>
+          </div>
+          <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+            <h4 class="font-bold text-white mb-2">Additive Interval Property</h4>
+            <p class="text-sm text-slate-400 mb-4">Integrals can be split at any intermediate point $c$.</p>
+            <div class="math-block">
+              $$\int_{a}^{b} f(x) dx = \int_{a}^{c} f(x) dx + \int_{c}^{b} f(x) dx$$
+            </div>
+          </div>
+        </div>
+
+        <!-- Boundary Accumulator Interactive Canvas -->
+        <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+          <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-900">
+            <h3 class="font-bold text-white">Interactive Boundary Accumulator</h3>
+            <span class="text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">Drag the boundaries A and B</span>
+          </div>
+          <div class="relative w-full h-64 bg-slate-950">
+            <canvas id="boundaryCanvas" class="absolute inset-0 w-full h-full cursor-ew-resize"></canvas>
+          </div>
+          <div class="p-4 bg-slate-900 flex flex-col md:flex-row justify-between items-center text-sm font-mono">
+            <div class="text-blue-400">Lower Limit (a) = <span id="boundA">1.00</span></div>
+            <div class="text-emerald-400 my-2 md:my-0">Upper Limit (b) = <span id="boundB">4.00</span></div>
+            <div class="text-white bg-calc-600 px-3 py-1 rounded">Accumulated Integral = <span id="boundIntegral">0.00</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 mt-12 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+      <p>Interactive Physics & Math Simulations. Powered by MathJax and HTML5 Canvas.</p>
+      <p class="mt-2 text-xs">Note: Diagrams and values are dynamically generated in real-time in the browser.</p>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // Namespace for application state to prevent global pollution
+    const AppState = {
+      // Riemann visualizer state
+      n: 10,
+      funcType: 'parabola',
+      sumType: 'left',
+      a: 0,
+      b: 6,
+      
+      // Boundary visualizer state
+      boundA: 1.5,
+      boundB: 4.5,
+      draggingA: false,
+      draggingB: false,
+
+      // Function Definitions & Analytics
+      functions: {
+        parabola: {
+          evaluate: (x) => -Math.pow(x, 2) + 6 * x,
+          exactIntegral: (a, b) => {
+            const F = (x) => -(1/3)*Math.pow(x, 3) + 3*Math.pow(x, 2);
+            return F(b) - F(a);
+          },
+          label: "f(x) = -x² + 6x",
+          yMin: -2,
+          yMax: 10
+        },
+        sine: {
+          evaluate: (x) => 3 * Math.sin(x) + 4,
+          exactIntegral: (a, b) => {
+            const F = (x) => -3 * Math.cos(x) + 4 * x;
+            return F(b) - F(a);
+          },
+          label: "f(x) = 3sin(x) + 4",
+          yMin: 0,
+          yMax: 8
+        },
+        exponential: {
+          evaluate: (x) => Math.exp(x / 2),
+          exactIntegral: (a, b) => {
+            const F = (x) => 2 * Math.exp(x / 2);
+            return F(b) - F(a);
+          },
+          label: "f(x) = e^(x/2)",
+          yMin: 0,
+          yMax: 25
+        }
+      }
+    };
+
+    // ---------------------------------------------------------
+    // Core Logic: Riemann Sum Calculations
+    // ---------------------------------------------------------
+    function calculateRiemannSum(func, a, b, n, type) {
+      const dx = (b - a) / n;
+      let sum = 0;
+
+      for (let i = 0; i < n; i++) {
+        let xi;
+        switch (type) {
+          case 'left':
+            xi = a + i * dx;
+            sum += func(xi) * dx;
+            break;
+          case 'right':
+            xi = a + (i + 1) * dx;
+            sum += func(xi) * dx;
+            break;
+          case 'midpoint':
+            xi = a + (i + 0.5) * dx;
+            sum += func(xi) * dx;
+            break;
+          case 'trapezoid':
+            // Trap area = dx/2 * (f(x_i) + f(x_{i+1}))
+            const x0 = a + i * dx;
+            const x1 = a + (i + 1) * dx;
+            sum += (dx / 2) * (func(x0) + func(x1));
+            break;
+        }
+      }
+      return sum;
+    }
+
+
+    // ---------------------------------------------------------
+    // Rendering: Riemann Visualizer Canvas
+    // ---------------------------------------------------------
+    function drawRiemannCanvas() {
+      const canvas = document.getElementById('riemannCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      
+      // Handle high-DPI displays safely
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      
+      const width = rect.width;
+      const height = rect.height;
+
+      // Extract current state
+      const fObj = AppState.functions[AppState.funcType];
+      const f = fObj.evaluate;
+      const { a, b, n, sumType } = AppState;
+      const yMin = fObj.yMin;
+      const yMax = fObj.yMax;
+
+      // Coordinate mapping functions
+      const padding = 40;
+      const plotWidth = width - padding * 2;
+      const plotHeight = height - padding * 2;
+
+      // X goes from a-1 to b+1 for some padding
+      const xDomain = [a - 0.5, b + 0.5]; 
+      const yDomain = [yMin, yMax];
+
+      const mapX = (x) => padding + ((x - xDomain[0]) / (xDomain[1] - xDomain[0])) * plotWidth;
+      const mapY = (y) => height - padding - ((y - yDomain[0]) / (yDomain[1] - yDomain[0])) * plotHeight;
+      const mapW = (w) => (w / (xDomain[1] - xDomain[0])) * plotWidth;
+
+      // Clear Canvas
+      ctx.clearRect(0, 0, width, height);
+
+      // 1. Draw Grid and Axes
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      
+      // X-Axis
+      const yZero = mapY(0);
+      if (yZero >= padding && yZero <= height - padding) {
+        ctx.beginPath();
+        ctx.moveTo(padding, yZero);
+        ctx.lineTo(width - padding, yZero);
+        ctx.stroke();
+      }
+
+      // Draw exact area shading under the curve
+      ctx.fillStyle = 'rgba(241, 245, 249, 0.7)'; // Very light slate
+      ctx.beginPath();
+      ctx.moveTo(mapX(a), mapY(0));
+      for (let x = a; x <= b; x += 0.05) {
+        ctx.lineTo(mapX(x), mapY(f(x)));
+      }
+      ctx.lineTo(mapX(b), mapY(0));
+      ctx.closePath();
+      ctx.fill();
+
+      // 2. Draw Rectangles / Trapezoids
+      const dx = (b - a) / n;
+      const rectColor = 'rgba(37, 99, 235, 0.2)'; // Tailwind blue-600 with opacity
+      const rectBorder = 'rgba(30, 64, 175, 0.8)'; // Tailwind blue-800
+
+      ctx.lineWidth = 1.5;
+      
+      for (let i = 0; i < n; i++) {
+        const xi_start = a + i * dx;
+        const xi_end = a + (i + 1) * dx;
+        
+        ctx.fillStyle = rectColor;
+        ctx.strokeStyle = rectBorder;
+        
+        if (sumType === 'trapezoid') {
+          // Draw Trapezoid
+          const yStart = f(xi_start);
+          const yEnd = f(xi_end);
+          
+          ctx.beginPath();
+          ctx.moveTo(mapX(xi_start), mapY(0));
+          ctx.lineTo(mapX(xi_start), mapY(yStart));
+          ctx.lineTo(mapX(xi_end), mapY(yEnd));
+          ctx.lineTo(mapX(xi_end), mapY(0));
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          // Determine evaluation height
+          let evalX;
+          if (sumType === 'left') evalX = xi_start;
+          else if (sumType === 'right') evalX = xi_end;
+          else if (sumType === 'midpoint') evalX = xi_start + dx / 2;
+          
+          const evalY = f(evalX);
+          
+          // Draw Rectangle
+          const w = mapW(dx);
+          const hOffset = Math.abs(mapY(evalY) - mapY(0));
+          const topY = evalY >= 0 ? mapY(evalY) : mapY(0);
+          
+          ctx.beginPath();
+          ctx.rect(mapX(xi_start), topY, w, hOffset);
+          ctx.fill();
+          ctx.stroke();
+
+          // Draw sample point indicator for clarity on low n
+          if (n <= 30) {
+            ctx.fillStyle = '#ef4444'; // Red dot
+            ctx.beginPath();
+            ctx.arc(mapX(evalX), mapY(evalY), 3, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      // 3. Draw The True Function Curve
+      ctx.strokeStyle = '#0f172a'; // slate-900
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for (let x = xDomain[0]; x <= xDomain[1]; x += 0.05) {
+        if (x === xDomain[0]) ctx.moveTo(mapX(x), mapY(f(x)));
+        else ctx.lineTo(mapX(x), mapY(f(x)));
+      }
+      ctx.stroke();
+
+      // Updates Dashboard Metrics
+      const exactIntegral = fObj.exactIntegral(a, b);
+      const approxArea = calculateRiemannSum(f, a, b, n, sumType);
+      const error = Math.abs(exactIntegral - approxArea);
+
+      document.getElementById('approxArea').innerText = approxArea.toFixed(4);
+      document.getElementById('exactArea').innerText = exactIntegral.toFixed(4);
+      document.getElementById('errorValue').innerText = error.toFixed(4);
+    }
+
+    // ---------------------------------------------------------
+    // Rendering: Boundary Interactive Canvas
+    // ---------------------------------------------------------
+    function drawBoundaryCanvas() {
+      const canvas = document.getElementById('boundaryCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      
+      const width = rect.width;
+      const height = rect.height;
+
+      // Function to analyze
+      const f = (x) => 0.5 * Math.sin(x * 1.5) * x + 2; // Nice oscillating function
+      const exactIntegral = (a, b) => {
+        // We will approximate the integral here dynamically using a high n trapezoidal rule 
+        // to handle the complex function easily without defining the analytical antiderivative
+        return calculateRiemannSum(f, a, b, 200, 'trapezoid');
+      };
+
+      const xDomain = [-1, 7];
+      const yDomain = [-1, 5];
+      const mapX = (x) => ((x - xDomain[0]) / (xDomain[1] - xDomain[0])) * width;
+      const mapY = (y) => height - ((y - yDomain[0]) / (yDomain[1] - yDomain[0])) * height;
+      const unmapX = (px) => xDomain[0] + (px / width) * (xDomain[1] - xDomain[0]);
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw axis
+      ctx.strokeStyle = '#334155'; // slate-700
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, mapY(0));
+      ctx.lineTo(width, mapY(0));
+      ctx.stroke();
+
+      // Values
+      const { boundA, boundB } = AppState;
+      
+      // Determine integral direction and sign
+      const isReversed = boundA > boundB;
+      const startX = isReversed ? boundB : boundA;
+      const endX = isReversed ? boundA : boundB;
+
+      // Shade area
+      ctx.beginPath();
+      ctx.moveTo(mapX(startX), mapY(0));
+      for (let x = startX; x <= endX; x += 0.05) {
+        ctx.lineTo(mapX(x), mapY(f(x)));
+      }
+      ctx.lineTo(mapX(endX), mapY(0));
+      ctx.closePath();
+      
+      // Color based on standard or reversed
+      if (isReversed) {
+         ctx.fillStyle = 'rgba(244, 63, 94, 0.4)'; // Rose
+      } else {
+         ctx.fillStyle = 'rgba(16, 185, 129, 0.4)'; // Emerald
+      }
+      ctx.fill();
+
+      // Draw Curve
+      ctx.strokeStyle = '#94a3b8'; // slate-400
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for (let x = xDomain[0]; x <= xDomain[1]; x += 0.05) {
+        if (x === xDomain[0]) ctx.moveTo(mapX(x), mapY(f(x)));
+        else ctx.lineTo(mapX(x), mapY(f(x)));
+      }
+      ctx.stroke();
+
+      // Draw Boundary Lines & Handles
+      const drawHandle = (x, color, label) => {
+        const px = mapX(x);
+        
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(px, 0);
+        ctx.lineTo(px, height);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Handle shape
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(px, mapY(0), 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#0f172a';
+        ctx.stroke();
+        
+        // Label
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(label, px, mapY(0) - 15);
+      };
+
+      drawHandle(boundA, '#60a5fa', 'A'); // Blue-400
+      drawHandle(boundB, '#34d399', 'B'); // Emerald-400
+
+      // Update Dashboard
+      const result = calculateRiemannSum(f, boundA, boundB, 200, 'trapezoid'); // Accurate integral
+      document.getElementById('boundA').innerText = boundA.toFixed(2);
+      document.getElementById('boundB').innerText = boundB.toFixed(2);
+      document.getElementById('boundIntegral').innerText = result.toFixed(3);
+      
+      // Store state for interaction
+      canvas.unmapX = unmapX;
+      canvas.mapX = mapX;
+    }
+
+
+    // ---------------------------------------------------------
+    // Initialization & Event Listeners
+    // ---------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      
+      // 1. Riemann Visualizer Listeners
+      const nSlider = document.getElementById('nSlider');
+      const funcSelect = document.getElementById('funcSelect');
+      const sumTypeSelect = document.getElementById('sumTypeSelect');
+      const nValueDisplay = document.getElementById('nValueDisplay');
+
+      if (nSlider) {
+        nSlider.addEventListener('input', (e) => {
+          AppState.n = parseInt(e.target.value, 10);
+          nValueDisplay.innerText = AppState.n;
+          drawRiemannCanvas();
+        });
+      }
+
+      if (funcSelect) {
+        funcSelect.addEventListener('change', (e) => {
+          AppState.funcType = e.target.value;
+          drawRiemannCanvas();
+        });
+      }
+
+      if (sumTypeSelect) {
+        sumTypeSelect.addEventListener('change', (e) => {
+          AppState.sumType = e.target.value;
+          drawRiemannCanvas();
+        });
+      }
+
+      // 2. Boundary Interaction Listeners
+      const boundaryCanvas = document.getElementById('boundaryCanvas');
+      if (boundaryCanvas) {
+        
+        const getMouseX = (e) => {
+          const rect = boundaryCanvas.getBoundingClientRect();
+          // Support touch and mouse
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          return clientX - rect.left;
+        };
+
+        const handleDown = (e) => {
+          const px = getMouseX(e);
+          const clickX = boundaryCanvas.unmapX(px);
+          
+          // Check proximity to A or B
+          const distA = Math.abs(clickX - AppState.boundA);
+          const distB = Math.abs(clickX - AppState.boundB);
+          
+          const hitThreshold = 0.5; // logic distance units
+          
+          if (distA < hitThreshold && distA <= distB) AppState.draggingA = true;
+          else if (distB < hitThreshold) AppState.draggingB = true;
+          
+          // Prevent scroll on touch devices while dragging
+          if (AppState.draggingA || AppState.draggingB) {
+            e.preventDefault();
+          }
+        };
+
+        const handleMove = (e) => {
+          if (!AppState.draggingA && !AppState.draggingB) return;
+          
+          const px = getMouseX(e);
+          let newX = boundaryCanvas.unmapX(px);
+          
+          // Clamp values to grid edges
+          newX = Math.max(-1, Math.min(7, newX));
+
+          if (AppState.draggingA) AppState.boundA = newX;
+          if (AppState.draggingB) AppState.boundB = newX;
+          
+          drawBoundaryCanvas();
+        };
+
+        const handleUp = () => {
+          AppState.draggingA = false;
+          AppState.draggingB = false;
+        };
+
+        boundaryCanvas.addEventListener('mousedown', handleDown);
+        boundaryCanvas.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', handleUp);
+
+        boundaryCanvas.addEventListener('touchstart', handleDown, {passive: false});
+        boundaryCanvas.addEventListener('touchmove', handleMove, {passive: false});
+        window.addEventListener('touchend', handleUp);
+      }
+
+      // 3. Download / Export Functionality (Safe binding)
+      const btnDownload = document.getElementById('btnDownload');
+      if (btnDownload) {
+        btnDownload.addEventListener('click', () => {
+          const content = `
+Calculus II Module - Riemann Sums & Integration Cheat Sheet
+
+1. Core Concept
+A Riemann sum approximates the exact area under a continuous curve over [a, b].
+Width of subintervals: Δx = (b - a) / n
+
+2. Types of Sums:
+- Left Sum: Evaluates at left bounds. x_i* = a + i*Δx (i=0 to n-1)
+- Right Sum: Evaluates at right bounds. x_i* = a + i*Δx (i=1 to n)
+- Midpoint Sum: Evaluates at center. x_i* = a + (i+0.5)*Δx (i=0 to n-1)
+
+3. Limit Definition of a Definite Integral
+lim (n->∞) Σ f(x_i*) Δx = ∫ (from a to b) f(x) dx
+
+4. Integration Properties
+- Reversed Limits: ∫ (b to a) f(x) dx = - ∫ (a to b) f(x) dx
+- Zero Length: ∫ (a to a) f(x) dx = 0
+- Additive Property: ∫ (a to b) = ∫ (a to c) + ∫ (c to b)
+          `.trim();
+          
+          const blob = new Blob([content], { type: 'text/plain' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'riemann_sums_calculus_notes.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      }
+
+      // Resize listener for responsive canvas
+      window.addEventListener('resize', () => {
+        drawRiemannCanvas();
+        drawBoundaryCanvas();
+      });
+
+      // Initial Draw
+      drawRiemannCanvas();
+      drawBoundaryCanvas();
+    });
+
+  </script>
+</body>
+</html>
