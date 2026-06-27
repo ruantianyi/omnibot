@@ -90,26 +90,33 @@
                 </div>
                 <input type="text" id="searchInput" placeholder="Search lessons or describe what you want to learn..." 
                     class="w-full pl-11 pr-[150px] py-4 bg-slate-900/50 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all shadow-lg backdrop-blur-md">
-                
-                <button id="aiRecommendBtn" class="absolute right-2 top-2 bottom-2 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-teal-500 hover:from-indigo-500 hover:to-teal-400 text-white font-bold text-xs shadow-[0_0_15px_rgba(99,102,241,0.5)] hover:shadow-[0_0_25px_rgba(45,212,191,0.6)] transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-sparkles"></i> AI Recommend
-                </button>
+                <div class="absolute right-2 top-2 bottom-2 flex items-center gap-2">
+                    <button id="aiSearchBtn" class="w-10 h-10 rounded-xl bg-gradient-to-r from-indigo-600 to-teal-500 hover:from-indigo-500 hover:to-teal-400 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)] hover:shadow-[0_0_25px_rgba(45,212,191,0.6)] transition-all flex items-center justify-center" title="AI Search Mode (Google AI Mode)">
+                        <i class="fa-solid fa-sparkles"></i>
+                    </button>
+                    <button id="normalSearchBtn" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all flex items-center justify-center shadow-lg" title="Normal Search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- AI Overview Container (Hidden by default) -->
-            <div id="aiOverviewContainer" class="hidden rounded-2xl border border-indigo-500/30 bg-slate-900/80 backdrop-blur-xl p-6 shadow-[0_10px_40px_-10px_rgba(99,102,241,0.2)] relative overflow-hidden">
+            <div id="aiOverviewContainer" class="hidden rounded-2xl border border-indigo-500/30 bg-slate-900/80 backdrop-blur-xl shadow-[0_10px_40px_-10px_rgba(99,102,241,0.2)] relative overflow-hidden flex flex-col">
                 <div class="absolute top-0 left-0 w-full h-1 bg-slate-800">
                     <div id="aiProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-teal-400 w-0 transition-all duration-300"></div>
                 </div>
-                <div class="flex items-center gap-3 mb-4">
+                <div id="aiOverviewHeader" class="flex items-center gap-3 p-6 cursor-pointer group select-none">
                     <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
                         <i class="fa-solid fa-robot"></i>
                     </div>
-                    <h3 class="font-bold text-slate-200">AI Overview</h3>
+                    <h3 class="font-bold text-slate-200 group-hover:text-white transition-colors">AI Overview</h3>
+                    <i id="aiOverviewChevron" class="fa-solid fa-chevron-up text-slate-400 text-sm ml-1 transition-transform duration-300"></i>
                     <span id="aiStatusBadge" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 ml-auto">Ready</span>
                 </div>
-                <p id="aiOutputText" class="text-sm text-slate-300 leading-relaxed min-h-[40px]"></p>
-                <div id="aiModelLoadingText" class="text-xs text-slate-500 mt-4 hidden">Downloading SLM weights (runs locally, 0 server calls)... <span id="downloadPct">0</span>%</div>
+                <div id="aiOverviewContent" class="px-6 pb-6 transition-all duration-300 origin-top">
+                    <p id="aiOutputText" class="text-sm text-slate-300 leading-relaxed min-h-[40px]"></p>
+                    <div id="aiModelLoadingText" class="text-xs text-slate-500 mt-4 hidden">Downloading SLM weights (runs locally, 0 server calls)... <span id="downloadPct">0</span>%</div>
+                </div>
             </div>
         </div>
 
@@ -117,7 +124,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             
             <!-- Lesson 1: Elliptical Orbits -->
-            <a href="lessons/elliptical_orbits_physics.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+            <a href="lessons/elliptical_orbits_physics_v2.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 text-xl shadow-sm">
                         <i class="fa-solid fa-circle-notch animate-spin-slow"></i>
@@ -263,6 +270,153 @@
                 </div>
             </a>
 
+            <!-- Lesson 8: Gravitational Potential Funnels -->
+            <a href="lessons/gravitational_potential_funnels.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">
+                            Gravitational Potential Funnels
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Visualize gravitational potential wells, orbital mechanics, and escape velocity concepts.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-indigo-400 font-bold uppercase tracking-wider">
+                    <span>Explore Funnels</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 9: Interactive Trigonometry -->
+            <a href="lessons/interactive_trigonometry_the_unit_circle_and_wave_generation.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-circle-dot"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-orange-400 transition-colors">
+                            Interactive Trigonometry
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Explore the unit circle, sine/cosine waves, and harmonic oscillations.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-orange-400 font-bold uppercase tracking-wider">
+                    <span>Learn Trig</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 10: Simple Harmonic Motion -->
+            <a href="lessons/physics_interactive_simple_harmonic_motion.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-pink-400 transition-colors">
+                            Simple Harmonic Motion
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Master pendulums, springs, and the physics of harmonic oscillation.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-pink-400 font-bold uppercase tracking-wider">
+                    <span>Start Motion</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 11: Riemann Sums & Integration -->
+            <a href="lessons/riemann_sums_integration_boundaries.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-chart-bar"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-sky-400 transition-colors">
+                            Riemann Sums & Integration
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Understand calculus integration boundaries via interactive Riemann sum visualizations.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-sky-400 font-bold uppercase tracking-wider">
+                    <span>Visualize Calculus</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 12: Thermodynamics Heat Engines -->
+            <a href="lessons/thermodynamics_heat_engines_an_interactive_physics_guide.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-red-400 transition-colors">
+                            Thermodynamics Heat Engines
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Learn Carnot cycles, entropy, and thermodynamic efficiency with interactive PV diagrams.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-red-400 font-bold uppercase tracking-wider">
+                    <span>Study Engines</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 13: Vector Dynamics -->
+            <a href="lessons/vector_dynamics_the_interactive_guide_to_cross_products_geometry.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-lime-500/10 border border-lime-500/20 flex items-center justify-center text-lime-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-location-arrow"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-lime-400 transition-colors">
+                            Vector Dynamics
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Interactive guide to cross products, dot products, and 3D vector geometry.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-lime-400 font-bold uppercase tracking-wider">
+                    <span>Explore Vectors</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
+            <!-- Lesson 14: Wave Optics -->
+            <a href="lessons/wave_optics_thin_film_interference.html" class="glass-card rounded-2xl p-6 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 text-xl shadow-sm">
+                        <i class="fa-solid fa-rainbow"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-bold text-slate-100 group-hover:text-violet-400 transition-colors">
+                            Wave Optics
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Discover thin film interference, diffraction, and optical wave mechanics.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-900/60 flex items-center justify-between text-xs text-violet-400 font-bold uppercase tracking-wider">
+                    <span>Launch Optics</span>
+                    <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </div>
+            </a>
+
         </div>
     </main>
 
@@ -273,8 +427,12 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('searchInput');
-            const aiRecommendBtn = document.getElementById('aiRecommendBtn');
+            const aiSearchBtn = document.getElementById('aiSearchBtn');
+            const normalSearchBtn = document.getElementById('normalSearchBtn');
             const aiOverviewContainer = document.getElementById('aiOverviewContainer');
+            const aiOverviewHeader = document.getElementById('aiOverviewHeader');
+            const aiOverviewContent = document.getElementById('aiOverviewContent');
+            const aiOverviewChevron = document.getElementById('aiOverviewChevron');
             const aiOutputText = document.getElementById('aiOutputText');
             const aiStatusBadge = document.getElementById('aiStatusBadge');
             const aiProgressBar = document.getElementById('aiProgressBar');
@@ -282,6 +440,19 @@
             const downloadPct = document.getElementById('downloadPct');
             
             const lessonCards = document.querySelectorAll('.glass-card');
+
+            // Expand/Collapse logic
+            let aiExpanded = true;
+            aiOverviewHeader.addEventListener('click', () => {
+                aiExpanded = !aiExpanded;
+                if (aiExpanded) {
+                    aiOverviewContent.style.display = 'block';
+                    aiOverviewChevron.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                } else {
+                    aiOverviewContent.style.display = 'none';
+                    aiOverviewChevron.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                }
+            });
 
             // Collect context for the AI
             let lessonCatalog = "";
@@ -293,7 +464,11 @@
 
             // Standard Text Filtering
             searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase();
+                doNormalTextFilter(e.target.value);
+            });
+
+            function doNormalTextFilter(query) {
+                query = query.toLowerCase();
                 lessonCards.forEach(card => {
                     const title = card.querySelector('h3').innerText.toLowerCase();
                     const desc = card.querySelector('p').innerText.toLowerCase();
@@ -302,13 +477,34 @@
                     } else {
                         card.style.display = 'none';
                     }
+                    card.classList.remove('ring-2', 'ring-indigo-500', 'shadow-[0_0_20px_rgba(99,102,241,0.3)]');
                 });
-            });
+            }
 
             // AI Web Worker Setup
             let aiWorker = null;
+            let currentMode = 'normal'; // 'normal' or 'ai_search'
 
-            aiRecommendBtn.addEventListener('click', () => {
+            aiSearchBtn.addEventListener('click', () => {
+                currentMode = 'ai_search';
+                triggerAISearch();
+            });
+
+            normalSearchBtn.addEventListener('click', () => {
+                currentMode = 'normal';
+                doNormalTextFilter(searchInput.value.trim()); // Also perform normal filter
+                triggerAISearch();
+            });
+
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    currentMode = 'normal';
+                    doNormalTextFilter(searchInput.value.trim());
+                    triggerAISearch();
+                }
+            });
+
+            function triggerAISearch() {
                 const prompt = searchInput.value.trim();
                 if (!prompt) {
                     searchInput.focus();
@@ -317,6 +513,12 @@
 
                 // Show UI
                 aiOverviewContainer.classList.remove('hidden');
+                
+                // Ensure expanded
+                aiExpanded = true;
+                aiOverviewContent.style.display = 'block';
+                aiOverviewChevron.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                
                 aiOutputText.innerText = "Thinking...";
                 aiStatusBadge.innerText = "Initializing Model";
                 aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 ml-auto";
@@ -326,10 +528,10 @@
                     aiWorker = new Worker('ai_worker.js', { type: 'module' });
                     
                     aiWorker.onmessage = (e) => {
-                        const { type, data } = e.data;
+                        const { type, data, mode } = e.data;
                         
                         if (type === 'progress') {
-                            if (data.status === 'downloading' || data.status === 'progress') {
+                            if (data.status === 'download' || data.status === 'progress') {
                                 aiStatusBadge.innerText = "Downloading SLM...";
                                 if (data.progress) {
                                     const pct = Math.round(data.progress);
@@ -347,14 +549,18 @@
                         } 
                         else if (type === 'update') {
                             aiOutputText.innerText = data;
-                            // Attempt to filter cards dynamically based on what AI is writing
-                            highlightRecommendedCards(data);
+                            // Attempt to filter cards dynamically based on what AI is writing if in ai_search mode
+                            if (mode === 'ai_search') {
+                                highlightRecommendedCards(data);
+                            }
                         }
                         else if (type === 'complete') {
                             aiOutputText.innerText = data;
                             aiStatusBadge.innerText = "Completed";
                             aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 ml-auto";
-                            highlightRecommendedCards(data);
+                            if (mode === 'ai_search') {
+                                highlightRecommendedCards(data);
+                            }
                         }
                         else if (type === 'error') {
                             aiOutputText.innerText = `Error: ${data}`;
@@ -368,9 +574,10 @@
                 aiWorker.postMessage({
                     type: 'generate',
                     prompt: prompt,
-                    context: lessonCatalog
+                    context: lessonCatalog,
+                    mode: currentMode
                 });
-            });
+            }
 
             // Highlight recommended cards function
             function highlightRecommendedCards(aiText) {
@@ -387,7 +594,8 @@
                         card.style.display = 'flex';
                         card.classList.add('ring-2', 'ring-indigo-500', 'shadow-[0_0_20px_rgba(99,102,241,0.3)]');
                     } else {
-                        // Keep visible if it was already matching standard search, just remove highlight
+                        // In AI search mode, we aggressively filter out things not mentioned
+                        card.style.display = 'none';
                         card.classList.remove('ring-2', 'ring-indigo-500', 'shadow-[0_0_20px_rgba(99,102,241,0.3)]');
                     }
                 });
