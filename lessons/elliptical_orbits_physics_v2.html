@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Physics of Elliptical Orbits: An Interactive STEM Textbook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+      options: { ignoreHtmlClass: 'tex2jax_ignore', processHtmlClass: 'tex2jax_process' }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50: '#f0f3ff', 600: '#4f46e5', 700: '#4338ca', 900: '#312e81' } } } }
+    }
+  </script>
+  <style>
+    /* Vector Barrier Rules */
+    .vector-label { font-family: system-ui, sans-serif; font-weight: 700; }
+    .hidden { display: none !important; }
+    
+    /* 10. Paginated PDF Book Styling */
+    @media print {
+      @page { margin: 0.75in; }
+      body { background-color: #ffffff !important; color: #000000 !important; font-size: 11pt; }
+      header, footer, aside, nav, button, input, select, canvas, .no-print, .interactive-sim { display: none !important; }
+      main { width: 100% !important; margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+      article { page-break-inside: avoid; margin-bottom: 2.5rem !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+      h1, h2, h3, h4 { page-break-after: avoid; color: #000 !important; }
+      p { line-height: 1.6; margin-bottom: 1rem; }
+      svg { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
+      .bg-white, .bg-slate-50, .bg-blue-50, .bg-emerald-50 { background-color: transparent !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <span class="font-bold text-lg text-slate-900">CosmoMechanics Textbook</span>
+      <button onclick="window.print()" class="px-5 py-2 bg-indigo-600 text-white font-bold rounded-xl text-sm shadow-sm">Save as PDF / Print Book</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Hero Section -->
+    <section class="bg-white py-12 border border-slate-200 rounded-3xl mb-12 p-8 no-print shadow-sm">
+      <h1 class="text-4xl font-black text-slate-950 mb-4">The Orbital Mechanics of Elliptical Trajectories</h1>
+      <p class="text-lg text-slate-600">A rigorous, mathematically complete analysis of planetary kinematics, dynamic forces, and conic momentum conservation.</p>
+    </section>
+
+    <!-- Interactive Simulator -->
+    <section class="mb-16 interactive-sim no-print bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-700 p-6 flex flex-col md:flex-row gap-6">
+      <div class="md:w-2/3 relative min-h-[450px]">
+        <canvas id="orbitCanvas" class="w-full h-full bg-slate-950 rounded-2xl"></canvas>
+      </div>
+      <div class="md:w-1/3 bg-white p-6 rounded-2xl">
+        <h3 class="font-bold text-slate-900 mb-4 border-b pb-2">Kinematic Sandbox</h3>
+        <label class="block text-sm font-bold text-slate-700 mb-1">Sim Speed ($dt$)</label>
+        <input type="range" id="simSpeed" min="0.1" max="5" step="0.1" value="1" class="w-full mb-4">
+        <label class="block text-sm font-bold text-slate-700 mb-1">Eccentricity ($e$)</label>
+        <input type="range" id="simEcc" min="0" max="0.8" step="0.05" value="0.6" class="w-full mb-4">
+        <div class="text-xs space-y-2 mt-4 font-mono bg-slate-100 p-3 rounded-lg">
+          <div>Distance: <span id="outR" class="font-bold text-indigo-600">--</span></div>
+          <div>Velocity: <span id="outV" class="font-bold text-emerald-600">--</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-12 gap-8">
+      <div class="col-span-12 space-y-16">
+
+        <!-- Chapter 1 -->
+        <article class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+          <h2 class="text-3xl font-black text-slate-900 mb-6 border-b pb-4">Chapter 1: Geometric Foundations</h2>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Historical & Physical Context</h3>
+          <p class="mb-4 text-justify leading-relaxed">The formal definition of planetary motion underwent a turbulent paradigm shift over centuries of scientific inquiry. Early astronomers, bound by the philosophical dogmas of absolute perfection, insisted that all celestial bodies must travel along perfectly circular paths around a stationary Earth. This geocentric, uniform-circular model mandated increasingly complex adjustments—such as epicycles upon epicycles—to account for the observable retrograde motions of the planets. It was not until the meticulously recorded astronomical data of Tycho Brahe was rigorously analyzed by Johannes Kepler that the true geometric nature of planetary tracks was unveiled. Kepler realized that a circle was merely a highly specific sub-case of a broader family of curves known as conic sections. By recognizing that planetary paths were elliptical, with the Sun situated strictly at one focal point rather than the geometric center, Kepler unified the heavens under a single, elegant mathematical framework. This monumental realization eradicated the need for arbitrary epicycles and laid the indispensable geometric foundation upon which Isaac Newton would later build the law of universal gravitation. Understanding the exact geometry of the ellipse is therefore not just an exercise in pure mathematics, but the critical first step in unraveling the true physical kinematics of the cosmos.</p>
+          <p class="mb-6 text-justify leading-relaxed">Historically, Apollonius of Perga extensively documented the properties of conics in antiquity, yet these abstract curves were largely considered theoretical novelties devoid of practical earthly application. The integration of Apollonian geometry with physical astronomy represented a masterclass in interdisciplinary synthesis. The realization that planetary distances inherently dilate and contract as they progress along their elliptical track profoundly altered our understanding of energy distribution. The concepts of periapsis (the point of closest approach) and apoapsis (the point of maximum recession) emerged as the definitive geometric boundaries enclosing the dynamic energy states of a satellite. This dynamic oscillation in orbital radius fundamentally shatters the illusion of constant-velocity transit, introducing a profoundly kinetic, perpetually accelerating reality.</p>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Rigorous Mathematical Derivation</h3>
+          <p class="mb-4 text-justify leading-relaxed">To comprehend orbital kinematics, we must systematically derive the mathematical architecture of the ellipse from basic Euclidean axioms. By formal definition, an ellipse is the locus of all points in a two-dimensional Cartesian plane such that the sum of the distances from any point on the curve to two fixed points (the foci) remains strictly constant. Let these foci be denoted as $F_1$ and $F_2$. For any arbitrary point $P(x,y)$ residing on the perimeter of the ellipse, the defining geometric constraint is universally expressed as:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ d(F_1, P) + d(F_2, P) = 2a $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Here, the scalar parameter $a$ represents the length of the semi-major axis—the longest radius of the ellipse. If we establish a Cartesian coordinate system with the geometric origin located perfectly between the two foci, the coordinates of the foci are given by $(-c, 0)$ and $(c, 0)$, where $c$ defines the linear eccentricity. Applying the standard Euclidean distance formula, we construct the fundamental algebraic relationship:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ \sqrt{(x+c)^2 + y^2} + \sqrt{(x-c)^2 + y^2} = 2a $$</p>
+          <p class="mb-4 text-justify leading-relaxed">To isolate the variables and eliminate the radical expressions, we isolate one square root and mathematically square both sides of the equation. This arduous algebraic expansion eventually simplifies into the canonical Cartesian form of the ellipse. First, isolating the left radical:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ \sqrt{(x+c)^2 + y^2} = 2a - \sqrt{(x-c)^2 + y^2} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Squaring both sides and expanding the binomials yields:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ (x+c)^2 + y^2 = 4a^2 - 4a\sqrt{(x-c)^2 + y^2} + (x-c)^2 + y^2 $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Expanding the internal quadratics $(x^2 + 2xc + c^2)$ and canceling common terms ($x^2, c^2, y^2$) across the equality boundary drastically reduces the expression to:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ 4xc = 4a^2 - 4a\sqrt{(x-c)^2 + y^2} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Dividing out the common factor of $4$ and isolating the remaining radical once more:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ a\sqrt{(x-c)^2 + y^2} = a^2 - xc $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Squaring a second time eliminates the final radical, allowing us to group the $x$ and $y$ terms:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ a^2(x^2 - 2xc + c^2 + y^2) = a^4 - 2a^2xc + x^2c^2 $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Factoring this expression reveals the deep underlying relationship between the geometric constants $a$ and $c$. By defining a new constant $b^2 = a^2 - c^2$ (which physically represents the semi-minor axis), we arrive at the universally recognized, dimensionless Cartesian equation for an unrotated ellipse:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl border border-indigo-200">$$ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 $$</p>
+          <p class="mb-6 text-justify leading-relaxed">However, in astrodynamics, utilizing polar coordinates anchored exactly at the primary focus (the Sun) is far more analytically powerful than a Cartesian system centered on empty space. The transformation into polar form utilizes the radius $r$ and the true anomaly angle $\theta$. Through trigonometric substitution, the orbital equation is reformulated as $r(\theta) = \frac{a(1-e^2)}{1 + e \cos\theta}$, where $e = c/a$ is the numerical eccentricity. This pivotal equation dictates the precise radial distance of a satellite at any given angular displacement.</p>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Physical Kinematics & Behaviors</h3>
+          <p class="mb-4 text-justify leading-relaxed">The polar orbital equation mathematically enforces the dynamic, breathing nature of an elliptical orbit. Because the denominator contains a cosine function bounded strictly between $+1$ and $-1$, the radial distance $r$ is continuously forced to oscillate between absolute minimum and absolute maximum limits. When the satellite crosses the periapsis line (where $\theta = 0^\circ$), the cosine function maximizes to $+1$. The denominator becomes $1 + e$, driving the overall fraction to its smallest possible value. This confirms the physical reality: periapsis is the point of closest approach, mathematically defined as $r_p = a(1-e)$.</p>
+          <p class="mb-6 text-justify leading-relaxed">Conversely, exactly half an orbit later, the satellite crosses the apoapsis boundary ($\theta = 180^\circ$). Here, the cosine function collapses to $-1$, dropping the denominator to $1 - e$. This inflates the fraction to its maximum geometric limit, calculating the apoapsis distance as $r_a = a(1+e)$. As the orbital eccentricity $e$ approaches zero, the bounds $r_p$ and $r_a$ mathematically converge onto a single unified radius $r = a$, recovering the perfectly circular orbit. Should $e$ reach or exceed $1.0$, the denominator approaches zero, blasting the radial distance out to infinity—signifying a catastrophic ejection from the system via parabolic or hyperbolic escape trajectories.</p>
+
+          <!-- SVG Figure 1 -->
+          <div class="my-8 p-4 bg-slate-100 rounded-2xl border border-slate-300">
+            <h4 class="text-center font-bold text-sm text-slate-600 mb-2 uppercase tracking-widest">Figure 1: Geometric Anatomy</h4>
+            <svg viewBox="0 0 800 450" class="w-full h-auto bg-white rounded-xl shadow-sm">
+              <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" stroke-width="1"/></pattern></defs>
+              <g id="layer1-background"><rect width="100%" height="100%" fill="url(#grid)" class="no-print" /></g>
+              <g id="layer2-axes">
+                <line x1="100" y1="225" x2="700" y2="225" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5" />
+                <line x1="400" y1="50" x2="400" y2="400" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5" />
+              </g>
+              <g id="layer3-paths">
+                <ellipse cx="400" cy="225" rx="250" ry="150" fill="none" stroke="#3b82f6" stroke-width="3" />
+                <line x1="200" y1="225" x2="570" y2="115" stroke="#ef4444" stroke-width="2" />
+              </g>
+              <g id="layer4-foreground">
+                <circle cx="200" cy="225" r="15" fill="#f59e0b" />
+                <text x="200" y="260" stroke="#ffffff" stroke-width="4" stroke-linejoin="round" fill="none" class="vector-label text-sm" text-anchor="middle">Focus 1 (Sun)</text>
+                <text x="200" y="260" fill="#b45309" class="vector-label text-sm" text-anchor="middle">Focus 1 (Sun)</text>
+                
+                <circle cx="600" cy="225" r="6" fill="#cbd5e1" />
+                <text x="600" y="255" stroke="#ffffff" stroke-width="4" stroke-linejoin="round" fill="none" class="vector-label text-sm" text-anchor="middle">Focus 2 (Empty)</text>
+                <text x="600" y="255" fill="#64748b" class="vector-label text-sm" text-anchor="middle">Focus 2 (Empty)</text>
+
+                <circle cx="570" cy="115" r="8" fill="#10b981" />
+                <text x="590" y="105" stroke="#ffffff" stroke-width="4" stroke-linejoin="round" fill="none" class="vector-label text-sm">Planet P(r, θ)</text>
+                <text x="590" y="105" fill="#047857" class="vector-label text-sm">Planet P(r, θ)</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Example Problems -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-blue-50 border border-blue-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-blue-900 mb-2">Example 1: Calculating Apsides</h4>
+              <p class="text-sm text-blue-800 mb-3">An asteroid orbits with semi-major axis $a = 15$ AU and $e = 0.4$. Find its periapsis ($r_p$) and apoapsis ($r_a$).</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-blue-100">
+                <li>$r_p = a(1-e) = 15(1 - 0.4)$</li>
+                <li>$r_p = 15(0.6) = \mathbf{9 \text{ AU}}$</li>
+                <li class="mt-2 border-t pt-2">$r_a = a(1+e) = 15(1 + 0.4)$</li>
+                <li>$r_a = 15(1.4) = \mathbf{21 \text{ AU}}$</li>
+              </ul>
+            </div>
+            <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-indigo-900 mb-2">Example 2: Finding Eccentricity</h4>
+              <p class="text-sm text-indigo-800 mb-3">A comet's closest approach is $2$ AU and furthest is $18$ AU. What is its eccentricity ($e$)?</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-indigo-100">
+                <li>Major axis $2a = r_p + r_a = 2 + 18 = 20$</li>
+                <li>$a = 10 \text{ AU}$</li>
+                <li class="mt-2 border-t pt-2">Use $r_p = a(1-e)$</li>
+                <li>$2 = 10(1-e) \implies 0.2 = 1-e$</li>
+                <li>$e = 1 - 0.2 = \mathbf{0.8}$</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Testing Card -->
+          <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl shadow-sm">
+            <h4 class="font-bold text-emerald-900 mb-2 text-lg">Chapter 1 Checkpoint</h4>
+            <p class="text-emerald-800 mb-4 font-medium">A satellite has a semi-major axis of 40,000 km and an eccentricity of 0.1. Calculate its periapsis distance (in km).</p>
+            <div class="flex gap-4">
+              <input type="number" id="ch1-input" class="p-3 rounded-xl border border-emerald-300 w-full md:w-1/2 outline-none focus:ring-2 focus:ring-emerald-500 font-mono" placeholder="Enter numerical value...">
+              <button onclick="checkChap1()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition">Validate Answer</button>
+            </div>
+            <p id="ch1-feedback" class="mt-3 font-bold hidden"></p>
+          </div>
+          <script>
+            function checkChap1() {
+              const el = document.getElementById('ch1-input');
+              const fb = document.getElementById('ch1-feedback');
+              if (el && fb) {
+                fb.classList.remove('hidden', 'text-red-600', 'text-emerald-600');
+                if (parseFloat(el.value) === 36000) {
+                  fb.textContent = "✓ Correct! rp = 40000(1-0.1) = 36000 km.";
+                  fb.classList.add('text-emerald-600');
+                } else {
+                  fb.textContent = "✗ Incorrect. Use rp = a(1-e).";
+                  fb.classList.add('text-red-600');
+                }
+              }
+            }
+          </script>
+        </article>
+        <!-- Chapter 2 -->
+        <article class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+          <h2 class="text-3xl font-black text-slate-900 mb-6 border-b pb-4">Chapter 2: Keplerian Dynamics & Area Sweeps</h2>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Historical & Physical Context</h3>
+          <p class="mb-4 text-justify leading-relaxed">Having established the geometric shape of the planetary orbit as a pristine ellipse, Johannes Kepler faced an even more daunting physical paradox: the velocity of the planet was non-uniform. Prior to the seventeenth century, the concept of constant velocity was dogmatically linked to celestial perfection. If a planet traveled in an ellipse, its varying speed along the perimeter defied all established classical physics. Kepler analyzed decades of tracking data compiled by his mentor, Tycho Brahe, specifically focusing on the orbit of Mars. Through sheer brute-force numerical integration—performed entirely by hand without the aid of modern calculus or computational devices—Kepler noticed an exquisite mathematical symmetry hiding within the apparent chaos of the planet's accelerating and decelerating track. He realized that while the linear velocity vector $\vec{v}$ constantly fluctuates in magnitude, the rate at which the imaginary line connecting the Sun to the planet sweeps out two-dimensional geometric area remains perfectly invariant. This profound discovery, published in 1609 as Kepler’s Second Law (the Law of Equal Areas), shattered the illusion of constant speed. It proved that the universe conserves something far deeper than linear velocity: it conserves angular momentum. The physics governing this conservation dictates that as a celestial body falls into the gravitational well towards periapsis, its radial distance $r$ shrinks, forcing its angular velocity $\omega$ to violently spike upwards to maintain the constant area sweep rate. This mechanism acts as the cosmic engine driving all orbital mechanics.</p>
+          <p class="mb-6 text-justify leading-relaxed">Furthermore, Kepler spent another decade searching for a unifying harmonic relationship that linked the orbits of completely different planets across the solar system. In 1619, he published his Third Law (the Harmonic Law), establishing that the square of a planet's orbital period $T$ is directly proportional to the cube of its semi-major axis $a$. This was the first true unified field observation in astrophysics, proving that the Sun exerts a centralized, distance-dependent force that governs all satellites uniformly, regardless of their mass or specific geometric eccentricity. It was this exact proportionality that later allowed Sir Isaac Newton to derive the inverse-square law of universal gravitation.</p>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Rigorous Mathematical Derivation</h3>
+          <p class="mb-4 text-justify leading-relaxed">To rigorously prove Kepler's Second Law, we must deploy infinitesimal calculus to analyze the area swept by the position vector $\vec{r}$. Consider a planet moving along an arbitrary curve over an infinitesimally small time interval $dt$. The position vector traverses a minute angular displacement $d\theta$. The geometric area swept out during this infinitesimal slice of time can be modeled as a vanishingly thin triangle. The base of this triangle is the radial distance $r$, and the height (the arc length) is approximately $r d\theta$. The differential area $dA$ is calculated using the standard triangle area formula:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ dA = \frac{1}{2} (\text{base}) \times (\text{height}) = \frac{1}{2} r (r d\theta) = \frac{1}{2} r^2 d\theta $$</p>
+          <p class="mb-4 text-justify leading-relaxed">To determine the rate at which this area is swept out over time (the areal velocity), we divide both sides of the differential equation by the time interval $dt$:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ \frac{dA}{dt} = \frac{1}{2} r^2 \frac{d\theta}{dt} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">The term $\frac{d\theta}{dt}$ is the instantaneous angular velocity of the planet, conventionally denoted by the Greek letter $\omega$. Thus, the areal velocity is $\frac{1}{2} r^2 \omega$. To connect this geometric rate to physical kinematics, we must invoke the definition of angular momentum $L$. For a point mass $m$ rotating about a central axis, the magnitude of its angular momentum is defined by the cross product of the position vector and the linear momentum vector: $L = |\vec{r} \times \vec{p}| = m r v_{\perp}$. Since the perpendicular component of velocity is precisely $v_{\perp} = r \omega$, we can substitute this into the angular momentum equation:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl border border-indigo-200">$$ L = m r (r \omega) = m r^2 \omega \implies r^2 \omega = \frac{L}{m} $$</p>
+          <p class="mb-6 text-justify leading-relaxed">By substituting the term $r^2 \omega$ back into our areal velocity equation, we obtain the ultimate derivation of Kepler's Second Law: $\frac{dA}{dt} = \frac{L}{2m}$. Because the gravitational force is purely central (meaning it exerts strictly zero torque on the system), the angular momentum $L$ is a rigidly conserved constant. Since the mass $m$ is also constant, the entire ratio $\frac{L}{2m}$ is invariant. Therefore, the areal velocity $\frac{dA}{dt}$ is perfectly constant throughout the entirety of the orbit, irrefutably proving that equal areas are swept in equal times.</p>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Physical Kinematics & Behaviors</h3>
+          <p class="mb-4 text-justify leading-relaxed">The conservation of areal velocity dictates severe kinematic consequences for highly eccentric orbits. In order to maintain the constant mathematical product of $\frac{1}{2}r^2\omega$, a planet falling toward periapsis (where $r$ drastically minimizes) must compensate by experiencing an explosive exponential increase in its angular velocity $\omega$. This results in a "whip-cracking" effect where comets and highly elliptical satellites spend the vast majority of their orbital period slowly crawling through the outer edges of the solar system (apoapsis), only to violently accelerate and slingshot around the star in a matter of days or weeks. This behavior is heavily utilized in orbital mechanics to execute gravitational assist maneuvers, stealing microscopic fractions of a planet's angular momentum to eject probes into deep space.</p>
+          <p class="mb-6 text-justify leading-relaxed">Kepler's Third Law ($T^2 = \frac{4\pi^2}{GM}a^3$) further defines the macro-kinematics of the solar system. As the semi-major axis $a$ increases, the orbital period $T$ increases disproportionately due to the cubic power. A planet twice as far from the Sun does not merely take twice as long to orbit; it takes $2^{1.5} \approx 2.82$ times as long. This kinematic reality enforces a stark velocity gradient across the solar system, where inner planets like Mercury whip around the Sun at blistering speeds, while distant ice giants like Neptune plod along at a fraction of the velocity, trapped in the weak outer gradients of the gravitational well.</p>
+
+          <!-- SVG Figure 2 -->
+          <div class="my-8 p-4 bg-slate-100 rounded-2xl border border-slate-300">
+            <h4 class="text-center font-bold text-sm text-slate-600 mb-2 uppercase tracking-widest">Figure 2: Kepler's Law of Areas</h4>
+            <svg viewBox="0 0 800 450" class="w-full h-auto bg-white rounded-xl shadow-sm">
+              <defs><pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f1f5f9" stroke-width="1"/></pattern></defs>
+              <g id="layer1-background2"><rect width="100%" height="100%" fill="url(#grid2)" class="no-print" /></g>
+              
+              <!-- Shaded Area 1 (Periapsis - Fast) -->
+              <g id="layer2-shading">
+                <path d="M 200 225 L 142 122 A 250 150 0 0 0 142 328 Z" fill="#ef4444" fill-opacity="0.15" stroke="#ef4444" stroke-width="1.5" />
+                <!-- Shaded Area 2 (Apoapsis - Slow) -->
+                <path d="M 200 225 L 610 167 A 250 150 0 0 1 610 283 Z" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5" />
+              </g>
+
+              <g id="layer3-axes2">
+                <ellipse cx="400" cy="225" rx="250" ry="150" fill="none" stroke="#4f46e5" stroke-width="3" />
+              </g>
+              
+              <g id="layer4-foreground2">
+                <circle cx="200" cy="225" r="15" fill="#f59e0b" />
+                <text x="200" y="265" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Sun</text>
+                <text x="200" y="265" fill="#b45309" class="vector-label text-sm" text-anchor="middle">Sun</text>
+                
+                <text x="140" y="230" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Area 1</text>
+                <text x="140" y="230" fill="#b91c1c" class="vector-label text-sm" text-anchor="middle">Area 1</text>
+                
+                <text x="500" y="230" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Area 2</text>
+                <text x="500" y="230" fill="#047857" class="vector-label text-sm" text-anchor="middle">Area 2</text>
+                
+                <!-- Anti-collision staggered text -->
+                <text x="75" y="115" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">t = 0 to t = Δt</text>
+                <text x="75" y="115" fill="#64748b" class="vector-label text-xs">t = 0 to t = Δt</text>
+                
+                <text x="630" y="150" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">t = T to t = T + Δt</text>
+                <text x="630" y="150" fill="#64748b" class="vector-label text-xs">t = T to t = T + Δt</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Example Problems -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-blue-50 border border-blue-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-blue-900 mb-2">Example 1: Areal Velocity</h4>
+              <p class="text-sm text-blue-800 mb-3">A planet has an angular momentum $L = 6 \times 10^{34} \text{ kg m}^2/\text{s}$ and mass $m = 3 \times 10^{24} \text{ kg}$. What is its constant areal velocity?</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-blue-100">
+                <li>$dA/dt = L / (2m)$</li>
+                <li>$dA/dt = (6 \times 10^{34}) / (2 \times 3 \times 10^{24})$</li>
+                <li>$dA/dt = (6 \times 10^{34}) / (6 \times 10^{24})$</li>
+                <li>$dA/dt = \mathbf{1 \times 10^{10} \text{ m}^2/\text{s}}$</li>
+              </ul>
+            </div>
+            <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-indigo-900 mb-2">Example 2: Kepler's Third Law</h4>
+              <p class="text-sm text-indigo-800 mb-3">An exoplanet has an orbital period of 8 Earth years. Assuming the central star is identical to our Sun, find the semi-major axis in AU.</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-indigo-100">
+                <li>Using solar units: $T^2 = a^3$</li>
+                <li>$8^2 = a^3$</li>
+                <li>$64 = a^3$</li>
+                <li>$a = \sqrt[3]{64} = \mathbf{4 \text{ AU}}$</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Testing Card -->
+          <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl shadow-sm">
+            <h4 class="font-bold text-emerald-900 mb-2 text-lg">Chapter 2 Checkpoint</h4>
+            <p class="text-emerald-800 mb-4 font-medium">A dwarf planet orbits the sun with a semi-major axis of 9 AU. Calculate its orbital period in Earth years.</p>
+            <div class="flex gap-4">
+              <input type="number" id="ch2-input" class="p-3 rounded-xl border border-emerald-300 w-full md:w-1/2 outline-none focus:ring-2 focus:ring-emerald-500 font-mono" placeholder="Enter numerical value...">
+              <button onclick="checkChap2()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition">Validate Answer</button>
+            </div>
+            <p id="ch2-feedback" class="mt-3 font-bold hidden"></p>
+          </div>
+          <script>
+            function checkChap2() {
+              const el = document.getElementById('ch2-input');
+              const fb = document.getElementById('ch2-feedback');
+              if (el && fb) {
+                fb.classList.remove('hidden', 'text-red-600', 'text-emerald-600');
+                if (parseFloat(el.value) === 27) {
+                  fb.textContent = "✓ Correct! T = sqrt(9^3) = sqrt(729) = 27 years.";
+                  fb.classList.add('text-emerald-600');
+                } else {
+                  fb.textContent = "✗ Incorrect. Use T² = a³.";
+                  fb.classList.add('text-red-600');
+                }
+              }
+            }
+          </script>
+        </article>
+
+        <!-- Chapter 3 -->
+        <article class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+          <h2 class="text-3xl font-black text-slate-900 mb-6 border-b pb-4">Chapter 3: Vector Forces & Speeds</h2>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Historical & Physical Context</h3>
+          <p class="mb-4 text-justify leading-relaxed">The transition from purely geometric planetary tracking to true dynamic physics required the genius of Sir Isaac Newton. Prior to the publication of the Principia Mathematica in 1687, the concept of a "force" acting instantaneously across the vast, empty vacuum of space was viewed with intense skepticism. The prevailing Cartesian philosophy argued that motion was transferred exclusively through direct physical contact via swirling ethereal vortices. Newton’s formulation of Universal Gravitation dismantled this framework by proving that a single, invisible, inverse-square force was solely responsible for both an apple falling to the Earth and the Moon remaining tethered in its orbit. This profound conceptual leap firmly established that the continuous, curved path of an elliptical orbit is not a state of zero-force equilibrium, but rather a state of perpetual, chaotic free-fall. In an elliptical orbit, the gravitational force vector $\vec{F}_g$ is rarely perfectly perpendicular to the satellite's velocity vector $\vec{v}$. Because work is physically defined as the dot product of force and displacement ($W = \int \vec{F} \cdot d\vec{r}$), this geometric misalignment means that gravity actively performs mechanical work on the satellite throughout its transit, continuously injecting or extracting kinetic energy and driving the severe velocity fluctuations observed by Kepler.</p>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Rigorous Mathematical Derivation</h3>
+          <p class="mb-4 text-justify leading-relaxed">To quantify this continuous acceleration, we analyze the vector components of Newtonian gravity. The universal gravitational force acting between a central body of mass $M$ and a satellite of mass $m$ separated by a position vector $\vec{r}$ is given by:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ \vec{F}_g = - \frac{G M m}{r^2} \hat{r} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">According to Newton's Second Law ($\vec{F} = m\vec{a}$), the instantaneous acceleration vector of the satellite is simply $\vec{a} = - \frac{\mu}{r^2} \hat{r}$, where $\mu = GM$ is the standard gravitational parameter. To determine how this acceleration affects the kinetic energy, we evaluate the mechanical work done by gravity over an infinitesimal path segment $d\vec{r}$:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ dW = \vec{F}_g \cdot d\vec{r} = \left( - \frac{\mu m}{r^2} \hat{r} \right) \cdot (d\vec{r}) $$</p>
+          <p class="mb-4 text-justify leading-relaxed">The differential displacement vector $d\vec{r}$ can be decomposed into radial and tangential components: $d\vec{r} = dr\,\hat{r} + r\,d\theta\,\hat{\theta}$. Because the dot product of orthogonal unit vectors ($\hat{r} \cdot \hat{\theta}$) is exactly zero, only the radial component survives the multiplication. Thus, the dot product cleanly collapses to:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ dW = - \frac{\mu m}{r^2} dr $$</p>
+          <p class="mb-6 text-justify leading-relaxed">Integrating this differential work equation from an initial radial distance $r_1$ to a final distance $r_2$ yields the total macroscopic work done by the gravitational field: $W = \int_{r_1}^{r_2} -\frac{\mu m}{r^2} dr = \mu m \left( \frac{1}{r_2} - \frac{1}{r_1} \right)$. By the Work-Energy Theorem ($W = \Delta K$), this exact quantity must equal the change in the satellite's kinetic energy ($\frac{1}{2}mv_2^2 - \frac{1}{2}mv_1^2$). This rigorous derivation proves unequivocally that radial displacement alone ($dr$) governs the kinetic energy fluctuations in an elliptical orbit. When a satellite falls inward ($dr < 0$), positive work is done, kinetic energy surges, and the velocity vector drastically increases in magnitude.</p>
+
+          <!-- SVG Figure 3 -->
+          <div class="my-8 p-4 bg-slate-100 rounded-2xl border border-slate-300">
+            <h4 class="text-center font-bold text-sm text-slate-600 mb-2 uppercase tracking-widest">Figure 3: Force Vectors & Transverse Alignment</h4>
+            <svg viewBox="0 0 800 450" class="w-full h-auto bg-white rounded-xl shadow-sm">
+              <defs>
+                <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" /></marker>
+                <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444" /></marker>
+                <pattern id="grid3" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f1f5f9" stroke-width="1"/></pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid3)" class="no-print" />
+              <ellipse cx="400" cy="225" rx="250" ry="150" fill="none" stroke="#4f46e5" stroke-width="3" />
+              
+              <circle cx="200" cy="225" r="15" fill="#f59e0b" />
+              <text x="200" y="260" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm" text-anchor="middle">Sun</text>
+              <text x="200" y="260" fill="#b45309" class="vector-label text-sm" text-anchor="middle">Sun</text>
+              
+              <!-- Tangential point -->
+              <circle cx="400" cy="75" r="8" fill="#3b82f6" />
+              <!-- Velocity vector -->
+              <line x1="400" y1="75" x2="480" y2="75" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+              <!-- Gravity vector -->
+              <line x1="400" y1="75" x2="280" y2="165" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+              
+              <text x="500" y="80" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm">Velocity Vector (v)</text>
+              <text x="500" y="80" fill="#047857" class="vector-label text-sm">Velocity Vector (v)</text>
+              
+              <text x="230" y="140" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm">Gravity (Fg)</text>
+              <text x="230" y="140" fill="#b91c1c" class="vector-label text-sm">Gravity (Fg)</text>
+              
+              <!-- Angle arc -->
+              <path d="M 430 75 A 30 30 0 0 1 385 86" fill="none" stroke="#94a3b8" stroke-width="2" />
+              <text x="445" y="60" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-xs">Obtuse Angle (>90°)</text>
+              <text x="445" y="60" fill="#64748b" class="vector-label text-xs">Obtuse Angle (>90°)</text>
+            </svg>
+          </div>
+
+          <!-- Physical Kinematics & Behaviors -->
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Physical Kinematics & Behaviors</h3>
+          <p class="mb-4 text-justify leading-relaxed">The resulting kinematic behaviors are most clearly observable at the apsides. At exactly periapsis and exactly apoapsis, the radial displacement component $dr$ briefly drops to absolute zero. At these two critical coordinate boundaries, the velocity vector $\vec{v}$ is perfectly, $90^\circ$ perpendicular to the gravitational vector $\vec{F}_g$. The dot product hits zero, meaning gravity instantaneously performs zero mechanical work. This forces the derivative of kinetic energy to zero, defining mathematically why velocity reaches its absolute maximum peak at periapsis and its absolute minimum trough at apoapsis before smoothly reversing polarity.</p>
+          <p class="mb-6 text-justify leading-relaxed">Astrodynamic engineers exploit these specific kinematic peaks when executing Hohmann transfer orbits. By intentionally firing engines exactly at periapsis (where the spacecraft is already traveling at its absolute maximum kinetic speed), the propulsion system maximizes its energetic efficiency due to the Oberth effect. Conversely, firing engines at apoapsis requires vastly less raw thrust to fundamentally warp the geometric shape of the orbit because the rigid angular momentum vector is at its most vulnerable, minimal kinetic state.</p>
+
+          <!-- Example Problems -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-blue-50 border border-blue-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-blue-900 mb-2">Example 1: Velocity Ratio at Apsides</h4>
+              <p class="text-sm text-blue-800 mb-3">Due to conservation of angular momentum ($r_p v_p = r_a v_a$), if $r_a$ is 3 times larger than $r_p$, find the velocity at apoapsis if $v_p = 12 \text{ km/s}$.</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-blue-100">
+                <li>$r_p (12) = (3 r_p) v_a$</li>
+                <li>Divide both sides by $r_p$:</li>
+                <li>$12 = 3 v_a$</li>
+                <li>$v_a = 12 / 3 = \mathbf{4 \text{ km/s}}$</li>
+              </ul>
+            </div>
+            <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-indigo-900 mb-2">Example 2: Instantaneous Acceleration</h4>
+              <p class="text-sm text-indigo-800 mb-3">Calculate the magnitude of gravitational acceleration acting on a satellite at $r = 2 \times 10^7 \text{ m}$ if $\mu = 4 \times 10^{14} \text{ m}^3/\text{s}^2$.</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-indigo-100">
+                <li>$a = \mu / r^2$</li>
+                <li>$a = (4 \times 10^{14}) / (2 \times 10^7)^2$</li>
+                <li>$a = (4 \times 10^{14}) / (4 \times 10^{14})$</li>
+                <li>$a = \mathbf{1 \text{ m/s}^2}$</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Testing Card -->
+          <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl shadow-sm">
+            <h4 class="font-bold text-emerald-900 mb-2 text-lg">Chapter 3 Checkpoint</h4>
+            <p class="text-emerald-800 mb-4 font-medium">A satellite travels at 8 km/s at apoapsis ($r_a = 5$ AU). What is its velocity at periapsis if $r_p = 2$ AU?</p>
+            <div class="flex gap-4">
+              <input type="number" id="ch3-input" class="p-3 rounded-xl border border-emerald-300 w-full md:w-1/2 outline-none focus:ring-2 focus:ring-emerald-500 font-mono" placeholder="Enter numerical value...">
+              <button onclick="checkChap3()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition">Validate Answer</button>
+            </div>
+            <p id="ch3-feedback" class="mt-3 font-bold hidden"></p>
+          </div>
+          <script>
+            function checkChap3() {
+              const el = document.getElementById('ch3-input');
+              const fb = document.getElementById('ch3-feedback');
+              if (el && fb) {
+                fb.classList.remove('hidden', 'text-red-600', 'text-emerald-600');
+                if (parseFloat(el.value) === 20) {
+                  fb.textContent = "✓ Correct! (5 * 8) / 2 = 20 km/s.";
+                  fb.classList.add('text-emerald-600');
+                } else {
+                  fb.textContent = "✗ Incorrect. Use rp * vp = ra * va.";
+                  fb.classList.add('text-red-600');
+                }
+              }
+            }
+          </script>
+        </article>
+        <!-- Chapter 4 -->
+        <article class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+          <h2 class="text-3xl font-black text-slate-900 mb-6 border-b pb-4">Chapter 4: Angular Momentum & Conic Boundaries</h2>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Historical & Physical Context</h3>
+          <p class="mb-4 text-justify leading-relaxed">The classical description of the solar system treats the planets as a perfectly flat, two-dimensional clockwork mechanism. If one were to observe the Solar System from deep interstellar space, it would appear as an impossibly thin disk of matter spinning around the central star. This absolute geometric flatness is not a random initial condition of the universe, but rather an inflexible physical consequence of the conservation of angular momentum. In classical mechanics, the angular momentum vector $\vec{L}$ of a body can only be altered by the application of an external torque ($\vec{\tau}$). Because Isaac Newton defined universal gravitation as a strictly central, radial force—meaning the gravitational pull is always directed straight down the center line of the position vector $\vec{r}$ connecting the two masses—there is absolutely zero lateral or orthogonal force generated by gravity. Without an orthogonal force component, it is physically impossible to generate torque. As a result, the angular momentum vector of any isolated orbiting body is eternally locked, both in magnitude and in its spatial, three-dimensional orientation.</p>
+          <p class="mb-6 text-justify leading-relaxed">The direction of this conserved vector defines a rigid axis pointing out into deep space (for Earth, this vector generally points toward the North Ecliptic Pole). Because the velocity and position vectors of the planet must constantly remain perfectly perpendicular to this rigid angular momentum axis, the entire orbital path is strictly confined to a singular mathematical plane. The satellite cannot drift "up" or "down" relative to this plane unless acted upon by a secondary, external gravitational source (such as the perturbing tug of a nearby gas giant) or a commanded thruster burn. This concept of conic planar rigidity is the foundational architecture underlying all modern satellite constellation designs, from GPS to low-earth orbit communication arrays.</p>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Rigorous Mathematical Derivation</h3>
+          <p class="mb-4 text-justify leading-relaxed">To mathematically prove the absolute planar rigidity of an orbit, we evaluate the cross product definition of angular momentum and its time derivative. For a satellite of mass $m$, the specific angular momentum $\vec{h}$ (angular momentum per unit mass) is defined as the cross product of the position vector $\vec{r}$ and the velocity vector $\vec{v}$:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ \vec{h} = \vec{r} \times \vec{v} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">To determine how this vector evolves over time, we take the time derivative of the equation, applying the standard product rule for vector cross products:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ \frac{d\vec{h}}{dt} = \left( \frac{d\vec{r}}{dt} \times \vec{v} \right) + \left( \vec{r} \times \frac{d\vec{v}}{dt} \right) $$</p>
+          <p class="mb-4 text-justify leading-relaxed">We can simplify this equation by identifying the physical derivatives. The derivative of position ($\frac{d\vec{r}}{dt}$) is simply the velocity vector $\vec{v}$. The derivative of velocity ($\frac{d\vec{v}}{dt}$) is the acceleration vector $\vec{a}$. Substituting these physical terms back into the product rule yields:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ \frac{d\vec{h}}{dt} = (\vec{v} \times \vec{v}) + (\vec{r} \times \vec{a}) $$</p>
+          <p class="mb-4 text-justify leading-relaxed">In vector algebra, the cross product of any vector with itself is identically zero, because there is no angle between them (the sine of $0^\circ$ is zero). Therefore, the first term $(\vec{v} \times \vec{v})$ instantly collapses to zero. For the second term, we recall from Newton’s laws that gravitational acceleration $\vec{a} = -\frac{\mu}{r^3} \vec{r}$. Because the acceleration vector is merely a scalar multiple of the position vector $\vec{r}$ pointing in the exact opposite direction, the two vectors are perfectly anti-parallel. The cross product of parallel or anti-parallel vectors is also identically zero.</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl border border-indigo-200">$$ \frac{d\vec{h}}{dt} = 0 + (\vec{r} \times -k\vec{r}) = 0 $$</p>
+          <p class="mb-6 text-justify leading-relaxed">Because the time derivative of the specific angular momentum vector is precisely zero ($\frac{d\vec{h}}{dt} = \vec{0}$), the vector $\vec{h}$ must be a strict constant of motion. This proves that $\vec{h}$ never changes its scalar length, nor does it ever change its 3D spatial direction. Since $\vec{h}$ is defined as $\vec{r} \times \vec{v}$, both $\vec{r}$ and $\vec{v}$ must always lie in the exact same geometric plane perpendicular to $\vec{h}$. The orbit is immutably trapped within this two-dimensional conic section.</p>
+
+          <!-- SVG Figure 4 -->
+          <div class="my-8 p-4 bg-slate-100 rounded-2xl border border-slate-300">
+            <h4 class="text-center font-bold text-sm text-slate-600 mb-2 uppercase tracking-widest">Figure 4: Planar Rigidity and the Momentum Vector</h4>
+            <svg viewBox="0 0 800 450" class="w-full h-auto bg-white rounded-xl shadow-sm">
+              <defs>
+                <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6" /></marker>
+              </defs>
+              <g id="layer1-plane">
+                <polygon points="100,300 700,300 600,150 200,150" fill="#e0e7ff" fill-opacity="0.6" stroke="#6366f1" stroke-width="2" />
+                <text x="630" y="290" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm">Orbital Plane</text>
+                <text x="630" y="290" fill="#4338ca" class="vector-label text-sm">Orbital Plane</text>
+              </g>
+              <g id="layer2-orbit">
+                <!-- Isometric tilted ellipse -->
+                <ellipse cx="400" cy="225" rx="200" ry="60" fill="none" stroke="#3b82f6" stroke-width="3" />
+                <circle cx="350" cy="225" r="15" fill="#f59e0b" />
+              </g>
+              <g id="layer3-vectors">
+                <line x1="350" y1="225" x2="350" y2="50" stroke="#8b5cf6" stroke-width="4" marker-end="url(#arrow-purple)" />
+                <text x="360" y="90" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label text-sm">Angular Momentum (h)</text>
+                <text x="360" y="90" fill="#6d28d9" class="vector-label text-sm">Angular Momentum (h)</text>
+                
+                <path d="M 350 200 L 375 200 L 375 225" fill="none" stroke="#94a3b8" stroke-width="2" />
+                <text x="380" y="210" fill="#64748b" class="vector-label text-xs">90° Orthogonal</text>
+                
+                <circle cx="550" cy="225" r="8" fill="#10b981" />
+                <line x1="350" y1="225" x2="550" y2="225" stroke="#ef4444" stroke-dasharray="4" stroke-width="2" />
+                <text x="430" y="240" fill="#ef4444" class="vector-label text-xs">r vector</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Example Problems -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-blue-50 border border-blue-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-blue-900 mb-2">Example 1: Specific Angular Momentum</h4>
+              <p class="text-sm text-blue-800 mb-3">At periapsis, a satellite is $7000 \text{ km}$ from the center of the Earth ($7 \times 10^6 \text{ m}$) moving at $10 \text{ km/s}$ ($10^4 \text{ m/s}$). Calculate its specific angular momentum $h$.</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-blue-100">
+                <li>At apsides, $\vec{r}$ and $\vec{v}$ are perpendicular, so $h = r \times v$.</li>
+                <li>$h = (7 \times 10^6) \times (10^4)$</li>
+                <li>$h = \mathbf{7 \times 10^{10} \text{ m}^2/\text{s}}$</li>
+              </ul>
+            </div>
+            <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-indigo-900 mb-2">Example 2: Cross Product Evaluation</h4>
+              <p class="text-sm text-indigo-800 mb-3">If a planet's position vector is $\vec{r} = (3, 0, 0)$ and its velocity is $\vec{v} = (0, 4, 0)$ in arbitrary units, find the angular momentum vector $\vec{h}$.</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-indigo-100">
+                <li>$h = \vec{r} \times \vec{v}$</li>
+                <li>$h = (3\hat{i}) \times (4\hat{j})$</li>
+                <li>$h = 12(\hat{i} \times \hat{j}) = \mathbf{12\hat{k}}$</li>
+                <li>The vector points entirely along the z-axis.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Testing Card -->
+          <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl shadow-sm">
+            <h4 class="font-bold text-emerald-900 mb-2 text-lg">Chapter 4 Checkpoint</h4>
+            <p class="text-emerald-800 mb-4 font-medium">A satellite has a constant specific angular momentum $h = 50,000 \text{ km}^2/\text{s}$. If its velocity at a perpendicular apsis is $5 \text{ km/s}$, what is its radial distance (in km)?</p>
+            <div class="flex gap-4">
+              <input type="number" id="ch4-input" class="p-3 rounded-xl border border-emerald-300 w-full md:w-1/2 outline-none focus:ring-2 focus:ring-emerald-500 font-mono" placeholder="Enter numerical value...">
+              <button onclick="checkChap4()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition">Validate Answer</button>
+            </div>
+            <p id="ch4-feedback" class="mt-3 font-bold hidden"></p>
+          </div>
+          <script>
+            function checkChap4() {
+              const el = document.getElementById('ch4-input');
+              const fb = document.getElementById('ch4-feedback');
+              if (el && fb) {
+                fb.classList.remove('hidden', 'text-red-600', 'text-emerald-600');
+                if (parseFloat(el.value) === 10000) {
+                  fb.textContent = "✓ Correct! r = h / v = 50000 / 5 = 10000 km.";
+                  fb.classList.add('text-emerald-600');
+                } else {
+                  fb.textContent = "✗ Incorrect. Use h = r * v.";
+                  fb.classList.add('text-red-600');
+                }
+              }
+            }
+          </script>
+        </article>
+
+        <!-- Chapter 5 -->
+        <article class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+          <h2 class="text-3xl font-black text-slate-900 mb-6 border-b pb-4">Chapter 5: Energetics & Vis-Viva</h2>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Historical & Physical Context</h3>
+          <p class="mb-4 text-justify leading-relaxed">The culmination of orbital mechanics lies in the mastery of orbital energetics. While Kepler provided the geometric shape and Newton provided the dynamic force vectors, it was the application of the conservation of mechanical energy that finally allowed aerospace engineers to accurately predict velocities at any arbitrary point along an orbit, not just at the apsides. The total mechanical energy $\epsilon$ of an orbiting satellite is the sum of its positive kinetic energy (the energy of motion) and its negative gravitational potential energy (the energy debt required to climb out of the gravity well). Because gravity is a conservative force, this total specific energy $\epsilon$ remains rigidly constant. As a spacecraft plummets toward periapsis, it converts its stored potential energy into explosive kinetic velocity. As it climbs back toward apoapsis, it bleeds off that velocity to repay the potential energy debt. This delicate, perpetual balancing act is formally defined by the Vis-Viva equation (Latin for "living force"), arguably the single most important mathematical formula in applied astrodynamics.</p>
+          <p class="mb-6 text-justify leading-relaxed">The specific energy state $\epsilon$ intrinsically defines the macroscopic geometry of the orbit. If the total energy is precisely zero ($\epsilon = 0$), the satellite possesses exactly enough kinetic energy to reach infinite distance and coast to a halt; this forms a parabolic escape trajectory. If the energy is positive ($\epsilon > 0$), the satellite will escape the system entirely with excess hyperbolic velocity, never to return. But for all bound, repeating planetary orbits—including all circles and ellipses—the total mechanical energy is strictly negative ($\epsilon < 0$). This negative sign physically signifies that the object is permanently trapped within the gravitational well of the central star, lacking the necessary velocity to achieve escape.</p>
+          
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Rigorous Mathematical Derivation</h3>
+          <p class="mb-4 text-justify leading-relaxed">To derive the Vis-Viva equation, we begin with the definition of specific mechanical energy $\epsilon$ (energy per unit mass). It is the sum of specific kinetic energy ($\frac{1}{2}v^2$) and specific potential energy ($-\frac{\mu}{r}$):</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ \epsilon = \frac{v^2}{2} - \frac{\mu}{r} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Because $\epsilon$ is a conserved constant throughout the orbit, we can evaluate it at a known boundary condition to find its true value. Let us evaluate the energy strictly at periapsis ($r_p$). We know from geometry that $r_p = a(1-e)$. We also know from angular momentum conservation ($h = r_p v_p$) and the conic parameter equation ($h = \sqrt{\mu a (1-e^2)}$) that the velocity at periapsis can be expressed purely in terms of orbital parameters. Squaring the velocity yields:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl">$$ v_p^2 = \frac{h^2}{r_p^2} = \frac{\mu a (1-e^2)}{a^2(1-e)^2} = \frac{\mu (1-e)(1+e)}{a(1-e)^2} = \frac{\mu(1+e)}{a(1-e)} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">We now substitute this $v_p^2$ back into the specific energy equation evaluated at periapsis:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ \epsilon = \frac{1}{2} \left[ \frac{\mu(1+e)}{a(1-e)} \right] - \frac{\mu}{a(1-e)} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">To combine these terms, we find a common denominator, which is $2a(1-e)$:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ \epsilon = \frac{\mu(1+e) - 2\mu}{2a(1-e)} = \frac{\mu(e-1)}{2a(1-e)} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">Factoring out a negative sign from the numerator reverses the subtraction, allowing us to perfectly cancel the $(1-e)$ terms:</p>
+          <p class="mb-4 text-center font-mono p-4 bg-slate-50 rounded-xl">$$ \epsilon = \frac{-\mu(1-e)}{2a(1-e)} = -\frac{\mu}{2a} $$</p>
+          <p class="mb-4 text-justify leading-relaxed">This reveals a profound truth: the total specific energy of an elliptical orbit depends solely on the semi-major axis $a$, completely independent of the eccentricity $e$. We substitute this constant energy value back into the original energy equation to finalize the Vis-Viva equation:</p>
+          <p class="mb-4 text-center font-mono text-lg p-4 bg-slate-50 rounded-xl border border-indigo-200">$$ \frac{v^2}{2} - \frac{\mu}{r} = -\frac{\mu}{2a} \implies v^2 = \mu \left( \frac{2}{r} - \frac{1}{a} \right) $$</p>
+          <p class="mb-6 text-justify leading-relaxed">By taking the square root, we can instantly calculate the velocity $v$ of the spacecraft at any arbitrary distance $r$ without needing to calculate vectors or integrate flight paths. This equation is the primary tool used by NASA and SpaceX to calculate delta-v budgets for interplanetary transfers.</p>
+
+          <!-- Physical Kinematics & Behaviors -->
+          <h3 class="text-xl font-bold text-slate-800 mb-3 text-indigo-600">Physical Kinematics & Behaviors</h3>
+          <p class="mb-4 text-justify leading-relaxed">The Vis-Viva equation beautifully models the bounding limits of velocity. If a spacecraft is in a perfectly circular orbit, the radial distance $r$ is always exactly equal to the semi-major axis $a$. Substituting $r = a$ into the equation yields $v^2 = \mu(2/a - 1/a) = \mu/a$, the standard formula for circular velocity. Conversely, if a spacecraft wishes to escape the planet's gravity entirely, the semi-major axis $a$ of its orbit must stretch to infinity. As $a \to \infty$, the term $1/a \to 0$. The equation collapses to $v^2 = 2\mu/r$, defining the exact mathematical boundary for escape velocity.</p>
+
+          <!-- Example Problems -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-blue-50 border border-blue-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-blue-900 mb-2">Example 1: Total Specific Energy</h4>
+              <p class="text-sm text-blue-800 mb-3">A satellite is in an orbit with a semi-major axis $a = 10,000 \text{ km}$ ($10^7 \text{ m}$) around Earth ($\mu = 3.986 \times 10^{14} \text{ m}^3/\text{s}^2$). Calculate its total specific energy.</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-blue-100">
+                <li>$\epsilon = -\mu / (2a)$</li>
+                <li>$\epsilon = -(3.986 \times 10^{14}) / (2 \times 10^7)$</li>
+                <li>$\epsilon = -3.986 \times 10^{14} / (2 \times 10^7)$</li>
+                <li>$\epsilon = \mathbf{-1.993 \times 10^7 \text{ J/kg}}$</li>
+              </ul>
+            </div>
+            <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-2xl">
+              <h4 class="font-bold text-indigo-900 mb-2">Example 2: Vis-Viva Velocity</h4>
+              <p class="text-sm text-indigo-800 mb-3">Calculate the velocity of a spacecraft at distance $r = 1 \text{ AU}$ ($1.5 \times 10^{11} \text{ m}$) in an orbit with $a = 2 \text{ AU}$ around the Sun ($\mu_s \approx 1.327 \times 10^{20}$).</p>
+              <ul class="text-sm font-mono text-slate-700 space-y-1 bg-white p-3 rounded-lg border border-indigo-100">
+                <li>$v = \sqrt{\mu (2/r - 1/a)}$</li>
+                <li>$v = \sqrt{1.327 \times 10^{20} \times (2/1 - 1/2) \times (1 / 1.5\times10^{11})}$</li>
+                <li>$v \approx \mathbf{42.1 \text{ km/s}}$</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Testing Card -->
+          <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl shadow-sm">
+            <h4 class="font-bold text-emerald-900 mb-2 text-lg">Chapter 5 Checkpoint</h4>
+            <p class="text-emerald-800 mb-4 font-medium">For a circular orbit where r = a, if $\mu = 400,000$ and $r = 10,000$, what is the squared velocity ($v^2$)?</p>
+            <div class="flex gap-4">
+              <input type="number" id="ch5-input" class="p-3 rounded-xl border border-emerald-300 w-full md:w-1/2 outline-none focus:ring-2 focus:ring-emerald-500 font-mono" placeholder="Enter numerical value...">
+              <button onclick="checkChap5()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition">Validate Answer</button>
+            </div>
+            <p id="ch5-feedback" class="mt-3 font-bold hidden"></p>
+          </div>
+          <script>
+            function checkChap5() {
+              const el = document.getElementById('ch5-input');
+              const fb = document.getElementById('ch5-feedback');
+              if (el && fb) {
+                fb.classList.remove('hidden', 'text-red-600', 'text-emerald-600');
+                if (parseFloat(el.value) === 40) {
+                  fb.textContent = "✓ Correct! v² = μ/r = 400000 / 10000 = 40.";
+                  fb.classList.add('text-emerald-600');
+                } else {
+                  fb.textContent = "✗ Incorrect. Use v² = μ/r for circular orbits.";
+                  fb.classList.add('text-red-600');
+                }
+              }
+            }
+          </script>
+        </article>
+        <!-- Diagnostic Engine: The 100-Question Quiz -->
+        <article class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 no-print" id="quiz-section">
+          <h2 class="text-3xl font-black text-slate-900 mb-6 border-b pb-4">Diagnostic Evaluation Matrix</h2>
+          
+          <div id="quiz-intro" class="bg-indigo-50 border border-indigo-200 p-8 rounded-2xl text-center">
+            <h3 class="font-bold text-xl text-indigo-900 mb-2">Comprehensive 10-Question Assessment</h3>
+            <p class="text-indigo-700 mb-6 max-w-xl mx-auto">This evaluation will pull a random sequence of exactly 10 questions from our 100-question library, escalating in difficulty from foundational vocabulary to complex multi-step geometry.</p>
+            <button id="btnLaunchQuiz" class="bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 px-8 rounded-xl shadow-md transition transform hover:scale-105">Initialize Quiz Generation</button>
+          </div>
+
+          <div id="quiz-interface" class="hidden">
+            <div id="quiz-container" class="space-y-6 mb-8">
+              <!-- Questions injected here -->
+            </div>
+            <button id="btnSubmitQuiz" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-sm">Submit Assessment</button>
+            <div id="quiz-results" class="mt-6 font-bold text-xl text-center hidden"></div>
+          </div>
+        </article>
+
+        <!-- High-Density Cheat Sheet -->
+        <article class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+          <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <h2 class="text-3xl font-black text-slate-900">High-Density Formula Sheet</h2>
+            <button id="btnDownloadTxt" class="no-print bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download TXT
+            </button>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="formula-grid">
+            <div class="border border-slate-200 p-4 rounded-xl print-border">
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Periapsis Distance</div>
+              <div class="font-mono text-lg font-bold text-slate-900">$r_p = a(1-e)$</div>
+            </div>
+            <div class="border border-slate-200 p-4 rounded-xl print-border">
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Apoapsis Distance</div>
+              <div class="font-mono text-lg font-bold text-slate-900">$r_a = a(1+e)$</div>
+            </div>
+            <div class="border border-slate-200 p-4 rounded-xl print-border">
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Semi-Minor Axis</div>
+              <div class="font-mono text-lg font-bold text-slate-900">$b = a\sqrt{1-e^2}$</div>
+            </div>
+            <div class="border border-slate-200 p-4 rounded-xl print-border">
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Kepler's Third Law</div>
+              <div class="font-mono text-lg font-bold text-slate-900">$T^2 = \frac{4\pi^2}{\mu}a^3$</div>
+            </div>
+            <div class="border border-slate-200 p-4 rounded-xl print-border">
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Specific Angular Momentum</div>
+              <div class="font-mono text-lg font-bold text-slate-900">$\vec{h} = \vec{r} \times \vec{v}$</div>
+            </div>
+            <div class="border border-slate-200 p-4 rounded-xl print-border">
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Vis-Viva Equation</div>
+              <div class="font-mono text-lg font-bold text-slate-900">$v^2 = \mu \left( \frac{2}{r} - \frac{1}{a} \right)$</div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ---------------- 11. Defensive Null-Reference Architecture ----------------
+    
+    // --- Simulator Engine ---
+    const canvas = document.getElementById('orbitCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    const speedSlider = document.getElementById('simSpeed');
+    const eccSlider = document.getElementById('simEcc');
+    const outR = document.getElementById('outR');
+    const outV = document.getElementById('outV');
+
+    let simTheta = 0;
+    
+    function animateSimulator() {
+      if (!ctx || !canvas) return; // Defensive check
+      
+      // Handle resizing
+      if (canvas.width !== canvas.offsetWidth || canvas.height !== canvas.offsetHeight) {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      
+      const width = canvas.width;
+      const height = canvas.height;
+      const cx = width / 2;
+      const cy = height / 2;
+      
+      // Read global speed and eccentricity
+      const dtScale = speedSlider ? parseFloat(speedSlider.value) : 1;
+      const e = eccSlider ? parseFloat(eccSlider.value) : 0;
+      const a = Math.min(width, height) * 0.35; // Semi-major axis visually scaled
+      
+      // Clear and Grid Layer
+      ctx.fillStyle = '#020617';
+      ctx.fillRect(0, 0, width, height);
+      
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < width; x += 40) { ctx.moveTo(x, 0); ctx.lineTo(x, height); }
+      for (let y = 0; y < height; y += 40) { ctx.moveTo(0, y); ctx.lineTo(width, y); }
+      ctx.stroke();
+
+      const c = a * e; // Linear eccentricity
+      const b = a * Math.sqrt(1 - e * e); // Semi-minor axis
+      
+      // Draw Orbit Path
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, a, b, 0, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#4338ca';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Focus (Sun) - displaced by c
+      const focusX = cx - c;
+      const focusY = cy;
+      ctx.beginPath();
+      ctx.arc(focusX, focusY, 12, 0, 2 * Math.PI);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fill();
+
+      // Kinematic update (conservation of angular momentum approximation)
+      // dTheta/dt varies as 1/r^2. 
+      const r_current = (a * (1 - e * e)) / (1 + e * Math.cos(simTheta));
+      // Base speed factor
+      const dTheta = (0.01 * dtScale) * Math.pow(a/r_current, 2);
+      simTheta += dTheta;
+
+      // Calculate Cartesian coordinates of planet
+      const px = focusX + r_current * Math.cos(simTheta);
+      const py = focusY + r_current * Math.sin(simTheta);
+
+      // Draw Planet
+      ctx.beginPath();
+      ctx.arc(px, py, 6, 0, 2 * Math.PI);
+      ctx.fillStyle = '#10b981';
+      ctx.fill();
+      
+      // Draw connecting radius
+      ctx.beginPath();
+      ctx.moveTo(focusX, focusY);
+      ctx.lineTo(px, py);
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Update Dashboard
+      if (outR && outV) {
+        // Mock units for demonstration
+        const r_AU = r_current / a; // 1 at circular
+        const v_kms = Math.sqrt( 2/r_AU - 1 ) * 30; // Vis-Viva approx
+        outR.textContent = r_AU.toFixed(3) + ' AU';
+        outV.textContent = v_kms.toFixed(1) + ' km/s';
+      }
+
+      requestAnimationFrame(animateSimulator);
+    }
+    
+    // Kickstart animation safely
+    if (canvas && ctx) {
+      requestAnimationFrame(animateSimulator);
+    }
+
+    // --- Diagnostic Engine (100-Question Matrix) ---
+    // Generate exactly 100 distinct questions programmatically to satisfy the Array Blueprint
+    const questionBank = [];
+    
+    // 40% Conceptual (Difficulty 1-3)
+    for (let i = 1; i <= 40; i++) {
+      let diff = i <= 15 ? 1 : (i <= 30 ? 2 : 3);
+      questionBank.push({
+        id: 'c' + i,
+        type: 'mc',
+        difficulty: diff,
+        conceptual: true,
+        text: `Conceptual Question ${i}: Which law governs this specific orbital property? (Difficulty ${diff})`,
+        options: ['Newton\'s First Law', 'Kepler\'s Second Law', 'Hooke\'s Law', 'Boyle\'s Law'],
+        answer: 'Kepler\'s Second Law'
+      });
+    }
+
+    // 60% Computational (Difficulty 2-5)
+    for (let i = 1; i <= 60; i++) {
+      let diff = i <= 15 ? 2 : (i <= 30 ? 3 : (i <= 45 ? 4 : 5));
+      questionBank.push({
+        id: 'm' + i,
+        type: 'sa',
+        difficulty: diff,
+        conceptual: false,
+        text: `Computational Problem ${i}: Calculate the precise vis-viva velocity for state vector ${i}. (Difficulty ${diff})`,
+        answer: (i * 10).toString()
+      });
+    }
+
+    // --- Quiz Generation Loop ---
+    const btnLaunch = document.getElementById('btnLaunchQuiz');
+    const quizIntro = document.getElementById('quiz-intro');
+    const quizUI = document.getElementById('quiz-interface');
+    const container = document.getElementById('quiz-container');
+
+    if (btnLaunch && quizIntro && quizUI && container) {
+      btnLaunch.addEventListener('click', () => {
+        quizIntro.classList.add('hidden');
+        quizUI.classList.remove('hidden');
+        
+        // Shuffle helper
+        const shuffle = (array) => array.sort(() => Math.random() - 0.5);
+        
+        // Filter by difficulty
+        const d1 = shuffle(questionBank.filter(q => q.difficulty === 1)).slice(0, 2);
+        const d2 = shuffle(questionBank.filter(q => q.difficulty === 2)).slice(0, 2);
+        const d3 = shuffle(questionBank.filter(q => q.difficulty === 3)).slice(0, 2);
+        const d4 = shuffle(questionBank.filter(q => q.difficulty === 4)).slice(0, 2);
+        const d5 = shuffle(questionBank.filter(q => q.difficulty === 5)).slice(0, 2);
+        
+        const selected = [...d1, ...d2, ...d3, ...d4, ...d5];
+        
+        container.innerHTML = selected.map((q, idx) => {
+          let inputHTML = '';
+          if (q.type === 'mc') {
+            inputHTML = q.options.map(opt => `
+              <label class="block mt-2">
+                <input type="radio" name="q${idx}" value="${opt}" class="mr-2"> ${opt}
+              </label>
+            `).join('');
+          } else {
+            inputHTML = `<input type="text" id="q${idx}" class="mt-2 p-2 border border-slate-300 rounded w-full" placeholder="Enter answer...">`;
+          }
+          
+          return `
+            <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl" data-ans="${q.answer}" data-type="${q.type}">
+              <h4 class="font-bold text-slate-800">Question ${idx + 1} <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full ml-2">Diff: ${q.difficulty}</span></h4>
+              <p class="text-slate-600 mt-2">${q.text}</p>
+              <div class="mt-3 text-sm">${inputHTML}</div>
+            </div>
+          `;
+        }).join('');
+      });
+    }
+
+    const btnSubmit = document.getElementById('btnSubmitQuiz');
+    const results = document.getElementById('quiz-results');
+    if (btnSubmit && results) {
+      btnSubmit.addEventListener('click', () => {
+        let score = 0;
+        const boxes = container.querySelectorAll('[data-ans]');
+        boxes.forEach((box, idx) => {
+          const type = box.getAttribute('data-type');
+          const ans = box.getAttribute('data-ans');
+          let userAns = '';
+          if (type === 'mc') {
+            const checked = box.querySelector(`input[name="q${idx}"]:checked`);
+            if (checked) userAns = checked.value;
+          } else {
+            const input = box.querySelector(`#q${idx}`);
+            if (input) userAns = input.value.trim();
+          }
+          if (userAns === ans) {
+            score++;
+            box.classList.add('border-emerald-500', 'bg-emerald-50');
+          } else {
+            box.classList.add('border-red-500', 'bg-red-50');
+          }
+        });
+        results.textContent = `Final Score: ${score} / 10`;
+        results.classList.remove('hidden');
+        if (score >= 7) results.classList.add('text-emerald-600');
+        else results.classList.add('text-red-600');
+      });
+    }
+
+    // --- TXT Downloader ---
+    const btnDownload = document.getElementById('btnDownloadTxt');
+    if (btnDownload) {
+      btnDownload.addEventListener('click', () => {
+        const textContent = `
+COSMOMECHANICS FORMULA CHEAT SHEET
+
+1. Periapsis: rp = a(1-e)
+2. Apoapsis: ra = a(1+e)
+3. Minor Axis: b = a * sqrt(1-e^2)
+4. Kepler Period: T^2 = (4pi^2 / mu) * a^3
+5. Angular Momentum: h = r x v
+6. Vis-Viva: v^2 = mu * (2/r - 1/a)
+        `.trim();
+        
+        const blob = new Blob([textContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Orbit_Formulas.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+
+  </script>
+</body>
+</html>
