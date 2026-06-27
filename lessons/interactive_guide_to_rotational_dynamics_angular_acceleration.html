@@ -159,16 +159,67 @@
                         <h3 class="text-xl font-semibold mb-4 text-physics-900 border-b pb-2">The Angular-Linear Dictionary</h3>
                         <p class="text-sm text-slate-500 mb-4">To master rotational dynamics, you must learn to translate between linear and angular variables.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <ul class="space-y-3">
-                                <li><strong>Position:</strong> $x \rightarrow \theta$ (Angle)</li>
-                                <li><strong>Velocity:</strong> $v \rightarrow \omega = \frac{d\theta}{dt}$</li>
-                                <li><strong>Acceleration:</strong> $a \rightarrow \alpha = \frac{d\omega}{dt}$</li>
-                            </ul>
-                            <ul class="space-y-3">
-                                <li><strong>Mass (Inertia):</strong> $m \rightarrow I$ (Moment of Inertia)</li>
-                                <li><strong>Force:</strong> $F \rightarrow \tau$ (Torque)</li>
-                                <li><strong>Momentum:</strong> $p \rightarrow L = I\omega$</li>
-                            </ul>
+                            <!-- Position -->
+                            <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <svg viewBox="0 0 100 60" class="w-16 h-10 mr-4" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="10" y1="50" x2="90" y2="50" stroke="#94a3b8" stroke-width="2" />
+                                    <path d="M 50 50 A 40 40 0 0 0 85 30" fill="none" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrow)" />
+                                    <text x="75" y="25" font-family="serif" font-weight="bold" font-size="14" fill="#3b82f6">θ</text>
+                                </svg>
+                                <div><strong>Position:</strong> $x \rightarrow \theta$ (Angle)</div>
+                            </div>
+                            
+                            <!-- Velocity -->
+                            <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <svg viewBox="0 0 100 60" class="w-16 h-10 mr-4" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
+                                    <path d="M 90 50 A 40 40 0 0 0 50 10" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#arrow)" />
+                                    <text x="75" y="25" font-family="serif" font-weight="bold" font-size="14" fill="#10b981">ω</text>
+                                </svg>
+                                <div><strong>Velocity:</strong> $v \rightarrow \omega$</div>
+                            </div>
+
+                            <!-- Acceleration -->
+                            <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <svg viewBox="0 0 100 60" class="w-16 h-10 mr-4" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
+                                    <path d="M 90 50 A 40 40 0 0 0 10 50" fill="none" stroke="#ef4444" stroke-width="4" marker-end="url(#arrow-red)" />
+                                    <text x="50" y="25" font-family="serif" font-weight="bold" font-size="14" fill="#ef4444" text-anchor="middle">α</text>
+                                </svg>
+                                <div><strong>Acceleration:</strong> $a \rightarrow \alpha$</div>
+                            </div>
+
+                            <!-- Mass/Inertia -->
+                            <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <svg viewBox="0 0 100 60" class="w-16 h-10 mr-4" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="50" y1="10" x2="50" y2="50" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2" />
+                                    <circle cx="20" cy="30" r="10" fill="#64748b" />
+                                    <circle cx="80" cy="30" r="10" fill="#64748b" />
+                                    <line x1="20" y1="30" x2="80" y2="30" stroke="#475569" stroke-width="3" />
+                                </svg>
+                                <div><strong>Inertia:</strong> $m \rightarrow I$</div>
+                            </div>
+
+                            <!-- Force/Torque -->
+                            <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <svg viewBox="0 0 100 60" class="w-16 h-10 mr-4" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="20" y="25" width="60" height="10" fill="#cbd5e1" rx="2" />
+                                    <circle cx="30" cy="30" r="3" fill="#334155" />
+                                    <line x1="80" y1="30" x2="80" y2="10" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow)" />
+                                    <text x="90" y="25" font-family="serif" font-weight="bold" font-size="14" fill="#f59e0b">τ</text>
+                                </svg>
+                                <div><strong>Force:</strong> $F \rightarrow \tau$ (Torque)</div>
+                            </div>
+
+                            <!-- Momentum -->
+                            <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <svg viewBox="0 0 100 60" class="w-16 h-10 mr-4" xmlns="http://www.w3.org/2000/svg">
+                                    <ellipse cx="50" cy="30" rx="40" ry="15" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="4" transform="rotate(-15 50 30)" />
+                                    <line x1="50" y1="30" x2="50" y2="5" stroke="#4f46e5" stroke-width="3" marker-end="url(#arrow)" />
+                                    <text x="60" y="15" font-family="serif" font-weight="bold" font-size="14" fill="#4f46e5">L</text>
+                                </svg>
+                                <div><strong>Momentum:</strong> $p \rightarrow L$</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -187,8 +238,31 @@
                     <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg my-8">
                         <p class="font-bold text-blue-900 mb-2">The Vector Cross Product Definition</p>
                         <p>The torque generated by a force $\vec{F}$ applied at a position vector $\vec{r}$ relative to a pivot point is defined via the vector cross product:</p>
-                        <div class="text-center overflow-x-auto">
-                            $$\vec{\tau} = \vec{r} \times \vec{F} \implies \tau = r F \sin\phi$$
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center my-4">
+                            <div class="text-center overflow-x-auto bg-white p-4 rounded shadow-sm border border-slate-200">
+                                $$\vec{\tau} = \vec{r} \times \vec{F} \implies \tau = r F \sin\phi$$
+                            </div>
+                            <div class="bg-white p-4 rounded shadow-sm border border-slate-200 flex flex-col items-center">
+                                <h5 class="text-sm font-bold text-slate-800 mb-2">The Cross Product</h5>
+                                <svg viewBox="0 0 200 150" class="w-full h-auto max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Pivot -->
+                                    <circle cx="50" cy="100" r="5" fill="#334155" />
+                                    <!-- Position r -->
+                                    <line x1="50" y1="100" x2="130" y2="100" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrow)" />
+                                    <text x="90" y="115" font-family="serif" font-weight="bold" font-size="14" fill="#0ea5e9">r</text>
+                                    <!-- Force F -->
+                                    <line x1="130" y1="100" x2="170" y2="30" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+                                    <text x="160" y="60" font-family="serif" font-weight="bold" font-size="14" fill="#ef4444">F</text>
+                                    <!-- Angle phi -->
+                                    <path d="M 150 100 A 20 20 0 0 0 142 80" fill="none" stroke="#64748b" stroke-width="2" />
+                                    <text x="155" y="90" font-family="serif" font-weight="bold" font-size="12" fill="#64748b">φ</text>
+                                    <!-- Torque tau (out of page) -->
+                                    <circle cx="50" cy="100" r="10" fill="none" stroke="#f59e0b" stroke-width="2" />
+                                    <circle cx="50" cy="100" r="3" fill="#f59e0b" />
+                                    <text x="30" y="80" font-family="serif" font-weight="bold" font-size="14" fill="#f59e0b">τ (out)</text>
+                                </svg>
+                            </div>
                         </div>
                         <p class="mt-4 text-sm">Where $\phi$ is the angle between the position vector $\vec{r}$ and the force vector $\vec{F}$.</p>
                     </div>
@@ -240,15 +314,40 @@
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-slate-800 mb-2">Discrete Point Masses</h4>
-                            <p class="text-sm mb-4">For a collection of distinct point masses, sum the products of each mass and the square of its perpendicular distance from the axis:</p>
-                            <div class="text-center bg-slate-50 py-3 rounded-lg">$$I = \sum_{i=1}^{n} m_i r_i^2$$</div>
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
+                            <h4 class="font-bold text-slate-800 mb-2 w-full">Discrete Point Masses</h4>
+                            <p class="text-sm mb-4 w-full">For a collection of distinct point masses, sum the products of each mass and the square of its perpendicular distance from the axis:</p>
+                            <svg viewBox="0 0 200 150" class="w-full h-auto max-w-xs mb-4" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="100" y1="20" x2="100" y2="130" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
+                                <text x="100" y="15" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Axis</text>
+                                
+                                <circle cx="40" cy="50" r="12" fill="#3b82f6" />
+                                <text x="40" y="54" font-family="serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">m₁</text>
+                                <line x1="100" y1="50" x2="52" y2="50" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+                                <text x="75" y="45" font-family="serif" font-size="12" fill="#64748b" text-anchor="middle">r₁</text>
+                                
+                                <circle cx="160" cy="90" r="16" fill="#ef4444" />
+                                <text x="160" y="94" font-family="serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">m₂</text>
+                                <line x1="100" y1="90" x2="144" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+                                <text x="125" y="85" font-family="serif" font-size="12" fill="#64748b" text-anchor="middle">r₂</text>
+                            </svg>
+                            <div class="text-center bg-slate-50 py-3 rounded-lg w-full">$$I = \sum_{i=1}^{n} m_i r_i^2$$</div>
                         </div>
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-slate-800 mb-2">Continuous Solid Bodies</h4>
-                            <p class="text-sm mb-4">For continuous solid masses, the summation generalizes to a volume integral involving mass density ($\rho$):</p>
-                            <div class="text-center bg-slate-50 py-3 rounded-lg">$$I = \int r^2 \, dm = \int \rho r^2 \, dV$$</div>
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
+                            <h4 class="font-bold text-slate-800 mb-2 w-full">Continuous Solid Bodies</h4>
+                            <p class="text-sm mb-4 w-full">For continuous solid masses, the summation generalizes to a volume integral involving mass density ($\rho$):</p>
+                            <svg viewBox="0 0 200 150" class="w-full h-auto max-w-xs mb-4" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="100" y1="20" x2="100" y2="130" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
+                                <text x="100" y="15" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">Axis</text>
+                                
+                                <path d="M 50 75 C 50 30, 150 40, 150 75 C 150 110, 60 120, 50 75" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" opacity="0.8" />
+                                
+                                <rect x="120" y="60" width="10" height="10" fill="#f59e0b" />
+                                <text x="135" y="70" font-family="serif" font-size="12" font-weight="bold" fill="#d97706">dm</text>
+                                <line x1="100" y1="65" x2="120" y2="65" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+                                <text x="110" y="60" font-family="serif" font-size="12" fill="#64748b" text-anchor="middle">r</text>
+                            </svg>
+                            <div class="text-center bg-slate-50 py-3 rounded-lg w-full">$$I = \int r^2 \, dm = \int \rho r^2 \, dV$$</div>
                         </div>
                     </div>
 
@@ -257,13 +356,36 @@
                             <i data-lucide="move" class="w-5 h-5"></i>
                             The Parallel-Axis Theorem
                         </h4>
-                        <p>
-                            Formulas for $I$ are typically given for an axis passing through the body's Center of Mass ($I_{\text{cm}}$). If the actual rotation axis is shifted parallel by a distance $d$ away from the center of mass, calculate the new moment of inertia using:
-                        </p>
-                        <div class="text-center my-4 text-xl">
-                            $$I_{\text{new}} = I_{\text{cm}} + Md^2$$
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div>
+                                <p>
+                                    Formulas for $I$ are typically given for an axis passing through the body's Center of Mass ($I_{\text{cm}}$). If the actual rotation axis is shifted parallel by a distance $d$ away from the center of mass, calculate the new moment of inertia using:
+                                </p>
+                                <div class="text-center my-4 text-xl">
+                                    $$I_{\text{new}} = I_{\text{cm}} + Md^2$$
+                                </div>
+                                <p class="text-sm">This theorem highlights that it is always "hardest" to rotate an object around an axis that is far from its center of mass.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-emerald-200 flex justify-center">
+                                <svg viewBox="0 0 200 150" class="w-full h-auto max-w-xs" xmlns="http://www.w3.org/2000/svg">
+                                    <ellipse cx="100" cy="75" rx="70" ry="40" fill="#a7f3d0" stroke="#059669" stroke-width="2" opacity="0.8" />
+                                    <circle cx="100" cy="75" r="4" fill="#065f46" />
+                                    <text x="110" y="85" font-family="serif" font-size="12" font-weight="bold" fill="#065f46">CM</text>
+                                    
+                                    <!-- CM Axis -->
+                                    <line x1="100" y1="20" x2="100" y2="130" stroke="#059669" stroke-width="2" stroke-dasharray="4" />
+                                    <text x="100" y="15" font-family="sans-serif" font-size="12" fill="#059669" text-anchor="middle">Axis (CM)</text>
+                                    
+                                    <!-- Parallel Axis -->
+                                    <line x1="150" y1="20" x2="150" y2="130" stroke="#ef4444" stroke-width="2" stroke-dasharray="4" />
+                                    <text x="150" y="15" font-family="sans-serif" font-size="12" fill="#ef4444" text-anchor="middle">New Axis</text>
+                                    
+                                    <!-- Distance d -->
+                                    <line x1="100" y1="100" x2="150" y2="100" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow)" marker-start="url(#arrow)" />
+                                    <text x="125" y="95" font-family="serif" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">d</text>
+                                </svg>
+                            </div>
                         </div>
-                        <p class="text-sm">This theorem highlights that it is always "hardest" to rotate an object around an axis that is far from its center of mass.</p>
                     </div>
                 </div>
             </section>
@@ -294,6 +416,37 @@
                     </p>
                     <div class="text-center font-bold text-physics-700 my-4 text-xl">
                         $$v_{\text{cm}} = \omega R \quad \text{and} \quad a_{\text{cm}} = \alpha R$$
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center my-6">
+                        <h4 class="font-bold text-slate-800 mb-4">Rolling Without Slipping Anatomy</h4>
+                        <svg viewBox="0 0 400 200" class="w-full h-auto max-w-lg" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Ground -->
+                            <line x1="20" y1="180" x2="380" y2="180" stroke="#94a3b8" stroke-width="4" stroke-dasharray="8,4" />
+                            
+                            <!-- Wheel -->
+                            <circle cx="200" cy="100" r="80" fill="none" stroke="#3b82f6" stroke-width="4" />
+                            <!-- Spokes to show rotation -->
+                            <line x1="200" y1="20" x2="200" y2="180" stroke="#cbd5e1" stroke-width="2" />
+                            <line x1="120" y1="100" x2="280" y2="100" stroke="#cbd5e1" stroke-width="2" />
+                            <circle cx="200" cy="100" r="6" fill="#1e40af" />
+                            
+                            <!-- Center of mass velocity v_cm -->
+                            <line x1="200" y1="100" x2="280" y2="100" stroke="#ef4444" stroke-width="4" marker-end="url(#arrow-red)" />
+                            <text x="240" y="90" font-family="serif" font-weight="bold" font-size="16" fill="#ef4444">v_cm = ωR</text>
+                            
+                            <!-- Angular velocity omega -->
+                            <path d="M 230 40 A 60 60 0 0 1 270 70" fill="none" stroke="#10b981" stroke-width="4" marker-end="url(#arrow)" />
+                            <text x="260" y="50" font-family="serif" font-weight="bold" font-size="16" fill="#10b981">ω</text>
+                            
+                            <!-- Velocity at top (2v_cm) -->
+                            <line x1="200" y1="20" x2="360" y2="20" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow)" />
+                            <text x="280" y="10" font-family="serif" font-weight="bold" font-size="16" fill="#f59e0b">v_top = 2ωR</text>
+                            
+                            <!-- Velocity at bottom (0) -->
+                            <circle cx="200" cy="180" r="5" fill="#f59e0b" />
+                            <text x="200" y="195" font-family="serif" font-weight="bold" font-size="14" fill="#f59e0b" text-anchor="middle">v_contact = 0 (Static)</text>
+                        </svg>
                     </div>
 
                     <!-- Interactive Rolling Race -->
@@ -347,7 +500,26 @@
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">1</div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800 mb-2">Draw Extended Free-Body Diagrams</h4>
-                            <p class="text-slate-600">Standard point-mass FBDs are insufficient for rotational dynamics. You must place force vectors <strong>precisely at their physical points of application</strong>. For example, gravity always acts at the center of mass, while tension acts at the outer rim of a pulley, and friction acts exactly at the surface contact point.</p>
+                            <p class="text-slate-600 mb-4">Standard point-mass FBDs are insufficient for rotational dynamics. You must place force vectors <strong>precisely at their physical points of application</strong>. For example, gravity always acts at the center of mass, while tension acts at the outer rim of a pulley, and friction acts exactly at the surface contact point.</p>
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                <svg viewBox="0 0 300 150" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Extended Body (Rod) -->
+                                    <rect x="50" y="70" width="200" height="20" rx="10" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
+                                    <!-- Pivot -->
+                                    <polygon points="40,110 60,110 50,80" fill="#94a3b8" />
+                                    <circle cx="50" cy="80" r="4" fill="#334155" />
+                                    
+                                    <!-- Gravity at CM -->
+                                    <line x1="150" y1="90" x2="150" y2="140" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+                                    <text x="160" y="130" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ef4444">mg (at CM)</text>
+                                    <circle cx="150" cy="80" r="3" fill="#ef4444" />
+                                    
+                                    <!-- Applied Force at end -->
+                                    <line x1="230" y1="70" x2="230" y2="20" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrow)" />
+                                    <text x="240" y="40" font-family="sans-serif" font-size="12" font-weight="bold" fill="#3b82f6">F_app</text>
+                                    <circle cx="230" cy="70" r="3" fill="#3b82f6" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                     
@@ -356,7 +528,13 @@
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">2</div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800 mb-2">Apply the Parallel-Axis Theorem (If Needed)</h4>
-                            <p class="text-slate-600">Determine the axis of rotation. If the object rotates around a hinge or pivot point that is <em>not</em> its center of mass, immediately calculate the new moment of inertia using $I = I_{\text{cm}} + Md^2$ before proceeding with dynamics equations.</p>
+                            <p class="text-slate-600 mb-4">Determine the axis of rotation. If the object rotates around a hinge or pivot point that is <em>not</em> its center of mass, immediately calculate the new moment of inertia using $I = I_{\text{cm}} + Md^2$ before proceeding with dynamics equations.</p>
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center">
+                                <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="50" y="30" width="200" height="40" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="4" />
+                                    <text x="150" y="55" font-family="serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">I_pivot = I_cm + Md²</text>
+                                </svg>
+                            </div>
                         </div>
                     </div>
 
@@ -366,11 +544,67 @@
                         <div>
                             <h4 class="text-xl font-bold text-slate-800 mb-2">Set Up Coupled Equations</h4>
                             <p class="text-slate-600">Complex systems (like a mass falling while unwinding a pulley) require setting up independent systems of equations and coupling them:</p>
-                            <ul class="list-disc ml-6 mt-3 text-slate-700 space-y-1 font-mono text-sm bg-slate-50 p-4 rounded-lg">
-                                <li>Write $\sum F = ma$ for purely linear objects.</li>
-                                <li>Write $\sum \tau = I\alpha$ for rotating components.</li>
-                                <li>Link the systems strictly using the constraint equation: $a = \alpha R$.</li>
-                            </ul>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <ul class="list-disc ml-6 text-slate-700 space-y-1 font-mono text-sm bg-slate-50 p-4 rounded-lg">
+                                    <li>Write $\sum F = ma$ for purely linear objects.</li>
+                                    <li>Write $\sum \tau = I\alpha$ for rotating components.</li>
+                                    <li>Link the systems strictly using the constraint equation: $a = \alpha R$.</li>
+                                </ul>
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                    <svg viewBox="0 0 150 150" class="w-full h-auto max-w-xs mx-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Pulley -->
+                                        <circle cx="75" cy="50" r="30" fill="#e2e8f0" stroke="#64748b" stroke-width="3" />
+                                        <circle cx="75" cy="50" r="4" fill="#334155" />
+                                        <path d="M 75 20 A 30 30 0 0 1 105 50" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+                                        <text x="110" y="30" font-family="serif" font-weight="bold" font-size="12" fill="#10b981">α</text>
+                                        
+                                        <!-- String and Mass -->
+                                        <line x1="45" y1="50" x2="45" y2="100" stroke="#475569" stroke-width="2" />
+                                        <rect x="35" y="100" width="20" height="30" fill="#3b82f6" />
+                                        <text x="45" y="120" font-family="sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">m</text>
+                                        
+                                        <!-- a = alpha R -->
+                                        <line x1="25" y1="100" x2="25" y2="120" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)" />
+                                        <text x="15" y="115" font-family="serif" font-weight="bold" font-size="12" fill="#ef4444">a</text>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
+                        <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">4</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">Check for Conservation of Angular Momentum</h4>
+                            <p class="text-slate-600 mb-4">If the net external torque on a system is zero ($\sum \tau_{\text{ext}} = 0$), then the total angular momentum of the system is conserved ($L_i = L_f$). This is often true in collisions between spinning objects or when an object changes its own moment of inertia internally.</p>
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex justify-center">
+                                <svg viewBox="0 0 400 120" class="w-full h-auto max-w-md" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Initial State -->
+                                    <ellipse cx="80" cy="80" rx="60" ry="20" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
+                                    <line x1="80" y1="100" x2="80" y2="20" stroke="#0ea5e9" stroke-width="3" />
+                                    <circle cx="20" cy="80" r="10" fill="#ef4444" />
+                                    <circle cx="140" cy="80" r="10" fill="#ef4444" />
+                                    <line x1="20" y1="80" x2="140" y2="80" stroke="#64748b" stroke-width="4" />
+                                    <path d="M 60 40 A 20 20 0 0 1 100 40" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+                                    <text x="80" y="30" font-family="serif" font-weight="bold" font-size="14" fill="#10b981" text-anchor="middle">ω_small</text>
+                                    <text x="80" y="115" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Large I, Small ω</text>
+                                    
+                                    <!-- Arrow -->
+                                    <line x1="170" y1="60" x2="230" y2="60" stroke="#cbd5e1" stroke-width="4" marker-end="url(#arrow)" />
+                                    <text x="200" y="50" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">L_i = L_f</text>
+                                    
+                                    <!-- Final State -->
+                                    <ellipse cx="320" cy="80" rx="30" ry="10" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
+                                    <line x1="320" y1="100" x2="320" y2="20" stroke="#0ea5e9" stroke-width="3" />
+                                    <circle cx="290" cy="80" r="10" fill="#ef4444" />
+                                    <circle cx="350" cy="80" r="10" fill="#ef4444" />
+                                    <line x1="290" y1="80" x2="350" y2="80" stroke="#64748b" stroke-width="4" />
+                                    <path d="M 300 40 A 20 20 0 0 1 340 40" fill="none" stroke="#10b981" stroke-width="4" marker-end="url(#arrow)" />
+                                    <text x="320" y="30" font-family="serif" font-weight="bold" font-size="14" fill="#10b981" text-anchor="middle">ω_LARGE</text>
+                                    <text x="320" y="115" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">Small I, Large ω</text>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -388,6 +622,22 @@
                 <div id="quizContainer" class="relative z-10 space-y-6">
                     <div class="quiz-question" id="q1">
                         <p class="font-medium mb-4 text-lg">1. If you double the distance from the pivot point where a perpendicular force is applied, how does the resulting torque change?</p>
+                        <svg viewBox="0 0 300 100" class="w-full h-auto max-w-xs mb-4" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Pivot -->
+                            <circle cx="30" cy="50" r="8" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
+                            
+                            <!-- Radius r -->
+                            <line x1="30" y1="50" x2="130" y2="50" stroke="#94a3b8" stroke-width="4" />
+                            <line x1="130" y1="50" x2="130" y2="20" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+                            <text x="140" y="35" font-family="serif" font-weight="bold" font-size="14" fill="#ef4444">F</text>
+                            <text x="80" y="70" font-family="serif" font-weight="bold" font-size="14" fill="#64748b">r</text>
+                            
+                            <!-- Radius 2r -->
+                            <line x1="30" y1="80" x2="230" y2="80" stroke="#94a3b8" stroke-width="4" />
+                            <line x1="230" y1="80" x2="230" y2="50" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+                            <text x="240" y="65" font-family="serif" font-weight="bold" font-size="14" fill="#ef4444">F</text>
+                            <text x="130" y="95" font-family="serif" font-weight="bold" font-size="14" fill="#64748b">2r</text>
+                        </svg>
                         <div class="space-y-2">
                             <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
                                 <input type="radio" name="q1" value="a" class="w-4 h-4 accent-physics-accent">
@@ -407,6 +657,18 @@
 
                     <div class="quiz-question" id="q2">
                         <p class="font-medium mb-4 text-lg mt-8 border-t border-physics-700 pt-8">2. A solid cylinder ($I=\frac{1}{2}MR^2$) and a hollow cylinder ($I=MR^2$) of equal mass and radius are released from rest at the top of an incline. Which reaches the bottom first?</p>
+                        <svg viewBox="0 0 300 120" class="w-full h-auto max-w-xs mb-4" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Incline -->
+                            <polygon points="20,100 280,100 20,20" fill="#334155" />
+                            
+                            <!-- Solid Cylinder -->
+                            <circle cx="50" cy="18" r="12" fill="#3b82f6" />
+                            <text x="50" y="-2" font-family="sans-serif" font-size="10" font-weight="bold" fill="#3b82f6" text-anchor="middle">Solid</text>
+                            
+                            <!-- Hollow Cylinder -->
+                            <circle cx="80" cy="27" r="12" fill="none" stroke="#ef4444" stroke-width="4" />
+                            <text x="80" y="8" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ef4444" text-anchor="middle">Hollow</text>
+                        </svg>
                         <div class="space-y-2">
                             <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
                                 <input type="radio" name="q2" value="a" class="w-4 h-4 accent-physics-accent">
@@ -422,6 +684,40 @@
                             </label>
                         </div>
                         <p class="hidden mt-3 text-sm font-medium" id="q2-feedback"></p>
+                    </div>
+                    
+                    <div class="quiz-question" id="q3">
+                        <p class="font-medium mb-4 text-lg mt-8 border-t border-physics-700 pt-8">3. An ice skater is spinning with their arms outstretched. When they pull their arms in tight to their body, what happens to their angular velocity?</p>
+                        <svg viewBox="0 0 300 120" class="w-full h-auto max-w-xs mb-4" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Outstretched -->
+                            <line x1="20" y1="60" x2="100" y2="60" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round" />
+                            <ellipse cx="60" cy="60" rx="10" ry="25" fill="#3b82f6" />
+                            <circle cx="60" cy="20" r="8" fill="#fca5a5" />
+                            <path d="M 30 20 A 20 20 0 0 1 90 20" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+                            
+                            <line x1="130" y1="60" x2="170" y2="60" stroke="#475569" stroke-width="3" marker-end="url(#arrow)" />
+                            
+                            <!-- Tucked -->
+                            <line x1="220" y1="60" x2="260" y2="60" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round" />
+                            <ellipse cx="240" cy="60" rx="10" ry="25" fill="#3b82f6" />
+                            <circle cx="240" cy="20" r="8" fill="#fca5a5" />
+                            <path d="M 220 15 A 25 25 0 0 1 260 15" fill="none" stroke="#10b981" stroke-width="4" marker-end="url(#arrow)" />
+                        </svg>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q3" value="a" class="w-4 h-4 accent-physics-accent">
+                                <span>It decreases</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q3" value="b" class="w-4 h-4 accent-physics-accent">
+                                <span>It remains the same</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-physics-800 hover:bg-physics-700 cursor-pointer transition-colors border border-physics-700">
+                                <input type="radio" name="q3" value="c" class="w-4 h-4 accent-physics-accent">
+                                <span>It increases</span>
+                            </label>
+                        </div>
+                        <p class="hidden mt-3 text-sm font-medium" id="q3-feedback"></p>
                     </div>
 
                     <button id="btnCheckAnswers" class="mt-8 bg-physics-accent hover:bg-yellow-500 text-physics-900 font-bold py-2 px-6 rounded shadow transition-colors">

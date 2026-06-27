@@ -173,24 +173,59 @@
           <p>
             To derive the fundamental equations cleanly, we define an <strong>Ideal Fluid</strong>. An ideal fluid simplifies the Navier-Stokes equations by assuming four strict conditions:
           </p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              <div><strong class="text-slate-800">Incompressible:</strong> Density ($\rho$) is uniform and constant. (Valid for most liquids and gases at low speeds).</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="60" height="60" fill="none" stroke="#3b82f6" stroke-width="4" rx="8" />
+                    <!-- Dots representing constant density -->
+                    <circle cx="35" cy="35" r="4" fill="#3b82f6" />
+                    <circle cx="50" cy="35" r="4" fill="#3b82f6" />
+                    <circle cx="65" cy="35" r="4" fill="#3b82f6" />
+                    <circle cx="35" cy="50" r="4" fill="#3b82f6" />
+                    <circle cx="50" cy="50" r="4" fill="#3b82f6" />
+                    <circle cx="65" cy="50" r="4" fill="#3b82f6" />
+                    <circle cx="35" cy="65" r="4" fill="#3b82f6" />
+                    <circle cx="50" cy="65" r="4" fill="#3b82f6" />
+                    <circle cx="65" cy="65" r="4" fill="#3b82f6" />
+                  </svg>
+                </div>
+                <div><strong class="text-slate-800">Incompressible:</strong> Density ($\rho$) is uniform and constant. (Valid for most liquids and gases at low speeds).</div>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 10 30 Q 50 10 90 30" fill="none" stroke="#10b981" stroke-width="4" />
+                    <path d="M 10 50 Q 50 30 90 50" fill="none" stroke="#10b981" stroke-width="4" />
+                    <path d="M 10 70 Q 50 50 90 70" fill="none" stroke="#10b981" stroke-width="4" />
+                    <!-- No cross-links (drag) -->
+                  </svg>
+                </div>
+                <div><strong class="text-slate-800">Non-viscous:</strong> There is no internal friction or drag forces between adjacent fluid layers.</div>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-amber-50 rounded-full flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Particle moving straight without spinning -->
+                    <line x1="20" y1="50" x2="80" y2="50" stroke="#f59e0b" stroke-width="4" stroke-dasharray="4" marker-end="url(#arrow)" />
+                    <rect x="50" y="40" width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="3" />
+                    <line x1="60" y1="40" x2="60" y2="60" stroke="#f59e0b" stroke-width="1" />
+                    <line x1="50" y1="50" x2="70" y2="50" stroke="#f59e0b" stroke-width="1" />
+                  </svg>
+                </div>
+                <div><strong class="text-slate-800">Irrotational:</strong> The fluid has no net angular momentum about any point; small objects won't spin as they move.</div>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="25" x2="80" y2="25" stroke="#a855f7" stroke-width="4" marker-end="url(#arrow)" />
+                    <line x1="20" y1="50" x2="80" y2="50" stroke="#a855f7" stroke-width="4" marker-end="url(#arrow)" />
+                    <line x1="20" y1="75" x2="80" y2="75" stroke="#a855f7" stroke-width="4" marker-end="url(#arrow)" />
+                  </svg>
+                </div>
+                <div><strong class="text-slate-800">Steady-flow:</strong> The velocity at any given point in space remains constant over time.</div>
+              </div>
             </div>
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              <div><strong class="text-slate-800">Non-viscous:</strong> There is no internal friction or drag forces between adjacent fluid layers.</div>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              <div><strong class="text-slate-800">Irrotational:</strong> The fluid has no net angular momentum about any point; small objects won't spin as they move.</div>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex items-start space-x-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              <div><strong class="text-slate-800">Steady-flow:</strong> The velocity at any given point in space remains constant over time.</div>
-            </div>
-          </div>
           <p>
             Under these conditions, fluid behavior is strictly bounded by two fundamental conservation laws of the universe:
           </p>
@@ -223,6 +258,32 @@
           <div class="equation-box text-center text-2xl font-bold">
             $$A_1 v_1 = A_2 v_2$$
           </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 my-8">
+            <h4 class="text-center font-bold text-slate-700 mb-4">Volume Flow Rate ($Q = A \cdot v$)</h4>
+            <svg viewBox="0 0 500 200" class="w-full h-auto max-w-xl mx-auto" xmlns="http://www.w3.org/2000/svg">
+                <!-- Pipe -->
+                <path d="M 50 150 Q 250 150 350 120 T 450 120" fill="none" stroke="#0ea5e9" stroke-width="4" opacity="0.4" />
+                <path d="M 50 50 Q 250 50 350 80 T 450 80" fill="none" stroke="#0ea5e9" stroke-width="4" opacity="0.4" />
+                
+                <!-- Cross section 1 -->
+                <ellipse cx="100" cy="100" rx="20" ry="50" fill="#0ea5e9" opacity="0.5" />
+                <ellipse cx="150" cy="100" rx="20" ry="50" fill="#0ea5e9" opacity="0.3" />
+                <line x1="100" y1="100" x2="150" y2="100" stroke="#0369a1" stroke-width="2" marker-end="url(#arrow)" />
+                <text x="125" y="90" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle">v₁</text>
+                <text x="100" y="170" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0369a1" text-anchor="middle">Area A₁ (Large)</text>
+                
+                <!-- Cross section 2 -->
+                <ellipse cx="380" cy="100" rx="10" ry="20" fill="#0ea5e9" opacity="0.5" />
+                <ellipse cx="440" cy="100" rx="10" ry="20" fill="#0ea5e9" opacity="0.3" />
+                <line x1="380" y1="100" x2="440" y2="100" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+                <text x="410" y="90" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ef4444" text-anchor="middle">v₂</text>
+                <text x="410" y="140" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ef4444" text-anchor="middle">Area A₂ (Small)</text>
+                
+                <text x="250" y="30" font-family="sans-serif" font-size="14" font-style="italic" fill="#64748b" text-anchor="middle">Flow Rate In = Flow Rate Out</text>
+            </svg>
+          </div>
+
           <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r mt-4">
             <h4 class="font-bold text-yellow-800 m-0 text-lg">Physical Intuition</h4>
             <p class="text-yellow-900 m-0 mt-1 text-sm md:text-base">
@@ -369,6 +430,36 @@
               <li><strong>$\frac{1}{2}\rho v^2$ (Dynamic Pressure):</strong> Kinetic energy per unit volume.</li>
               <li><strong>$\rho g y$ (Hydrostatic Pressure):</strong> Potential energy per unit volume.</li>
             </ul>
+            <div class="mt-6 flex justify-center">
+              <svg viewBox="0 0 400 150" class="w-full max-w-lg" xmlns="http://www.w3.org/2000/svg">
+                <!-- Static Pressure -->
+                <g transform="translate(20, 20)">
+                  <rect x="0" y="0" width="80" height="80" fill="#e0e7ff" stroke="#6366f1" stroke-width="2" />
+                  <path d="M 40 40 L 40 10 M 40 40 L 40 70 M 40 40 L 10 40 M 40 40 L 70 40" stroke="#4338ca" stroke-width="2" marker-end="url(#arrow)" />
+                  <text x="40" y="110" font-family="sans-serif" font-size="12" font-weight="bold" fill="#4338ca" text-anchor="middle">Static (P)</text>
+                </g>
+                <text x="125" y="70" font-family="sans-serif" font-size="20" font-weight="bold" fill="#64748b" text-anchor="middle">+</text>
+                
+                <!-- Dynamic Pressure -->
+                <g transform="translate(150, 20)">
+                  <rect x="0" y="0" width="80" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
+                  <circle cx="40" cy="40" r="10" fill="#2563eb" />
+                  <line x1="40" y1="40" x2="90" y2="40" stroke="#1d4ed8" stroke-width="3" marker-end="url(#arrow)" />
+                  <text x="40" y="110" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1d4ed8" text-anchor="middle">Dynamic (½ρv²)</text>
+                </g>
+                <text x="255" y="70" font-family="sans-serif" font-size="20" font-weight="bold" fill="#64748b" text-anchor="middle">+</text>
+
+                <!-- Hydrostatic Pressure -->
+                <g transform="translate(280, 20)">
+                  <rect x="0" y="0" width="80" height="80" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" />
+                  <rect x="25" y="20" width="30" height="30" fill="#64748b" />
+                  <line x1="10" y1="70" x2="70" y2="70" stroke="#475569" stroke-width="3" />
+                  <line x1="40" y1="50" x2="40" y2="70" stroke="#475569" stroke-width="2" stroke-dasharray="4" />
+                  <text x="50" y="60" font-family="sans-serif" font-size="10" font-weight="bold" fill="#475569" text-anchor="middle">h</text>
+                  <text x="40" y="110" font-family="sans-serif" font-size="12" font-weight="bold" fill="#475569" text-anchor="middle">Hydrostatic (ρgy)</text>
+                </g>
+              </svg>
+            </div>
           </div>
         </div>
       </section>
@@ -403,6 +494,33 @@
           <p>
             Remarkably, this is the exact same speed an object would attain if it were dropped in free fall from a height $h$. Let's visualize this with a simulation of water trajectory.
           </p>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 my-8">
+            <h4 class="text-center font-bold text-slate-700 mb-4">Torricelli's Law ($v = \sqrt{2gh}$)</h4>
+            <svg viewBox="0 0 400 250" class="w-full h-auto max-w-md mx-auto" xmlns="http://www.w3.org/2000/svg">
+              <!-- Tank -->
+              <path d="M 50 50 L 50 200 L 200 200 L 200 150 M 200 130 L 200 50" fill="none" stroke="#64748b" stroke-width="4" />
+              <!-- Water level -->
+              <rect x="52" y="70" width="146" height="128" fill="#38bdf8" opacity="0.4" />
+              <line x1="50" y1="70" x2="200" y2="70" stroke="#0284c7" stroke-width="2" />
+              
+              <!-- Depth h -->
+              <line x1="180" y1="70" x2="180" y2="140" stroke="#0f172a" stroke-width="2" marker-end="url(#arrow)" marker-start="url(#arrow)" />
+              <text x="170" y="110" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">h</text>
+              
+              <!-- Hole and Stream -->
+              <path d="M 200 140 Q 280 140 320 230" fill="none" stroke="#38bdf8" stroke-width="10" />
+              <!-- Velocity vector -->
+              <line x1="200" y1="140" x2="260" y2="140" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)" />
+              <text x="240" y="130" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ef4444" text-anchor="middle">v = √(2gh)</text>
+              
+              <!-- Points -->
+              <circle cx="100" cy="70" r="4" fill="#ef4444" />
+              <text x="100" y="60" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ef4444" text-anchor="middle">Point 1 (Top)</text>
+              <circle cx="200" cy="140" r="4" fill="#ef4444" />
+              <text x="190" y="160" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ef4444" text-anchor="middle">Point 2 (Hole)</text>
+            </svg>
+          </div>
         </div>
 
         <!-- Simulation 2: Torricelli Tank -->
@@ -449,25 +567,69 @@
         </h2>
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
           <ol class="relative border-l-2 border-fluid-200 ml-3 space-y-8">
-            <li class="pl-8 relative">
+            <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">1</div>
               <h3 class="text-xl font-bold text-slate-800">Establish Two Reference Points</h3>
-              <p class="mt-2 text-slate-600 text-base">Always choose point 1 and point 2 along a single continuous streamline. Pick locations where variables are either completely known, explicitly asked for, or safely approximateable (e.g., the large open top of a tank where $v \approx 0$).</p>
+              <p class="mt-2 text-slate-600 text-base mb-4">Always choose point 1 and point 2 along a single continuous streamline. Pick locations where variables are either completely known, explicitly asked for, or safely approximateable (e.g., the large open top of a tank where $v \approx 0$).</p>
+              <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Pipe -->
+                  <path d="M 20 50 Q 150 50 200 20 T 280 20" fill="none" stroke="#0ea5e9" stroke-width="30" opacity="0.2" />
+                  <!-- Streamline -->
+                  <path d="M 20 50 Q 150 50 200 20 T 280 20" fill="none" stroke="#0284c7" stroke-width="2" stroke-dasharray="4" />
+                  <!-- Points -->
+                  <circle cx="50" cy="50" r="6" fill="#ef4444" />
+                  <text x="50" y="75" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ef4444" text-anchor="middle">Point 1</text>
+                  <circle cx="250" cy="20" r="6" fill="#ef4444" />
+                  <text x="250" y="45" font-family="sans-serif" font-size="12" font-weight="bold" fill="#ef4444" text-anchor="middle">Point 2</text>
+                </svg>
+              </div>
             </li>
-            <li class="pl-8 relative">
+            <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">2</div>
               <h3 class="text-xl font-bold text-slate-800">Set a Universal Baseline for Height</h3>
-              <p class="mt-2 text-slate-600 text-base">Define where $y=0$ is. It is usually best to set the lowest point in your problem to $y=0$ so that no $y$-variables are negative. Consistency is key; $\rho g y$ is potential energy, and potential energy needs a strict reference frame.</p>
+              <p class="mt-2 text-slate-600 text-base mb-4">Define where $y=0$ is. It is usually best to set the lowest point in your problem to $y=0$ so that no $y$-variables are negative. Consistency is key; $\rho g y$ is potential energy, and potential energy needs a strict reference frame.</p>
+              <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+                  <!-- y=0 baseline -->
+                  <line x1="20" y1="80" x2="280" y2="80" stroke="#10b981" stroke-width="3" stroke-dasharray="6,4" />
+                  <text x="150" y="95" font-family="sans-serif" font-size="12" font-weight="bold" fill="#10b981" text-anchor="middle">Baseline y = 0</text>
+                  <!-- Objects at heights -->
+                  <circle cx="80" cy="40" r="10" fill="#0ea5e9" />
+                  <line x1="80" y1="80" x2="80" y2="50" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+                  <text x="65" y="65" font-family="sans-serif" font-size="12" font-weight="bold" fill="#64748b" text-anchor="middle">y₁</text>
+                  
+                  <circle cx="220" cy="20" r="10" fill="#0ea5e9" />
+                  <line x1="220" y1="80" x2="220" y2="30" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+                  <text x="205" y="55" font-family="sans-serif" font-size="12" font-weight="bold" fill="#64748b" text-anchor="middle">y₂</text>
+                </svg>
+              </div>
             </li>
-            <li class="pl-8 relative">
+            <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">3</div>
               <h3 class="text-xl font-bold text-slate-800">Apply Continuity First</h3>
-              <p class="mt-2 text-slate-600 text-base">Before writing out the long Bernoulli equation, use the Equation of Continuity ($A_1v_1 = A_2v_2$) to express one velocity in terms of the other. This prevents you from having an unsolvable equation with two unknowns ($v_1$ and $v_2$).</p>
+              <p class="mt-2 text-slate-600 text-base mb-4">Before writing out the long Bernoulli equation, use the Equation of Continuity ($A_1v_1 = A_2v_2$) to express one velocity in terms of the other. This prevents you from having an unsolvable equation with two unknowns ($v_1$ and $v_2$).</p>
+              <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Continuity equation visualization -->
+                  <text x="150" y="30" font-family="serif" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="middle">A₁v₁ = A₂v₂</text>
+                  <text x="150" y="60" font-family="serif" font-size="16" font-style="italic" fill="#0ea5e9" text-anchor="middle">v₂ = v₁ (A₁ / A₂)</text>
+                  <!-- Arrow connecting -->
+                  <path d="M 150 70 L 150 90" fill="none" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow)" />
+                </svg>
+              </div>
             </li>
-            <li class="pl-8 relative">
+            <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">4</div>
               <h3 class="text-xl font-bold text-slate-800">Watch Gauge vs. Absolute Pressure</h3>
-              <p class="mt-2 text-slate-600 text-base">Ensure both $P_1$ and $P_2$ are using the same scale. If a fluid surface is open to the air, its absolute pressure is $1\text{ atm}$ ($1.013 \times 10^5\text{ Pa}$). If the problem gives you "gauge pressure," add $P_{\text{atm}}$ to get absolute pressure before plugging it into Bernoulli's.</p>
+              <p class="mt-2 text-slate-600 text-base mb-4">Ensure both $P_1$ and $P_2$ are using the same scale. If a fluid surface is open to the air, its absolute pressure is $1\text{ atm}$ ($1.013 \times 10^5\text{ Pa}$). If the problem gives you "gauge pressure," add $P_{\text{atm}}$ to get absolute pressure before plugging it into Bernoulli's.</p>
+              <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="50" y="20" width="200" height="60" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="4" />
+                  <text x="150" y="45" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">P_absolute = P_gauge + P_atm</text>
+                  <text x="150" y="65" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">(1 atm = 1.013 × 10⁵ Pa)</text>
+                </svg>
+              </div>
             </li>
           </ol>
         </div>
