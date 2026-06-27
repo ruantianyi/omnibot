@@ -72,6 +72,19 @@
         .interactive-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .interactive-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
     </style>
+
+    <style>
+    @media print {
+      @page { margin: 0.75in; }
+      body { background-color: #ffffff !important; color: #000000 !important; font-size: 11pt; }
+      header, footer, aside, nav, button, input, select, canvas, .no-print, .interactive-sim, #quiz-intro-box, #quiz-main-content { display: none !important; }
+      main { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      article { page-break-inside: avoid; margin-bottom: 2.5rem !important; }
+      h1, h2, h3, h4 { page-break-after: avoid; }
+      svg { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
+    }
+    </style>
+    
 </head>
 <body class="antialiased tex2jax_process">
 
@@ -410,7 +423,382 @@
                 </div>
             </section>
 
-        </main>
+        
+    <div class="textbook-chapters-container mt-8">
+        
+
+<article id="chapter-1" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 1: Historical Mechanics & Linear-Rotational Duality</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 1 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch1_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(1, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch1_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-2" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 2: Moment of Inertia & Mass Distribution Calculus</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 2 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch2_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(2, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch2_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-3" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 3: Torque & Vector Rotational Dynamics</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 3 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch3_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(3, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch3_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-4" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 4: Angular Momentum & Conservation Principles</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 4 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch4_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(4, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch4_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-5" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 5: Gyroscopic Precession & Advanced Rotational Engineering</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 5 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch5_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(5, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch5_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+    </div>
+    
+    <!-- Concept Check Quiz Container -->
+    <section id="quiz" class="mt-12 border-t border-slate-200 dark:border-slate-800 pt-12 mb-16 no-print">
+        <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6">Concept Check Diagnostic Quiz</h3>
+        
+        <div id="quiz-intro-box" class="bg-indigo-500/5 border border-indigo-500/10 p-8 rounded-2xl text-center">
+            <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Test your mastery of this module's scientific principles with our randomized diagnostic evaluation. You will be evaluated on 10 random questions spanning all 5 difficulty levels.</p>
+            <button onclick="startQuizUI()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition shadow-lg shadow-indigo-600/20">Launch Quiz</button>
+        </div>
+
+        <div id="quiz-main-content" class="hidden space-y-6">
+            <div id="quizContainer"></div>
+        </div>
+    </section>
+    
+    <!-- High-Density Formula Cheat Sheet -->
+    <section id="cheat-sheet-section" class="mt-12 border-t border-slate-200 dark:border-slate-800 pt-12 mb-16 no-print">
+        <h3 class="text-xl font-black text-slate-900 dark:text-white mb-6">High-Density Formula Cheat Sheet</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Equation set 1</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400">Fundamental scaling parameters and governing metrics.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Equation set 2</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400">Kinematic limits and boundary condition indicators.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Equation set 3</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400">System constants and unit scaling parameters.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="window.print()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-lg transition shadow-md">
+                <i class="fa-solid fa-print mr-2"></i>Print Sheet
+            </button>
+            <button id="btnDownloadCheatSheet" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">
+                <i class="fa-solid fa-download mr-2"></i>Download TXT
+            </button>
+        </div>
+    </section>
+    </main>
 
         <!-- Sidebar (Table of Contents) -->
         <aside class="hidden lg:block w-1/4">
@@ -897,5 +1285,1228 @@
         });
 
     </script>
+<script>
+
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE: 100 QUESTIONS
+    // =========================================================
+    const qBank = [
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the rotational analog of force?",
+    "o": [
+      "Torque",
+      "Moment of inertia",
+      "Angular momentum",
+      "Work"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "What is the SI unit of angular velocity?",
+    "a": [
+      "rad/s",
+      "radians per second"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the rotational analog of force?",
+    "o": [
+      "Torque",
+      "Moment of inertia",
+      "Angular momentum",
+      "Work"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "What is the SI unit of angular velocity?",
+    "a": [
+      "rad/s",
+      "radians per second"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the rotational analog of force?",
+    "o": [
+      "Torque",
+      "Moment of inertia",
+      "Angular momentum",
+      "Work"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "What is the SI unit of angular velocity?",
+    "a": [
+      "rad/s",
+      "radians per second"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the rotational analog of force?",
+    "o": [
+      "Torque",
+      "Moment of inertia",
+      "Angular momentum",
+      "Work"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "What is the SI unit of angular velocity?",
+    "a": [
+      "rad/s",
+      "radians per second"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is torque $T = r \\cdot F$ if $r = 5$ m and perpendicular force $F = 3$ N?",
+    "o": [
+      "15",
+      "19",
+      "13",
+      "60"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "If inertia $I = 6$ kg\u00b7m\u00b2 and torque $T = 4$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.67",
+      "0.667",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is torque $T = r \\cdot F$ if $r = 7$ m and perpendicular force $F = 5$ N?",
+    "o": [
+      "35",
+      "39",
+      "33",
+      "140"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "If inertia $I = 8$ kg\u00b7m\u00b2 and torque $T = 6$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.75",
+      "0.750",
+      "0.8"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is torque $T = r \\cdot F$ if $r = 9$ m and perpendicular force $F = 7$ N?",
+    "o": [
+      "63",
+      "67",
+      "61",
+      "252"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "If inertia $I = 10$ kg\u00b7m\u00b2 and torque $T = 8$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.80",
+      "0.800",
+      "0.8"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is torque $T = r \\cdot F$ if $r = 11$ m and perpendicular force $F = 9$ N?",
+    "o": [
+      "99",
+      "103",
+      "97",
+      "396"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "If inertia $I = 12$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.83",
+      "0.833",
+      "0.8"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is torque $T = r \\cdot F$ if $r = 13$ m and perpendicular force $F = 11$ N?",
+    "o": [
+      "143",
+      "147",
+      "141",
+      "572"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "If inertia $I = 14$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.86",
+      "0.857",
+      "0.9"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is torque $T = r \\cdot F$ if $r = 15$ m and perpendicular force $F = 13$ N?",
+    "o": [
+      "195",
+      "199",
+      "193",
+      "780"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "If inertia $I = 16$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.88",
+      "0.875",
+      "0.9"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Moment of inertia represents a body's resistance to:",
+    "o": [
+      "Rotational acceleration",
+      "Linear velocity",
+      "Gravity",
+      "Friction"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Does a hoop or a disk of same mass have larger inertia?",
+    "a": [
+      "hoop"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Moment of inertia represents a body's resistance to:",
+    "o": [
+      "Rotational acceleration",
+      "Linear velocity",
+      "Gravity",
+      "Friction"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Does a hoop or a disk of same mass have larger inertia?",
+    "a": [
+      "hoop"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Moment of inertia represents a body's resistance to:",
+    "o": [
+      "Rotational acceleration",
+      "Linear velocity",
+      "Gravity",
+      "Friction"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Does a hoop or a disk of same mass have larger inertia?",
+    "a": [
+      "hoop"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Moment of inertia represents a body's resistance to:",
+    "o": [
+      "Rotational acceleration",
+      "Linear velocity",
+      "Gravity",
+      "Friction"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Does a hoop or a disk of same mass have larger inertia?",
+    "a": [
+      "hoop"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "What is torque $T = r \\cdot F$ if $r = 9$ m and perpendicular force $F = 5$ N?",
+    "o": [
+      "45",
+      "49",
+      "43",
+      "180"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "If inertia $I = 10$ kg\u00b7m\u00b2 and torque $T = 6$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.60",
+      "0.600",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "What is torque $T = r \\cdot F$ if $r = 11$ m and perpendicular force $F = 7$ N?",
+    "o": [
+      "77",
+      "81",
+      "75",
+      "308"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "If inertia $I = 12$ kg\u00b7m\u00b2 and torque $T = 8$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.67",
+      "0.667",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "What is torque $T = r \\cdot F$ if $r = 13$ m and perpendicular force $F = 9$ N?",
+    "o": [
+      "117",
+      "121",
+      "115",
+      "468"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "If inertia $I = 14$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.71",
+      "0.714",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "What is torque $T = r \\cdot F$ if $r = 15$ m and perpendicular force $F = 11$ N?",
+    "o": [
+      "165",
+      "169",
+      "163",
+      "660"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "If inertia $I = 16$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.75",
+      "0.750",
+      "0.8"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "What is torque $T = r \\cdot F$ if $r = 17$ m and perpendicular force $F = 13$ N?",
+    "o": [
+      "221",
+      "225",
+      "219",
+      "884"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "If inertia $I = 18$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.78",
+      "0.778",
+      "0.8"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "What is torque $T = r \\cdot F$ if $r = 19$ m and perpendicular force $F = 15$ N?",
+    "o": [
+      "285",
+      "289",
+      "283",
+      "1140"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "If inertia $I = 20$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.80",
+      "0.800",
+      "0.8"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Angular momentum is the product of moment of inertia and:",
+    "o": [
+      "Angular velocity",
+      "Angular acceleration",
+      "Torque",
+      "Radius"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "What remains conserved when net external torque is zero?",
+    "a": [
+      "angular momentum"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Angular momentum is the product of moment of inertia and:",
+    "o": [
+      "Angular velocity",
+      "Angular acceleration",
+      "Torque",
+      "Radius"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "What remains conserved when net external torque is zero?",
+    "a": [
+      "angular momentum"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Angular momentum is the product of moment of inertia and:",
+    "o": [
+      "Angular velocity",
+      "Angular acceleration",
+      "Torque",
+      "Radius"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "What remains conserved when net external torque is zero?",
+    "a": [
+      "angular momentum"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Angular momentum is the product of moment of inertia and:",
+    "o": [
+      "Angular velocity",
+      "Angular acceleration",
+      "Torque",
+      "Radius"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "What remains conserved when net external torque is zero?",
+    "a": [
+      "angular momentum"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "What is torque $T = r \\cdot F$ if $r = 13$ m and perpendicular force $F = 7$ N?",
+    "o": [
+      "91",
+      "95",
+      "89",
+      "364"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "If inertia $I = 14$ kg\u00b7m\u00b2 and torque $T = 8$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.57",
+      "0.571",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "What is torque $T = r \\cdot F$ if $r = 15$ m and perpendicular force $F = 9$ N?",
+    "o": [
+      "135",
+      "139",
+      "133",
+      "540"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "If inertia $I = 16$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.62",
+      "0.625",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "What is torque $T = r \\cdot F$ if $r = 17$ m and perpendicular force $F = 11$ N?",
+    "o": [
+      "187",
+      "191",
+      "185",
+      "748"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "If inertia $I = 18$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.67",
+      "0.667",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "What is torque $T = r \\cdot F$ if $r = 19$ m and perpendicular force $F = 13$ N?",
+    "o": [
+      "247",
+      "251",
+      "245",
+      "988"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "If inertia $I = 20$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.70",
+      "0.700",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "What is torque $T = r \\cdot F$ if $r = 21$ m and perpendicular force $F = 15$ N?",
+    "o": [
+      "315",
+      "319",
+      "313",
+      "1260"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "If inertia $I = 22$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.73",
+      "0.727",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "What is torque $T = r \\cdot F$ if $r = 23$ m and perpendicular force $F = 17$ N?",
+    "o": [
+      "391",
+      "395",
+      "389",
+      "1564"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "If inertia $I = 24$ kg\u00b7m\u00b2 and torque $T = 18$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.75",
+      "0.750",
+      "0.8"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
+    "o": [
+      "T / I",
+      "I / T",
+      "T * I",
+      "I * alpha"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Write the kinetic energy formula of rotation.",
+    "a": [
+      "0.5 * I * omega^2",
+      "1/2 I omega^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
+    "o": [
+      "T / I",
+      "I / T",
+      "T * I",
+      "I * alpha"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Write the kinetic energy formula of rotation.",
+    "a": [
+      "0.5 * I * omega^2",
+      "1/2 I omega^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
+    "o": [
+      "T / I",
+      "I / T",
+      "T * I",
+      "I * alpha"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Write the kinetic energy formula of rotation.",
+    "a": [
+      "0.5 * I * omega^2",
+      "1/2 I omega^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
+    "o": [
+      "T / I",
+      "I / T",
+      "T * I",
+      "I * alpha"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Write the kinetic energy formula of rotation.",
+    "a": [
+      "0.5 * I * omega^2",
+      "1/2 I omega^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is torque $T = r \\cdot F$ if $r = 17$ m and perpendicular force $F = 9$ N?",
+    "o": [
+      "153",
+      "157",
+      "151",
+      "612"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "If inertia $I = 18$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.56",
+      "0.556",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is torque $T = r \\cdot F$ if $r = 19$ m and perpendicular force $F = 11$ N?",
+    "o": [
+      "209",
+      "213",
+      "207",
+      "836"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "If inertia $I = 20$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.60",
+      "0.600",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is torque $T = r \\cdot F$ if $r = 21$ m and perpendicular force $F = 13$ N?",
+    "o": [
+      "273",
+      "277",
+      "271",
+      "1092"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "If inertia $I = 22$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.64",
+      "0.636",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is torque $T = r \\cdot F$ if $r = 23$ m and perpendicular force $F = 15$ N?",
+    "o": [
+      "345",
+      "349",
+      "343",
+      "1380"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "If inertia $I = 24$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.67",
+      "0.667",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is torque $T = r \\cdot F$ if $r = 25$ m and perpendicular force $F = 17$ N?",
+    "o": [
+      "425",
+      "429",
+      "423",
+      "1700"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "If inertia $I = 26$ kg\u00b7m\u00b2 and torque $T = 18$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.69",
+      "0.692",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "What is torque $T = r \\cdot F$ if $r = 27$ m and perpendicular force $F = 19$ N?",
+    "o": [
+      "513",
+      "517",
+      "511",
+      "2052"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "If inertia $I = 28$ kg\u00b7m\u00b2 and torque $T = 20$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.71",
+      "0.714",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "If a figure skater pulls their arms in, their angular velocity:",
+    "o": [
+      "Increases",
+      "Decreases",
+      "Stays same",
+      "Drops to zero"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What quantity is defined as r cross p?",
+    "a": [
+      "angular momentum",
+      "L"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "If a figure skater pulls their arms in, their angular velocity:",
+    "o": [
+      "Increases",
+      "Decreases",
+      "Stays same",
+      "Drops to zero"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What quantity is defined as r cross p?",
+    "a": [
+      "angular momentum",
+      "L"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "If a figure skater pulls their arms in, their angular velocity:",
+    "o": [
+      "Increases",
+      "Decreases",
+      "Stays same",
+      "Drops to zero"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What quantity is defined as r cross p?",
+    "a": [
+      "angular momentum",
+      "L"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "If a figure skater pulls their arms in, their angular velocity:",
+    "o": [
+      "Increases",
+      "Decreases",
+      "Stays same",
+      "Drops to zero"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What quantity is defined as r cross p?",
+    "a": [
+      "angular momentum",
+      "L"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "What is torque $T = r \\cdot F$ if $r = 21$ m and perpendicular force $F = 11$ N?",
+    "o": [
+      "231",
+      "235",
+      "229",
+      "924"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "If inertia $I = 22$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.55",
+      "0.545",
+      "0.5"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "What is torque $T = r \\cdot F$ if $r = 23$ m and perpendicular force $F = 13$ N?",
+    "o": [
+      "299",
+      "303",
+      "297",
+      "1196"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "If inertia $I = 24$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.58",
+      "0.583",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "What is torque $T = r \\cdot F$ if $r = 25$ m and perpendicular force $F = 15$ N?",
+    "o": [
+      "375",
+      "379",
+      "373",
+      "1500"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "If inertia $I = 26$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.62",
+      "0.615",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "What is torque $T = r \\cdot F$ if $r = 27$ m and perpendicular force $F = 17$ N?",
+    "o": [
+      "459",
+      "463",
+      "457",
+      "1836"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "If inertia $I = 28$ kg\u00b7m\u00b2 and torque $T = 18$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.64",
+      "0.643",
+      "0.6"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "What is torque $T = r \\cdot F$ if $r = 29$ m and perpendicular force $F = 19$ N?",
+    "o": [
+      "551",
+      "555",
+      "549",
+      "2204"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "If inertia $I = 30$ kg\u00b7m\u00b2 and torque $T = 20$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.67",
+      "0.667",
+      "0.7"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "What is torque $T = r \\cdot F$ if $r = 31$ m and perpendicular force $F = 21$ N?",
+    "o": [
+      "651",
+      "655",
+      "649",
+      "2604"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "If inertia $I = 32$ kg\u00b7m\u00b2 and torque $T = 22$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
+    "a": [
+      "0.69",
+      "0.688",
+      "0.7"
+    ]
+  }
+];
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        if (intro) intro.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    let currentQuiz = [];
+
+    function initQuiz() {
+        const container = document.getElementById('quizContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        currentQuiz = [];
+
+        // Sample 2 from each difficulty level 1-5
+        for (let diff = 1; diff <= 5; diff++) {
+            const levelQ = qBank.filter(q => q.d === diff);
+            const shuffled = levelQ.sort(() => 0.5 - Math.random());
+            if (shuffled.length >= 2) {
+                currentQuiz.push(shuffled[0]);
+                currentQuiz.push(shuffled[1]);
+            }
+        }
+
+        // Render currentQuiz
+        currentQuiz.forEach((item, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6';
+            
+            const title = document.createElement('h4');
+            title.className = 'font-bold text-slate-800 dark:text-slate-100 mb-4';
+            
+            const isMC = (index % 2 === 0);
+            title.innerHTML = `Q${index + 1} (Difficulty ${item.d}): ${item.q}`;
+            qDiv.appendChild(title);
+
+            const optsDiv = document.createElement('div');
+            optsDiv.className = 'space-y-2';
+
+            if (isMC && item.o) {
+                item.o.forEach((opt, oIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'w-full text-left px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-sm text-slate-700 dark:text-slate-300';
+                    btn.innerHTML = opt;
+                    btn.onclick = () => {
+                        const allBtns = optsDiv.querySelectorAll('button');
+                        allBtns.forEach(b => b.disabled = true);
+                        if (oIndex === item.a) {
+                            btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                        } else {
+                            btn.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+                            allBtns[item.a].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                        }
+                    };
+                    optsDiv.appendChild(btn);
+                });
+            } else {
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.className = 'w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 outline-none mb-3 text-sm';
+                inp.placeholder = 'Type your answer here...';
+                
+                const valBtn = document.createElement('button');
+                valBtn.className = 'px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition';
+                valBtn.innerText = 'Submit Answer';
+                
+                const feedback = document.createElement('span');
+                feedback.className = 'ml-3 text-xs font-bold';
+                
+                valBtn.onclick = () => {
+                    inp.disabled = true;
+                    valBtn.disabled = true;
+                    const val = inp.value.trim().toLowerCase();
+                    let correct = false;
+                    if (Array.isArray(item.a)) {
+                        correct = item.a.some(ans => val.includes(ans.toString().toLowerCase()));
+                    } else {
+                        correct = val.includes(item.a.toString().toLowerCase());
+                    }
+                    
+                    if (correct) {
+                        inp.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                        feedback.className = 'ml-3 text-xs font-bold text-emerald-500';
+                        feedback.innerText = 'Correct!';
+                    } else {
+                        inp.classList.add('border-red-500', 'bg-red-50/20');
+                        feedback.className = 'ml-3 text-xs font-bold text-rose-500';
+                        feedback.innerText = `Incorrect. Correct answer: ${Array.isArray(item.a) ? item.a[0] : item.a}`;
+                    }
+                };
+                
+                optsDiv.appendChild(inp);
+                optsDiv.appendChild(valBtn);
+                optsDiv.appendChild(feedback);
+            }
+
+            qDiv.appendChild(optsDiv);
+            container.appendChild(qDiv);
+        });
+        
+        if (window.MathJax) {
+            window.MathJax.typesetPromise([container]).catch((err) => console.log(err));
+        }
+    }
+
+    function validateChapterExercise(chNum, expectedVal) {
+        const inp = document.getElementById(`ch${chNum}_input`);
+        const fb = document.getElementById(`ch${chNum}_feedback`);
+        if (!inp || !fb) return;
+        if (parseInt(inp.value) === expectedVal) {
+            fb.className = 'text-emerald-500 text-xs ml-3';
+            fb.innerText = 'Correct!';
+        } else {
+            fb.className = 'text-rose-500 text-xs ml-3';
+            fb.innerText = 'Incorrect, try again.';
+        }
+    }
+    
+</script>
+<script>
+
+    // Defensive download script
+    window.addEventListener('DOMContentLoaded', () => {
+        const btnDld = document.getElementById('btnDownloadCheatSheet');
+        if (btnDld) {
+            btnDld.addEventListener('click', () => {
+                const text = "FORMULA CHEAT SHEET\n==================\nReference formulas for state analysis.";
+                const blob = new Blob([text], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Cheat_Sheet.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+    });
+    
+</script>
 </body>
 </html>

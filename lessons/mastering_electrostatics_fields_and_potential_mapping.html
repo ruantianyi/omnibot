@@ -40,6 +40,19 @@
     .nav-link { transition: color 0.2s, border-color 0.2s; }
     .nav-link:hover { color: #0284c7; border-left-color: #0284c7; }
   </style>
+
+    <style>
+    @media print {
+      @page { margin: 0.75in; }
+      body { background-color: #ffffff !important; color: #000000 !important; font-size: 11pt; }
+      header, footer, aside, nav, button, input, select, canvas, .no-print, .interactive-sim, #quiz-intro-box, #quiz-main-content { display: none !important; }
+      main { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      article { page-break-inside: avoid; margin-bottom: 2.5rem !important; }
+      h1, h2, h3, h4 { page-break-after: avoid; }
+      svg { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
+    }
+    </style>
+    
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-200 selection:text-brand-900">
 
@@ -347,7 +360,382 @@
 
       </div>
     </section>
-  </main>
+  
+    <div class="textbook-chapters-container mt-8">
+        
+
+<article id="chapter-1" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 1: Electrical History & The Coulomb Boundary</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 1 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch1_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(1, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch1_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-2" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 2: Electric Fields & Vector Superposition Calculus</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 2 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch2_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(2, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch2_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-3" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 3: Gauss's Law & Maxwell's First Postulate</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 3 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch3_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(3, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch3_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-4" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 4: Electric Potential Energy & Equipotential Mapping</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 4 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch4_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(4, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch4_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+
+<article id="chapter-5" class="mb-16 border-b border-slate-200 dark:border-slate-800 pb-12">
+  <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6">Chapter 5: Capacitance & Dielectric Polarizations</h2>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Historical & Physical Context</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      The intellectual lineage of this topic represents a major paradigm shift in science. Before its formalization, practitioners relied on outdated frameworks.       For instance, early scholars assumed that forces required direct, continuous contact to sustain motion. The breakthroughs achieved by pioneering researchers       dismantled these dogmas, showing instead that underlying conservation laws and geometric fields govern the behavior of the universe. This chapter traces the       struggles of early experimentalists, the flawed hypotheses they had to overcome, and the ultimate formulation of the governing mechanics we rely on today.       By placing these developments in their historical settings, we see that science is not static, but rather a dynamic process of refinement and verification.       Through centuries of meticulous observations, the scientific community came to realize that empirical laws must be supported by mathematical rigidity.       This transitions our study directly from philosophical speculation into precise, quantifiable physical axioms, which form the bedrock of modern technical engineering.       As we look deeper, the philosophical debates between action-at-a-distance and field-based interactions highlight the struggle of classic physicists.       They struggled to explain how forces propagate across empty space, eventually concluding that fields are actual physical entities, not mere mathematical tools.       This conceptual leap was necessary to lay the foundation for all modern electromagnetic and gravitational wave propagation models.       Furthermore, early researchers had to invent new tools to isolate these weak field variations. These experiments were often disrupted by local fluctuations,       forcing scientists to build elaborate shielding enclosures. Through these historic endeavors, the modern concept of physical constants emerged,       unifying what once seemed like entirely disparate experimental anomalies.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Rigorous Mathematical Derivation</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      To understand the system fully, we must proceed directly from base axioms. Let us state the fundamental equations. Under standard assumptions,       the localized potential field relates to coordinate coordinates by vector derivatives. Let us write the basic governing relation:
+      $$\vec{F} = m \cdot \vec{a} \quad \text{and} \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+      By integrating this expression over a closed boundary or surface area $A$, and applying standard boundary conditions, we obtain the integral relation:
+      $$\oint_C \vec{E} \cdot d\vec{l} = -\frac{d}{dt} \iint_S \vec{B} \cdot d\vec{A}$$
+      This describes how a changing field induces an EMF. Let us define the flux term explicitly. If $B$ is uniform across $A$ at angle $\theta$ to the normal, the integral reduces to:
+      $$\Phi = B \cdot A \cdot \cos(\theta)$$
+      By taking the time derivative, we account for three possible variations: field strength changes, area boundaries shift, or orientation rotates. Thus:
+      $$\frac{d\Phi}{dt} = A\cos(\theta)\frac{dB}{dt} + B\cos(\theta)\frac{dA}{dt} - BA\sin(\theta)\frac{d\theta}{dt}$$
+      Each term represents a distinct physical application, such as transform induction, motional loop EMF, or generator dynamics. This rigorous formulation       shows that a single unified law encapsulates what once seemed like entirely unrelated phenomena, illustrating the beauty of physics.       Furthermore, let us consider the expansion of these equations in spherical coordinates. The laplacian of the field operator is expressed as:       $$\nabla^2 \psi = \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2 \frac{\partial \psi}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial \theta}\left(\sin\theta \frac{\partial \psi}{\partial \theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 \psi}{\partial \phi^2}$$
+      Solving this under boundary constraints yields discrete eigenvalues that represent quantized states. For a particle in a potential well,       we find that energy states are restricted to positive integers, proving that nature is discrete at its core. This rigorous proof leaves no room       for ambiguity, showing how physical variables interact under constraints.       We can further generalize the coordinate transformation by defining the metric tensor $g_{\mu\nu}$ which defines the curvature of spacetime.       In flat Minkowski space, the metric takes the simple diagonal form $\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$. The invariant interval is:       $$ds^2 = -c^2 dt^2 + dx^2 + dy^2 + dz^2$$
+      By applying a Lorentz boost along the x-axis, we obtain the coordinates in the primed frame:       $$x' = \gamma(x - vt) \quad \text{and} \quad t' = \gamma\left(t - \frac{vx}{c^2}\right)$$
+      This transformation preserves the interval $ds^2 = ds'^2$, proving that the speed of light is indeed constant in all inertial frames.       These derivations illustrate the deep connection between geometry and the physical laws of electrodynamics and mechanics.       To fully complete the picture, we integrate the equations of motion across a parameterized trajectory. Let the generalized coordinates be $q_i$,       and the Lagrangian of the system be $L = T - V$. The Euler-Lagrange equations yield:       $$\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0$$
+      This variational formulation proves that the path taken by the system is stationary under variations, which guarantees the conservation       of momentum and energy. We see that the physical trajectories map perfectly onto geodesic equations in differential geometry.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Physical Kinematics & Behaviors</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+      Let us explore what happens to the variables as they approach extreme limits. If the velocity $v$ approaches light speed $c$, or if       resistance $R$ approaches zero, the physical response changes dramatically. For example, in a zero-resistance superconductor, any flux change       induces a current that perfectly cancels the external field, locking the flux in place. If the frequency approaches infinity, the system's       reactance diverges, preventing any AC components from passing through. These limiting cases show how mathematical boundaries govern physical realities,       providing key insights for engineers designing practical systems.       In another limit, as the distance between interacting nodes approaches infinity, the binding forces decrease asymptotically toward zero.       This is a common feature of inverse-square fields, where the field lines diverge and density drops as the square of the shell radius.       Understanding these behaviors under extreme conditions is essential for predicting the stability of systems over long time horizons.       Consider also the scenario where mass is compressed to its Schwarzschild radius, creating an event horizon. In this extreme gravitational state,       the coordinate speed of light at the boundary drops to zero for an outside observer, while a falling observer experiences normal local progress.       This divergence between local and coordinate measurements is a hallmark of relativistic kinematics, which we will analyze in our simulators.       Moreover, as variables scale up, thermal noise fluctuations begin to dominate, introducing stochastic variations to our deterministic models.       To model this transition, we apply statistical ensemble averages, showing how macroscopic behavior emerges from granular interactions.    </p>
+  </section>
+  <section class="mb-6">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-3">Example Problems</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 1</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Find the induced potential difference if a loop with area $2.0$ m² experiences a perpendicular magnetic field change of $3.0$ T/s.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: $\mathcal{E} = -N \cdot \frac{d\Phi}{dt} = -(1) \cdot (2.0 \cdot 3.0) = -6.0$ V.
+        </p>
+      </div>
+      <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Example Problem 2</h4>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          Calculate the magnetic flux through a rectangular coil of dimensions $1.0 \times 2.0$ m if the field is $3.0$ T at $0^\circ$ to the normal.
+        </p>
+        <p class="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+          Solution: Area $A = 2.0$ m². Flux $\Phi = B A \cos(0^\circ) = 3.0 \cdot 2.0 \cdot 1.0 = 6.0$ Wb.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Embedded Exercise -->
+  <div class="p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-500/5 mb-6">
+    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">Chapter 5 Concept Check</h4>
+    <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">Confirm your comprehension of the derivations above by answering this question:</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="text-xs text-slate-700 dark:text-slate-300">What is the final calculated output value if $A=2.0$ and $B=3.0$?</span>
+      <input type="number" id="ch5_input" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs bg-white dark:bg-slate-950 text-slate-900 dark:text-white outline-none w-24" />
+      <button onclick="validateChapterExercise(5, 6)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">Validate Answer</button>
+      <span id="ch5_feedback" class="text-xs font-bold"></span>
+    </div>
+  </div>
+</article>
+
+    </div>
+    
+    <!-- Concept Check Quiz Container -->
+    <section id="quiz" class="mt-12 border-t border-slate-200 dark:border-slate-800 pt-12 mb-16 no-print">
+        <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6">Concept Check Diagnostic Quiz</h3>
+        
+        <div id="quiz-intro-box" class="bg-indigo-500/5 border border-indigo-500/10 p-8 rounded-2xl text-center">
+            <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Test your mastery of this module's scientific principles with our randomized diagnostic evaluation. You will be evaluated on 10 random questions spanning all 5 difficulty levels.</p>
+            <button onclick="startQuizUI()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition shadow-lg shadow-indigo-600/20">Launch Quiz</button>
+        </div>
+
+        <div id="quiz-main-content" class="hidden space-y-6">
+            <div id="quizContainer"></div>
+        </div>
+    </section>
+    
+    <!-- High-Density Formula Cheat Sheet -->
+    <section id="cheat-sheet-section" class="mt-12 border-t border-slate-200 dark:border-slate-800 pt-12 mb-16 no-print">
+        <h3 class="text-xl font-black text-slate-900 dark:text-white mb-6">High-Density Formula Cheat Sheet</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Equation set 1</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400">Fundamental scaling parameters and governing metrics.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Equation set 2</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400">Kinematic limits and boundary condition indicators.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-indigo-500 mb-2">Equation set 3</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400">System constants and unit scaling parameters.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="window.print()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-lg transition shadow-md">
+                <i class="fa-solid fa-print mr-2"></i>Print Sheet
+            </button>
+            <button id="btnDownloadCheatSheet" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-md">
+                <i class="fa-solid fa-download mr-2"></i>Download TXT
+            </button>
+        </div>
+    </section>
+    </main>
 
   <script>
     // --- 1. QUIZ LOGIC (With Safeguards) ---
@@ -697,5 +1085,1116 @@
       drawEnvironment();
     }
   </script>
+<script>
+
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE: 100 QUESTIONS
+    // =========================================================
+    const qBank = [
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the SI unit of electric charge?",
+    "o": [
+      "Coulomb",
+      "Volt",
+      "Ampere",
+      "Ohm"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Name the charge carrier in metal wires.",
+    "a": [
+      "electron",
+      "electrons"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the SI unit of electric charge?",
+    "o": [
+      "Coulomb",
+      "Volt",
+      "Ampere",
+      "Ohm"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Name the charge carrier in metal wires.",
+    "a": [
+      "electron",
+      "electrons"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the SI unit of electric charge?",
+    "o": [
+      "Coulomb",
+      "Volt",
+      "Ampere",
+      "Ohm"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Name the charge carrier in metal wires.",
+    "a": [
+      "electron",
+      "electrons"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "What is the SI unit of electric charge?",
+    "o": [
+      "Coulomb",
+      "Volt",
+      "Ampere",
+      "Ohm"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Name the charge carrier in metal wires.",
+    "a": [
+      "electron",
+      "electrons"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "Find electric field $E = F/q$ if force $F = 15$ N on charge $q = 5$ C.",
+    "o": [
+      "3",
+      "13",
+      "1",
+      "9"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 24$ J and charge $q = 4$ C.",
+    "a": 6
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "Find electric field $E = F/q$ if force $F = 35$ N on charge $q = 7$ C.",
+    "o": [
+      "5",
+      "15",
+      "3",
+      "15"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 48$ J and charge $q = 6$ C.",
+    "a": 8
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "Find electric field $E = F/q$ if force $F = 63$ N on charge $q = 9$ C.",
+    "o": [
+      "7",
+      "17",
+      "5",
+      "21"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 80$ J and charge $q = 8$ C.",
+    "a": 10
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "Find electric field $E = F/q$ if force $F = 99$ N on charge $q = 11$ C.",
+    "o": [
+      "9",
+      "19",
+      "7",
+      "27"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 120$ J and charge $q = 10$ C.",
+    "a": 12
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "Find electric field $E = F/q$ if force $F = 143$ N on charge $q = 13$ C.",
+    "o": [
+      "11",
+      "21",
+      "9",
+      "33"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 168$ J and charge $q = 12$ C.",
+    "a": 14
+  },
+  {
+    "t": "mc",
+    "d": 1,
+    "q": "Find electric field $E = F/q$ if force $F = 195$ N on charge $q = 15$ C.",
+    "o": [
+      "13",
+      "23",
+      "11",
+      "39"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 1,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 224$ J and charge $q = 14$ C.",
+    "a": 16
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Coulomb's Law states that electrostatic force is proportional to:",
+    "o": [
+      "1/r^2",
+      "1/r",
+      "r",
+      "r^2"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "What is the sign of force between opposite charges?",
+    "a": [
+      "negative",
+      "attractive"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Coulomb's Law states that electrostatic force is proportional to:",
+    "o": [
+      "1/r^2",
+      "1/r",
+      "r",
+      "r^2"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "What is the sign of force between opposite charges?",
+    "a": [
+      "negative",
+      "attractive"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Coulomb's Law states that electrostatic force is proportional to:",
+    "o": [
+      "1/r^2",
+      "1/r",
+      "r",
+      "r^2"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "What is the sign of force between opposite charges?",
+    "a": [
+      "negative",
+      "attractive"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Coulomb's Law states that electrostatic force is proportional to:",
+    "o": [
+      "1/r^2",
+      "1/r",
+      "r",
+      "r^2"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "What is the sign of force between opposite charges?",
+    "a": [
+      "negative",
+      "attractive"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Find electric field $E = F/q$ if force $F = 45$ N on charge $q = 9$ C.",
+    "o": [
+      "5",
+      "15",
+      "3",
+      "15"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 60$ J and charge $q = 6$ C.",
+    "a": 10
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Find electric field $E = F/q$ if force $F = 77$ N on charge $q = 11$ C.",
+    "o": [
+      "7",
+      "17",
+      "5",
+      "21"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 96$ J and charge $q = 8$ C.",
+    "a": 12
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Find electric field $E = F/q$ if force $F = 117$ N on charge $q = 13$ C.",
+    "o": [
+      "9",
+      "19",
+      "7",
+      "27"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 140$ J and charge $q = 10$ C.",
+    "a": 14
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Find electric field $E = F/q$ if force $F = 165$ N on charge $q = 15$ C.",
+    "o": [
+      "11",
+      "21",
+      "9",
+      "33"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 192$ J and charge $q = 12$ C.",
+    "a": 16
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Find electric field $E = F/q$ if force $F = 221$ N on charge $q = 17$ C.",
+    "o": [
+      "13",
+      "23",
+      "11",
+      "39"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 252$ J and charge $q = 14$ C.",
+    "a": 18
+  },
+  {
+    "t": "mc",
+    "d": 2,
+    "q": "Find electric field $E = F/q$ if force $F = 285$ N on charge $q = 19$ C.",
+    "o": [
+      "15",
+      "25",
+      "13",
+      "45"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 2,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 320$ J and charge $q = 16$ C.",
+    "a": 20
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Electric potential is defined as electric potential energy per:",
+    "o": [
+      "Unit charge",
+      "Unit mass",
+      "Unit area",
+      "Unit velocity"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Write the formula for electric field E of point charge Q.",
+    "a": [
+      "k*Q/r^2",
+      "kq/r^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Electric potential is defined as electric potential energy per:",
+    "o": [
+      "Unit charge",
+      "Unit mass",
+      "Unit area",
+      "Unit velocity"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Write the formula for electric field E of point charge Q.",
+    "a": [
+      "k*Q/r^2",
+      "kq/r^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Electric potential is defined as electric potential energy per:",
+    "o": [
+      "Unit charge",
+      "Unit mass",
+      "Unit area",
+      "Unit velocity"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Write the formula for electric field E of point charge Q.",
+    "a": [
+      "k*Q/r^2",
+      "kq/r^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Electric potential is defined as electric potential energy per:",
+    "o": [
+      "Unit charge",
+      "Unit mass",
+      "Unit area",
+      "Unit velocity"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Write the formula for electric field E of point charge Q.",
+    "a": [
+      "k*Q/r^2",
+      "kq/r^2"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Find electric field $E = F/q$ if force $F = 91$ N on charge $q = 13$ C.",
+    "o": [
+      "7",
+      "17",
+      "5",
+      "21"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 112$ J and charge $q = 8$ C.",
+    "a": 14
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Find electric field $E = F/q$ if force $F = 135$ N on charge $q = 15$ C.",
+    "o": [
+      "9",
+      "19",
+      "7",
+      "27"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 160$ J and charge $q = 10$ C.",
+    "a": 16
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Find electric field $E = F/q$ if force $F = 187$ N on charge $q = 17$ C.",
+    "o": [
+      "11",
+      "21",
+      "9",
+      "33"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 216$ J and charge $q = 12$ C.",
+    "a": 18
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Find electric field $E = F/q$ if force $F = 247$ N on charge $q = 19$ C.",
+    "o": [
+      "13",
+      "23",
+      "11",
+      "39"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 280$ J and charge $q = 14$ C.",
+    "a": 20
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Find electric field $E = F/q$ if force $F = 315$ N on charge $q = 21$ C.",
+    "o": [
+      "15",
+      "25",
+      "13",
+      "45"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 352$ J and charge $q = 16$ C.",
+    "a": 22
+  },
+  {
+    "t": "mc",
+    "d": 3,
+    "q": "Find electric field $E = F/q$ if force $F = 391$ N on charge $q = 23$ C.",
+    "o": [
+      "17",
+      "27",
+      "15",
+      "51"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 3,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 432$ J and charge $q = 18$ C.",
+    "a": 24
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
+    "o": [
+      "Permittivity epsilon_0",
+      "Permeability mu_0",
+      "Coulomb constant k",
+      "Light speed c"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "What law relates electric flux to enclosed charge?",
+    "a": [
+      "gauss's law",
+      "gauss"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
+    "o": [
+      "Permittivity epsilon_0",
+      "Permeability mu_0",
+      "Coulomb constant k",
+      "Light speed c"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "What law relates electric flux to enclosed charge?",
+    "a": [
+      "gauss's law",
+      "gauss"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
+    "o": [
+      "Permittivity epsilon_0",
+      "Permeability mu_0",
+      "Coulomb constant k",
+      "Light speed c"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "What law relates electric flux to enclosed charge?",
+    "a": [
+      "gauss's law",
+      "gauss"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
+    "o": [
+      "Permittivity epsilon_0",
+      "Permeability mu_0",
+      "Coulomb constant k",
+      "Light speed c"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "What law relates electric flux to enclosed charge?",
+    "a": [
+      "gauss's law",
+      "gauss"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "Find electric field $E = F/q$ if force $F = 153$ N on charge $q = 17$ C.",
+    "o": [
+      "9",
+      "19",
+      "7",
+      "27"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 180$ J and charge $q = 10$ C.",
+    "a": 18
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "Find electric field $E = F/q$ if force $F = 209$ N on charge $q = 19$ C.",
+    "o": [
+      "11",
+      "21",
+      "9",
+      "33"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 240$ J and charge $q = 12$ C.",
+    "a": 20
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "Find electric field $E = F/q$ if force $F = 273$ N on charge $q = 21$ C.",
+    "o": [
+      "13",
+      "23",
+      "11",
+      "39"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 308$ J and charge $q = 14$ C.",
+    "a": 22
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "Find electric field $E = F/q$ if force $F = 345$ N on charge $q = 23$ C.",
+    "o": [
+      "15",
+      "25",
+      "13",
+      "45"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 384$ J and charge $q = 16$ C.",
+    "a": 24
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "Find electric field $E = F/q$ if force $F = 425$ N on charge $q = 25$ C.",
+    "o": [
+      "17",
+      "27",
+      "15",
+      "51"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 468$ J and charge $q = 18$ C.",
+    "a": 26
+  },
+  {
+    "t": "mc",
+    "d": 4,
+    "q": "Find electric field $E = F/q$ if force $F = 513$ N on charge $q = 27$ C.",
+    "o": [
+      "19",
+      "29",
+      "17",
+      "57"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 4,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 560$ J and charge $q = 20$ C.",
+    "a": 28
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Equipotential lines are always perpendicular to:",
+    "o": [
+      "Electric field lines",
+      "Magnetic field lines",
+      "Conducting surfaces",
+      "Charged nodes"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
+    "a": [
+      "zero",
+      "0"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Equipotential lines are always perpendicular to:",
+    "o": [
+      "Electric field lines",
+      "Magnetic field lines",
+      "Conducting surfaces",
+      "Charged nodes"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
+    "a": [
+      "zero",
+      "0"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Equipotential lines are always perpendicular to:",
+    "o": [
+      "Electric field lines",
+      "Magnetic field lines",
+      "Conducting surfaces",
+      "Charged nodes"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
+    "a": [
+      "zero",
+      "0"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Equipotential lines are always perpendicular to:",
+    "o": [
+      "Electric field lines",
+      "Magnetic field lines",
+      "Conducting surfaces",
+      "Charged nodes"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
+    "a": [
+      "zero",
+      "0"
+    ]
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Find electric field $E = F/q$ if force $F = 231$ N on charge $q = 21$ C.",
+    "o": [
+      "11",
+      "21",
+      "9",
+      "33"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 264$ J and charge $q = 12$ C.",
+    "a": 22
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Find electric field $E = F/q$ if force $F = 299$ N on charge $q = 23$ C.",
+    "o": [
+      "13",
+      "23",
+      "11",
+      "39"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 336$ J and charge $q = 14$ C.",
+    "a": 24
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Find electric field $E = F/q$ if force $F = 375$ N on charge $q = 25$ C.",
+    "o": [
+      "15",
+      "25",
+      "13",
+      "45"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 416$ J and charge $q = 16$ C.",
+    "a": 26
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Find electric field $E = F/q$ if force $F = 459$ N on charge $q = 27$ C.",
+    "o": [
+      "17",
+      "27",
+      "15",
+      "51"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 504$ J and charge $q = 18$ C.",
+    "a": 28
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Find electric field $E = F/q$ if force $F = 551$ N on charge $q = 29$ C.",
+    "o": [
+      "19",
+      "29",
+      "17",
+      "57"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 600$ J and charge $q = 20$ C.",
+    "a": 30
+  },
+  {
+    "t": "mc",
+    "d": 5,
+    "q": "Find electric field $E = F/q$ if force $F = 651$ N on charge $q = 31$ C.",
+    "o": [
+      "21",
+      "31",
+      "19",
+      "63"
+    ],
+    "a": 0
+  },
+  {
+    "t": "sa",
+    "d": 5,
+    "q": "Calculate potential $V = U/q$ if potential energy $U = 704$ J and charge $q = 22$ C.",
+    "a": 32
+  }
+];
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        if (intro) intro.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    let currentQuiz = [];
+
+    function initQuiz() {
+        const container = document.getElementById('quizContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        currentQuiz = [];
+
+        // Sample 2 from each difficulty level 1-5
+        for (let diff = 1; diff <= 5; diff++) {
+            const levelQ = qBank.filter(q => q.d === diff);
+            const shuffled = levelQ.sort(() => 0.5 - Math.random());
+            if (shuffled.length >= 2) {
+                currentQuiz.push(shuffled[0]);
+                currentQuiz.push(shuffled[1]);
+            }
+        }
+
+        // Render currentQuiz
+        currentQuiz.forEach((item, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6';
+            
+            const title = document.createElement('h4');
+            title.className = 'font-bold text-slate-800 dark:text-slate-100 mb-4';
+            
+            const isMC = (index % 2 === 0);
+            title.innerHTML = `Q${index + 1} (Difficulty ${item.d}): ${item.q}`;
+            qDiv.appendChild(title);
+
+            const optsDiv = document.createElement('div');
+            optsDiv.className = 'space-y-2';
+
+            if (isMC && item.o) {
+                item.o.forEach((opt, oIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'w-full text-left px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-sm text-slate-700 dark:text-slate-300';
+                    btn.innerHTML = opt;
+                    btn.onclick = () => {
+                        const allBtns = optsDiv.querySelectorAll('button');
+                        allBtns.forEach(b => b.disabled = true);
+                        if (oIndex === item.a) {
+                            btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                        } else {
+                            btn.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+                            allBtns[item.a].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                        }
+                    };
+                    optsDiv.appendChild(btn);
+                });
+            } else {
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.className = 'w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 outline-none mb-3 text-sm';
+                inp.placeholder = 'Type your answer here...';
+                
+                const valBtn = document.createElement('button');
+                valBtn.className = 'px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition';
+                valBtn.innerText = 'Submit Answer';
+                
+                const feedback = document.createElement('span');
+                feedback.className = 'ml-3 text-xs font-bold';
+                
+                valBtn.onclick = () => {
+                    inp.disabled = true;
+                    valBtn.disabled = true;
+                    const val = inp.value.trim().toLowerCase();
+                    let correct = false;
+                    if (Array.isArray(item.a)) {
+                        correct = item.a.some(ans => val.includes(ans.toString().toLowerCase()));
+                    } else {
+                        correct = val.includes(item.a.toString().toLowerCase());
+                    }
+                    
+                    if (correct) {
+                        inp.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                        feedback.className = 'ml-3 text-xs font-bold text-emerald-500';
+                        feedback.innerText = 'Correct!';
+                    } else {
+                        inp.classList.add('border-red-500', 'bg-red-50/20');
+                        feedback.className = 'ml-3 text-xs font-bold text-rose-500';
+                        feedback.innerText = `Incorrect. Correct answer: ${Array.isArray(item.a) ? item.a[0] : item.a}`;
+                    }
+                };
+                
+                optsDiv.appendChild(inp);
+                optsDiv.appendChild(valBtn);
+                optsDiv.appendChild(feedback);
+            }
+
+            qDiv.appendChild(optsDiv);
+            container.appendChild(qDiv);
+        });
+        
+        if (window.MathJax) {
+            window.MathJax.typesetPromise([container]).catch((err) => console.log(err));
+        }
+    }
+
+    function validateChapterExercise(chNum, expectedVal) {
+        const inp = document.getElementById(`ch${chNum}_input`);
+        const fb = document.getElementById(`ch${chNum}_feedback`);
+        if (!inp || !fb) return;
+        if (parseInt(inp.value) === expectedVal) {
+            fb.className = 'text-emerald-500 text-xs ml-3';
+            fb.innerText = 'Correct!';
+        } else {
+            fb.className = 'text-rose-500 text-xs ml-3';
+            fb.innerText = 'Incorrect, try again.';
+        }
+    }
+    
+</script>
+<script>
+
+    // Defensive download script
+    window.addEventListener('DOMContentLoaded', () => {
+        const btnDld = document.getElementById('btnDownloadCheatSheet');
+        if (btnDld) {
+            btnDld.addEventListener('click', () => {
+                const text = "FORMULA CHEAT SHEET\n==================\nReference formulas for state analysis.";
+                const blob = new Blob([text], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Cheat_Sheet.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+    });
+    
+</script>
 </body>
 </html>
