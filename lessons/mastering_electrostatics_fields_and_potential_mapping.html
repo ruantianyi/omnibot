@@ -39,7 +39,34 @@
     .math-block { overflow-x: auto; padding: 1rem 0; }
     .nav-link { transition: color 0.2s, border-color 0.2s; }
     .nav-link:hover { color: #0284c7; border-left-color: #0284c7; }
-  </style>
+  
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 
     <style>
     @media print {
@@ -60,20 +87,20 @@
   <div class="fixed top-0 left-0 h-full w-64 bg-white border-r border-slate-200 shadow-sm hidden lg:block overflow-y-auto z-20">
     <div class="p-6">
       <h2 class="text-xl font-bold text-slate-900 mb-6">Electrostatics</h2>
-      <nav class="space-y-2 text-sm font-medium text-slate-600">
-        <a href="#intro" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">1. Governing Physics</a>
-        <a href="#math-derivations" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">2. Mathematical Derivations</a>
-        <a href="#visualizing-fields" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">3. Field Lines & Equipotentials</a>
-        <a href="#simulation-lab" class="block py-2 px-3 border-l-2 border-brand-600 text-brand-700 bg-brand-50 rounded-r">Interactive Mapping Lab</a>
-        <a href="#continuous-charge" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">4. Continuous Distributions</a>
-        <a href="#problem-solving" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">5. Problem-Solving Strategy</a>
-        <a href="#quiz" class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r">Knowledge Check</a>
+      <nav id="toc-nav"  class="space-y-2 text-sm font-medium text-slate-600">
+        <a href="#intro"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="intro" >1. Governing Physics</a>
+        <a href="#math-derivations"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="math-derivations" >2. Mathematical Derivations</a>
+        <a href="#visualizing-fields"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="visualizing-fields" >3. Field Lines & Equipotentials</a>
+        <a href="#simulation-lab"  class="block py-2 px-3 border-l-2 border-brand-600 text-brand-700 bg-brand-50 rounded-r sidebar-link" data-section="simulation-lab" >Interactive Mapping Lab</a>
+        <a href="#continuous-charge"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="continuous-charge" >4. Continuous Distributions</a>
+        <a href="#problem-solving"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="problem-solving" >5. Problem-Solving Strategy</a>
+        <a href="#quiz"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="quiz" >Knowledge Check</a>
       </nav>
       
       <div class="mt-10 border-t border-slate-100 pt-6">
-        <button id="btnDownloadNotes" class="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white py-2 px-4 rounded transition-colors text-sm font-semibold shadow-sm">
+        <button id="btnSave as PDFNotes" class="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white py-2 px-4 rounded transition-colors text-sm font-semibold shadow-sm">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M216,112v96a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V112A16,16,0,0,1,56,96H80a8,8,0,0,1,0,16H56v96H200V112H176a8,8,0,0,1,0-16h24A16,16,0,0,1,216,112ZM122.34,133.66a8,8,0,0,0,11.32,0l48-48a8,8,0,0,0-11.32-11.32L136,108.69V24a8,8,0,0,0-16,0v84.69L85.66,74.34A8,8,0,0,0,74.34,85.66Z"></path></svg>
-          Export Summary
+          Save as PDF
         </button>
       </div>
     </div>
@@ -412,9 +439,9 @@
     }
 
     // --- 2. EXPORT FUNCTIONALITY (With Safeguards) ---
-    const btnDownloadNotes = document.getElementById('btnDownloadNotes');
-    if (btnDownloadNotes) {
-      btnDownloadNotes.addEventListener('click', () => {
+    const btnSave as PDFNotes = document.getElementById('btnSave as PDFNotes');
+    if (btnSave as PDFNotes) {
+      btnSave as PDFNotes.addEventListener('click', () => {
         const text = 
           `MASTERING ELECTROSTATICS: CORE FORMULAS & PRINCIPLES\n` +
           `====================================================\n\n` +
@@ -437,7 +464,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'electrostatics_formulas.txt';
+        a.Save as PDF = 'electrostatics_formulas.txt';
         a.click();
         URL.revokeObjectURL(url);
       });
@@ -718,966 +745,110 @@
     // DIAGNOSTIC QUIZ ENGINE: 100 QUESTIONS
     // =========================================================
     const qBank = [
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of electric charge?",
-    "o": [
-      "Coulomb",
-      "Volt",
-      "Ampere",
-      "Ohm"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the charge carrier in metal wires.",
-    "a": [
-      "electron",
-      "electrons"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of electric charge?",
-    "o": [
-      "Coulomb",
-      "Volt",
-      "Ampere",
-      "Ohm"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the charge carrier in metal wires.",
-    "a": [
-      "electron",
-      "electrons"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of electric charge?",
-    "o": [
-      "Coulomb",
-      "Volt",
-      "Ampere",
-      "Ohm"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the charge carrier in metal wires.",
-    "a": [
-      "electron",
-      "electrons"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of electric charge?",
-    "o": [
-      "Coulomb",
-      "Volt",
-      "Ampere",
-      "Ohm"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the charge carrier in metal wires.",
-    "a": [
-      "electron",
-      "electrons"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find electric field $E = F/q$ if force $F = 15$ N on charge $q = 5$ C.",
-    "o": [
-      "3",
-      "13",
-      "1",
-      "9"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 24$ J and charge $q = 4$ C.",
-    "a": 6
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find electric field $E = F/q$ if force $F = 35$ N on charge $q = 7$ C.",
-    "o": [
-      "5",
-      "15",
-      "3",
-      "15"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 48$ J and charge $q = 6$ C.",
-    "a": 8
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find electric field $E = F/q$ if force $F = 63$ N on charge $q = 9$ C.",
-    "o": [
-      "7",
-      "17",
-      "5",
-      "21"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 80$ J and charge $q = 8$ C.",
-    "a": 10
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find electric field $E = F/q$ if force $F = 99$ N on charge $q = 11$ C.",
-    "o": [
-      "9",
-      "19",
-      "7",
-      "27"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 120$ J and charge $q = 10$ C.",
-    "a": 12
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find electric field $E = F/q$ if force $F = 143$ N on charge $q = 13$ C.",
-    "o": [
-      "11",
-      "21",
-      "9",
-      "33"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 168$ J and charge $q = 12$ C.",
-    "a": 14
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find electric field $E = F/q$ if force $F = 195$ N on charge $q = 15$ C.",
-    "o": [
-      "13",
-      "23",
-      "11",
-      "39"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 224$ J and charge $q = 14$ C.",
-    "a": 16
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Coulomb's Law states that electrostatic force is proportional to:",
-    "o": [
-      "1/r^2",
-      "1/r",
-      "r",
-      "r^2"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "What is the sign of force between opposite charges?",
-    "a": [
-      "negative",
-      "attractive"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Coulomb's Law states that electrostatic force is proportional to:",
-    "o": [
-      "1/r^2",
-      "1/r",
-      "r",
-      "r^2"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "What is the sign of force between opposite charges?",
-    "a": [
-      "negative",
-      "attractive"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Coulomb's Law states that electrostatic force is proportional to:",
-    "o": [
-      "1/r^2",
-      "1/r",
-      "r",
-      "r^2"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "What is the sign of force between opposite charges?",
-    "a": [
-      "negative",
-      "attractive"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Coulomb's Law states that electrostatic force is proportional to:",
-    "o": [
-      "1/r^2",
-      "1/r",
-      "r",
-      "r^2"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "What is the sign of force between opposite charges?",
-    "a": [
-      "negative",
-      "attractive"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find electric field $E = F/q$ if force $F = 45$ N on charge $q = 9$ C.",
-    "o": [
-      "5",
-      "15",
-      "3",
-      "15"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 60$ J and charge $q = 6$ C.",
-    "a": 10
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find electric field $E = F/q$ if force $F = 77$ N on charge $q = 11$ C.",
-    "o": [
-      "7",
-      "17",
-      "5",
-      "21"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 96$ J and charge $q = 8$ C.",
-    "a": 12
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find electric field $E = F/q$ if force $F = 117$ N on charge $q = 13$ C.",
-    "o": [
-      "9",
-      "19",
-      "7",
-      "27"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 140$ J and charge $q = 10$ C.",
-    "a": 14
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find electric field $E = F/q$ if force $F = 165$ N on charge $q = 15$ C.",
-    "o": [
-      "11",
-      "21",
-      "9",
-      "33"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 192$ J and charge $q = 12$ C.",
-    "a": 16
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find electric field $E = F/q$ if force $F = 221$ N on charge $q = 17$ C.",
-    "o": [
-      "13",
-      "23",
-      "11",
-      "39"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 252$ J and charge $q = 14$ C.",
-    "a": 18
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find electric field $E = F/q$ if force $F = 285$ N on charge $q = 19$ C.",
-    "o": [
-      "15",
-      "25",
-      "13",
-      "45"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 320$ J and charge $q = 16$ C.",
-    "a": 20
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Electric potential is defined as electric potential energy per:",
-    "o": [
-      "Unit charge",
-      "Unit mass",
-      "Unit area",
-      "Unit velocity"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the formula for electric field E of point charge Q.",
-    "a": [
-      "k*Q/r^2",
-      "kq/r^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Electric potential is defined as electric potential energy per:",
-    "o": [
-      "Unit charge",
-      "Unit mass",
-      "Unit area",
-      "Unit velocity"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the formula for electric field E of point charge Q.",
-    "a": [
-      "k*Q/r^2",
-      "kq/r^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Electric potential is defined as electric potential energy per:",
-    "o": [
-      "Unit charge",
-      "Unit mass",
-      "Unit area",
-      "Unit velocity"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the formula for electric field E of point charge Q.",
-    "a": [
-      "k*Q/r^2",
-      "kq/r^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Electric potential is defined as electric potential energy per:",
-    "o": [
-      "Unit charge",
-      "Unit mass",
-      "Unit area",
-      "Unit velocity"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the formula for electric field E of point charge Q.",
-    "a": [
-      "k*Q/r^2",
-      "kq/r^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find electric field $E = F/q$ if force $F = 91$ N on charge $q = 13$ C.",
-    "o": [
-      "7",
-      "17",
-      "5",
-      "21"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 112$ J and charge $q = 8$ C.",
-    "a": 14
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find electric field $E = F/q$ if force $F = 135$ N on charge $q = 15$ C.",
-    "o": [
-      "9",
-      "19",
-      "7",
-      "27"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 160$ J and charge $q = 10$ C.",
-    "a": 16
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find electric field $E = F/q$ if force $F = 187$ N on charge $q = 17$ C.",
-    "o": [
-      "11",
-      "21",
-      "9",
-      "33"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 216$ J and charge $q = 12$ C.",
-    "a": 18
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find electric field $E = F/q$ if force $F = 247$ N on charge $q = 19$ C.",
-    "o": [
-      "13",
-      "23",
-      "11",
-      "39"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 280$ J and charge $q = 14$ C.",
-    "a": 20
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find electric field $E = F/q$ if force $F = 315$ N on charge $q = 21$ C.",
-    "o": [
-      "15",
-      "25",
-      "13",
-      "45"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 352$ J and charge $q = 16$ C.",
-    "a": 22
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find electric field $E = F/q$ if force $F = 391$ N on charge $q = 23$ C.",
-    "o": [
-      "17",
-      "27",
-      "15",
-      "51"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 432$ J and charge $q = 18$ C.",
-    "a": 24
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
-    "o": [
-      "Permittivity epsilon_0",
-      "Permeability mu_0",
-      "Coulomb constant k",
-      "Light speed c"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What law relates electric flux to enclosed charge?",
-    "a": [
-      "gauss's law",
-      "gauss"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
-    "o": [
-      "Permittivity epsilon_0",
-      "Permeability mu_0",
-      "Coulomb constant k",
-      "Light speed c"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What law relates electric flux to enclosed charge?",
-    "a": [
-      "gauss's law",
-      "gauss"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
-    "o": [
-      "Permittivity epsilon_0",
-      "Permeability mu_0",
-      "Coulomb constant k",
-      "Light speed c"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What law relates electric flux to enclosed charge?",
-    "a": [
-      "gauss's law",
-      "gauss"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "The flux of electric field through a closed surface equals enclosed charge divided by:",
-    "o": [
-      "Permittivity epsilon_0",
-      "Permeability mu_0",
-      "Coulomb constant k",
-      "Light speed c"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What law relates electric flux to enclosed charge?",
-    "a": [
-      "gauss's law",
-      "gauss"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find electric field $E = F/q$ if force $F = 153$ N on charge $q = 17$ C.",
-    "o": [
-      "9",
-      "19",
-      "7",
-      "27"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 180$ J and charge $q = 10$ C.",
-    "a": 18
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find electric field $E = F/q$ if force $F = 209$ N on charge $q = 19$ C.",
-    "o": [
-      "11",
-      "21",
-      "9",
-      "33"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 240$ J and charge $q = 12$ C.",
-    "a": 20
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find electric field $E = F/q$ if force $F = 273$ N on charge $q = 21$ C.",
-    "o": [
-      "13",
-      "23",
-      "11",
-      "39"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 308$ J and charge $q = 14$ C.",
-    "a": 22
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find electric field $E = F/q$ if force $F = 345$ N on charge $q = 23$ C.",
-    "o": [
-      "15",
-      "25",
-      "13",
-      "45"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 384$ J and charge $q = 16$ C.",
-    "a": 24
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find electric field $E = F/q$ if force $F = 425$ N on charge $q = 25$ C.",
-    "o": [
-      "17",
-      "27",
-      "15",
-      "51"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 468$ J and charge $q = 18$ C.",
-    "a": 26
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find electric field $E = F/q$ if force $F = 513$ N on charge $q = 27$ C.",
-    "o": [
-      "19",
-      "29",
-      "17",
-      "57"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 560$ J and charge $q = 20$ C.",
-    "a": 28
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Equipotential lines are always perpendicular to:",
-    "o": [
-      "Electric field lines",
-      "Magnetic field lines",
-      "Conducting surfaces",
-      "Charged nodes"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
-    "a": [
-      "zero",
-      "0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Equipotential lines are always perpendicular to:",
-    "o": [
-      "Electric field lines",
-      "Magnetic field lines",
-      "Conducting surfaces",
-      "Charged nodes"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
-    "a": [
-      "zero",
-      "0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Equipotential lines are always perpendicular to:",
-    "o": [
-      "Electric field lines",
-      "Magnetic field lines",
-      "Conducting surfaces",
-      "Charged nodes"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
-    "a": [
-      "zero",
-      "0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Equipotential lines are always perpendicular to:",
-    "o": [
-      "Electric field lines",
-      "Magnetic field lines",
-      "Conducting surfaces",
-      "Charged nodes"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What is the electric field inside a perfect conductor in electrostatic equilibrium?",
-    "a": [
-      "zero",
-      "0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find electric field $E = F/q$ if force $F = 231$ N on charge $q = 21$ C.",
-    "o": [
-      "11",
-      "21",
-      "9",
-      "33"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 264$ J and charge $q = 12$ C.",
-    "a": 22
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find electric field $E = F/q$ if force $F = 299$ N on charge $q = 23$ C.",
-    "o": [
-      "13",
-      "23",
-      "11",
-      "39"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 336$ J and charge $q = 14$ C.",
-    "a": 24
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find electric field $E = F/q$ if force $F = 375$ N on charge $q = 25$ C.",
-    "o": [
-      "15",
-      "25",
-      "13",
-      "45"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 416$ J and charge $q = 16$ C.",
-    "a": 26
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find electric field $E = F/q$ if force $F = 459$ N on charge $q = 27$ C.",
-    "o": [
-      "17",
-      "27",
-      "15",
-      "51"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 504$ J and charge $q = 18$ C.",
-    "a": 28
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find electric field $E = F/q$ if force $F = 551$ N on charge $q = 29$ C.",
-    "o": [
-      "19",
-      "29",
-      "17",
-      "57"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 600$ J and charge $q = 20$ C.",
-    "a": 30
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find electric field $E = F/q$ if force $F = 651$ N on charge $q = 31$ C.",
-    "o": [
-      "21",
-      "31",
-      "19",
-      "63"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate potential $V = U/q$ if potential energy $U = 704$ J and charge $q = 22$ C.",
-    "a": 32
-  }
+  {t:"mc",d:1,q:"What is the SI unit of electric charge?",o:["Coulomb","Volt","Ampere","Ohm"],a:0},
+  {t:"sa",d:1,q:"Like charges do what?",a:["repel"]},
+  {t:"mc",d:1,q:"What is the SI unit of electric field?",o:["V/m","N/C","Both V/m and N/C","J/C"],a:2},
+  {t:"sa",d:1,q:"What is the fundamental charge e (magnitude) of an electron (in Coulombs, roughly 1.6 x 10^?)",a:["-19"]},
+  {t:"mc",d:1,q:"Coulomb's Law states force is inversely proportional to:",o:["Distance","Distance squared","Charge squared","Mass"],a:1},
+  {t:"sa",d:1,q:"Opposite charges do what?",a:["attract"]},
+  {t:"mc",d:1,q:"Electric field lines point away from:",o:["Negative charges","Positive charges","Neutral objects","Conductors"],a:1},
+  {t:"sa",d:1,q:"What is the unit of electric potential?",a:["volt","volts","v"]},
+  {t:"mc",d:1,q:"Electric potential energy per unit charge is called:",o:["Electric Force","Electric Field","Electric Potential","Capacitance"],a:2},
+  {t:"sa",d:1,q:"Can electric field lines cross each other? (yes/no)",a:["no"]},
+  {t:"mc",d:1,q:"The electric field inside a solid conductor in electrostatic equilibrium is:",o:["Constant","Maximum","Zero","Proportional to radius"],a:2},
+  {t:"sa",d:1,q:"Where does excess charge reside on a conductor in equilibrium?",a:["surface","outer surface"]},
+  {t:"mc",d:1,q:"Equipotential surfaces are always _____ to electric field lines.",o:["Parallel","Perpendicular","At 45 degrees","Anti-parallel"],a:1},
+  {t:"sa",d:1,q:"Gauss's law relates electric flux to enclosed _____.",a:["charge","net charge"]},
+  {t:"mc",d:1,q:"The unit of capacitance is the:",o:["Coulomb","Farad","Volt","Henry"],a:1},
+  {t:"sa",d:1,q:"A capacitor stores energy in the form of an _____ field.",a:["electric"]},
+  {t:"mc",d:1,q:"An electron volt (eV) is a unit of:",o:["Voltage","Force","Energy","Charge"],a:2},
+  {t:"sa",d:1,q:"Electric flux is the dot product of Electric Field and ____ vector.",a:["area"]},
+  {t:"mc",d:1,q:"A dielectric inserted into a capacitor will:",o:["Decrease capacitance","Increase capacitance","Not change capacitance","Short circuit it"],a:1},
+  {t:"sa",d:1,q:"Is electric force a conservative force? (yes/no)",a:["yes"]},
+
+  {t:"mc",d:2,q:"If the distance between two point charges is doubled, the force between them:",o:["Halves","Doubles","Quarters","Quadruples"],a:2},
+  {t:"sa",d:2,q:"Two charges of 1 C and 2 C are 1 m apart. What is the approximate force in N? (Use k = 9x10^9)",a:18000000000},
+  {t:"mc",d:2,q:"If an electron is placed in an electric field pointing East, it will feel a force pointing:",o:["East","West","North","South"],a:1},
+  {t:"sa",d:2,q:"Find the electric field magnitude at 3m from a 1 nC charge. (Use k = 9x10^9, Q = 10^-9). E = kQ/r虏",a:1},
+  {t:"mc",d:2,q:"The electric potential V at distance r from a point charge Q is:",o:["kQ/r虏","kQ/r","kQ虏/r","kQ/r鲁"],a:1},
+  {t:"sa",d:2,q:"What is the potential V at 2 m from a charge of 4 nC? (Use k = 9x10^9)",a:18},
+  {t:"mc",d:2,q:"Work done to move a charge q through a potential difference 螖V is:",o:["q/螖V","螖V/q","q螖V","q(螖V)虏"],a:2},
+  {t:"sa",d:2,q:"How much work (in Joules) is done to move a 2 C charge across a 5 V potential difference?",a:10},
+  {t:"mc",d:2,q:"For a parallel plate capacitor, C = 蔚鈧€A/d. If d is halved, C:",o:["Halves","Doubles","Quadruples","Stays same"],a:1},
+  {t:"sa",d:2,q:"If Q = 10 C and V = 2 V, what is the capacitance C in Farads?",a:5},
+  {t:"mc",d:2,q:"The energy stored in a capacitor is:",o:["QV","陆QV虏","陆QV","Q虏/C"],a:2},
+  {t:"sa",d:2,q:"A capacitor with C = 2 F is charged to V = 3 V. Find the stored energy.",a:9},
+  {t:"mc",d:2,q:"What is the net electric flux through a closed surface containing no net charge?",o:["Positive","Negative","Zero","Infinite"],a:2},
+  {t:"sa",d:2,q:"A sphere encloses a +5 C and -2 C charge. What is the net enclosed charge?",a:3},
+  {t:"mc",d:2,q:"A constant electric field E = 100 V/m exists between plates 0.1 m apart. The voltage difference is:",o:["1000 V","10 V","0.001 V","100 V"],a:1},
+  {t:"sa",d:2,q:"If V = -Ex, and E is 5 V/m in the +x direction, what is 螖V from x=0 to x=2?",a:-10},
+  {t:"mc",d:2,q:"If three identical capacitors C are in series, the equivalent capacitance is:",o:["3C","C/3","C","C虏"],a:1},
+  {t:"sa",d:2,q:"Two 4 F capacitors in parallel have an equivalent capacitance of:",a:8},
+  {t:"mc",d:2,q:"The surface charge density 蟽 has units of:",o:["C/m","C/m虏","C/m鲁","C"],a:1},
+  {t:"sa",d:2,q:"A charge of 6 C is distributed uniformly over an area of 2 m虏. What is 蟽?",a:3},
+
+  {t:"mc",d:3,q:"The electric field of an infinite uniformly charged sheet with charge density 蟽 is:",o:["蟽/蔚鈧€","蟽/(2蔚鈧€)","k蟽/r虏","0"],a:1},
+  {t:"sa",d:3,q:"Two parallel infinite sheets have charge densities +蟽 and -蟽. What is the E-field magnitude between them?",a:["sigma/epsilon_0","蟽/蔚鈧€"]},
+  {t:"mc",d:3,q:"The electric potential of an electric dipole at a large distance r is proportional to:",o:["1/r","1/r虏","1/r鲁","1/r鈦?],a:1},
+  {t:"sa",d:3,q:"The dipole moment p is defined as q times what?",a:["d","distance","separation"]},
+  {t:"mc",d:3,q:"A conducting sphere of radius R has charge Q. The potential at its surface is V = kQ/R. The potential at its center is:",o:["0","kQ/R","Infinite","kQ/R虏"],a:1},
+  {t:"sa",d:3,q:"If the E-field inside a conductor is zero, then the potential inside the conductor is _______.",a:["constant"]},
+  {t:"mc",d:3,q:"Gauss's law is most useful for calculating electric fields when the charge distribution has:",o:["No symmetry","High symmetry","Dynamic motion","Only negative charges"],a:1},
+  {t:"sa",d:3,q:"A point charge q is at the center of a cube. What is the total flux through the cube? (Use symbols)",a:["q/epsilon_0","q/蔚鈧€"]},
+  {t:"mc",d:3,q:"The energy density (energy per unit volume) of an electric field E is:",o:["陆蔚鈧€E","陆蔚鈧€E虏","蔚鈧€E虏","E虏/(2蔚鈧€)"],a:1},
+  {t:"sa",d:3,q:"A capacitor is disconnected from a battery, then a dielectric (K=2) is inserted. Does the voltage increase or decrease?",a:["decrease","decreases"]},
+  {t:"mc",d:3,q:"If a capacitor remains connected to a battery and a dielectric (K=2) is inserted, the charge Q:",o:["Halves","Stays same","Doubles","Quadruples"],a:2},
+  {t:"sa",d:3,q:"What is the capacitance of a spherical capacitor (radius R) in isolation? (Formula)",a:["4*pi*epsilon_0*r","4蟺蔚鈧€R"]},
+  {t:"mc",d:3,q:"Electric field is the negative _______ of the electric potential.",o:["Integral","Derivative","Gradient","Divergence"],a:2},
+  {t:"sa",d:3,q:"If V(x,y,z) = 3x虏y, what is the x-component of the electric field E_x?",a:["-6xy"]},
+  {t:"mc",d:3,q:"The torque on an electric dipole p in an electric field E is:",o:["p 路 E","p 脳 E","E 脳 p","pE"],a:1},
+  {t:"sa",d:3,q:"The potential energy of a dipole in an E-field is given by U = -p ______ E.",a:["dot"]},
+  {t:"mc",d:3,q:"A line of charge with linear density 位 produces an E-field at distance r proportional to:",o:["1/r","1/r虏","1/r鲁","Constant"],a:0},
+  {t:"sa",d:3,q:"E-field of a line charge is E = 位 / (2蟺蔚鈧€r). If 位 = 2蟺蔚鈧€, what is E at r = 2?",a:0.5},
+  {t:"mc",d:3,q:"An uncharged conductor placed in an electric field will:",o:["Remain completely unaffected","Develop induced surface charges","Gain net charge","Move at constant velocity"],a:1},
+  {t:"sa",d:3,q:"The process of grounding a conductor removes what type of charge?",a:["net charge","excess charge"]},
+
+  {t:"mc",d:4,q:"A non-conducting solid sphere (radius R) has uniform charge density 蟻. The E-field inside at radius r (r < R) is proportional to:",o:["1/r虏","1/r","Constant","r"],a:3},
+  {t:"sa",d:4,q:"Use Gauss's law for the solid sphere above: E(4蟺r虏) = (蟻 4/3 蟺r鲁) / 蔚鈧€. What is E?",a:["rho*r/(3*epsilon_0)","蟻r/3蔚鈧€"]},
+  {t:"mc",d:4,q:"The potential difference between the center (r=0) and surface (r=R) of a uniformly charged solid sphere is:",o:["kQ/R","kQ/(2R)","0","kQ/R虏"],a:1},
+  {t:"sa",d:4,q:"A conducting shell (inner radius a, outer radius b) holds charge +Q. A point charge +q is at the center. What is the charge on the outer surface of the shell?",a:["q+Q","Q+q"]},
+  {t:"mc",d:4,q:"Method of image charges: A point charge +q is distance d from a grounded infinite conducting plane. The image charge is:",o:["+q at distance d behind plane","-q at distance d behind plane","-q at distance d/2","+q at distance 2d"],a:1},
+  {t:"sa",d:4,q:"What is the force between the charge +q and the grounded plane in the method of images? (Use k, q, d)",a:["k*q^2/(4*d^2)","kq虏/4d虏"]},
+  {t:"mc",d:4,q:"The capacitance of a cylindrical capacitor (length L, radii a, b) is proportional to:",o:["1/ln(b/a)","ln(b/a)","(b-a)","(b虏-a虏)"],a:0},
+  {t:"sa",d:4,q:"A dielectric sphere of radius R is placed in a uniform E-field E鈧€. The field inside the sphere is:",a:["uniform","constant"]},
+  {t:"mc",d:4,q:"The polarization vector P is defined as the:",o:["Charge per unit area","Electric dipole moment per unit volume","Electric susceptibility","Dielectric constant"],a:1},
+  {t:"sa",d:4,q:"In a linear dielectric, P = 蔚鈧€ * 蠂_e * E. What is 蠂_e called?",a:["electric susceptibility"]},
+  {t:"mc",d:4,q:"The electric displacement field D is defined as:",o:["蔚鈧€E + P","蔚鈧€E - P","E + P/蔚鈧€","P - 蔚鈧€E"],a:0},
+  {t:"sa",d:4,q:"Gauss's law for dielectrics states that the surface integral of D equals the enclosed _____ charge.",a:["free"]},
+  {t:"mc",d:4,q:"Boundary conditions at a dielectric interface: which component of E is continuous?",o:["Normal","Tangential","Both","Neither"],a:1},
+  {t:"sa",d:4,q:"At a dielectric interface with no free surface charge, which component of D is continuous?",a:["normal"]},
+  {t:"mc",d:4,q:"The work required to assemble a continuous charge distribution is:",o:["W = 陆 鈭?蟻V d蟿","W = 鈭?蟻V d蟿","W = 陆 鈭?E虏 d蟿","W = 陆 鈭?蟻E d蟿"],a:0},
+  {t:"sa",d:4,q:"The total energy of a point charge is infinite. This is called the _____ energy.",a:["self","self-energy"]},
+  {t:"mc",d:4,q:"Laplace's equation for electrostatics (in regions with no charge) is:",o:["鈭嚶睼 = -蟻/蔚鈧€","鈭嚶睼 = 0","鈭嚶稥 = 蟻/蔚鈧€","鈭嚸桬 = 0"],a:1},
+  {t:"sa",d:4,q:"Poisson's equation is 鈭嚶睼 = ?",a:["-rho/epsilon_0","-蟻/蔚鈧€"]},
+  {t:"mc",d:4,q:"The Uniqueness Theorem states that the solution to Laplace's equation is uniquely determined if:",o:["V is known everywhere","V or its normal derivative is specified on boundaries","Charge is zero","The volume is infinite"],a:1},
+  {t:"sa",d:4,q:"Functions that satisfy Laplace's equation are called _____ functions.",a:["harmonic"]},
+
+  {t:"mc",d:5,q:"The multipole expansion of the potential V(r) starts with the monopole term. The next term is the:",o:["Quadrupole","Octupole","Dipole","Hexadecapole"],a:2},
+  {t:"sa",d:5,q:"The monopole moment is simply the total _____.",a:["charge"]},
+  {t:"mc",d:5,q:"The quadrupole moment tensor is a:",o:["Scalar","Vector","3x3 symmetric traceless matrix","3x3 antisymmetric matrix"],a:2},
+  {t:"sa",d:5,q:"For a pure dipole, the monopole moment is _____.",a:["zero","0"]},
+  {t:"mc",d:5,q:"In separation of variables for Laplace's equation in spherical coordinates (azimuthal symmetry), the angular solutions are:",o:["Bessel functions","Legendre polynomials","Spherical harmonics","Sine and Cosine"],a:1},
+  {t:"sa",d:5,q:"What is the first Legendre polynomial P鈧€(cos胃)?",a:["1"]},
+  {t:"mc",d:5,q:"The method of images can be used for a point charge near a grounded conducting sphere. The image charge is located:",o:["At the center","Outside the sphere","Inside the sphere at distance R虏/a","On the surface"],a:2},
+  {t:"sa",d:5,q:"If point charge q is at distance a from center of grounded sphere (radius R), what is the image charge magnitude q'?",a:["-qr/a"]},
+  {t:"mc",d:5,q:"The force on a dipole in a non-uniform electric field is:",o:["F = (p路鈭?E","F = p脳E","F = p路E","F = 0"],a:0},
+  {t:"sa",d:5,q:"The interaction energy between two dipoles depends on their moments and the distance as 1/r^?",a:["3"]},
+  {t:"mc",d:5,q:"Clausius-Mossotti relation connects the macroscopic dielectric constant to the:",o:["Macroscopic E-field","Microscopic atomic polarizability","Free charge density","Temperature"],a:1},
+  {t:"sa",d:5,q:"In a conductor, the relaxation time for free charge to reach the surface is 蟿 = 蔚/蟽. What is 蟽 here?",a:["conductivity"]},
+  {t:"mc",d:5,q:"A Faraday cage works because:",o:["Dielectric breakdown prevents fields","Electric fields inside a hollow conductor are zero","Magnetic fields cancel electric fields","Charges are trapped in the mesh"],a:1},
+  {t:"sa",d:5,q:"The capacitance matrix C_ij relates charges Q_i to potentials V_j. C_ij is symmetric, meaning C_ij = ?",a:["c_ji"]},
+  {t:"mc",d:5,q:"Earnshaw's theorem states that a collection of point charges cannot be maintained in a stable stationary equilibrium configuration solely by:",o:["Magnetic forces","Gravitational forces","Electrostatic interaction","Strong nuclear forces"],a:2},
+  {t:"sa",d:5,q:"Because of Earnshaw's theorem, 鈭嚶睼 = 0 implies V has no local _____ or minima in empty space.",a:["maxima"]},
+  {t:"mc",d:5,q:"The Maxwell stress tensor for electrostatics T_ij represents:",o:["Energy density","Momentum flux density / Force per unit area","Charge density","Polarization"],a:1},
+  {t:"sa",d:5,q:"The force on a surface can be found by integrating the Maxwell stress tensor over a closed _____.",a:["surface"]},
+  {t:"mc",d:5,q:"Langevin's theory of paramagnetism has an electrostatic analog for orientational polarization, leading to a temperature dependence of:",o:["T","T虏","1/T","Independent of T"],a:2},
+  {t:"sa",d:5,q:"The characteristic length scale for electrostatic screening in a plasma or electrolyte is called the _____ length.",a:["debye"]}
 ];
 
     function startQuizUI() {
@@ -1803,9 +974,9 @@
 </script>
 <script>
 
-    // Defensive download script
+    // Defensive Save as PDF script
     window.addEventListener('DOMContentLoaded', () => {
-        const btnDld = document.getElementById('btnDownloadCheatSheet');
+        const btnDld = document.getElementById('btnSave as PDFCheatSheet');
         if (btnDld) {
             btnDld.addEventListener('click', () => {
                 const text = "FORMULA CHEAT SHEET\n==================\nReference formulas for state analysis.";
@@ -1813,7 +984,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'Cheat_Sheet.txt';
+                a.Save as PDF = 'Cheat_Sheet.txt';
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1823,5 +994,27 @@
     });
     
 </script>
-</body>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script></body>
 </html>

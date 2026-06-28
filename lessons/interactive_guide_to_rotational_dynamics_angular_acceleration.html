@@ -71,7 +71,34 @@
         /* Component Transitions */
         .interactive-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .interactive-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
-    </style>
+    
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 
     <style>
     @media print {
@@ -128,9 +155,9 @@
             <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto font-light leading-relaxed mb-8">
                 Master the physics of rotating bodies. From the vector mechanics of torque to the intricate energy distributions of rolling objects, this guide maps Newton's laws into the angular domain.
             </p>
-            <button id="btnDownloadCheatSheet" class="bg-physics-accent hover:bg-yellow-500 text-physics-900 font-bold py-3 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 mx-auto transition-colors">
-                <i data-lucide="download" class="w-5 h-5"></i>
-                Download Formula Cheat Sheet
+            <button id="btnSave as PDFCheatSheet" class="bg-physics-accent hover:bg-yellow-500 text-physics-900 font-bold py-3 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 mx-auto transition-colors">
+                <i data-lucide="Save as PDF" class="w-5 h-5"></i>
+                Save as PDF Formula Cheat Sheet
             </button>
         </div>
     </header>
@@ -1099,7 +1126,7 @@
         // ----------------------------------------------------
         // Quiz & Cheat Sheet Logic
         // ----------------------------------------------------
-        function initQuizAndDownloads() {
+        function initQuizAndSave as PDFs() {
             const btnCheckAnswers = document.getElementById('btnCheckAnswers');
             
             if (btnCheckAnswers) {
@@ -1134,9 +1161,9 @@
                 });
             }
 
-            const btnDownloadCheatSheet = document.getElementById('btnDownloadCheatSheet');
-            if (btnDownloadCheatSheet) {
-                btnDownloadCheatSheet.addEventListener('click', () => {
+            const btnSave as PDFCheatSheet = document.getElementById('btnSave as PDFCheatSheet');
+            if (btnSave as PDFCheatSheet) {
+                btnSave as PDFCheatSheet.addEventListener('click', () => {
                     const text = 
                         `ROTATIONAL DYNAMICS & ANGULAR ACCELERATION: CHEAT SHEET\n` +
                         `=======================================================\n\n` +
@@ -1162,7 +1189,7 @@
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'rotational_dynamics_formulas.txt';
+                    a.Save as PDF = 'rotational_dynamics_formulas.txt';
                     a.click();
                     URL.revokeObjectURL(url);
                 });
@@ -1173,7 +1200,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             initTorqueSim();
             initRaceSim();
-            initQuizAndDownloads();
+            initQuizAndSave as PDFs();
         });
 
     </script>
@@ -1183,1078 +1210,110 @@
     // DIAGNOSTIC QUIZ ENGINE: 100 QUESTIONS
     // =========================================================
     const qBank = [
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the rotational analog of force?",
-    "o": [
-      "Torque",
-      "Moment of inertia",
-      "Angular momentum",
-      "Work"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "What is the SI unit of angular velocity?",
-    "a": [
-      "rad/s",
-      "radians per second"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the rotational analog of force?",
-    "o": [
-      "Torque",
-      "Moment of inertia",
-      "Angular momentum",
-      "Work"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "What is the SI unit of angular velocity?",
-    "a": [
-      "rad/s",
-      "radians per second"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the rotational analog of force?",
-    "o": [
-      "Torque",
-      "Moment of inertia",
-      "Angular momentum",
-      "Work"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "What is the SI unit of angular velocity?",
-    "a": [
-      "rad/s",
-      "radians per second"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the rotational analog of force?",
-    "o": [
-      "Torque",
-      "Moment of inertia",
-      "Angular momentum",
-      "Work"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "What is the SI unit of angular velocity?",
-    "a": [
-      "rad/s",
-      "radians per second"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is torque $T = r \\cdot F$ if $r = 5$ m and perpendicular force $F = 3$ N?",
-    "o": [
-      "15",
-      "19",
-      "13",
-      "60"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If inertia $I = 6$ kg\u00b7m\u00b2 and torque $T = 4$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.67",
-      "0.667",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is torque $T = r \\cdot F$ if $r = 7$ m and perpendicular force $F = 5$ N?",
-    "o": [
-      "35",
-      "39",
-      "33",
-      "140"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If inertia $I = 8$ kg\u00b7m\u00b2 and torque $T = 6$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.75",
-      "0.750",
-      "0.8"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is torque $T = r \\cdot F$ if $r = 9$ m and perpendicular force $F = 7$ N?",
-    "o": [
-      "63",
-      "67",
-      "61",
-      "252"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If inertia $I = 10$ kg\u00b7m\u00b2 and torque $T = 8$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.80",
-      "0.800",
-      "0.8"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is torque $T = r \\cdot F$ if $r = 11$ m and perpendicular force $F = 9$ N?",
-    "o": [
-      "99",
-      "103",
-      "97",
-      "396"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If inertia $I = 12$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.83",
-      "0.833",
-      "0.8"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is torque $T = r \\cdot F$ if $r = 13$ m and perpendicular force $F = 11$ N?",
-    "o": [
-      "143",
-      "147",
-      "141",
-      "572"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If inertia $I = 14$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.86",
-      "0.857",
-      "0.9"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is torque $T = r \\cdot F$ if $r = 15$ m and perpendicular force $F = 13$ N?",
-    "o": [
-      "195",
-      "199",
-      "193",
-      "780"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If inertia $I = 16$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.88",
-      "0.875",
-      "0.9"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Moment of inertia represents a body's resistance to:",
-    "o": [
-      "Rotational acceleration",
-      "Linear velocity",
-      "Gravity",
-      "Friction"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Does a hoop or a disk of same mass have larger inertia?",
-    "a": [
-      "hoop"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Moment of inertia represents a body's resistance to:",
-    "o": [
-      "Rotational acceleration",
-      "Linear velocity",
-      "Gravity",
-      "Friction"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Does a hoop or a disk of same mass have larger inertia?",
-    "a": [
-      "hoop"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Moment of inertia represents a body's resistance to:",
-    "o": [
-      "Rotational acceleration",
-      "Linear velocity",
-      "Gravity",
-      "Friction"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Does a hoop or a disk of same mass have larger inertia?",
-    "a": [
-      "hoop"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Moment of inertia represents a body's resistance to:",
-    "o": [
-      "Rotational acceleration",
-      "Linear velocity",
-      "Gravity",
-      "Friction"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Does a hoop or a disk of same mass have larger inertia?",
-    "a": [
-      "hoop"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "What is torque $T = r \\cdot F$ if $r = 9$ m and perpendicular force $F = 5$ N?",
-    "o": [
-      "45",
-      "49",
-      "43",
-      "180"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If inertia $I = 10$ kg\u00b7m\u00b2 and torque $T = 6$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.60",
-      "0.600",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "What is torque $T = r \\cdot F$ if $r = 11$ m and perpendicular force $F = 7$ N?",
-    "o": [
-      "77",
-      "81",
-      "75",
-      "308"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If inertia $I = 12$ kg\u00b7m\u00b2 and torque $T = 8$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.67",
-      "0.667",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "What is torque $T = r \\cdot F$ if $r = 13$ m and perpendicular force $F = 9$ N?",
-    "o": [
-      "117",
-      "121",
-      "115",
-      "468"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If inertia $I = 14$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.71",
-      "0.714",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "What is torque $T = r \\cdot F$ if $r = 15$ m and perpendicular force $F = 11$ N?",
-    "o": [
-      "165",
-      "169",
-      "163",
-      "660"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If inertia $I = 16$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.75",
-      "0.750",
-      "0.8"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "What is torque $T = r \\cdot F$ if $r = 17$ m and perpendicular force $F = 13$ N?",
-    "o": [
-      "221",
-      "225",
-      "219",
-      "884"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If inertia $I = 18$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.78",
-      "0.778",
-      "0.8"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "What is torque $T = r \\cdot F$ if $r = 19$ m and perpendicular force $F = 15$ N?",
-    "o": [
-      "285",
-      "289",
-      "283",
-      "1140"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If inertia $I = 20$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.80",
-      "0.800",
-      "0.8"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Angular momentum is the product of moment of inertia and:",
-    "o": [
-      "Angular velocity",
-      "Angular acceleration",
-      "Torque",
-      "Radius"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "What remains conserved when net external torque is zero?",
-    "a": [
-      "angular momentum"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Angular momentum is the product of moment of inertia and:",
-    "o": [
-      "Angular velocity",
-      "Angular acceleration",
-      "Torque",
-      "Radius"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "What remains conserved when net external torque is zero?",
-    "a": [
-      "angular momentum"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Angular momentum is the product of moment of inertia and:",
-    "o": [
-      "Angular velocity",
-      "Angular acceleration",
-      "Torque",
-      "Radius"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "What remains conserved when net external torque is zero?",
-    "a": [
-      "angular momentum"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Angular momentum is the product of moment of inertia and:",
-    "o": [
-      "Angular velocity",
-      "Angular acceleration",
-      "Torque",
-      "Radius"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "What remains conserved when net external torque is zero?",
-    "a": [
-      "angular momentum"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "What is torque $T = r \\cdot F$ if $r = 13$ m and perpendicular force $F = 7$ N?",
-    "o": [
-      "91",
-      "95",
-      "89",
-      "364"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If inertia $I = 14$ kg\u00b7m\u00b2 and torque $T = 8$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.57",
-      "0.571",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "What is torque $T = r \\cdot F$ if $r = 15$ m and perpendicular force $F = 9$ N?",
-    "o": [
-      "135",
-      "139",
-      "133",
-      "540"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If inertia $I = 16$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.62",
-      "0.625",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "What is torque $T = r \\cdot F$ if $r = 17$ m and perpendicular force $F = 11$ N?",
-    "o": [
-      "187",
-      "191",
-      "185",
-      "748"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If inertia $I = 18$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.67",
-      "0.667",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "What is torque $T = r \\cdot F$ if $r = 19$ m and perpendicular force $F = 13$ N?",
-    "o": [
-      "247",
-      "251",
-      "245",
-      "988"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If inertia $I = 20$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.70",
-      "0.700",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "What is torque $T = r \\cdot F$ if $r = 21$ m and perpendicular force $F = 15$ N?",
-    "o": [
-      "315",
-      "319",
-      "313",
-      "1260"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If inertia $I = 22$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.73",
-      "0.727",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "What is torque $T = r \\cdot F$ if $r = 23$ m and perpendicular force $F = 17$ N?",
-    "o": [
-      "391",
-      "395",
-      "389",
-      "1564"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If inertia $I = 24$ kg\u00b7m\u00b2 and torque $T = 18$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.75",
-      "0.750",
-      "0.8"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
-    "o": [
-      "T / I",
-      "I / T",
-      "T * I",
-      "I * alpha"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Write the kinetic energy formula of rotation.",
-    "a": [
-      "0.5 * I * omega^2",
-      "1/2 I omega^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
-    "o": [
-      "T / I",
-      "I / T",
-      "T * I",
-      "I * alpha"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Write the kinetic energy formula of rotation.",
-    "a": [
-      "0.5 * I * omega^2",
-      "1/2 I omega^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
-    "o": [
-      "T / I",
-      "I / T",
-      "T * I",
-      "I * alpha"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Write the kinetic energy formula of rotation.",
-    "a": [
-      "0.5 * I * omega^2",
-      "1/2 I omega^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is the angular acceleration alpha of a body with torque T and inertia I?",
-    "o": [
-      "T / I",
-      "I / T",
-      "T * I",
-      "I * alpha"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Write the kinetic energy formula of rotation.",
-    "a": [
-      "0.5 * I * omega^2",
-      "1/2 I omega^2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is torque $T = r \\cdot F$ if $r = 17$ m and perpendicular force $F = 9$ N?",
-    "o": [
-      "153",
-      "157",
-      "151",
-      "612"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If inertia $I = 18$ kg\u00b7m\u00b2 and torque $T = 10$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.56",
-      "0.556",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is torque $T = r \\cdot F$ if $r = 19$ m and perpendicular force $F = 11$ N?",
-    "o": [
-      "209",
-      "213",
-      "207",
-      "836"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If inertia $I = 20$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.60",
-      "0.600",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is torque $T = r \\cdot F$ if $r = 21$ m and perpendicular force $F = 13$ N?",
-    "o": [
-      "273",
-      "277",
-      "271",
-      "1092"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If inertia $I = 22$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.64",
-      "0.636",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is torque $T = r \\cdot F$ if $r = 23$ m and perpendicular force $F = 15$ N?",
-    "o": [
-      "345",
-      "349",
-      "343",
-      "1380"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If inertia $I = 24$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.67",
-      "0.667",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is torque $T = r \\cdot F$ if $r = 25$ m and perpendicular force $F = 17$ N?",
-    "o": [
-      "425",
-      "429",
-      "423",
-      "1700"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If inertia $I = 26$ kg\u00b7m\u00b2 and torque $T = 18$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.69",
-      "0.692",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is torque $T = r \\cdot F$ if $r = 27$ m and perpendicular force $F = 19$ N?",
-    "o": [
-      "513",
-      "517",
-      "511",
-      "2052"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If inertia $I = 28$ kg\u00b7m\u00b2 and torque $T = 20$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.71",
-      "0.714",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "If a figure skater pulls their arms in, their angular velocity:",
-    "o": [
-      "Increases",
-      "Decreases",
-      "Stays same",
-      "Drops to zero"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What quantity is defined as r cross p?",
-    "a": [
-      "angular momentum",
-      "L"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "If a figure skater pulls their arms in, their angular velocity:",
-    "o": [
-      "Increases",
-      "Decreases",
-      "Stays same",
-      "Drops to zero"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What quantity is defined as r cross p?",
-    "a": [
-      "angular momentum",
-      "L"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "If a figure skater pulls their arms in, their angular velocity:",
-    "o": [
-      "Increases",
-      "Decreases",
-      "Stays same",
-      "Drops to zero"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What quantity is defined as r cross p?",
-    "a": [
-      "angular momentum",
-      "L"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "If a figure skater pulls their arms in, their angular velocity:",
-    "o": [
-      "Increases",
-      "Decreases",
-      "Stays same",
-      "Drops to zero"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "What quantity is defined as r cross p?",
-    "a": [
-      "angular momentum",
-      "L"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What is torque $T = r \\cdot F$ if $r = 21$ m and perpendicular force $F = 11$ N?",
-    "o": [
-      "231",
-      "235",
-      "229",
-      "924"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If inertia $I = 22$ kg\u00b7m\u00b2 and torque $T = 12$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.55",
-      "0.545",
-      "0.5"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What is torque $T = r \\cdot F$ if $r = 23$ m and perpendicular force $F = 13$ N?",
-    "o": [
-      "299",
-      "303",
-      "297",
-      "1196"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If inertia $I = 24$ kg\u00b7m\u00b2 and torque $T = 14$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.58",
-      "0.583",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What is torque $T = r \\cdot F$ if $r = 25$ m and perpendicular force $F = 15$ N?",
-    "o": [
-      "375",
-      "379",
-      "373",
-      "1500"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If inertia $I = 26$ kg\u00b7m\u00b2 and torque $T = 16$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.62",
-      "0.615",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What is torque $T = r \\cdot F$ if $r = 27$ m and perpendicular force $F = 17$ N?",
-    "o": [
-      "459",
-      "463",
-      "457",
-      "1836"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If inertia $I = 28$ kg\u00b7m\u00b2 and torque $T = 18$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.64",
-      "0.643",
-      "0.6"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What is torque $T = r \\cdot F$ if $r = 29$ m and perpendicular force $F = 19$ N?",
-    "o": [
-      "551",
-      "555",
-      "549",
-      "2204"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If inertia $I = 30$ kg\u00b7m\u00b2 and torque $T = 20$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.67",
-      "0.667",
-      "0.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What is torque $T = r \\cdot F$ if $r = 31$ m and perpendicular force $F = 21$ N?",
-    "o": [
-      "651",
-      "655",
-      "649",
-      "2604"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If inertia $I = 32$ kg\u00b7m\u00b2 and torque $T = 22$ N\u00b7m, find angular acceleration $\\alpha = T/I$.",
-    "a": [
-      "0.69",
-      "0.688",
-      "0.7"
-    ]
-  }
+  {t:"mc",d:1,q:"What is the SI unit for angular displacement?",o:["Degrees","Radians","Revolutions","Meters"],a:1},
+  {t:"sa",d:1,q:"What is the rotational analog of force?",a:["torque","moment of force"]},
+  {t:"mc",d:1,q:"Angular velocity is defined as the rate of change of:",o:["Angular acceleration","Torque","Angular displacement","Linear velocity"],a:2},
+  {t:"sa",d:1,q:"What symbol is conventionally used to denote angular velocity?",a:["omega","蠅"]},
+  {t:"mc",d:1,q:"Which of these relates linear velocity to angular velocity for circular motion?",o:["v = r/蠅","v = 蠅/r","v = r蠅","v = 蠅虏r"],a:2},
+  {t:"sa",d:1,q:"What is the SI unit for torque?",a:["newton meter","nm","n m"]},
+  {t:"mc",d:1,q:"Moment of inertia depends on the object's mass and what else?",o:["Volume","Distribution of mass","Velocity","Torque"],a:1},
+  {t:"sa",d:1,q:"What symbol is used for moment of inertia?",a:["i"]},
+  {t:"mc",d:1,q:"Torque is maximized when the force is applied at what angle to the lever arm?",o:["0 degrees","45 degrees","90 degrees","180 degrees"],a:2},
+  {t:"sa",d:1,q:"What is the rotational equivalent of Newton's second law (F=ma)? (Use words or symbols)",a:["torque = i * alpha","t=ia","蟿=i伪"]},
+  {t:"mc",d:1,q:"Angular momentum is conserved when:",o:["Net external force is zero","Net external torque is zero","Angular velocity is constant","Moment of inertia is zero"],a:1},
+  {t:"sa",d:1,q:"What is the SI unit for angular acceleration?",a:["rad/s^2","radians per second squared"]},
+  {t:"mc",d:1,q:"A solid cylinder and a hollow cylinder have the same mass and radius. Which has a larger moment of inertia?",o:["Solid cylinder","Hollow cylinder","They are equal","Depends on length"],a:1},
+  {t:"sa",d:1,q:"The kinetic energy of a rotating object is 陆I蠅虏. What is this called?",a:["rotational kinetic energy"]},
+  {t:"mc",d:1,q:"Centripetal acceleration points in which direction?",o:["Tangent to the circle","Outward from the center","Inward toward the center","Perpendicular to the plane"],a:2},
+  {t:"sa",d:1,q:"How many radians are in one complete revolution?",a:["2pi","2 pi","6.28"]},
+  {t:"mc",d:1,q:"If an ice skater pulls their arms in, what happens to their moment of inertia?",o:["Increases","Decreases","Stays the same","Becomes zero"],a:1},
+  {t:"sa",d:1,q:"What cross product defines torque (蟿)?",a:["r x f","r cross f"]},
+  {t:"mc",d:1,q:"For an object rolling without slipping, its kinetic energy is:",o:["Only translational","Only rotational","Both translational and rotational","Zero"],a:2},
+  {t:"sa",d:1,q:"Angular momentum L can be calculated as the product of moment of inertia I and what?",a:["angular velocity","omega","蠅"]},
+
+  {t:"mc",d:2,q:"A wheel rotating at 10 rad/s accelerates uniformly to 20 rad/s in 2 s. What is its angular acceleration?",o:["5 rad/s虏","10 rad/s虏","15 rad/s虏","20 rad/s虏"],a:0},
+  {t:"sa",d:2,q:"If a wheel spins at 120 rev/min, what is its frequency in Hz?",a:2},
+  {t:"mc",d:2,q:"A 2 kg mass is on a string 3 m long. What is its moment of inertia around the pivot point?",o:["6 kg路m虏","18 kg路m虏","12 kg路m虏","9 kg路m虏"],a:1},
+  {t:"sa",d:2,q:"A force of 10 N is applied perpendicularly at a distance of 0.5 m from the pivot. Find the torque.",a:5},
+  {t:"mc",d:2,q:"What is the angular displacement of a wheel that rotates for 4 seconds at a constant angular velocity of 3 rad/s?",o:["1.33 rad","12 rad","7 rad","0.75 rad"],a:1},
+  {t:"sa",d:2,q:"If a disk (I = 陆MR虏) has mass M = 4 kg and R = 2 m, what is its moment of inertia?",a:8},
+  {t:"mc",d:2,q:"A wheel has a constant angular acceleration of 2 rad/s虏. Starting from rest, what is its angular velocity after 3 seconds?",o:["1.5 rad/s","5 rad/s","6 rad/s","9 rad/s"],a:2},
+  {t:"sa",d:2,q:"A uniform rod of mass 3 kg and length 2 m rotates about its center (I = 1/12 ML虏). Find I.",a:1},
+  {t:"mc",d:2,q:"What is the magnitude of the centripetal acceleration of a point 0.5 m from the center rotating at 4 rad/s?",o:["2 m/s虏","4 m/s虏","8 m/s虏","16 m/s虏"],a:2},
+  {t:"sa",d:2,q:"An object with I = 5 kg路m虏 rotates at 蠅 = 4 rad/s. Calculate its angular momentum.",a:20},
+  {t:"mc",d:2,q:"If the radius of a spinning object halves while mass is constant, its moment of inertia:",o:["Halves","Quarters","Doubles","Quadruples"],a:1},
+  {t:"sa",d:2,q:"A disk rotates with 蠅 = 10 rad/s and I = 2 kg路m虏. What is its rotational kinetic energy?",a:100},
+  {t:"mc",d:2,q:"A torque of 20 N路m is applied to an object with I = 5 kg路m虏. What is the angular acceleration?",o:["100 rad/s虏","4 rad/s虏","15 rad/s虏","0.25 rad/s虏"],a:1},
+  {t:"sa",d:2,q:"A point on the rim of a wheel of radius 0.2 m has a linear velocity of 5 m/s. Find angular velocity 蠅.",a:25},
+  {t:"mc",d:2,q:"A 3 kg point mass moves in a circle of radius 2 m at 4 rad/s. Its angular momentum is:",o:["24 kg路m虏/s","48 kg路m虏/s","12 kg路m虏/s","96 kg路m虏/s"],a:1},
+  {t:"sa",d:2,q:"What torque is needed to accelerate a 4 kg路m虏 wheel from rest to 10 rad/s in 2 seconds?",a:20},
+  {t:"mc",d:2,q:"The work done by a torque 蟿 acting through an angle 胃 is:",o:["蟿/胃","蟿 + 胃","蟿胃","蟿虏胃"],a:2},
+  {t:"sa",d:2,q:"A constant torque of 5 N路m is applied to a wheel initially at rest. The wheel rotates through 10 rad. Find the work done.",a:50},
+  {t:"mc",d:2,q:"A sphere (I = 2/5 MR虏) of mass 5 kg and radius 1 m has moment of inertia:",o:["2 kg路m虏","5 kg路m虏","10 kg路m虏","1 kg路m虏"],a:0},
+  {t:"sa",d:2,q:"Power delivered by a torque is P = 蟿蠅. If 蟿 = 15 N路m and 蠅 = 2 rad/s, find P.",a:30},
+
+  {t:"mc",d:3,q:"For an object rolling without slipping down an incline, the velocity at the bottom depends on:",o:["Only its mass","Only its radius","Its mass and radius","Its shape (mass distribution)"],a:3},
+  {t:"sa",d:3,q:"A wheel has angular position 胃(t) = 3t虏 + 2t. What is the angular velocity 蠅 at t = 2 s?",a:14},
+  {t:"mc",d:3,q:"Two rotating disks merge (inelastic collision). What is conserved?",o:["Angular momentum","Rotational kinetic energy","Both","Neither"],a:0},
+  {t:"sa",d:3,q:"If a skater's moment of inertia halves, by what factor does their angular velocity change?",a:2},
+  {t:"mc",d:3,q:"The parallel axis theorem states I = I_cm + :",o:["Md","Md虏","陆Md虏","M虏d"],a:1},
+  {t:"sa",d:3,q:"Rod (mass M, length L, I_cm = ML虏/12) rotates about its end. Find I_end using parallel axis (d = L/2). (Express as fraction of ML虏, e.g., 1/3)",a:["1/3","1/3 ml^2","ml^2/3"]},
+  {t:"mc",d:3,q:"A solid sphere and a hollow sphere race down an incline. Which wins?",o:["Solid sphere","Hollow sphere","Tie","Depends on mass"],a:0},
+  {t:"sa",d:3,q:"A flywheel (I = 10) spins at 蠅 = 5. A brake applies 蟿 = 2. How long to stop?",a:25},
+  {t:"mc",d:3,q:"If net torque is zero, the rate of change of angular momentum is:",o:["Constant","Maximum","Zero","Proportional to angle"],a:2},
+  {t:"sa",d:3,q:"If net torque is zero, angular momentum is ______.",a:["conserved","constant"]},
+  {t:"mc",d:3,q:"Angular acceleration 伪 relates to tangential acceleration a_t by:",o:["a_t = 伪/r","a_t = 伪虏r","a_t = 伪r","a_t = r/伪"],a:2},
+  {t:"sa",d:3,q:"Disk I = 陆MR虏. If it rolls without slipping, what fraction of its total KE is rotational?",a:["1/3","33.3%"]},
+  {t:"mc",d:3,q:"Precession of a gyroscope is caused by:",o:["Friction","Gravity exerting a torque","Lack of angular momentum","Magnetic fields"],a:1},
+  {t:"sa",d:3,q:"A vector force F = (0, 3, 0) acts at r = (2, 0, 0). Find the z-component of the torque.",a:6},
+  {t:"mc",d:3,q:"A ring and a disk have the same mass and radius. Which has more rotational kinetic energy for the same angular velocity?",o:["Ring","Disk","Equal","Depends on orientation"],a:0},
+  {t:"sa",d:3,q:"A car accelerates from rest. Its wheels (R = 0.3m) reach 蠅 = 100 rad/s in 5s. What is the car's linear acceleration in m/s虏?",a:6},
+  {t:"mc",d:3,q:"If a rotating star collapses to half its radius without losing mass, its angular velocity:",o:["Doubles","Halves","Increases by factor of 4","Decreases by factor of 4"],a:2},
+  {t:"sa",d:3,q:"A 2 kg hoop (I = MR虏) of radius 0.5 m rolls at 4 rad/s. What is its total kinetic energy?",a:8},
+  {t:"mc",d:3,q:"The direction of the angular momentum vector of a spinning top is:",o:["Along its axis of rotation","Tangent to its spin","Towards the ground","Perpendicular to its axis"],a:0},
+  {t:"sa",d:3,q:"If torque 蟿 is 0, then dL/dt = ?",a:0},
+
+  {t:"mc",d:4,q:"A sphere (I=2/5 MR虏) rolls without slipping down an incline of height H. What is its translational speed at the bottom?",o:["鈭?10gH/7)","鈭?gH)","鈭?4gH/3)","鈭?2gH)"],a:0},
+  {t:"sa",d:4,q:"A physical pendulum has mass M, inertia I, and CM distance d from pivot. Its period T is 2蟺鈭?I / ?)",a:["mgd","m*g*d"]},
+  {t:"mc",d:4,q:"Two objects are dropped on a frictionless versus frictional incline. How do their energies at the bottom compare?",o:["More KE with friction","More KE without friction","Equal KE, but different forms","Friction destroys all energy"],a:2},
+  {t:"sa",d:4,q:"A thin rod of mass M and length L hangs from one end. Find the period of small oscillations (use I = ML虏/3, d = L/2, g=10, L=1.5). T = 2蟺鈭?2L/3g). (Approximate 2蟺/鈭?0 as 2, so T 鈮??)",a:2},
+  {t:"mc",d:4,q:"For a gyroscope spinning with angular momentum L and torque 蟿, the precession angular velocity 惟 is:",o:["惟 = 蟿L","惟 = 蟿/L","惟 = L/蟿","惟 = 蟿虏L"],a:1},
+  {t:"sa",d:4,q:"A disk of I = 2 kg路m虏 spinning at 10 rad/s is dropped onto an identical stationary disk. What is the final angular velocity of the system?",a:5},
+  {t:"mc",d:4,q:"What happens to the rotational kinetic energy of a skater who pulls their arms in and halves their moment of inertia?",o:["Halves","Stays same","Doubles","Quadruples"],a:2},
+  {t:"sa",d:4,q:"In the inelastic disk collision above (initial I=2, 蠅=10; final I=4, 蠅=5), what is the ratio of final KE to initial KE?",a:["1/2","0.5"]},
+  {t:"mc",d:4,q:"The angular velocity vector for an object rotating clockwise in the xy-plane points:",o:["Positive z","Negative z","Positive x","Negative y"],a:1},
+  {t:"sa",d:4,q:"A Yo-Yo (mass M, I = 陆MR虏) falls, unrolling string of radius r=R/2. What is its linear downward acceleration a? (Use a = g / (1 + I/mr虏))",a:["g/3"]},
+  {t:"mc",d:4,q:"Euler's equations for rigid body dynamics relate:",o:["Principal moments of inertia and angular velocities","Linear and angular momentum","Stress and strain","Temperature and pressure"],a:0},
+  {t:"sa",d:4,q:"A bullet of mass m, speed v hits the edge of a door of width L and embeds. What is the initial angular momentum about the hinge?",a:["mvl"]},
+  {t:"mc",d:4,q:"A spool is pulled by a string at an angle. Whether it rolls forward or backward depends on:",o:["The tension in the string","The coefficient of friction","The angle relative to the critical angle","Its mass"],a:2},
+  {t:"sa",d:4,q:"If a solid sphere (I=2/5 MR虏) has total kinetic energy K_tot = 70 J when rolling without slipping, what is its translational KE?",a:50},
+  {t:"mc",d:4,q:"Which theorem relates moments of inertia about perpendicular axes for a planar lamina?",o:["Parallel axis theorem","Perpendicular axis theorem","Steiner's theorem","Euler's theorem"],a:1},
+  {t:"sa",d:4,q:"For a flat square plate of mass M, side L, I_x = ML虏/12 and I_y = ML虏/12. What is I_z (perpendicular to plate)?",a:["ml^2/6"]},
+  {t:"mc",d:4,q:"Static friction on a rolling object does:",o:["Positive work","Negative work","Zero work","Maximal work"],a:2},
+  {t:"sa",d:4,q:"A solid cylinder (I=陆MR虏) of mass 2 kg and radius 1 m rolls down an incline without slipping. Friction force f_s = 陆Ma. If a = 2 m/s虏, find f_s.",a:2},
+  {t:"mc",d:4,q:"The condition for rolling without slipping is:",o:["v = r蠅","v > r蠅","v < r蠅","v = 蠅/r"],a:0},
+  {t:"sa",d:4,q:"A bowling ball (I=2/5 MR虏) is thrown with initial velocity v鈧€ and no spin. Friction causes angular acceleration until rolling without slipping. Ratio of final velocity to v鈧€ is:",a:["5/7"]},
+
+  {t:"mc",d:5,q:"In rigid body dynamics, the inertia tensor relates which two vectors?",o:["Force and acceleration","Torque and angular momentum","Velocity and position","Momentum and force"],a:1},
+  {t:"sa",d:5,q:"The kinetic energy of a rigid body is T = 陆 蠅^T I 蠅. If 蠅 = (1, 0, 0) and I_xx = 4, find T.",a:2},
+  {t:"mc",d:5,q:"Euler's equations for torque-free motion of an asymmetric body show that rotation about the intermediate principal axis is:",o:["Stable","Unstable","Periodic","Chaotic"],a:1},
+  {t:"sa",d:5,q:"The Dzhanibekov effect demonstrates instability around which principal axis? (major, minor, or intermediate)",a:["intermediate"]},
+  {t:"mc",d:5,q:"For a symmetric top precessing under gravity, the nutation is:",o:["A steady wobble","An oscillation in the tilt angle","A change in spin rate","Friction loss"],a:1},
+  {t:"sa",d:5,q:"A gyroscope has angular momentum L. If a torque 蟿 perpendicular to L is applied, precession rate 惟 = 蟿 / L. If 蟿 = 2, L = 10, find 惟.",a:0.2},
+  {t:"mc",d:5,q:"The Coriolis force in a rotating frame is given by:",o:["-2m(蠅 脳 v)","-m(蠅 脳 (蠅 脳 r))","-m(d蠅/dt 脳 r)","ma"],a:0},
+  {t:"sa",d:5,q:"What is the fictitious force -m(蠅 脳 (蠅 脳 r)) called?",a:["centrifugal","centrifugal force"]},
+  {t:"mc",d:5,q:"Poinsot's construction describes torque-free motion by the rolling of the inertia ellipsoid on the:",o:["Invariable plane","Orbital plane","Principal plane","Equatorial plane"],a:0},
+  {t:"sa",d:5,q:"In torque-free motion, the kinetic energy T and the magnitude of which vector are strictly conserved?",a:["angular momentum","l"]},
+  {t:"mc",d:5,q:"A rigid body's inertia tensor is always:",o:["Diagonal","Skew-symmetric","Symmetric","Identity"],a:2},
+  {t:"sa",d:5,q:"How many independent components does a 3x3 symmetric inertia tensor have?",a:6},
+  {t:"mc",d:5,q:"The theorem that allows finding the inertia tensor in a translated coordinate system is the:",o:["Perpendicular axis theorem","Parallel axis theorem (tensor form)","Koenig's theorem","Liouville's theorem"],a:1},
+  {t:"sa",d:5,q:"Koenig's theorem states total kinetic energy is KE_cm + ?",a:["ke_rot","rotational ke"]},
+  {t:"mc",d:5,q:"For an object rolling with slipping, the friction force is:",o:["Static","Kinetic","Zero","Variable"],a:1},
+  {t:"sa",d:5,q:"A billiard ball (R) is struck at height h above center to roll without slipping immediately. Find h (h = 2/5 R). If R = 5, what is h?",a:2},
+  {t:"mc",d:5,q:"If a space station rotates to provide artificial gravity g at radius R, what is 蠅?",o:["鈭?g/R)","鈭?R/g)","g/R","R/g"],a:0},
+  {t:"sa",d:5,q:"Find the trace of the inertia tensor (I_xx + I_yy + I_zz) for a point mass m at (x,y,z). (Hint: I_xx = m(y虏+z虏))",a:["2mr^2"]},
+  {t:"mc",d:5,q:"The angular momentum of a particle about a point is invariant under:",o:["Translations of the point","Translations of the particle parallel to its velocity","Rotations of the frame","Changing the particle's mass"],a:1},
+  {t:"sa",d:5,q:"What matrix diagonalizes the inertia tensor?",a:["rotation matrix","rotation","eigenvectors"]}
 ];
 
     function startQuizUI() {
@@ -2380,9 +1439,9 @@
 </script>
 <script>
 
-    // Defensive download script
+    // Defensive Save as PDF script
     window.addEventListener('DOMContentLoaded', () => {
-        const btnDld = document.getElementById('btnDownloadCheatSheet');
+        const btnDld = document.getElementById('btnSave as PDFCheatSheet');
         if (btnDld) {
             btnDld.addEventListener('click', () => {
                 const text = "FORMULA CHEAT SHEET\n==================\nReference formulas for state analysis.";
@@ -2390,7 +1449,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'Cheat_Sheet.txt';
+                a.Save as PDF = 'Cheat_Sheet.txt';
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -2400,5 +1459,27 @@
     });
     
 </script>
-</body>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script></body>
 </html>

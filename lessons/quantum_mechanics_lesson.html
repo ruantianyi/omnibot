@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -55,7 +55,34 @@
             image-rendering: crisp-edges;
             image-rendering: pixelated;
         }
-    </style>
+    
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 
     <style>
     @media print {
@@ -82,9 +109,9 @@
                     <span class="font-bold text-xl tracking-tight sm:hidden">Physics Interactive</span>
                 </div>
                 <div>
-                    <button id="btnDownload" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold transition-colors shadow-sm flex items-center space-x-2">
+                    <button id="btnSave as PDF" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold transition-colors shadow-sm flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        <span class="hidden sm:inline">Download Formula Sheet</span>
+                        <span class="hidden sm:inline">Save as PDF Formula Sheet</span>
                         <span class="sm:hidden">Formulas</span>
                     </button>
                 </div>
@@ -169,9 +196,9 @@
                     </div>
                 </div>
                 <div>
-                    <button id="btnDownload" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold transition-colors shadow-sm flex items-center space-x-2">
+                    <button id="btnSave as PDF" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold transition-colors shadow-sm flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        <span class="hidden sm:inline">Download Formula Sheet</span>
+                        <span class="hidden sm:inline">Save as PDF Formula Sheet</span>
                         <span class="sm:hidden">Formulas</span>
                     </button>
                 </div>
@@ -710,530 +737,110 @@
     // DIAGNOSTIC QUIZ ENGINE: 100 QUESTIONS
     // =========================================================
     const qBank = [
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What constant relates photon energy to its frequency?",
-    "o": [
-      "Planck's constant",
-      "Boltzmann's constant",
-      "Rydberg's constant",
-      "Stefan's constant"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "What is the packet of light energy called?",
-    "a": [
-      "photon"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 5 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "33.0e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If momentum $p = 6 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "110.00",
-      "110.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 7 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "46.2e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If momentum $p = 8 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "82.50",
-      "82.5"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 9 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "59.4e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If momentum $p = 10 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "66.00",
-      "66.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 11 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "72.6e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "If momentum $p = 12 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "55.00",
-      "55.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Which formula calculates de Broglie wavelength?",
-    "o": [
-      "h / p",
-      "h * p",
-      "p / h",
-      "h * c"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "What is the square of wave function amplitude proportional to?",
-    "a": [
-      "probability density",
-      "probability"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 13 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "85.8e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If momentum $p = 14 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "47.14",
-      "47.1"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 15 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "99.0e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If momentum $p = 16 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "41.25",
-      "41.2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 17 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "112.2e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If momentum $p = 18 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "36.67",
-      "36.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 19 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "125.4e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "If momentum $p = 20 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "33.00",
-      "33.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "According to Heisenberg, the product of uncertainty in position and momentum is at least:",
-    "o": [
-      "hbar / 2",
-      "hbar",
-      "h",
-      "0"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "State the core equation of quantum wave mechanics.",
-    "a": [
-      "schrodinger",
-      "schrodinger equation"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 13 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "85.8e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If momentum $p = 14 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "47.14",
-      "47.1"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 15 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "99.0e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If momentum $p = 16 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "41.25",
-      "41.2"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 17 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "112.2e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If momentum $p = 18 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "36.67",
-      "36.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 19 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "125.4e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "If momentum $p = 20 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "33.00",
-      "33.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "What is the energy of a photon with wavelength lambda?",
-    "o": [
-      "hc / lambda",
-      "h * lambda",
-      "lambda / hc",
-      "h * f / c"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Name the experiment proving electron wave properties.",
-    "a": [
-      "double-slit",
-      "davisson-germer"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 17 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "112.2e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If momentum $p = 18 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "36.67",
-      "36.7"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 19 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "125.4e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If momentum $p = 20 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "33.00",
-      "33.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 21 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "138.6e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If momentum $p = 22 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "30.00",
-      "30.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 23 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "151.8e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "If momentum $p = 24 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "27.50",
-      "27.5"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "In a potential well, the ground state energy is:",
-    "o": [
-      "Non-zero",
-      "Zero",
-      "Negative",
-      "Infinite"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Name the phenomenon where particles pass through potential barriers.",
-    "a": [
-      "tunneling",
-      "quantum tunneling"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 21 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "138.6e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If momentum $p = 22 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "30.00",
-      "30.0"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 23 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "151.8e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If momentum $p = 24 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "27.50",
-      "27.5"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 25 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "165.0e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If momentum $p = 26 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "25.38",
-      "25.4"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Calculate photon energy $E = hf$ if frequency $f = 27 \\times 10^{14}$ Hz. (Using $h = 6.6 \\times 10^{-34}$ J\u00b7s)",
-    "o": [
-      "178.2e-20",
-      "4.2e-20",
-      "8.9e-20",
-      "1.2e-20"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "If momentum $p = 28 \\times 10^{-27}$ kg\u00b7m/s, find de Broglie wavelength in nm. (Using $h = 6.6 \\times 10^{-34}$)",
-    "a": [
-      "23.57",
-      "23.6"
-    ]
-  }
+  {t:"mc",d:1,q:"What equation is fundamental to non-relativistic quantum mechanics?",o:["Newton's Second Law","Maxwell's Equations","Schr枚dinger Equation","Einstein's Field Equations"],a:2},
+  {t:"sa",d:1,q:"The square of the absolute value of the wave function gives the probability _______.",a:["density"]},
+  {t:"mc",d:1,q:"Which principle states that you cannot simultaneously know the exact position and momentum of a particle?",o:["Pauli Exclusion Principle","Heisenberg Uncertainty Principle","Bohr's Complementarity Principle","Correspondence Principle"],a:1},
+  {t:"sa",d:1,q:"What physical constant is central to quantum mechanics? (Symbol)",a:["h","hbar"]},
+  {t:"mc",d:1,q:"Light can behave as both a wave and a particle. This is called:",o:["Superposition","Entanglement","Wave-particle duality","Interference"],a:2},
+  {t:"sa",d:1,q:"The particle of light is called a _______.",a:["photon"]},
+  {t:"mc",d:1,q:"In the photoelectric effect, increasing the intensity of light (without changing frequency) increases the:",o:["Maximum kinetic energy of electrons","Number of ejected electrons","Work function","Threshold frequency"],a:1},
+  {t:"sa",d:1,q:"The minimum energy required to eject an electron is called the _____ function.",a:["work"]},
+  {t:"mc",d:1,q:"An electron's spin can have how many possible z-components?",o:["One","Two","Three","Infinite"],a:1},
+  {t:"sa",d:1,q:"Fermions have _____ integer spin.",a:["half"]},
+  {t:"mc",d:1,q:"Bosons have which type of spin?",o:["Half-integer","Integer","Zero only","Negative"],a:1},
+  {t:"sa",d:1,q:"According to de Broglie, wavelength = h / _____",a:["p","momentum"]},
+  {t:"mc",d:1,q:"The lowest energy state of a quantum system is called the:",o:["First excited state","Vacuum state","Ground state","Zero-point state"],a:2},
+  {t:"sa",d:1,q:"Does a particle in a 1D box have zero kinetic energy in the ground state? (yes/no)",a:["no"]},
+  {t:"mc",d:1,q:"Quantum tunneling allows a particle to pass through a barrier even if its energy is:",o:["Negative","Higher than the barrier","Lower than the barrier","Zero"],a:2},
+  {t:"sa",d:1,q:"The mathematical operator for momentum in 1D is -i鈩?times the derivative with respect to _____.",a:["x","position"]},
+  {t:"mc",d:1,q:"Schr枚dinger's cat is a thought experiment illustrating:",o:["Uncertainty","Superposition","Tunneling","Relativity"],a:1},
+  {t:"sa",d:1,q:"When a measurement is made, the wave function is said to _____.",a:["collapse"]},
+  {t:"mc",d:1,q:"Which quantum number determines the energy level in a Hydrogen atom?",o:["Principal (n)","Angular momentum (l)","Magnetic (m)","Spin (s)"],a:0},
+  {t:"sa",d:1,q:"For the principal quantum number n=2, what are the possible values for l?",a:["0 and 1","0, 1"]},
+
+  {t:"mc",d:2,q:"The energy of a photon is given by E = hf. If frequency f doubles, the energy:",o:["Halves","Doubles","Stays the same","Quadruples"],a:1},
+  {t:"sa",d:2,q:"A photon has E = 4 eV. Find frequency if h = 4e-15 eV路s.",a:1000000000000000},
+  {t:"mc",d:2,q:"In the 1D particle in a box (infinite well) of length L, the allowed energies are proportional to:",o:["n","n虏","1/n","1/n虏"],a:1},
+  {t:"sa",d:2,q:"For a 1D box, E_n = n虏 E鈧? If E鈧?= 2 eV, what is E鈧?",a:18},
+  {t:"mc",d:2,q:"The wave function for the ground state of a 1D box (length L) is a sine wave with how many nodes (excluding edges)?",o:["0","1","2","3"],a:0},
+  {t:"sa",d:2,q:"What is the probability of finding a particle in the exact center of a 1D box for the first excited state (n=2)?",a:0},
+  {t:"mc",d:2,q:"The uncertainty principle states 螖x 螖p 鈮?",o:["h","鈩?,"鈩?2","h/2"],a:2},
+  {t:"sa",d:2,q:"If 螖x = 10^-10 m and 螖p = 5.27e-25, calculate 螖x螖p. Is it approx 鈩?2 (yes/no)? (鈩?鈮?1.05e-34 J路s)",a:["yes"]},
+  {t:"mc",d:2,q:"The Hamiltonian operator corresponds to which observable?",o:["Position","Momentum","Total Energy","Angular Momentum"],a:2},
+  {t:"sa",d:2,q:"Eigenvalues of the Hamiltonian operator represent the allowed _____ of the system.",a:["energies","energy levels"]},
+  {t:"mc",d:2,q:"In the Bohr model, angular momentum is quantized in units of:",o:["h","鈩?,"e","c"],a:1},
+  {t:"sa",d:2,q:"The energy levels of a Hydrogen atom are E_n = -13.6 eV / n虏. Find E_2.",a:-3.4},
+  {t:"mc",d:2,q:"What is the degeneracy of the n=2 level in the Hydrogen atom (ignoring spin)?",o:["1","2","4","8"],a:2},
+  {t:"sa",d:2,q:"For angular momentum quantum number l=1, what are the possible values of m_l?",a:["-1, 0, 1","-1,0,1"]},
+  {t:"mc",d:2,q:"The probability density is the square of the magnitude of the wave function, which means:",o:["|唯|虏 = 唯虏","|唯|虏 = 唯*唯","|唯|虏 = Re(唯)","|唯|虏 = Im(唯)"],a:1},
+  {t:"sa",d:2,q:"The integral of |唯|虏 over all space must equal what value?",a:1},
+  {t:"mc",d:2,q:"Which operator is NOT Hermitian?",o:["Momentum","Position","Hamiltonian","Annihilation operator (a)"],a:3},
+  {t:"sa",d:2,q:"Observables in quantum mechanics are represented by _____ operators.",a:["hermitian"]},
+  {t:"mc",d:2,q:"If two operators commute, [A, B] = 0, this implies:",o:["They share simultaneous eigenstates","One must be zero","They cannot be measured simultaneously","They are the same operator"],a:0},
+  {t:"sa",d:2,q:"Do position (x) and momentum (p_x) operators commute? (yes/no)",a:["no"]},
+
+  {t:"mc",d:3,q:"The commutator [x, p_x] is equal to:",o:["0","i鈩?,"-i鈩?,"i鈩弜"],a:1},
+  {t:"sa",d:3,q:"The time-dependent Schr枚dinger equation is i鈩?鈭偽?鈭倀 = ? 唯",a:["h","hamiltonian","h_hat"]},
+  {t:"mc",d:3,q:"For a quantum harmonic oscillator, the energy levels are given by E_n = (n + 陆)鈩徬? The energy gap between adjacent levels is:",o:["鈩徬?2","鈩徬?,"n鈩徬?,"(n+1)鈩徬?],a:1},
+  {t:"sa",d:3,q:"What is the zero-point energy of a quantum harmonic oscillator?",a:["hbar*omega/2","1/2 hbar omega","0.5 鈩徬?]},
+  {t:"mc",d:3,q:"The wave function for a quantum harmonic oscillator involves which polynomials?",o:["Legendre","Hermite","Laguerre","Bessel"],a:1},
+  {t:"sa",d:3,q:"For a free particle, the energy E = p虏/2m. Since p = 鈩弅, E = ?",a:["hbar^2*k^2/(2m)","(鈩弅)虏/2m"]},
+  {t:"mc",d:3,q:"Quantum tunneling probability (Transmission coefficient) for a wide, high barrier depends exponentially on:",o:["Width of barrier","Height of barrier","Both width and sqrt of (Height - Energy)","Mass only"],a:2},
+  {t:"sa",d:3,q:"In a potential step where E > V鈧€, does a classical particle ever reflect? (yes/no)",a:["no"]},
+  {t:"mc",d:3,q:"The Pauli exclusion principle states that no two identical fermions can:",o:["Have the same charge","Be in the same quantum state","Interact with each other","Have different spins"],a:1},
+  {t:"sa",d:3,q:"The wave function for a system of identical fermions must be _____ under exchange of particles.",a:["antisymmetric"]},
+  {t:"mc",d:3,q:"For angular momentum operator L, the commutator [L_x, L_y] is:",o:["0","i鈩?L_z","i鈩?L_x","-i鈩?L_z"],a:1},
+  {t:"sa",d:3,q:"What is the eigenvalue of L虏 for a state with angular momentum quantum number l?",a:["l(l+1)hbar^2","l(l+1)鈩徛?]},
+  {t:"mc",d:3,q:"The Stern-Gerlach experiment demonstrated:",o:["Wave-particle duality","Space quantization of angular momentum (spin)","Photoelectric effect","Compton scattering"],a:1},
+  {t:"sa",d:3,q:"A spin-1/2 particle has how many eigenstates for S_z?",a:2},
+  {t:"mc",d:3,q:"The radial wave function of the Hydrogen atom involves which polynomials?",o:["Hermite","Legendre","Laguerre","Chebyshev"],a:2},
+  {t:"sa",d:3,q:"What defines the Bohr radius (a鈧€)? (It's the most probable distance of the electron from the nucleus in the _____ state)",a:["ground"]},
+  {t:"mc",d:3,q:"Ehrenfest's theorem states that quantum mechanical expectation values obey:",o:["Schr枚dinger equation","Classical equations of motion","Heisenberg uncertainty","Pauli exclusion"],a:1},
+  {t:"sa",d:3,q:"The expectation value of an operator A in state 唯 is written as the integral of 唯* ___ 唯 dx.",a:["a","a_hat","operator a"]},
+  {t:"mc",d:3,q:"A coherent state of a quantum harmonic oscillator:",o:["Has definite energy","Is an eigenstate of the annihilation operator","Has infinite uncertainty","Is not allowed"],a:1},
+  {t:"sa",d:3,q:"The product of uncertainties 螖x螖p for a coherent state is exactly equal to _____.",a:["hbar/2","鈩?2"]},
+
+  {t:"mc",d:4,q:"In time-independent perturbation theory, the first-order correction to the energy E_n(1) is:",o:["The expectation value of the unperturbed Hamiltonian","The expectation value of the perturbation H' in the unperturbed state","Zero","Infinite"],a:1},
+  {t:"sa",d:4,q:"If a perturbation is odd (antisymmetric) and the unperturbed state is even or odd, what is the first-order energy correction?",a:["0","zero"]},
+  {t:"mc",d:4,q:"The variational principle states that the expectation value of the Hamiltonian for any trial wave function provides:",o:["An exact energy","A lower bound to the ground state energy","An upper bound to the ground state energy","The first excited state energy"],a:2},
+  {t:"sa",d:4,q:"The WKB approximation is valid when the potential V(x) changes _____ compared to the de Broglie wavelength.",a:["slowly"]},
+  {t:"mc",d:4,q:"Fermi's Golden Rule describes:",o:["Energy of fermions","Transition rate for time-dependent perturbation","Scattering cross section","Spin-orbit coupling"],a:1},
+  {t:"sa",d:4,q:"In Fermi's Golden Rule, the transition rate is proportional to the square of the transition _____ element.",a:["matrix"]},
+  {t:"mc",d:4,q:"The fine structure of Hydrogen energy levels is caused by:",o:["Hyperfine interaction","Relativistic kinetic energy correction and spin-orbit coupling","Lamb shift","Finite size of nucleus"],a:1},
+  {t:"sa",d:4,q:"The splitting of spectral lines in the presence of an external static magnetic field is called the _____ effect.",a:["zeeman"]},
+  {t:"mc",d:4,q:"In scattering theory, the Born approximation is most accurate for:",o:["Low energies and strong potentials","High energies and weak potentials","Resonance scattering","Coulomb scattering at low energy"],a:1},
+  {t:"sa",d:4,q:"The total scattering cross-section is the integral of the _____ cross-section over all solid angles.",a:["differential"]},
+  {t:"mc",d:4,q:"Adding two angular momenta J_1 and J_2, the possible values for the total J range from:",o:["0 to J_1+J_2","|J_1-J_2| to J_1+J_2","J_1 to J_2","-J_1 to J_2"],a:1},
+  {t:"sa",d:4,q:"The coefficients used to express coupled basis states in terms of uncoupled basis states are called Clebsch-_____ coefficients.",a:["gordan"]},
+  {t:"mc",d:4,q:"The Bell inequalities were formulated to test:",o:["Superposition","Local hidden-variable theories","Energy conservation","Uncertainty principle"],a:1},
+  {t:"sa",d:4,q:"Quantum mechanics violates Bell's inequalities, meaning it is not a _____ realistic theory.",a:["local"]},
+  {t:"mc",d:4,q:"The Aharonov-Bohm effect demonstrates that:",o:["Electrons have spin","Magnetic fields don't exist","The electromagnetic vector potential is physically significant even where B=0","Photons have mass"],a:2},
+  {t:"sa",d:4,q:"In the Dirac notation, a bra <唯| is the Hermitian _____ of a ket |唯>.",a:["conjugate"]},
+  {t:"mc",d:4,q:"The Density Matrix (or density operator) is useful for describing:",o:["Only pure states","Mixed states (statistical ensembles)","Only bosons","Classical particles"],a:1},
+  {t:"sa",d:4,q:"For a pure state, the trace of the square of the density matrix Tr(蟻虏) equals _____.",a:["1","one"]},
+  {t:"mc",d:4,q:"In the Heisenberg picture of quantum mechanics:",o:["States evolve in time, operators are constant","Both states and operators evolve","Operators evolve in time, states are constant","Nothing evolves"],a:2},
+  {t:"sa",d:4,q:"The equation of motion for an operator A in the Heisenberg picture is dA/dt = (i/鈩?[H, A] + ?",a:["partial a / partial t","鈭俛/鈭倀"]},
+
+  {t:"mc",d:5,q:"The Dirac equation was historically significant because it:",o:["Discovered the neutron","Combined quantum mechanics and special relativity for spin-1/2 particles","Explained superconductivity","Proved string theory"],a:1},
+  {t:"sa",d:5,q:"The Dirac equation predicts the existence of antimatter. The antiparticle of the electron is the _____.",a:["positron"]},
+  {t:"mc",d:5,q:"In second quantization, particles are created and destroyed by operators. For fermions, these operators obey:",o:["Commutation relations","Anticommutation relations","No relations","Classical equations"],a:1},
+  {t:"sa",d:5,q:"The vacuum state |0> is annihilated by the _____ operator.",a:["annihilation","destruction"]},
+  {t:"mc",d:5,q:"The Lamb shift in Hydrogen is a tiny difference in energy between the 2s_1/2 and 2p_1/2 levels, explained by:",o:["Relativistic mass increase","Spin-orbit coupling","Quantum electrodynamics (vacuum fluctuations)","Hyperfine splitting"],a:2},
+  {t:"sa",d:5,q:"The coupling constant in QED is the fine structure constant, denoted by the Greek letter _____.",a:["alpha","伪"]},
+  {t:"mc",d:5,q:"In path integral formulation (Feynman), the probability amplitude is a sum over all possible paths, each weighted by a phase factor e^(iS/鈩?, where S is the:",o:["Entropy","Action","Energy","Spin"],a:1},
+  {t:"sa",d:5,q:"The action S is the time integral of the _____, L = T - V.",a:["lagrangian"]},
+  {t:"mc",d:5,q:"Decoherence explains:",o:["How quantum entanglement is created","How a quantum system loses phase coherence by interacting with its environment","How to solve the Schr枚dinger equation","Why photons have no mass"],a:1},
+  {t:"sa",d:5,q:"A quantum system that does not interact with the environment is called an _____ system.",a:["isolated","closed"]},
+  {t:"mc",d:5,q:"The EPR (Einstein-Podolsky-Rosen) paradox highlighted concerns about:",o:["Uncertainty","Quantum entanglement and 'spooky action at a distance'","Energy levels","Relativity"],a:1},
+  {t:"sa",d:5,q:"A state that cannot be factored into a product of states of its individual subsystems is called an _____ state.",a:["entangled"]},
+  {t:"mc",d:5,q:"Berry's phase (geometric phase) is acquired by a system when it undergoes:",o:["Adiabatic cyclic evolution","Instantaneous transition","High-energy scattering","Thermalization"],a:0},
+  {t:"sa",d:5,q:"The fractional quantum Hall effect requires treating electrons as a strongly interacting many-body system leading to fractional _____ charges.",a:["effective","quasiparticle"]},
+  {t:"mc",d:5,q:"The No-Cloning Theorem states that it is impossible to create an identical copy of an arbitrary:",o:["Classical bit","Unknown quantum state","Macroscopic object","Entangled pair"],a:1},
+  {t:"sa",d:5,q:"In quantum computing, the basic unit of quantum information is the _____.",a:["qubit"]},
+  {t:"mc",d:5,q:"Gauge invariance in quantum mechanics requires the introduction of:",o:["Mass","Vector potentials / gauge fields (like electromagnetism)","Spin","Fermions"],a:1},
+  {t:"sa",d:5,q:"The symmetry group for Quantum Electrodynamics (QED) is U(___).",a:["1"]},
+  {t:"mc",d:5,q:"Spontaneous symmetry breaking in a quantum field theory can lead to massless particles called:",o:["Higgs bosons","Goldstone bosons","Fermions","Gravitons"],a:1},
+  {t:"sa",d:5,q:"The mechanism that gives mass to the W and Z bosons via spontaneous symmetry breaking is the _____ mechanism.",a:["higgs"]}
 ];
 
     function startQuizUI() {
@@ -1359,9 +966,9 @@
 </script>
 <script>
 
-    // Defensive download script
+    // Defensive Save as PDF script
     window.addEventListener('DOMContentLoaded', () => {
-        const btnDld = document.getElementById('btnDownloadCheatSheet');
+        const btnDld = document.getElementById('btnSave as PDFCheatSheet');
         if (btnDld) {
             btnDld.addEventListener('click', () => {
                 const text = "FORMULA CHEAT SHEET\n==================\nReference formulas for state analysis.";
@@ -1369,7 +976,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'Cheat_Sheet.txt';
+                a.Save as PDF = 'Cheat_Sheet.txt';
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1466,5 +1073,27 @@
         setTimeout(drawQHO, 100);
     }
 </script>
-</body>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script></body>
 </html>

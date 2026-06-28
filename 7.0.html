@@ -9,6 +9,8 @@
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="manifest" href="manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="./model_manager.js"></script>
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -453,21 +455,21 @@
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Planner (Qwen-2.5 0.5B)</h5>
                                         <p class="text-[9px] text-slate-500">JSON/Step planner, ~350MB RAM.</p>
                                     </div>
-                                    <button onclick="downloadModel('potato-planner', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                                    <div id="controls-potato-planner" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Text (Qwen-2.5 0.5B)</h5>
                                         <p class="text-[9px] text-slate-500">Fast fallback chat, ~350MB RAM.</p>
                                     </div>
-                                    <button onclick="downloadModel('potato-text', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                                    <div id="controls-potato-text" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Coder (Qwen-2.5-Coder 0.5B)</h5>
                                         <p class="text-[9px] text-slate-500">Regex/SQL snippets, ~350MB RAM.</p>
                                     </div>
-                                    <button onclick="downloadModel('potato-coder', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                                    <div id="controls-potato-coder" class="flex gap-1 ml-auto"></div>
                                 </div>
                             </div>
                         </div>
@@ -483,21 +485,21 @@
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Planner (Llama-3.2 3B)</h5>
                                         <p class="text-[9px] text-slate-500">Chain-of-thought routing, ~2.0GB RAM.</p>
                                     </div>
-                                    <button onclick="downloadModel('medium-planner', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                                    <div id="controls-medium-planner" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Text (Llama-3.2 1B)</h5>
                                         <p class="text-[9px] text-slate-500">Advanced mobile assistant, ~750MB RAM.</p>
                                     </div>
-                                    <button onclick="downloadModel('medium-text', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                                    <div id="controls-medium-text" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Coder (Qwen-2.5-Coder 1.5B)</h5>
                                         <p class="text-[9px] text-slate-500">Complete logic/function gen, ~1.1GB RAM.</p>
                                     </div>
-                                    <button onclick="downloadModel('medium-coder', this)" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">Download</button>
+                                    <div id="controls-medium-coder" class="flex gap-1 ml-auto"></div>
                                 </div>
                             </div>
                         </div>
@@ -667,7 +669,7 @@
                             Local AI Engine
                             <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
                         </label>
-                        <select id="chat-local-model" class="local-model-selector w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors">
+                        <select id="chat-local-model" class="local-model-selector w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors" onchange="handleLocalModelChange(this)">
                             <option value="">(Use Cloud API)</option>
                         </select>
                     </div>
@@ -5001,7 +5003,19 @@
                             let response = "";
                             const intent = classifyChatIntent(text);
 
-                            if (intent === "MATH") {
+                            const localModelSelector = document.getElementById('chat-local-model');
+                            const useLocalModel = localModelSelector && localModelSelector.value !== "";
+
+                            if (useLocalModel) {
+                                if (window.engine) {
+                                    setCognitiveMode('LOCAL_LLM');
+                                    const messages = [{ role: 'user', content: text }];
+                                    const reply = await window.engine.chat.completions.create({ messages });
+                                    response = humanizeHTMLSafe(reply.choices[0].message.content);
+                                } else {
+                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg flex items-center gap-2 uppercase tracking-wider font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Local model selected but engine is not initialized. Please wait for it to load or re-select.</div>`;
+                                }
+                            } else if (intent === "MATH") {
                                 setCognitiveMode('SYMBOLIC_SOLVER');
                                 let mathSol = solveComplexMathAndPhysics(text);
                                 if (mathSol) {
@@ -5755,6 +5769,32 @@
                     });
                 }
                 populateModelSelectors();
+            }
+
+            async function handleLocalModelChange(selectEl) {
+                if (!selectEl.value) {
+                    window.engine = null;
+                    showToast("Switched back to Cloud/Fallback API.");
+                    return;
+                }
+                if (!window.webllm) {
+                    showToast("WebLLM is not loaded yet.");
+                    return;
+                }
+                const modelId = selectEl.value;
+                showToast("Initializing local engine: " + modelId);
+                try {
+                    window.engine = await window.webllm.CreateMLCEngine(modelId, {
+                        initProgressCallback: (progress) => {
+                            const p = Math.round(progress.progress * 100);
+                            console.log("Local model loading: " + p + "%");
+                        }
+                    });
+                    showToast("Local engine ready!");
+                } catch (err) {
+                    console.error("Failed to initialize engine:", err);
+                    showToast("Failed to initialize engine: " + err.message);
+                }
             }
 
             function populateModelSelectors() {

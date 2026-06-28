@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -64,7 +64,34 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(226, 232, 240, 0.8);
         }
-    </style>
+    
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
 
@@ -82,7 +109,7 @@
             </div>
             <button id="btnDownload" class="hidden sm:flex bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                Save Notes
+                Save as PDF
             </button>
         </div>
     </nav>
@@ -337,6 +364,57 @@
                     </div>
                     <div id="quiz-feedback" class="mt-4 p-4 rounded-lg hidden font-bold text-sm"></div>
                 </div>
+            </div>
+        </section>
+
+    
+        <!-- SECTION: Comprehensive Quiz -->
+        <section id="quiz" class="scroll-mt-24 no-print">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+            </div>
+            
+            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <div class="flex gap-2">
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                    </div>
+                </div>
+                
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                
+                <div id="mc-options" class="space-y-3 hidden">
+                    <!-- Options injected here -->
+                </div>
+                
+                <div id="sa-container" class="hidden">
+                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
+                </div>
+                
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
+                </div>
+                
+                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+            </div>
+
+            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
             </div>
         </section>
 
@@ -859,5 +937,302 @@
             }
         });
     </script>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script>
+<script>
+
+    const qBank = [
+  {t:"mc",d:1,q:"What is Newton's law of universal gravitation?",o:["F = G m1 m2 / r^2","F = m a","F = G m1 m2 / r","F = k q1 q2 / r^2"],a:0},
+  {t:"sa",d:1,q:"The gravitational force between two masses is always _______.",a:["attractive"]},
+  {t:"mc",d:1,q:"The universal gravitational constant G is approximately:",o:["6.67 x 10^-11 N m^2/kg^2","9.8 m/s^2","3.0 x 10^8 m/s","8.99 x 10^9 N m^2/C^2"],a:0},
+  {t:"sa",d:1,q:"Gravitational potential energy U for two point masses is defined as U = -G m1 m2 / ?",a:["r"]},
+  {t:"mc",d:1,q:"Why is gravitational potential energy (U) relative to infinity defined as negative?",o:["Because mass is negative","Because the force is always attractive","Because it increases as objects get closer","Because G is negative"],a:1},
+  {t:"sa",d:1,q:"If an object is infinitely far away, its gravitational potential energy is defined as _______.",a:["zero","0"]},
+  {t:"mc",d:1,q:"What is escape velocity?",o:["The speed needed to maintain a circular orbit","The minimum speed needed to reach infinity with zero kinetic energy","The speed of light","The velocity at the center of the Earth"],a:1},
+  {t:"sa",d:1,q:"The formula for escape velocity from the surface of a planet is v = √(2GM/___).",a:["r"]},
+  {t:"mc",d:1,q:"In a circular orbit, the centripetal force is provided entirely by:",o:["Magnetism","Air resistance","Gravity","The normal force"],a:2},
+  {t:"sa",d:1,q:"For a circular orbit, v = √(GM/r). This is the _______ velocity.",a:["orbital","circular"]},
+  {t:"mc",d:1,q:"The total mechanical energy (E) of a satellite in a bound orbit is always:",o:["Positive","Zero","Negative","Infinite"],a:2},
+  {t:"sa",d:1,q:"If E > 0, the trajectory of the object is a _______.",a:["hyperbola"]},
+  {t:"mc",d:1,q:"What shape is a gravitational potential well?",o:["Linear","Parabolic","Hyperbolic funnel","Spherical"],a:2},
+  {t:"sa",d:1,q:"The gravitational potential V = U/m. What is V for a point mass M at distance r?",a:["-gm/r","-g*m/r"]},
+  {t:"mc",d:1,q:"The principle of superposition states that:",o:["Gravity only works on one object at a time","Total potential is the scalar sum of individual potentials","Masses can overlap","Gravity repels at short distances"],a:1},
+  {t:"sa",d:1,q:"Is gravitational potential a scalar or a vector?",a:["scalar"]},
+  {t:"mc",d:1,q:"Kepler's First Law states that planetary orbits are:",o:["Circles","Ellipses with the Sun at one focus","Hyperbolas","Parabolas"],a:1},
+  {t:"sa",d:1,q:"Kepler's Second Law implies that a planet moves fastest when it is _____ to the Sun.",a:["closest","near"]},
+  {t:"mc",d:1,q:"Kepler's Third Law relates the orbital period T to the semi-major axis a. What is the relation?",o:["T proportional to a","T^2 proportional to a^3","T^3 proportional to a^2","T proportional to a^2"],a:1},
+  {t:"sa",d:1,q:"If an object is in a parabolic trajectory, its total mechanical energy E = _____.",a:["zero","0"]},
+
+  {t:"mc",d:2,q:"If the distance between two masses is tripled, the gravitational force between them:",o:["Increases by a factor of 9","Decreases by a factor of 3","Decreases by a factor of 9","Remains the same"],a:2},
+  {t:"sa",d:2,q:"Calculate U if G=1, M=10, m=2, r=5. (U = -GMm/r)",a:-4},
+  {t:"mc",d:2,q:"If a planet's mass doubles but its radius remains the same, its escape velocity:",o:["Doubles","Increases by √2","Halves","Decreases by √2"],a:1},
+  {t:"sa",d:2,q:"Find the orbital velocity v for G=1, M=16, r=4. (v = √(GM/r))",a:2},
+  {t:"mc",d:2,q:"For a circular orbit, the kinetic energy K is related to the potential energy U by:",o:["K = U","K = -U","K = -U/2","K = -2U"],a:2},
+  {t:"sa",d:2,q:"If U = -100 J for a circular orbit, what is the kinetic energy K?",a:50},
+  {t:"mc",d:2,q:"The total energy E for a circular orbit is related to U by:",o:["E = U","E = U/2","E = -U","E = -U/2"],a:1},
+  {t:"sa",d:2,q:"If U = -100 J for a circular orbit, what is the total energy E?",a:-50},
+  {t:"mc",d:2,q:"If an object is launched from Earth's surface with exactly the escape velocity, its total energy is:",o:["-GMm/R","0","GMm/2R","Infinite"],a:1},
+  {t:"sa",d:2,q:"A satellite has E = -40 J. How much work must be done on it to allow it to escape to infinity?",a:40},
+  {t:"mc",d:2,q:"Gravitational field g at a distance r from mass M is:",o:["GM/r","GM/r^2","-GMm/r","GmM/r^2"],a:1},
+  {t:"sa",d:2,q:"If Earth's radius is R and mass M, g at the surface is GM/R^2. What is g at a height R above the surface (distance 2R)? (Express as a fraction of surface g, e.g., 0.25)",a:["0.25","1/4"]},
+  {t:"mc",d:2,q:"Two equal masses M are placed at x=-a and x=+a. The potential at the origin (x=0) is:",o:["0","-GM/a","-2GM/a","Infinite"],a:2},
+  {t:"sa",d:2,q:"Calculate escape velocity if 2GM = 18 and r = 2. (v = √(2GM/r))",a:3},
+  {t:"mc",d:2,q:"A satellite moves from a circular orbit of radius R to 2R. Its total energy:",o:["Increases (becomes less negative)","Decreases (becomes more negative)","Stays the same","Becomes positive"],a:0},
+  {t:"sa",d:2,q:"The work done by gravity as a mass moves along an equipotential surface is _____.",a:["zero","0"]},
+  {t:"mc",d:2,q:"A planet has mass 4M and radius 2R compared to Earth. Its surface gravity compared to Earth is:",o:["The same","Twice as large","Four times as large","Half as large"],a:0},
+  {t:"sa",d:2,q:"For an elliptical orbit, the semi-major axis is a. The total energy is E = -GMm / ?",a:["2a","2*a"]},
+  {t:"mc",d:2,q:"At the periapsis (closest approach) of an elliptical orbit, the satellite has:",o:["Maximum U, Minimum K","Minimum U, Maximum K","Minimum U, Minimum K","Maximum U, Maximum K"],a:1},
+  {t:"sa",d:2,q:"According to Kepler's Third Law, if orbital radius R is multiplied by 4, the period T is multiplied by _____.",a:8},
+
+  {t:"mc",d:3,q:"The gravitational potential V inside a uniform spherical shell of mass M and radius R is:",o:["Zero","Constant and equals -GM/R","-GM/r","Proportional to r"],a:1},
+  {t:"sa",d:3,q:"The gravitational field inside a uniform spherical shell is _____.",a:["zero","0"]},
+  {t:"mc",d:3,q:"For a solid uniform sphere of mass M and radius R, the gravitational force inside (r < R) is proportional to:",o:["1/r^2","1/r","r","r^2"],a:2},
+  {t:"sa",d:3,q:"If you drill a hole through the Earth and drop a ball in, its motion will be simple _______.",a:["harmonic"]},
+  {t:"mc",d:3,q:"A binary star system consists of two stars of mass M and 2M. They orbit their common center of mass. The CM is closer to:",o:["The mass M","The mass 2M","Exactly in the middle","Depends on their velocities"],a:1},
+  {t:"sa",d:3,q:"In a binary system (M1, M2) separated by distance d, the total potential energy is U = -G*M1*M2 / ?",a:["d"]},
+  {t:"mc",d:3,q:"To move a satellite from circular orbit R_1 to R_2 (R_2 > R_1), the required $\Delta E$ is:",o:["GMm/2R_1 - GMm/2R_2","GMm/R_1 - GMm/R_2","GMm/2R_2 - GMm/2R_1","GMm(1/R_1 + 1/R_2)"],a:0},
+  {t:"sa",d:3,q:"A Hohmann transfer orbit between R_1 and R_2 is an ellipse with semi-major axis a = (R_1 + R_2) / ?",a:2},
+  {t:"mc",d:3,q:"The vis-viva equation relates speed v, radius r, and semi-major axis a. What is the equation?",o:["v^2 = GM(2/r - 1/a)","v^2 = GM(1/r - 2/a)","v^2 = GM/a","v^2 = 2GM(1/r + 1/a)"],a:0},
+  {t:"sa",d:3,q:"Using the vis-viva equation (v^2 = GM(2/r - 1/a)), if r = a (circular orbit), what does v^2 equal?",a:["gm/a"]},
+  {t:"mc",d:3,q:"A projectile is fired straight up with velocity v_0 from a planet (radius R, mass M). The max height h reached (from the center) is found using:",o:["Conservation of momentum","v_0^2 = 2gh","Conservation of energy","Newton's third law"],a:2},
+  {t:"sa",d:3,q:"To find max height: 1/2 m v_0^2 - GMm/R = -GMm/r_max. If 1/2 m v_0^2 = GMm/(2R), find r_max.",a:["2r"]},
+  {t:"mc",d:3,q:"The effective potential U_eff for orbital motion includes the actual potential plus a 'centrifugal' term. U_eff(r) =",o:["-GMm/r + L^2/(2mr^2)","-GMm/r - L^2/(2mr^2)","GMm/r + L^2/(mr^2)","-GMm/r + 1/2 mv^2"],a:0},
+  {t:"sa",d:3,q:"The minimum of the effective potential corresponds to a _______ orbit.",a:["circular"]},
+  {t:"mc",d:3,q:"Lagrange points are positions where a small mass can maintain a constant position relative to two orbiting large masses. How many Lagrange points are there?",o:["3","4","5","6"],a:2},
+  {t:"sa",d:3,q:"Which Lagrange points (L1-L5) are generally stable?",a:["l4 and l5","l4, l5","l4,l5"]},
+  {t:"mc",d:3,q:"An object is in an elliptical orbit. Its angular momentum with respect to the central body is:",o:["Maximum at periapsis","Maximum at apoapsis","Constant everywhere","Zero"],a:2},
+  {t:"sa",d:3,q:"Areal velocity (dA/dt) is constant (Kepler's 2nd law). dA/dt = L / (2 * ?)",a:["m","mass"]},
+  {t:"mc",d:3,q:"In a binary star system, the stars always have the same:",o:["Speed","Kinetic energy","Orbital period","Orbit radius"],a:2},
+  {t:"sa",d:3,q:"The eccentricity e of a circular orbit is _____.",a:0},
+
+  {t:"mc",d:4,q:"For a solid uniform sphere, the gravitational potential V(r) inside (r < R) is V(r) = -GM/(2R^3) * (3R^2 - r^2). The potential at the center (r=0) is:",o:["-GM/R","-3GM/(2R)","0","Infinite"],a:1},
+  {t:"sa",d:4,q:"The work needed to completely disassemble a uniform sphere of mass M and radius R to infinity (its gravitational binding energy) is U = -(3/5) * GM^2 / ?",a:["r"]},
+  {t:"mc",d:4,q:"A Roche limit is:",o:["The max distance a moon can orbit","The minimum distance a fluid moon can approach a planet without being torn apart by tidal forces","The speed of light","The boundary of a black hole"],a:1},
+  {t:"sa",d:4,q:"Tidal forces arise due to the _______ of the gravitational field across an object.",a:["gradient","difference"]},
+  {t:"mc",d:4,q:"Tidal force on an object of length L at distance d from mass M is proportional to:",o:["1/d^2","1/d^3","1/d","d"],a:1},
+  {t:"sa",d:4,q:"The Hill sphere is the region around a planet where its gravity dominates over the _______.",a:["sun","star"]},
+  {t:"mc",d:4,q:"In general relativity, gravity is not a force but:",o:["A quantum field","Curvature of spacetime","An illusion","A string vibration"],a:1},
+  {t:"sa",d:4,q:"The radius of a black hole (where escape velocity = c) is the _______ radius. (r = 2GM/c^2)",a:["schwarzschild"]},
+  {t:"mc",d:4,q:"If an object falls from infinity, its speed at distance r is exactly:",o:["Orbital speed","Escape velocity at r","Half the escape velocity","c"],a:1},
+  {t:"sa",d:4,q:"A hyperbolic orbit has eccentricity e > ?",a:1},
+  {t:"mc",d:4,q:"The specific mechanical energy (epsilon = E/m) for an orbit is related to the gravitational parameter (mu = GM) and semi-major axis (a) by:",o:["epsilon = -mu / (2a)","epsilon = -mu / a","epsilon = mu / (2a)","epsilon = 0"],a:0},
+  {t:"sa",d:4,q:"If eccentricity e = 1, the orbit is a _______.",a:["parabola"]},
+  {t:"mc",d:4,q:"The true anomaly is:",o:["The angle between the periapsis and the satellite's current position","The eccentricity","The tilt of the orbit","The energy anomaly"],a:0},
+  {t:"sa",d:4,q:"The orbital equation is r = p / (1 + e*cos(theta)). What is 'p' called?",a:["semi-latus rectum","parameter"]},
+  {t:"mc",d:4,q:"The argument of periapsis defines:",o:["The size of the orbit","The shape of the orbit","The orientation of the ellipse in the orbital plane","The inclination"],a:2},
+  {t:"sa",d:4,q:"What is the turning angle (delta) of a hyperbolic flyby if eccentricity is e? (sin(delta/2) = 1/e). If e=2, delta = ?",a:["60","60 degrees"]},
+  {t:"mc",d:4,q:"Gravitational slingshot (gravity assist) can change a spacecraft's speed relative to the Sun. This works by transferring:",o:["Mass from the planet","Angular momentum and energy from the planet's orbit","Heat energy","Electric charge"],a:1},
+  {t:"sa",d:4,q:"In a frame centered on the planet, a gravity assist is just an elastic _______ collision.",a:["scattering","hyperbolic"]},
+  {t:"mc",d:4,q:"The two-body problem can be reduced to a one-body problem using:",o:["Reduced mass","Increased mass","Relativity","Center of volume"],a:0},
+  {t:"sa",d:4,q:"Reduced mass mu = (m1*m2) / (m1 + ?)",a:["m2"]},
+
+  {t:"mc",d:5,q:"In the restricted three-body problem, the Jacobi integral is a constant of motion related to:",o:["Momentum","Angular momentum","Energy in the rotating frame","Mass"],a:2},
+  {t:"sa",d:5,q:"The contours of constant Jacobi integral define zero-_______ surfaces.",a:["velocity"]},
+  {t:"mc",d:5,q:"The Kozai mechanism (or Lidov-Kozai resonance) involves periodic exchange between an orbit's:",o:["Eccentricity and inclination","Semi-major axis and energy","Mass and charge","Period and radius"],a:0},
+  {t:"sa",d:5,q:"In a Kozai cycle, the quantity √(1 - e²) * cos(i) is approximately _______.",a:["constant","conserved"]},
+  {t:"mc",d:5,q:"The Lense-Thirring effect (frame-dragging) is a relativistic effect caused by:",o:["A massive object's charge","A massive object's rotation","A massive object's linear velocity","Dark matter"],a:1},
+  {t:"sa",d:5,q:"Gravitational waves are ripples in spacetime caused by accelerating _______. (Hint: must have non-zero quadrupole moment)",a:["masses"]},
+  {t:"mc",d:5,q:"The Post-Newtonian expansion approximates general relativity in the limit of:",o:["Weak fields and slow motion","Strong fields and high speed","Quantum scales","Cosmological distances"],a:0},
+  {t:"sa",d:5,q:"The anomalous perihelion precession of _______ was a key early test of General Relativity.",a:["mercury"]},
+  {t:"mc",d:5,q:"Birkhoff's theorem states that any spherically symmetric solution of the vacuum field equations must be:",o:["Rotating","Static and asymptotically flat (Schwarzschild)","Expanding","Charged"],a:1},
+  {t:"sa",d:5,q:"In the Schwarzschild metric, the coordinate time t goes to _______ for a particle falling toward the event horizon (as seen by a distant observer).",a:["infinity"]},
+  {t:"mc",d:5,q:"The Kerr metric describes the spacetime geometry around a:",o:["Static uncharged black hole","Rotating uncharged black hole","Static charged black hole","Rotating charged black hole"],a:1},
+  {t:"sa",d:5,q:"The region outside a rotating black hole where objects are forced to rotate with the hole is the _______.",a:["ergosphere"]},
+  {t:"mc",d:5,q:"Penrose diagrams (Carter-Penrose diagrams) are used to:",o:["Calculate orbital trajectories","Visualize the causal structure of spacetime, mapping infinity to a finite boundary","Plot potential energy wells","Design spacecraft"],a:1},
+  {t:"sa",d:5,q:"Hawking radiation implies that black holes have a finite _______ and entropy.",a:["temperature"]},
+  {t:"mc",d:5,q:"The equivalence principle states that:",o:["Mass and energy are equal","Inertial mass and gravitational mass are indistinguishable locally","Gravity and electromagnetism are the same","All frames of reference are inertial"],a:1},
+  {t:"sa",d:5,q:"The Bekenstein-Hawking entropy of a black hole is proportional to the _______ of its event horizon.",a:["area"]},
+  {t:"mc",d:5,q:"Dark matter is required to explain the flat rotation curves of galaxies. The visible matter predicts a velocity profile that:",o:["Increases linearly with radius","Decreases as 1/√r at large radii","Is constant everywhere","Oscillates"],a:1},
+  {t:"sa",d:5,q:"The Lambda-CDM model is the standard model of cosmology. CDM stands for Cold _____ Matter.",a:["dark"]},
+  {t:"mc",d:5,q:"Cosmic inflation predicts that the spatial curvature of the universe should be very close to:",o:["Zero (flat)","Positive (spherical)","Negative (hyperbolic)","Infinite"],a:0},
+  {t:"sa",d:5,q:"The expansion of the universe is accelerating due to Dark _______.",a:["energy"]}
+];
+
+</script>
+
+<script>
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE
+    // =========================================================
+    let currentQuiz = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        const results = document.getElementById('results-screen');
+        if (intro) intro.classList.add('hidden');
+        if (results) results.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    function initQuiz() {
+        if (typeof qBank === 'undefined' || qBank.length === 0) return;
+        currentQuiz = [];
+        // Sample 2 per difficulty level 1-5
+        for(let d=1; d<=5; d++) {
+            let diffQs = qBank.filter(q => q.d === d);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
+            currentQuiz = currentQuiz.concat(diffQs);
+        }
+        currentQIndex = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentQIndex >= currentQuiz.length) {
+            showResults();
+            return;
+        }
+        
+        const q = currentQuiz[currentQIndex];
+        document.getElementById('q-current').innerText = currentQIndex + 1;
+        
+        const diffInd = document.getElementById('diff-indicator');
+        diffInd.innerText = 'Level ' + q.d;
+        diffInd.className = 'text-xs font-bold px-3 py-1 rounded-full ' + 
+            (q.d===1 ? 'bg-green-100 text-green-700' : 
+             q.d===2 ? 'bg-blue-100 text-blue-700' : 
+             q.d===3 ? 'bg-yellow-100 text-yellow-700' : 
+             q.d===4 ? 'bg-orange-100 text-orange-700' : 
+             'bg-red-100 text-red-700');
+
+        document.getElementById('q-text').innerHTML = q.q;
+        
+        const mcOps = document.getElementById('mc-options');
+        const saCont = document.getElementById('sa-container');
+        const saInput = document.getElementById('sa-input');
+        
+        mcOps.innerHTML = '';
+        if(q.t === 'mc') {
+            mcOps.classList.remove('hidden');
+            saCont.classList.add('hidden');
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-primary-500 hover:bg-primary-50 transition font-medium text-slate-700";
+                btn.innerHTML = String.fromCharCode(65+idx) + ". " + opt;
+                btn.onclick = () => selectOption(btn, idx);
+                mcOps.appendChild(btn);
+            });
+        } else {
+            mcOps.classList.add('hidden');
+            saCont.classList.remove('hidden');
+            saInput.value = '';
+            saInput.disabled = false;
+        }
+        
+        document.getElementById('btn-submit').classList.remove('hidden');
+        document.getElementById('btn-next').classList.add('hidden');
+        document.getElementById('feedback-box').classList.add('hidden');
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([document.getElementById('q-text'), mcOps]).catch(err=>console.log(err));
+        }
+    }
+
+    let selectedIdx = -1;
+    function selectOption(btn, idx) {
+        if(document.getElementById('btn-submit').classList.contains('hidden')) return;
+        const btns = document.getElementById('mc-options').children;
+        for(let b of btns) {
+            b.classList.remove('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+            b.classList.add('border-slate-200');
+        }
+        btn.classList.remove('border-slate-200');
+        btn.classList.add('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+        selectedIdx = idx;
+    }
+
+    function submitAnswer() {
+        const q = currentQuiz[currentQIndex];
+        const fb = document.getElementById('feedback-box');
+        let isCorrect = false;
+        
+        if(q.t === 'mc') {
+            if(selectedIdx === -1) return;
+            isCorrect = (selectedIdx === q.a);
+            const btns = document.getElementById('mc-options').children;
+            btns[q.a].classList.add('bg-green-100', 'border-green-500');
+            if(!isCorrect) {
+                btns[selectedIdx].classList.add('bg-red-100', 'border-red-500');
+            }
+        } else {
+            const input = document.getElementById('sa-input');
+            const val = input.value.trim().toLowerCase();
+            if(val === '') return;
+            input.disabled = true;
+            
+            if(Array.isArray(q.a)) {
+                isCorrect = q.a.some(ans => val === ans.toString().toLowerCase());
+            } else {
+                if(typeof q.a === 'number') {
+                    const numVal = parseFloat(val);
+                    isCorrect = !isNaN(numVal) && Math.abs(numVal - q.a) < 0.05 * Math.abs(q.a);
+                    if(q.a === 0 && Math.abs(numVal) < 0.05) isCorrect = true;
+                } else {
+                    isCorrect = (val === q.a.toString().toLowerCase());
+                }
+            }
+            if(isCorrect) input.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+            else input.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+        }
+        
+        fb.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+        if(isCorrect) {
+            score++;
+            fb.classList.add('bg-green-100', 'text-green-800');
+            fb.innerHTML = "<strong>Correct!</strong> Well done.";
+        } else {
+            fb.classList.add('bg-red-100', 'text-red-800');
+            let corrText = q.t === 'mc' ? String.fromCharCode(65+q.a) + ". " + q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+            fb.innerHTML = "<strong>Incorrect.</strong> The correct answer is: " + corrText;
+        }
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([fb]).catch(e=>console.log(e));
+        }
+        
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        selectedIdx = -1;
+        loadQuestion();
+    }
+
+    function showResults() {
+        document.getElementById('quiz-main-content').classList.add('hidden');
+        const res = document.getElementById('results-screen');
+        res.classList.remove('hidden');
+        document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
 </body>
 </html>

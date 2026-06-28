@@ -9,6 +9,7 @@
     <link rel="apple-touch-icon" href="logo.png">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="./model_manager.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -418,6 +419,40 @@
             </a>
 
         </div>
+    
+            <!-- Download Modal -->
+            <div id="downloadModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl">
+                    <h3 class="text-lg font-bold text-white mb-2"><i class="fa-solid fa-download text-indigo-400 mr-2"></i>Offline Model Required</h3>
+                    <p class="text-sm text-slate-400 mb-4">You need an offline text model to use AI features. Would you like to download one now?</p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="border border-slate-700 rounded-lg p-3 bg-slate-800/50 hover:bg-slate-800 cursor-pointer transition" onclick="startModelDownload('potato-text')">
+                            <h4 class="text-sm font-bold text-white">Potato Text (Qwen-2.5)</h4>
+                            <p class="text-xs text-slate-400">Fast, ~350MB. Good for standard usage.</p>
+                        </div>
+                        <div class="border border-slate-700 rounded-lg p-3 bg-slate-800/50 hover:bg-slate-800 cursor-pointer transition" onclick="startModelDownload('medium-text')">
+                            <h4 class="text-sm font-bold text-white">Medium Text (Llama-3.2)</h4>
+                            <p class="text-xs text-slate-400">Higher quality, ~750MB. Best experience.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end gap-2">
+                        <button onclick="document.getElementById('downloadModal').classList.add('hidden')" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-300 hover:text-white transition">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                function startModelDownload(modelKey) {
+                    if (window.modelManager) {
+                        window.modelManager.startDownload(modelKey);
+                        document.getElementById('downloadModal').classList.add('hidden');
+                        alert("Download started in the background! You can view progress in Settings.");
+                    }
+                }
+            </script>
+
     </main>
 
     <!-- Footer -->
@@ -482,7 +517,7 @@
             }
 
             // AI Web Worker Setup
-            let aiWorker = null;
+            
             let currentMode = 'normal'; // 'normal' or 'ai_search'
 
             aiSearchBtn.addEventListener('click', () => {
@@ -511,6 +546,12 @@
                     return;
                 }
 
+                const bestModelKey = window.modelManager ? window.modelManager.getBestTextModel() : null;
+                if (!bestModelKey) {
+                    document.getElementById('downloadModal').classList.remove('hidden');
+                    return;
+                }
+
                 // Show UI
                 aiOverviewContainer.classList.remove('hidden');
                 
@@ -519,67 +560,69 @@
                 aiOverviewContent.style.display = 'block';
                 aiOverviewChevron.classList.replace('fa-chevron-down', 'fa-chevron-up');
                 
-                aiOutputText.innerText = "Thinking...";
-                aiStatusBadge.innerText = "Initializing Model";
+                aiOutputText.innerText = "Initializing Model...";
+                aiStatusBadge.innerText = "Loading";
                 aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 ml-auto";
                 aiModelLoadingText.classList.remove('hidden');
+                
+                generateResponse(prompt, bestModelKey);
+            }
+            
+            async function generateResponse(prompt, modelKey) {
+                try {
+                    const modelId = window.modelManager.LOCAL_MODELS[modelKey].id;
+                    const engine = await window.webllm.CreateMLCEngine(modelId, {
+                        initProgressCallback: (progress) => {
+                            aiStatusBadge.innerText = "Loading Model...";
+                            const pct = Math.round(progress.progress * 100);
+                            downloadPct.innerText = pct;
+                            aiProgressBar.style.width = pct + "%";
+                        }
+                    });
 
-                if (!aiWorker) {
-                    aiWorker = new Worker('ai_worker.js', { type: 'module' });
+                    aiStatusBadge.innerText = "Generating...";
+                    aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-400 ml-auto";
+                    aiModelLoadingText.classList.add('hidden');
+                    aiProgressBar.style.width = "100%";
+
+                    let systemPrompt = "";
+                    if (currentMode === 'ai_search') {
+                        systemPrompt = "You are a highly concise AI recommender for Anthocyan AI. Based on the user's prompt, recommend the most suitable lessons from the catalog and explain why. Keep the overview brief (2-3 sentences max) and explicitly name the lessons. 
+
+Catalog Metadata:
+" + lessonCatalog;
+                    } else {
+                        systemPrompt = "You are a concise AI assistant. Provide a brief overview of the concepts mentioned in the user's search query. Keep it under 2 sentences. 
+
+Catalog Metadata:
+" + lessonCatalog;
+                    }
+
+                    const messages = [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: prompt }
+                    ];
+
+                    aiOutputText.innerText = "";
+                    aiProgressBar.style.width = "0%";
                     
-                    aiWorker.onmessage = (e) => {
-                        const { type, data, mode } = e.data;
-                        
-                        if (type === 'progress') {
-                            if (data.status === 'download' || data.status === 'progress') {
-                                aiStatusBadge.innerText = "Downloading SLM...";
-                                if (data.progress) {
-                                    const pct = Math.round(data.progress);
-                                    downloadPct.innerText = pct;
-                                    aiProgressBar.style.width = `${pct}%`;
-                                }
-                            } else if (data.status === 'ready') {
-                                aiProgressBar.style.width = `100%`;
-                                aiModelLoadingText.classList.add('hidden');
-                                aiStatusBadge.innerText = "Generating...";
-                                aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-400 ml-auto";
-                                aiOutputText.innerText = "";
-                                aiProgressBar.style.width = `0%`; // Reset for aesthetic
-                            }
-                        } 
-                        else if (type === 'update') {
-                            aiOutputText.innerText = data;
-                            // Attempt to filter cards dynamically based on what AI is writing if in ai_search mode
-                            if (mode === 'ai_search') {
-                                highlightRecommendedCards(data);
-                            }
+                    const chunks = await engine.chat.completions.create({ messages, stream: true, temperature: 0.4, max_tokens: 150 });
+                    for await (const chunk of chunks) {
+                        const text = chunk.choices[0]?.delta?.content || "";
+                        aiOutputText.innerText += text;
+                        if (currentMode === 'ai_search') {
+                            highlightRecommendedCards(aiOutputText.innerText);
                         }
-                        else if (type === 'complete') {
-                            aiOutputText.innerText = data;
-                            aiStatusBadge.innerText = "Completed";
-                            aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 ml-auto";
-                            if (mode === 'ai_search') {
-                                highlightRecommendedCards(data);
-                            }
-                        }
-                        else if (type === 'error') {
-                            aiOutputText.innerText = `Error: ${data}`;
-                            aiStatusBadge.innerText = "Failed";
-                            aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 ml-auto";
-                        }
-                    };
+                    }
+                    aiStatusBadge.innerText = "Complete";
+                    aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 ml-auto";
+                } catch(e) {
+                    aiOutputText.innerText = "Error: " + e.message;
+                    aiStatusBadge.innerText = "Failed";
+                    aiStatusBadge.className = "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 ml-auto";
                 }
-
-                // Send request
-                aiWorker.postMessage({
-                    type: 'generate',
-                    prompt: prompt,
-                    context: lessonCatalog,
-                    mode: currentMode
-                });
             }
 
-            // Highlight recommended cards function
             function highlightRecommendedCards(aiText) {
                 const lowerText = aiText.toLowerCase();
                 lessonCards.forEach(card => {

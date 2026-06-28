@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -49,49 +49,97 @@
     </script>
 
     <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 10px; height: 10px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        /* Interactive Elements */
-        .slider-custom {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 5px;
-            outline: none;
-        }
-        .slider-custom::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #2563eb;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .slider-custom::-webkit-slider-thumb:hover { transform: scale(1.2); }
-        
-        /* Math formatting */
-        .math-block {
-            overflow-x: auto;
-            padding: 1rem;
-            background-color: #f8fafc;
-            border-radius: 0.5rem;
-            border-left: 4px solid #3b82f6;
-            margin: 1.5rem 0;
-        }
-        
-        /* Content formatting */
-        .text-content p { margin-bottom: 1.25rem; line-height: 1.75; color: #334155; }
-        .text-content h2 { margin-top: 2.5rem; margin-bottom: 1.25rem; font-size: 1.875rem; font-weight: 700; color: #0f172a; }
-        .text-content h3 { margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.5rem; font-weight: 600; color: #1e293b; }
-        .text-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; color: #334155; }
-        .text-content li { margin-bottom: 0.5rem; }
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --border-color: #e2e8f0;
+      --nav-active-bg: #eff6ff;
+      --nav-active-text: #2563eb;
+      --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --bg-page: #0f172a;
+      --bg-card: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+      --nav-active-bg: #1e3a8a;
+      --nav-active-text: #93c5fd;
+      --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: var(--bg-page); color: var(--text-primary); }
+    [data-theme="dark"] .bg-white { background-color: var(--bg-card) !important; }
+    [data-theme="dark"] .bg-slate-50 { background-color: #1e293b !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav { background-color: rgba(15,23,42,0.95) !important; border-bottom-color: #334155 !important; }
+    [data-theme="dark"] .text-content p { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-content h2 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-content h3 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .math-block { background: #1e293b !important; border-left-color: #3b82f6; }
+    [data-theme="dark"] blockquote { background: #1e293b !important; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    /* Interactive Elements */
+    .slider-custom {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 5px;
+        outline: none;
+    }
+    .slider-custom::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #2563eb;
+        cursor: pointer;
+        transition: transform 0.1s;
+    }
+    .slider-custom::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    
+    /* Math formatting */
+    .math-block {
+        overflow-x: auto;
+        padding: 1rem;
+        background-color: #f8fafc;
+        border-radius: 0.5rem;
+        border-left: 4px solid #3b82f6;
+        margin: 1.5rem 0;
+    }
+    
+    /* Content formatting */
+    .text-content p { margin-bottom: 1.25rem; line-height: 1.75; color: #334155; }
+    .text-content h2 { margin-top: 2.5rem; margin-bottom: 1.25rem; font-size: 1.875rem; font-weight: 700; color: #0f172a; }
+    .text-content h3 { margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.5rem; font-weight: 600; color: #1e293b; }
+    .text-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; color: #334155; }
+    .text-content li { margin-bottom: 0.5rem; }
+
+    /* Sidebar active state */
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #475569; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: #2563eb; background: #eff6ff; }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+
+    /* Dark mode toggle button */
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; border-color: #bfdbfe; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }
+    [data-theme="dark"] #darkModeToggle:hover { background: #1e293b; color: #93c5fd; }
     </style>
 
     <style>
@@ -115,15 +163,16 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center space-x-3">
                     <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span class="font-bold text-xl tracking-tight text-slate-900">Electrodynamics<span class="text-primary-600">.edu</span></span>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">Electromagnetic Induction</span>
                 </div>
-                <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#flux" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Magnetic Flux</a>
-                    <a href="#faraday" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Faraday's Law</a>
-                    <a href="#lenz" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Lenz's Law</a>
-                    <a href="#applications" class="text-sm font-medium text-slate-600 hover:text-primary-600 transition">Applications</a>
-                    <button id="btnDownloadNav" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition transform hover:-translate-y-0.5">
-                        Download Cheat Sheet
+                <div class="flex items-center gap-2">
+                    <button id="darkModeToggle" title="Toggle dark/light mode" aria-label="Toggle dark mode">
+                      <svg id="iconSun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+                      <svg id="iconMoon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </button>
+                    <button onclick="window.print()" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Save as PDF
                     </button>
                 </div>
             </div>
@@ -137,15 +186,15 @@
         <aside class="w-full md:w-64 flex-shrink-0 hidden lg:block">
             <div class="sticky top-24 bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                 <h4 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Table of Contents</h4>
-                <nav class="space-y-2 text-sm">
-                    <a href="#intro" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">1. The Governing Physics</a>
-                    <a href="#flux" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">2. Magnetic Flux ($\Phi_B$)</a>
-                    <a href="#faraday" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">3. Faraday's Law & Mechanics</a>
-                    <a href="#lenz" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">4. Lenz's Law & The Right Hand</a>
-                    <a href="#motional" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">5. Motional EMF</a>
-                    <a href="#advanced" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">6. Inductance & Eddy Currents</a>
-                    <a href="#strategy" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">7. Problem-Solving Strategy</a>
-                    <a href="#quiz" class="block text-slate-600 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-md transition">8. Concept Check Quiz</a>
+                <nav id="toc-nav" class="space-y-1 text-sm">
+                    <a href="#intro" class="sidebar-link" data-section="intro">1. The Governing Physics</a>
+                    <a href="#flux" class="sidebar-link" data-section="flux">2. Magnetic Flux</a>
+                    <a href="#faraday" class="sidebar-link" data-section="faraday">3. Faraday's Law &amp; Mechanics</a>
+                    <a href="#lenz" class="sidebar-link" data-section="lenz">4. Lenz's Law</a>
+                    <a href="#motional" class="sidebar-link" data-section="motional">5. Motional EMF</a>
+                    <a href="#advanced" class="sidebar-link" data-section="advanced">6. Inductance &amp; Eddy Currents</a>
+                    <a href="#strategy" class="sidebar-link" data-section="strategy">7. Problem-Solving Strategy</a>
+                    <a href="#quiz" class="sidebar-link" data-section="quiz">8. Concept Check Quiz</a>
                 </nav>
             </div>
         </aside>
@@ -1286,966 +1335,116 @@ Desc: Back-EMF generated by a coil resisting changes in its own current.
     // DIAGNOSTIC QUIZ ENGINE: 100 QUESTIONS
     // =========================================================
     const qBank = [
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of magnetic flux?",
-    "o": [
-      "Weber",
-      "Tesla",
-      "Henry",
-      "Farad"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the device that converts mechanical energy to electrical energy.",
-    "a": [
-      "generator",
-      "dynamo"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of magnetic flux?",
-    "o": [
-      "Weber",
-      "Tesla",
-      "Henry",
-      "Farad"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the device that converts mechanical energy to electrical energy.",
-    "a": [
-      "generator",
-      "dynamo"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of magnetic flux?",
-    "o": [
-      "Weber",
-      "Tesla",
-      "Henry",
-      "Farad"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the device that converts mechanical energy to electrical energy.",
-    "a": [
-      "generator",
-      "dynamo"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "What is the SI unit of magnetic flux?",
-    "o": [
-      "Weber",
-      "Tesla",
-      "Henry",
-      "Farad"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Name the device that converts mechanical energy to electrical energy.",
-    "a": [
-      "generator",
-      "dynamo"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find induced EMF in a coil with $N = 5$ turns if magnetic flux changes at $3$ Wb/s.",
-    "o": [
-      "15",
-      "20",
-      "10",
-      "30"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 6$ T and perpendicular area $A = 4$ m\u00b2.",
-    "a": 24
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find induced EMF in a coil with $N = 7$ turns if magnetic flux changes at $5$ Wb/s.",
-    "o": [
-      "35",
-      "40",
-      "30",
-      "70"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 8$ T and perpendicular area $A = 6$ m\u00b2.",
-    "a": 48
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find induced EMF in a coil with $N = 9$ turns if magnetic flux changes at $7$ Wb/s.",
-    "o": [
-      "63",
-      "68",
-      "58",
-      "126"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 10$ T and perpendicular area $A = 8$ m\u00b2.",
-    "a": 80
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find induced EMF in a coil with $N = 11$ turns if magnetic flux changes at $9$ Wb/s.",
-    "o": [
-      "99",
-      "104",
-      "94",
-      "198"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 12$ T and perpendicular area $A = 10$ m\u00b2.",
-    "a": 120
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find induced EMF in a coil with $N = 13$ turns if magnetic flux changes at $11$ Wb/s.",
-    "o": [
-      "143",
-      "148",
-      "138",
-      "286"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 14$ T and perpendicular area $A = 12$ m\u00b2.",
-    "a": 168
-  },
-  {
-    "t": "mc",
-    "d": 1,
-    "q": "Find induced EMF in a coil with $N = 15$ turns if magnetic flux changes at $13$ Wb/s.",
-    "o": [
-      "195",
-      "200",
-      "190",
-      "390"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 1,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 16$ T and perpendicular area $A = 14$ m\u00b2.",
-    "a": 224
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "According to Lenz's law, the magnetic field of an induced current opposes what?",
-    "o": [
-      "Change in flux",
-      "External magnetic field",
-      "Current flow",
-      "Lorentz force"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "State the rule used to find induced current direction.",
-    "a": [
-      "lenz's law",
-      "right hand rule"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "According to Lenz's law, the magnetic field of an induced current opposes what?",
-    "o": [
-      "Change in flux",
-      "External magnetic field",
-      "Current flow",
-      "Lorentz force"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "State the rule used to find induced current direction.",
-    "a": [
-      "lenz's law",
-      "right hand rule"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "According to Lenz's law, the magnetic field of an induced current opposes what?",
-    "o": [
-      "Change in flux",
-      "External magnetic field",
-      "Current flow",
-      "Lorentz force"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "State the rule used to find induced current direction.",
-    "a": [
-      "lenz's law",
-      "right hand rule"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "According to Lenz's law, the magnetic field of an induced current opposes what?",
-    "o": [
-      "Change in flux",
-      "External magnetic field",
-      "Current flow",
-      "Lorentz force"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "State the rule used to find induced current direction.",
-    "a": [
-      "lenz's law",
-      "right hand rule"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find induced EMF in a coil with $N = 9$ turns if magnetic flux changes at $5$ Wb/s.",
-    "o": [
-      "45",
-      "50",
-      "40",
-      "90"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 10$ T and perpendicular area $A = 6$ m\u00b2.",
-    "a": 60
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find induced EMF in a coil with $N = 11$ turns if magnetic flux changes at $7$ Wb/s.",
-    "o": [
-      "77",
-      "82",
-      "72",
-      "154"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 12$ T and perpendicular area $A = 8$ m\u00b2.",
-    "a": 96
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find induced EMF in a coil with $N = 13$ turns if magnetic flux changes at $9$ Wb/s.",
-    "o": [
-      "117",
-      "122",
-      "112",
-      "234"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 14$ T and perpendicular area $A = 10$ m\u00b2.",
-    "a": 140
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find induced EMF in a coil with $N = 15$ turns if magnetic flux changes at $11$ Wb/s.",
-    "o": [
-      "165",
-      "170",
-      "160",
-      "330"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 16$ T and perpendicular area $A = 12$ m\u00b2.",
-    "a": 192
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find induced EMF in a coil with $N = 17$ turns if magnetic flux changes at $13$ Wb/s.",
-    "o": [
-      "221",
-      "226",
-      "216",
-      "442"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 18$ T and perpendicular area $A = 14$ m\u00b2.",
-    "a": 252
-  },
-  {
-    "t": "mc",
-    "d": 2,
-    "q": "Find induced EMF in a coil with $N = 19$ turns if magnetic flux changes at $15$ Wb/s.",
-    "o": [
-      "285",
-      "290",
-      "280",
-      "570"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 2,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 20$ T and perpendicular area $A = 16$ m\u00b2.",
-    "a": 320
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Which law states that induced EMF is equal to the negative rate of change of flux?",
-    "o": [
-      "Faraday's Law",
-      "Ampere's Law",
-      "Gauss's Law",
-      "Coulomb's Law"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the name of Term 2 in general induction equation.",
-    "a": [
-      "motional emf",
-      "motional"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Which law states that induced EMF is equal to the negative rate of change of flux?",
-    "o": [
-      "Faraday's Law",
-      "Ampere's Law",
-      "Gauss's Law",
-      "Coulomb's Law"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the name of Term 2 in general induction equation.",
-    "a": [
-      "motional emf",
-      "motional"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Which law states that induced EMF is equal to the negative rate of change of flux?",
-    "o": [
-      "Faraday's Law",
-      "Ampere's Law",
-      "Gauss's Law",
-      "Coulomb's Law"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the name of Term 2 in general induction equation.",
-    "a": [
-      "motional emf",
-      "motional"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Which law states that induced EMF is equal to the negative rate of change of flux?",
-    "o": [
-      "Faraday's Law",
-      "Ampere's Law",
-      "Gauss's Law",
-      "Coulomb's Law"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Write the name of Term 2 in general induction equation.",
-    "a": [
-      "motional emf",
-      "motional"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find induced EMF in a coil with $N = 13$ turns if magnetic flux changes at $7$ Wb/s.",
-    "o": [
-      "91",
-      "96",
-      "86",
-      "182"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 14$ T and perpendicular area $A = 8$ m\u00b2.",
-    "a": 112
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find induced EMF in a coil with $N = 15$ turns if magnetic flux changes at $9$ Wb/s.",
-    "o": [
-      "135",
-      "140",
-      "130",
-      "270"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 16$ T and perpendicular area $A = 10$ m\u00b2.",
-    "a": 160
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find induced EMF in a coil with $N = 17$ turns if magnetic flux changes at $11$ Wb/s.",
-    "o": [
-      "187",
-      "192",
-      "182",
-      "374"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 18$ T and perpendicular area $A = 12$ m\u00b2.",
-    "a": 216
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find induced EMF in a coil with $N = 19$ turns if magnetic flux changes at $13$ Wb/s.",
-    "o": [
-      "247",
-      "252",
-      "242",
-      "494"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 20$ T and perpendicular area $A = 14$ m\u00b2.",
-    "a": 280
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find induced EMF in a coil with $N = 21$ turns if magnetic flux changes at $15$ Wb/s.",
-    "o": [
-      "315",
-      "320",
-      "310",
-      "630"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 22$ T and perpendicular area $A = 16$ m\u00b2.",
-    "a": 352
-  },
-  {
-    "t": "mc",
-    "d": 3,
-    "q": "Find induced EMF in a coil with $N = 23$ turns if magnetic flux changes at $17$ Wb/s.",
-    "o": [
-      "391",
-      "396",
-      "386",
-      "782"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 3,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 24$ T and perpendicular area $A = 18$ m\u00b2.",
-    "a": 432
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Self-inductance back-EMF opposes what?",
-    "o": [
-      "Change in current",
-      "Applied voltage",
-      "Magnetic flux",
-      "Resistance"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What is the unit of self-inductance?",
-    "a": [
-      "henry",
-      "henrys"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Self-inductance back-EMF opposes what?",
-    "o": [
-      "Change in current",
-      "Applied voltage",
-      "Magnetic flux",
-      "Resistance"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What is the unit of self-inductance?",
-    "a": [
-      "henry",
-      "henrys"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Self-inductance back-EMF opposes what?",
-    "o": [
-      "Change in current",
-      "Applied voltage",
-      "Magnetic flux",
-      "Resistance"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What is the unit of self-inductance?",
-    "a": [
-      "henry",
-      "henrys"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Self-inductance back-EMF opposes what?",
-    "o": [
-      "Change in current",
-      "Applied voltage",
-      "Magnetic flux",
-      "Resistance"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "What is the unit of self-inductance?",
-    "a": [
-      "henry",
-      "henrys"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find induced EMF in a coil with $N = 17$ turns if magnetic flux changes at $9$ Wb/s.",
-    "o": [
-      "153",
-      "158",
-      "148",
-      "306"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 18$ T and perpendicular area $A = 10$ m\u00b2.",
-    "a": 180
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find induced EMF in a coil with $N = 19$ turns if magnetic flux changes at $11$ Wb/s.",
-    "o": [
-      "209",
-      "214",
-      "204",
-      "418"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 20$ T and perpendicular area $A = 12$ m\u00b2.",
-    "a": 240
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find induced EMF in a coil with $N = 21$ turns if magnetic flux changes at $13$ Wb/s.",
-    "o": [
-      "273",
-      "278",
-      "268",
-      "546"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 22$ T and perpendicular area $A = 14$ m\u00b2.",
-    "a": 308
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find induced EMF in a coil with $N = 23$ turns if magnetic flux changes at $15$ Wb/s.",
-    "o": [
-      "345",
-      "350",
-      "340",
-      "690"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 24$ T and perpendicular area $A = 16$ m\u00b2.",
-    "a": 384
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find induced EMF in a coil with $N = 25$ turns if magnetic flux changes at $17$ Wb/s.",
-    "o": [
-      "425",
-      "430",
-      "420",
-      "850"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 26$ T and perpendicular area $A = 18$ m\u00b2.",
-    "a": 468
-  },
-  {
-    "t": "mc",
-    "d": 4,
-    "q": "Find induced EMF in a coil with $N = 27$ turns if magnetic flux changes at $19$ Wb/s.",
-    "o": [
-      "513",
-      "518",
-      "508",
-      "1026"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 4,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 28$ T and perpendicular area $A = 20$ m\u00b2.",
-    "a": 560
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What physical phenomenon causes heat losses in transformer cores?",
-    "o": [
-      "Eddy currents",
-      "Self-induction",
-      "Hysteresis",
-      "Skin effect"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Name the current loops induced in solid metal blocks.",
-    "a": [
-      "eddy currents",
-      "eddy"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What physical phenomenon causes heat losses in transformer cores?",
-    "o": [
-      "Eddy currents",
-      "Self-induction",
-      "Hysteresis",
-      "Skin effect"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Name the current loops induced in solid metal blocks.",
-    "a": [
-      "eddy currents",
-      "eddy"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What physical phenomenon causes heat losses in transformer cores?",
-    "o": [
-      "Eddy currents",
-      "Self-induction",
-      "Hysteresis",
-      "Skin effect"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Name the current loops induced in solid metal blocks.",
-    "a": [
-      "eddy currents",
-      "eddy"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "What physical phenomenon causes heat losses in transformer cores?",
-    "o": [
-      "Eddy currents",
-      "Self-induction",
-      "Hysteresis",
-      "Skin effect"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Name the current loops induced in solid metal blocks.",
-    "a": [
-      "eddy currents",
-      "eddy"
-    ]
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find induced EMF in a coil with $N = 21$ turns if magnetic flux changes at $11$ Wb/s.",
-    "o": [
-      "231",
-      "236",
-      "226",
-      "462"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 22$ T and perpendicular area $A = 12$ m\u00b2.",
-    "a": 264
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find induced EMF in a coil with $N = 23$ turns if magnetic flux changes at $13$ Wb/s.",
-    "o": [
-      "299",
-      "304",
-      "294",
-      "598"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 24$ T and perpendicular area $A = 14$ m\u00b2.",
-    "a": 336
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find induced EMF in a coil with $N = 25$ turns if magnetic flux changes at $15$ Wb/s.",
-    "o": [
-      "375",
-      "380",
-      "370",
-      "750"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 26$ T and perpendicular area $A = 16$ m\u00b2.",
-    "a": 416
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find induced EMF in a coil with $N = 27$ turns if magnetic flux changes at $17$ Wb/s.",
-    "o": [
-      "459",
-      "464",
-      "454",
-      "918"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 28$ T and perpendicular area $A = 18$ m\u00b2.",
-    "a": 504
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find induced EMF in a coil with $N = 29$ turns if magnetic flux changes at $19$ Wb/s.",
-    "o": [
-      "551",
-      "556",
-      "546",
-      "1102"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 30$ T and perpendicular area $A = 20$ m\u00b2.",
-    "a": 600
-  },
-  {
-    "t": "mc",
-    "d": 5,
-    "q": "Find induced EMF in a coil with $N = 31$ turns if magnetic flux changes at $21$ Wb/s.",
-    "o": [
-      "651",
-      "656",
-      "646",
-      "1302"
-    ],
-    "a": 0
-  },
-  {
-    "t": "sa",
-    "d": 5,
-    "q": "Calculate magnetic flux $\\Phi_B$ if $B = 32$ T and perpendicular area $A = 22$ m\u00b2.",
-    "a": 704
-  }
+      // Difficulty 1 — Foundational Concepts (20 questions: 10 MC, 10 SA)
+      {t:'mc',d:1,q:"What is the SI unit of magnetic flux?",o:["Weber","Tesla","Henry","Farad"],a:0},
+      {t:'sa',d:1,q:"Name the physicist who first demonstrated electromagnetic induction in 1831.",a:["faraday","michael faraday"]},
+      {t:'mc',d:1,q:"Magnetic flux through a loop is maximum when the loop's area normal is:",o:["Perpendicular to B","Parallel to B","At 45° to B","Anti-parallel to B"],a:1},
+      {t:'sa',d:1,q:"What is the unit of self-inductance?",a:["henry","henrys"]},
+      {t:'mc',d:1,q:"Lenz's Law states that induced current opposes:",o:["The applied voltage","The change in flux","The resistance","The current"],a:1},
+      {t:'sa',d:1,q:"Magnetic flux is zero when the angle between B and the area normal is how many degrees?",a:90},
+      {t:'mc',d:1,q:"Faraday's Law states that induced EMF equals:",o:["B × A","Rate of change of flux","N × B","Current × R"],a:1},
+      {t:'sa',d:1,q:"What device converts mechanical energy to AC electrical energy using induction?",a:["generator","alternator","dynamo"]},
+      {t:'mc',d:1,q:"Which symbol represents magnetic flux?",o:["Φ_B","B","μ","ε"],a:0},
+      {t:'sa',d:1,q:"What is the direction convention for current direction in Lenz's law? (one word)",a:["opposing","opposite"]},
+      {t:'mc',d:1,q:"Which of these increases induced EMF for a fixed loop in a changing field?",o:["Fewer turns","Larger B change rate","Smaller area","Higher resistance"],a:1},
+      {t:'sa',d:1,q:"If Φ_B = B × A × cos(θ), what is Φ_B when θ = 0°? (Express as B × A)",a:["b × a","ba","b*a"]},
+      {t:'mc',d:1,q:"What do eddy currents produce in conducting materials?",o:["Cooling","Heating","Magnetism","Mechanical work only"],a:1},
+      {t:'sa',d:1,q:"The product of flux turns (N × Φ_B) is called:",a:["flux linkage"]},
+      {t:'mc',d:1,q:"Which law explains why a conductor moving in a magnetic field generates an EMF?",o:["Ampere's Law","Gauss's Law","Faraday's Law","Ohm's Law"],a:2},
+      {t:'sa',d:1,q:"Name the coil that receives power via magnetic induction in a transformer.",a:["secondary","secondary coil"]},
+      {t:'mc',d:1,q:"What happens to flux through a loop held perpendicular to a constant B field?",o:["Increases","Decreases","Stays constant","Oscillates"],a:2},
+      {t:'sa',d:1,q:"Induced EMF in V is equal to N times d(Phi_B)/dt. What does N represent?",a:["number of turns","turns","n"]},
+      {t:'mc',d:1,q:"In a transformer, the primary coil has 100 turns and secondary has 200. The voltage is:",o:["Halved","Doubled","Unchanged","Quadrupled"],a:1},
+      {t:'sa',d:1,q:"What reduces eddy current losses in transformer cores?",a:["lamination","laminations","laminated"]},
+
+      // Difficulty 2 — Core Calculations (20 questions: 10 MC, 10 SA)
+      {t:'mc',d:2,q:"If Φ_B = B × A × cos(θ), and θ = 60°, B = 2 T, A = 3 m², what is Φ_B?",o:["3","6","2","1"],a:0},
+      {t:'sa',d:2,q:"Calculate Φ_B if B = 5 T and perpendicular area A = 3 m².",a:15},
+      {t:'mc',d:2,q:"A coil with N = 10 turns has flux changing at 4 Wb/s. What is |EMF|?",o:["40","4","0.4","400"],a:0},
+      {t:'sa',d:2,q:"If N = 6 turns and dΦ/dt = 5 Wb/s, find the induced EMF magnitude.",a:30},
+      {t:'mc',d:2,q:"Φ_B = 0 when B = 4 T and the loop area is 2 m². What is the angle θ?",o:["0°","45°","90°","180°"],a:2},
+      {t:'sa',d:2,q:"A circular loop of radius 0.1 m sits in a B = 0.5 T field (perpendicular). Find Φ_B to 3 significant figures. (Use π ≈ 3.14)",a:0.01570},
+      {t:'mc',d:2,q:"A wire loop has resistance R = 5 Ω and induced EMF = 20 V. What current flows?",o:["4","25","100","0.25"],a:0},
+      {t:'sa',d:2,q:"If Φ_B changes from 0 to 8 Wb in 2 seconds through a 4-turn coil, find |EMF|.",a:16},
+      {t:'mc',d:2,q:"A 50-turn coil has flux changing at 0.02 Wb/s. What is the induced EMF?",o:["1","2.5","0.04","100"],a:0},
+      {t:'sa',d:2,q:"Motional EMF = B × L × v. If B = 0.5 T, L = 2 m, v = 10 m/s, find EMF.",a:10},
+      {t:'mc',d:2,q:"A transformer has primary V = 120 V, N_p = 600, N_s = 100. Find V_s.",o:["720","20","12","200"],a:1},
+      {t:'sa',d:2,q:"In a transformer: N_p/N_s = V_p/V_s. If N_p = 500, N_s = 250, V_p = 200 V, find V_s.",a:100},
+      {t:'mc',d:2,q:"Motional EMF is induced in a rod of length L = 0.5 m moving at v = 4 m/s in B = 3 T. What is |EMF|?",o:["6","1.5","12","0.375"],a:0},
+      {t:'sa',d:2,q:"If the flux linkage (NΦ) changes by 60 Wb-turns in 3 seconds, what is the average induced EMF?",a:20},
+      {t:'mc',d:2,q:"Flux through a 200-turn coil changes from 0.5 Wb to 0.1 Wb in 0.4 s. Find |EMF|.",o:["200","20","50","0.2"],a:0},
+      {t:'sa',d:2,q:"B = 8 T, area = 5 m², angle = 30° (between B and normal). Find Φ_B. (Use cos 30° ≈ 0.866)",a:34.64},
+      {t:'mc',d:2,q:"A coil of 8 turns has a flux that changes at 3 Wb/s. The back-EMF is:",o:["24","0.375","11","3"],a:0},
+      {t:'sa',d:2,q:"If |EMF| = N × ΔΦ/Δt = 100 × 0.05/0.5, find |EMF|.",a:10},
+      {t:'mc',d:2,q:"A rod L = 1 m moves at v = 5 m/s in B = 0.2 T (all perpendicular). Find EMF.",o:["1","0.2","0.04","25"],a:0},
+      {t:'sa',d:2,q:"If a transformer steps voltage up by a factor of 4 and V_p = 50 V, what is V_s?",a:200},
+
+      // Difficulty 3 — Intermediate Concepts & Calculations (20 questions: 10 MC, 10 SA)
+      {t:'mc',d:3,q:"If a magnet is held stationary inside a loop, the induced EMF is:",o:["Maximum","Minimum (zero)","Proportional to B","Equal to flux"],a:1},
+      {t:'sa',d:3,q:"What is Term 2 (dA/dt) in the general induction expansion called? (two words)",a:["motional emf"]},
+      {t:'mc',d:3,q:"A coil rotates at angular speed ω in a uniform B field. When is induced EMF maximum?",o:["When normal is parallel to B","When normal is perpendicular to B","When ω = 0","Always"],a:1},
+      {t:'sa',d:3,q:"A generator coil has N = 200, B = 0.5 T, A = 0.02 m², ω = 100 rad/s. Find peak EMF (E₀ = NBAω).",a:200},
+      {t:'mc',d:3,q:"Lenz's law is a consequence of:",o:["Conservation of charge","Conservation of energy","Conservation of momentum","Gauss's law"],a:1},
+      {t:'sa',d:3,q:"In Faraday's Law ε = -N dΦ/dt, what does the negative sign represent?",a:["lenz's law","lenz","opposition","opposing direction"]},
+      {t:'mc',d:3,q:"A conducting rod moves to the right in a field pointing into the page. The induced current in the rod flows:",o:["Right","Left","Upward","Downward"],a:2},
+      {t:'sa',d:3,q:"Self-inductance L is defined by ε = -L × dI/dt. If L = 0.5 H and dI/dt = 4 A/s, find |ε|.",a:2},
+      {t:'mc',d:3,q:"Eddy currents in a transformer core are minimized by:",o:["Using thick solid iron","Using laminated core","Increasing frequency","Removing the core"],a:1},
+      {t:'sa',d:3,q:"An inductor stores energy U = ½LI². If L = 2 H and I = 3 A, find U.",a:9},
+      {t:'mc',d:3,q:"Which law states that induced EMF is equal to the negative rate of change of flux linkage?",o:["Faraday's Law","Ampere's Law","Gauss's Law","Coulomb's Law"],a:0},
+      {t:'sa',d:3,q:"A step-down transformer has N_p = 1000, N_s = 50. What is the turns ratio N_p/N_s?",a:20},
+      {t:'mc',d:3,q:"The skin effect causes high-frequency AC current to flow mainly:",o:["Through the centre","Near the surface","Uniformly throughout","In the magnetic field"],a:1},
+      {t:'sa',d:3,q:"If a transformer is ideal and P_primary = 500 W, what is P_secondary?",a:500},
+      {t:'mc',d:3,q:"A loop is pulled out of a uniform B field. The induced current direction creates a force that:",o:["Aids the motion","Opposes the motion","Is perpendicular to motion","Is zero"],a:1},
+      {t:'sa',d:3,q:"Energy stored in inductor: If L = 4 H and I increases from 0 to 2 A, find final stored energy U.",a:8},
+      {t:'mc',d:3,q:"Which of the following correctly describes mutual inductance (M)?",o:["EMF in coil 1 due to changing current in coil 2","Self-opposition in a coil","Voltage across resistance","Energy stored in capacitor"],a:0},
+      {t:'sa',d:3,q:"A coil with L = 0.1 H carries a current I = 5 A. Find the stored energy.",a:1.25},
+      {t:'mc',d:3,q:"In motional EMF (ε = BLv), if you double the speed and halve the length, the EMF:",o:["Stays the same","Doubles","Halves","Quadruples"],a:0},
+      {t:'sa',d:3,q:"Name the current loops induced in solid conducting metal blocks by changing flux.",a:["eddy currents","eddy"]},
+
+      // Difficulty 4 — Advanced Concepts (20 questions: 10 MC, 10 SA)
+      {t:'mc',d:4,q:"Self-inductance back-EMF opposes:",o:["Change in current","Applied voltage","Magnetic flux","Resistance"],a:0},
+      {t:'sa',d:4,q:"An EMF of 10 V is induced when current changes at 2 A/s. What is self-inductance L?",a:5},
+      {t:'mc',d:4,q:"In AC generators, the EMF as a function of time is:",o:["Constant","Sinusoidal","Triangular","Linear"],a:1},
+      {t:'sa',d:4,q:"Mutual inductance M satisfies ε₁ = -M(dI₂/dt). If M = 0.3 H and dI₂/dt = 10 A/s, find |ε₁|.",a:3},
+      {t:'mc',d:4,q:"The time constant τ = L/R of an RL circuit determines:",o:["Current maximum value","Rate of current rise/fall","Total energy stored","Voltage across inductor"],a:1},
+      {t:'sa',d:4,q:"An RL circuit has L = 2 H and R = 4 Ω. Find the time constant τ = L/R.",a:0.5},
+      {t:'mc',d:4,q:"Why must transformer cores be laminated?",o:["To increase flux","To reduce eddy current losses","To increase conductivity","To strengthen the core"],a:1},
+      {t:'sa',d:4,q:"A transformer has efficiency η = 90%. If input power P_in = 200 W, find output power P_out.",a:180},
+      {t:'mc',d:4,q:"Hysteresis losses in a transformer core are due to:",o:["Resistance of windings","Repeated domain reversal","Eddy currents","Leakage flux"],a:1},
+      {t:'sa',d:4,q:"If ε = NBAω sin(ωt), what is the peak EMF E₀ when N=100, B=0.2T, A=0.01m², ω=50 rad/s?",a:10},
+      {t:'mc',d:4,q:"In Maxwell's equations, a changing magnetic field always produces:",o:["A changing gravitational field","An electric field","A static charge","A magnetic monopole"],a:1},
+      {t:'sa',d:4,q:"An inductor L = 5 H with current I = 4 A is switched off in Δt = 0.01 s. Find average |EMF|.",a:2000},
+      {t:'mc',d:4,q:"The flux through a 100-turn coil changes from 0 to 0.05 Wb in 0.1 s. Find |EMF|.",o:["50","500","5","0.05"],a:0},
+      {t:'sa',d:4,q:"A rod of L = 0.8 m moves at v = 6 m/s in B = 0.3 T. Find motional EMF.",a:1.44},
+      {t:'mc',d:4,q:"The energy stored per unit volume in a magnetic field B is:",o:["B²/(2μ₀)","μ₀B","B/μ₀","B²μ₀/2"],a:0},
+      {t:'sa',d:4,q:"In an ideal transformer: V_p/V_s = N_p/N_s = I_s/I_p. If V_p = 240V, N_p = 800, N_s = 100, find I_s/I_p.",a:8},
+      {t:'mc',d:4,q:"What happens to the self-induced back-EMF when current in an inductor reaches steady state?",o:["Maximum","Zero","Oscillates","Reverses"],a:1},
+      {t:'sa',d:4,q:"Find the energy stored in an inductor L = 0.02 H carrying current I = 10 A.",a:1},
+      {t:'mc',d:4,q:"The Neumann formula describes:",o:["Mutual inductance between two coils","Self-inductance of a solenoid","Motional EMF","Eddy current magnitude"],a:0},
+      {t:'sa',d:4,q:"A 500-turn coil has self-inductance L = 0.25 H. If current changes by 4 A in 0.5 s, find |EMF|.",a:2},
+
+      // Difficulty 5 — Expert Applications (20 questions: 10 MC, 10 SA)
+      {t:'mc',d:5,q:"What physical phenomenon causes heat losses in transformer cores?",o:["Eddy currents","Self-induction","Hysteresis","Skin effect"],a:0},
+      {t:'sa',d:5,q:"A solenoid has n = 1000 turns/m, cross-section A = 0.001 m², length l = 0.5 m. Find L (L = μ₀n²Al, μ₀ = 4π×10⁻⁷). Give answer in mH to 1 decimal.",a:0.6},
+      {t:'mc',d:5,q:"An ideal inductor in an AC circuit causes current to:",o:["Lead voltage by 90°","Lag voltage by 90°","Be in phase with voltage","Lead voltage by 45°"],a:1},
+      {t:'sa',d:5,q:"A transformer converts 11 kV to 220 V. What is the turns ratio N_p/N_s?",a:50},
+      {t:'mc',d:5,q:"In an LC circuit (no resistance), the energy oscillates between:",o:["Inductor and resistor","Capacitor and resistor","Magnetic and electric field","Kinetic and potential energy of charges"],a:2},
+      {t:'sa',d:5,q:"The resonant frequency of an LC circuit is f = 1/(2π√LC). If L = 0.1 H and C = 100 μF, find f in Hz to 1 decimal. (Use √(0.1 × 0.0001) = √(10⁻⁵) ≈ 0.003162)",a:50.3},
+      {t:'mc',d:5,q:"Displacement current in Maxwell's equations arises from:",o:["Conduction through vacuum","Changing electric flux","Changing magnetic flux","Free charges in space"],a:1},
+      {t:'sa',d:5,q:"Two coils have mutual inductance M = 0.4 H. If current in coil 1 changes at 5 A/s, find induced EMF in coil 2.",a:2},
+      {t:'mc',d:5,q:"The Poynting vector S = (E × B)/μ₀ represents:",o:["Force per unit volume","Energy flux density","Charge density","Angular momentum"],a:1},
+      {t:'sa',d:5,q:"An EM wave in vacuum has E = 300 V/m. Find B (B = E/c where c = 3×10⁸ m/s). Give answer in nT.",a:1000},
+      {t:'mc',d:5,q:"Faraday cages work because induced charges on the exterior:",o:["Cancel the external field inside","Amplify the field","Create eddy currents","Store energy"],a:0},
+      {t:'sa',d:5,q:"A generator has N = 400, B = 0.6 T, A = 0.05 m², rotating at 50 Hz. Find peak EMF E₀ = NBAω (ω = 2πf).",a:3769.9},
+      {t:'mc',d:5,q:"In a step-up transformer, compared to the primary, the secondary winding has:",o:["More turns, higher voltage, lower current","Fewer turns, lower voltage, higher current","More turns, lower voltage, same current","Same turns, higher voltage"],a:0},
+      {t:'sa',d:5,q:"If flux density B = 0.02 T in a solenoid of radius r = 0.05 m, find energy stored per unit length U/l = B²πr²/(2μ₀). Give answer to 2 sig figs.",a:0.0025},
+      {t:'mc',d:5,q:"The back-EMF of a motor reduces its net current. If supply V = 120 V, back-EMF = 100 V, R = 2 Ω, find current.",o:["10","60","110","0.1"],a:0},
+      {t:'sa',d:5,q:"Inductance of a solenoid L = μ₀N²A/l. If N = 500, A = 4 cm² = 4×10⁻⁴ m², l = 0.25 m, find L in mH. (μ₀ = 4π×10⁻⁷)",a:0.503},
+      {t:'mc',d:5,q:"In electromagnetic braking, the induced opposing force is proportional to:",o:["Speed squared","Speed","1/speed","Acceleration"],a:1},
+      {t:'sa',d:5,q:"For an RLC circuit at resonance, impedance Z = R. If V = 20 V and R = 4 Ω, find the resonant current.",a:5},
+      {t:'mc',d:5,q:"Wireless charging (Qi) uses which principle?",o:["Electrostatic induction","Electromagnetic induction (mutual inductance)","Piezoelectric effect","Thermoelectric effect"],a:1},
+      {t:'sa',d:5,q:"Flux linkage Λ = NΦ = LI. If L = 0.1 H and I = 8 A, find Λ.",a:0.8}
+    ];
 ];
 
     function startQuizUI() {
@@ -2390,6 +1589,30 @@ Desc: Back-EMF generated by a coil resisting changes in its own current.
         }
     });
     
+</script>
+<script>
+    // --- DARK MODE TOGGLE (self-contained) ---
+    const dmToggle = document.getElementById('darkModeToggle');
+    const iconSun = document.getElementById('iconSun');
+    const iconMoon = document.getElementById('iconMoon');
+    const htmlEl = document.documentElement;
+    function applyTheme(dark) {
+      if (dark) { htmlEl.setAttribute('data-theme','dark'); if(iconSun) iconSun.classList.remove('hidden'); if(iconMoon) iconMoon.classList.add('hidden'); }
+      else { htmlEl.removeAttribute('data-theme'); if(iconSun) iconSun.classList.add('hidden'); if(iconMoon) iconMoon.classList.remove('hidden'); }
+    }
+    applyTheme(false);
+    if (dmToggle) dmToggle.addEventListener('click', () => applyTheme(htmlEl.getAttribute('data-theme') !== 'dark'));
+
+    // --- SIDEBAR ACTIVE SECTION HIGHLIGHTING ---
+    const sidebarLinks = document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+    const sectionIds = Array.from(sidebarLinks).map(l => l.getAttribute('data-section'));
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+    function setActiveLink(id) { sidebarLinks.forEach(l => { if(l.getAttribute('data-section')===id) l.classList.add('active'); else l.classList.remove('active'); }); }
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) setActiveLink(e.target.id); }), { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+      sections.forEach(s => obs.observe(s));
+    }
+    if (sectionIds.length > 0) setActiveLink(sectionIds[0]);
 </script>
 </body>
 </html>

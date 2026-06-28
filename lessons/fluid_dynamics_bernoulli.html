@@ -72,7 +72,34 @@
       margin: 1.5rem 0;
       overflow-x: auto;
     }
-  </style>
+  
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 
     <style>
     @media print {
@@ -712,7 +739,7 @@
         <p class="text-slate-500 mb-6 max-w-lg mx-auto">Download a plaintext cheat sheet of all formulas, assumptions, and strategies covered in this lesson for quick reference during exams.</p>
         <button id="btnDownload" class="inline-flex items-center px-6 py-3 bg-fluid-600 hover:bg-fluid-700 text-white font-bold rounded-lg shadow-lg shadow-fluid-500/30 transition-transform transform hover:-translate-y-1">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-          Download Cheat Sheet (.txt)
+          Save as PDF (.txt)
         </button>
       </footer>
 
@@ -2320,5 +2347,27 @@
     });
     
 </script>
-</body>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script></body>
 </html>

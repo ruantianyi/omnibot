@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -71,7 +71,34 @@
             user-select: none;
             -webkit-user-select: none;
         }
-    </style>
+    
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed">
 
@@ -335,50 +362,56 @@
         </section>
 
         <!-- Section 6: Quiz -->
-        <section id="quiz" class="scroll-mt-24 mb-20">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">06</div>
-                <h2 class="text-3xl font-bold text-slate-900">Knowledge Check</h2>
+        
+
+    
+        <!-- SECTION: Comprehensive Quiz -->
+        <section id="quiz" class="scroll-mt-24 no-print">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+            </div>
+            
+            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Quiz
+                </button>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
+            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <div class="flex gap-2">
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                    </div>
+                </div>
                 
-                <!-- Q1 -->
-                <div class="mb-8 border-b border-slate-100 pb-8 quiz-question" data-answer="b">
-                    <p class="font-bold text-lg text-slate-800 mb-4">1. A mass-spring system is undergoing SHM. At which point is the magnitude of acceleration at its maximum?</p>
-                    <div class="space-y-2">
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="a">A) When the mass passes through the equilibrium position.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="b">B) When the mass is at its maximum displacement (amplitude).</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="c">C) When the kinetic energy is maximized.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="d">D) Acceleration is constant throughout the motion.</button>
-                    </div>
-                    <div class="quiz-feedback hidden mt-3 p-3 rounded-lg text-sm font-medium"></div>
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                
+                <div id="mc-options" class="space-y-3 hidden">
+                    <!-- Options injected here -->
                 </div>
-
-                <!-- Q2 -->
-                <div class="mb-8 border-b border-slate-100 pb-8 quiz-question" data-answer="c">
-                    <p class="font-bold text-lg text-slate-800 mb-4">2. If you quadruple ($4\times$) the mass attached to a spring, how does the period $T$ of oscillation change?</p>
-                    <div class="space-y-2">
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="a">A) The period becomes 4 times longer.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="b">B) The period becomes half as long.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="c">C) The period becomes 2 times longer.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="d">D) The period remains unchanged.</button>
-                    </div>
-                    <div class="quiz-feedback hidden mt-3 p-3 rounded-lg text-sm font-medium"></div>
+                
+                <div id="sa-container" class="hidden">
+                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
                 </div>
-
-                <!-- Q3 -->
-                <div class="mb-2 quiz-question" data-answer="a">
-                    <p class="font-bold text-lg text-slate-800 mb-4">3. Which of the following best describes Resonance?</p>
-                    <div class="space-y-2">
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="a">A) When an external driving frequency matches the system's natural frequency, maximizing amplitude.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="b">B) When the damping coefficient is so large that the system returns to equilibrium without oscillating.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="c">C) When kinetic energy is perfectly equal to potential energy at all times.</button>
-                        <button class="w-full text-left px-4 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-brand-500 focus:outline-none quiz-option" data-val="d">D) When the phase constant $\phi$ is exactly $\pi/2$.</button>
-                    </div>
-                    <div class="quiz-feedback hidden mt-3 p-3 rounded-lg text-sm font-medium"></div>
+                
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
                 </div>
+                
+                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+            </div>
 
+            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
             </div>
         </section>
 
@@ -813,7 +846,7 @@
         }
 
         // ==========================================
-        // DOWNLOAD CHEAT SHEET
+        // Save as PDF
         // ==========================================
         function initDownload() {
             const btn = $('btnDownload');
@@ -872,5 +905,302 @@
         });
         
     </script>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script>
+<script>
+
+    const qBank = [
+  {t:"mc",d:1,q:"What defines Simple Harmonic Motion (SHM)?",o:["Constant velocity","Force proportional to negative displacement","Constant acceleration","Force proportional to velocity"],a:1},
+  {t:"sa",d:1,q:"Hooke's Law is given by F = -k ?",a:["x"]},
+  {t:"mc",d:1,q:"In SHM, where is the acceleration maximum?",o:["At equilibrium","At maximum displacement (amplitude)","Halfway to the amplitude","It is constant"],a:1},
+  {t:"sa",d:1,q:"In SHM, velocity is maximum when displacement x = ?",a:["0","zero"]},
+  {t:"mc",d:1,q:"The period T of a mass-spring system is:",o:["2pi*sqrt(k/m)","2pi*sqrt(m/k)","sqrt(m/k)","2pi*sqrt(L/g)"],a:1},
+  {t:"sa",d:1,q:"If you quadruple the mass on a spring, the period T increases by a factor of ?",a:2},
+  {t:"mc",d:1,q:"For a simple pendulum, the period depends on:",o:["Mass and length","Length and gravity","Mass and gravity","Amplitude only"],a:1},
+  {t:"sa",d:1,q:"The period of a simple pendulum is T = 2pi * sqrt( ? / g )",a:["l","length"]},
+  {t:"mc",d:1,q:"Angular frequency (omega) is related to period (T) by:",o:["omega = 2pi/T","omega = 2pi*T","omega = T/2pi","omega = 1/T"],a:0},
+  {t:"sa",d:1,q:"Frequency f is the reciprocal of _______.",a:["period","t"]},
+  {t:"mc",d:1,q:"The total energy in an undamped SHM system is:",o:["Proportional to amplitude","Proportional to amplitude squared","Proportional to mass","Zero"],a:1},
+  {t:"sa",d:1,q:"Potential energy of a spring is U = 1/2 k x^?",a:2},
+  {t:"mc",d:1,q:"At the turning points (amplitude) of SHM, the kinetic energy is:",o:["Maximum","Half of total","Zero","Negative"],a:2},
+  {t:"sa",d:1,q:"At equilibrium (x=0), the potential energy of the spring is _____.",a:["zero","0"]},
+  {t:"mc",d:1,q:"Which function typically describes the position x(t) in SHM?",o:["Exponential","Linear","Sine or Cosine","Quadratic"],a:2},
+  {t:"sa",d:1,q:"In x(t) = A cos(omega t + phi), 'A' stands for _______.",a:["amplitude"]},
+  {t:"mc",d:1,q:"What happens to the total energy of a damped oscillator over time?",o:["Increases","Decreases","Stays constant","Oscillates"],a:1},
+  {t:"sa",d:1,q:"The reduction in amplitude over time due to friction is called _______.",a:["damping"]},
+  {t:"mc",d:1,q:"When the driving frequency matches the natural frequency of the system, it is called:",o:["Damping","Resonance","Interference","Beats"],a:1},
+  {t:"sa",d:1,q:"At resonance, the amplitude of the forced oscillation reaches a _______.",a:["maximum","peak"]},
+
+  {t:"mc",d:2,q:"A mass of 2 kg is attached to a spring with k = 50 N/m. What is the angular frequency (omega)?",o:["25 rad/s","5 rad/s","10 rad/s","0.2 rad/s"],a:1},
+  {t:"sa",d:2,q:"If omega = 5 rad/s, what is the frequency f? (Use pi = 3.14). f = 5/(2pi)",a:0.8},
+  {t:"mc",d:2,q:"A pendulum has length L = 1 m. (g = 9.8 m/s^2). Its period T is approximately:",o:["1 s","2 s","3.14 s","9.8 s"],a:1},
+  {t:"sa",d:2,q:"If you take a pendulum to the Moon (gravity is 1/6th of Earth's), will its period increase or decrease?",a:["increase"]},
+  {t:"mc",d:2,q:"In SHM, the acceleration a(t) is related to position x(t) by:",o:["a(t) = omega * x(t)","a(t) = -omega^2 * x(t)","a(t) = omega^2 * x(t)","a(t) = -omega * x(t)"],a:1},
+  {t:"sa",d:2,q:"If x(t) = A cos(omega t), then v(t) = -A * omega * ?(omega t)",a:["sin","sine"]},
+  {t:"mc",d:2,q:"The maximum velocity in SHM is given by:",o:["v_max = A","v_max = A * omega","v_max = A * omega^2","v_max = A / omega"],a:1},
+  {t:"sa",d:2,q:"If A = 0.5 m and omega = 4 rad/s, what is v_max?",a:2},
+  {t:"mc",d:2,q:"The maximum acceleration in SHM is given by:",o:["a_max = A * omega^2","a_max = A * omega","a_max = -A * omega","a_max = A^2 * omega"],a:0},
+  {t:"sa",d:2,q:"If A = 0.5 m and omega = 4 rad/s, what is the magnitude of a_max?",a:8},
+  {t:"mc",d:2,q:"A mass-spring system has total energy E = 10 J. At x = A/2, what is the kinetic energy?",o:["2.5 J","5 J","7.5 J","10 J"],a:2},
+  {t:"sa",d:2,q:"If E = 10 J and x = A/2, what is the potential energy U?",a:2.5},
+  {t:"mc",d:2,q:"For a physical pendulum of mass m, moment of inertia I, and distance d from pivot to CM, omega is:",o:["sqrt(mgd / I)","sqrt(I / mgd)","sqrt(g / d)","sqrt(md / I)"],a:0},
+  {t:"sa",d:2,q:"For a uniform rod of length L pivoted at one end, I = 1/3 mL^2 and d = L/2. omega = sqrt(mg(L/2) / (1/3 mL^2)) = sqrt(1.5 g / ?)",a:["l"]},
+  {t:"mc",d:2,q:"In an LC circuit (an electrical analog of SHM), the natural angular frequency is:",o:["1 / sqrt(LC)","sqrt(LC)","L/C","C/L"],a:0},
+  {t:"sa",d:2,q:"In the LC circuit analogy, the inductor L is analogous to _______ in the mechanical system.",a:["mass","inertia"]},
+  {t:"mc",d:2,q:"What is the phase difference between position x(t) and velocity v(t) in SHM?",o:["0","pi/4","pi/2","pi"],a:2},
+  {t:"sa",d:2,q:"What is the phase difference between position and acceleration in SHM (in radians)?",a:["pi"]},
+  {t:"mc",d:2,q:"If a spring is cut in half, its spring constant k:",o:["Halves","Doubles","Stays the same","Quadruples"],a:1},
+  {t:"sa",d:2,q:"Two identical springs (k) in parallel have an equivalent spring constant k_eq = ?",a:["2k"]},
+
+  {t:"mc",d:3,q:"For a damped harmonic oscillator, the damping force is typically F_d = -b*v. The equation of motion is:",o:["ma + kx = 0","ma + bv + kx = 0","ma - bv + kx = 0","ma + bv - kx = 0"],a:1},
+  {t:"sa",d:3,q:"The critical damping coefficient is b_c = 2*sqrt( ? * k )",a:["m","mass"]},
+  {t:"mc",d:3,q:"Underdamped motion occurs when the damping coefficient b is:",o:["b > b_c","b = b_c","b < b_c","b = 0 only"],a:2},
+  {t:"sa",d:3,q:"In underdamped SHM, the amplitude decays _______ with time.",a:["exponentially"]},
+  {t:"mc",d:3,q:"The frequency of an underdamped oscillator (omega_d) compared to its undamped natural frequency (omega_0) is:",o:["omega_d > omega_0","omega_d = omega_0","omega_d < omega_0","Unrelated"],a:2},
+  {t:"sa",d:3,q:"omega_d = sqrt(omega_0^2 - (b / (2m))^?)",a:2},
+  {t:"mc",d:3,q:"Overdamped motion means the system:",o:["Oscillates forever","Oscillates with a decaying amplitude","Returns to equilibrium slowly without oscillating","Returns to equilibrium as fast as possible"],a:2},
+  {t:"sa",d:3,q:"The type of damping that returns the system to equilibrium in the shortest time without oscillating is _______ damping.",a:["critical"]},
+  {t:"mc",d:3,q:"The Q factor (quality factor) of a damped oscillator is defined roughly as 2pi times:",o:["Energy lost per cycle / Energy stored","Energy stored / Energy lost per cycle","Amplitude / Damping","Mass / Spring constant"],a:1},
+  {t:"sa",d:3,q:"A high Q factor means the damping is very _______.",a:["low","small"]},
+  {t:"mc",d:3,q:"For a driven harmonic oscillator with driving force F_0 cos(omega_d t), the steady-state amplitude is maximum when:",o:["omega_d = 0","omega_d approaches infinity","omega_d is close to omega_0","The driving force is removed"],a:2},
+  {t:"sa",d:3,q:"The phenomenon of large amplitude response near omega_0 is called _______.",a:["resonance"]},
+  {t:"mc",d:3,q:"At resonance, the phase difference between the driving force and the velocity of the oscillator is:",o:["0","pi/2","pi","pi/4"],a:0},
+  {t:"sa",d:3,q:"At resonance, the phase difference between the driving force and the displacement is _____ radians.",a:["pi/2"]},
+  {t:"mc",d:3,q:"Lissajous figures are formed by:",o:["Superposition of two collinear SHMs of same frequency","Superposition of two collinear SHMs of different frequencies","Superposition of two perpendicular SHMs","A single damped oscillator"],a:2},
+  {t:"sa",d:3,q:"If two perpendicular SHMs have the same frequency and equal amplitude, with a phase difference of pi/2, the Lissajous figure is a _______.",a:["circle"]},
+  {t:"mc",d:3,q:"Two collinear SHMs of slightly different frequencies (f1 and f2) produce:",o:["Lissajous figures","Beats","Resonance","Damping"],a:1},
+  {t:"sa",d:3,q:"The beat frequency is the absolute value of f1 minus _____.",a:["f2"]},
+  {t:"mc",d:3,q:"The time-averaged power absorbed by a driven oscillator is maximum at:",o:["omega_d = 0","Velocity resonance (omega_d = omega_0)","Amplitude resonance","omega_d = infinity"],a:1},
+  {t:"sa",d:3,q:"The width of the resonance curve is related to the _______ factor.",a:["q","quality"]},
+
+  {t:"mc",d:4,q:"In a potential well U(x), for small displacements around a stable equilibrium minimum at x_0, the effective spring constant k is:",o:["U(x_0)","dU/dx evaluated at x_0","d^2U/dx^2 evaluated at x_0","0"],a:2},
+  {t:"sa",d:4,q:"If U(x) = cx^4, is the small oscillation around x=0 simple harmonic? (yes/no)",a:["no"]},
+  {t:"mc",d:4,q:"The Lennard-Jones potential is U(r) = A/r^12 - B/r^6. The small oscillations around the minimum correspond to:",o:["Translational motion","Molecular vibrations","Rotational motion","Electron orbitals"],a:1},
+  {t:"sa",d:4,q:"To find the equilibrium radius r_0 for U(r), you set the first derivative dU/dr equal to _____.",a:0},
+  {t:"mc",d:4,q:"Coupled oscillators (like two masses connected by three springs) can be described by finding their:",o:["Normal modes","Lissajous figures","Center of mass only","Beat frequencies"],a:0},
+  {t:"sa",d:4,q:"In a normal mode, all parts of the system oscillate with the same _______.",a:["frequency"]},
+  {t:"mc",d:4,q:"A system of N coupled 1D oscillators has how many normal modes?",o:["1","N","2N","N^2"],a:1},
+  {t:"sa",d:4,q:"For two identical coupled pendulums, the mode where they swing in the same direction together is the _______ frequency mode.",a:["lower"]},
+  {t:"mc",d:4,q:"The general solution for a system of coupled oscillators is a:",o:["Single sine wave","Linear combination of normal modes","Product of normal modes","Exponential decay"],a:1},
+  {t:"sa",d:4,q:"When energy transfers completely back and forth between two weakly coupled identical oscillators, it's called the phenomenon of _______.",a:["beats"]},
+  {t:"mc",d:4,q:"In the Lagrangian formulation, the equation of motion for SHM is derived from:",o:["L = T + V","L = T - V","L = V - T","L = 0"],a:1},
+  {t:"sa",d:4,q:"The Euler-Lagrange equation is d/dt( partial L / partial q_dot ) - ( partial L / partial q ) = ?",a:0},
+  {t:"mc",d:4,q:"A nonlinear pendulum's restoring force is proportional to sin(theta). For large angles, the period:",o:["Is independent of amplitude","Increases with amplitude","Decreases with amplitude","Becomes zero"],a:1},
+  {t:"sa",d:4,q:"The approximation sin(theta) ~ theta is called the _______ angle approximation.",a:["small"]},
+  {t:"mc",d:4,q:"Parametric resonance occurs when:",o:["The driving force is external and additive","A parameter of the system (like length or spring constant) varies periodically","There is no damping","The system is coupled to another oscillator"],a:1},
+  {t:"sa",d:4,q:"A child pumping a swing is an example of _______ resonance.",a:["parametric"]},
+  {t:"mc",d:4,q:"The phase space trajectory (momentum p vs position x) of an undamped simple harmonic oscillator is a:",o:["Straight line","Parabola","Circle or Ellipse","Spiral"],a:2},
+  {t:"sa",d:4,q:"For a damped oscillator, the phase space trajectory spirals towards the _______.",a:["origin","center"]},
+  {t:"mc",d:4,q:"The area enclosed by the phase space ellipse for an undamped oscillator is proportional to:",o:["Mass","Total Energy","Amplitude","Frequency"],a:1},
+  {t:"sa",d:4,q:"Action variable J is the integral of p dx over one cycle. For SHM, Energy E = J * f. What is f?",a:["frequency"]},
+
+  {t:"mc",d:5,q:"In quantum mechanics, the energy levels of the simple harmonic oscillator are:",o:["Continuous","E_n = n * hbar * omega","E_n = (n + 1/2) * hbar * omega","E_n = n^2 * hbar * omega"],a:2},
+  {t:"sa",d:5,q:"The state n=0 is the ground state. Its energy is called the _______ point energy.",a:["zero"]},
+  {t:"mc",d:5,q:"The wave functions of the quantum harmonic oscillator involve which polynomials?",o:["Legendre","Hermite","Laguerre","Chebyshev"],a:1},
+  {t:"sa",d:5,q:"The ground state wave function of the quantum harmonic oscillator is a _______ curve.",a:["gaussian","bell"]},
+  {t:"mc",d:5,q:"The ladder operators for the quantum harmonic oscillator are the creation (a^+) and annihilation (a) operators. Applying 'a' to the ground state |0> gives:",o:["|1>","|0>","-1","0 (the null vector)"],a:3},
+  {t:"sa",d:5,q:"The Hamiltonian in terms of a and a^+ is H = hbar * omega * (a^+ a + ?)",a:["1/2","0.5"]},
+  {t:"mc",d:5,q:"Coherent states of the harmonic oscillator:",o:["Are eigenstates of the Hamiltonian","Are eigenstates of the annihilation operator","Have maximum uncertainty","Spread out infinitely over time"],a:1},
+  {t:"sa",d:5,q:"A coherent state most closely resembles _______ (classical/quantum) motion.",a:["classical"]},
+  {t:"mc",d:5,q:"In field theory, a free scalar field can be decomposed into an infinite set of independent:",o:["Fermions","Harmonic oscillators","Rotors","Coupled pendulums"],a:1},
+  {t:"sa",d:5,q:"The quantization of these field oscillators gives rise to particles. For the electromagnetic field, these are _______.",a:["photons"]},
+  {t:"mc",d:5,q:"The propagator (Green's function) for a classical damped harmonic oscillator is used to solve for the response to:",o:["No external force","An arbitrary driving force F(t)","Only a constant force","Only a sinusoidal force"],a:1},
+  {t:"sa",d:5,q:"The Green's function G(t, t') represents the system's response to an impulse at time t', which is mathematically a _______ delta function.",a:["dirac"]},
+  {t:"mc",d:5,q:"Anharmonic oscillators (e.g. V(x) = 1/2 kx^2 + ax^3 + bx^4) exhibit:",o:["Exactly the same period for all amplitudes","Period dependent on amplitude","Linear equations of motion","No bound states"],a:1},
+  {t:"sa",d:5,q:"In perturbation theory, adding an anharmonic term ax^3 to the quantum oscillator shifts the ground state energy. The first-order energy shift E_0^(1) is _____.",a:0},
+  {t:"mc",d:5,q:"The Duffing oscillator (x'' + delta x' + alpha x + beta x^3 = gamma cos(omega t)) can exhibit:",o:["Only simple harmonic motion","Only exponential decay","Chaos and bifurcations","Perfect resonance at omega = sqrt(alpha)"],a:2},
+  {t:"sa",d:5,q:"The path from regular predictable behavior to chaos in the Duffing oscillator often occurs via period-_______.",a:["doubling"]},
+  {t:"mc",d:5,q:"The fluctuation-dissipation theorem relates the spontaneous fluctuations of an oscillator at thermal equilibrium to its:",o:["Mass","Restoring force","Damping (dissipation)","Amplitude"],a:2},
+  {t:"sa",d:5,q:"Brownian motion of a harmonic oscillator (like a mirror in a gravitational wave detector) creates _______ noise.",a:["thermal"]},
+  {t:"mc",d:5,q:"The Berry phase for a classical harmonic oscillator whose parameters (like k and m) are slowly and cyclically varied is:",o:["The Hannay angle","Zero","The period","The total energy"],a:0},
+  {t:"sa",d:5,q:"Adiabatic invariants are quantities that remain constant under slow parameter changes. For an oscillator, E / ? is an adiabatic invariant.",a:["omega","frequency"]}
+];
+
+</script>
+
+<script>
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE
+    // =========================================================
+    let currentQuiz = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        const results = document.getElementById('results-screen');
+        if (intro) intro.classList.add('hidden');
+        if (results) results.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    function initQuiz() {
+        if (typeof qBank === 'undefined' || qBank.length === 0) return;
+        currentQuiz = [];
+        // Sample 2 per difficulty level 1-5
+        for(let d=1; d<=5; d++) {
+            let diffQs = qBank.filter(q => q.d === d);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
+            currentQuiz = currentQuiz.concat(diffQs);
+        }
+        currentQIndex = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentQIndex >= currentQuiz.length) {
+            showResults();
+            return;
+        }
+        
+        const q = currentQuiz[currentQIndex];
+        document.getElementById('q-current').innerText = currentQIndex + 1;
+        
+        const diffInd = document.getElementById('diff-indicator');
+        diffInd.innerText = 'Level ' + q.d;
+        diffInd.className = 'text-xs font-bold px-3 py-1 rounded-full ' + 
+            (q.d===1 ? 'bg-green-100 text-green-700' : 
+             q.d===2 ? 'bg-blue-100 text-blue-700' : 
+             q.d===3 ? 'bg-yellow-100 text-yellow-700' : 
+             q.d===4 ? 'bg-orange-100 text-orange-700' : 
+             'bg-red-100 text-red-700');
+
+        document.getElementById('q-text').innerHTML = q.q;
+        
+        const mcOps = document.getElementById('mc-options');
+        const saCont = document.getElementById('sa-container');
+        const saInput = document.getElementById('sa-input');
+        
+        mcOps.innerHTML = '';
+        if(q.t === 'mc') {
+            mcOps.classList.remove('hidden');
+            saCont.classList.add('hidden');
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-primary-500 hover:bg-primary-50 transition font-medium text-slate-700";
+                btn.innerHTML = String.fromCharCode(65+idx) + ". " + opt;
+                btn.onclick = () => selectOption(btn, idx);
+                mcOps.appendChild(btn);
+            });
+        } else {
+            mcOps.classList.add('hidden');
+            saCont.classList.remove('hidden');
+            saInput.value = '';
+            saInput.disabled = false;
+        }
+        
+        document.getElementById('btn-submit').classList.remove('hidden');
+        document.getElementById('btn-next').classList.add('hidden');
+        document.getElementById('feedback-box').classList.add('hidden');
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([document.getElementById('q-text'), mcOps]).catch(err=>console.log(err));
+        }
+    }
+
+    let selectedIdx = -1;
+    function selectOption(btn, idx) {
+        if(document.getElementById('btn-submit').classList.contains('hidden')) return;
+        const btns = document.getElementById('mc-options').children;
+        for(let b of btns) {
+            b.classList.remove('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+            b.classList.add('border-slate-200');
+        }
+        btn.classList.remove('border-slate-200');
+        btn.classList.add('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+        selectedIdx = idx;
+    }
+
+    function submitAnswer() {
+        const q = currentQuiz[currentQIndex];
+        const fb = document.getElementById('feedback-box');
+        let isCorrect = false;
+        
+        if(q.t === 'mc') {
+            if(selectedIdx === -1) return;
+            isCorrect = (selectedIdx === q.a);
+            const btns = document.getElementById('mc-options').children;
+            btns[q.a].classList.add('bg-green-100', 'border-green-500');
+            if(!isCorrect) {
+                btns[selectedIdx].classList.add('bg-red-100', 'border-red-500');
+            }
+        } else {
+            const input = document.getElementById('sa-input');
+            const val = input.value.trim().toLowerCase();
+            if(val === '') return;
+            input.disabled = true;
+            
+            if(Array.isArray(q.a)) {
+                isCorrect = q.a.some(ans => val === ans.toString().toLowerCase());
+            } else {
+                if(typeof q.a === 'number') {
+                    const numVal = parseFloat(val);
+                    isCorrect = !isNaN(numVal) && Math.abs(numVal - q.a) < 0.05 * Math.abs(q.a);
+                    if(q.a === 0 && Math.abs(numVal) < 0.05) isCorrect = true;
+                } else {
+                    isCorrect = (val === q.a.toString().toLowerCase());
+                }
+            }
+            if(isCorrect) input.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+            else input.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+        }
+        
+        fb.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+        if(isCorrect) {
+            score++;
+            fb.classList.add('bg-green-100', 'text-green-800');
+            fb.innerHTML = "<strong>Correct!</strong> Well done.";
+        } else {
+            fb.classList.add('bg-red-100', 'text-red-800');
+            let corrText = q.t === 'mc' ? String.fromCharCode(65+q.a) + ". " + q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+            fb.innerHTML = "<strong>Incorrect.</strong> The correct answer is: " + corrText;
+        }
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([fb]).catch(e=>console.log(e));
+        }
+        
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        selectedIdx = -1;
+        loadQuestion();
+    }
+
+    function showResults() {
+        document.getElementById('quiz-main-content').classList.add('hidden');
+        const res = document.getElementById('results-screen');
+        res.classList.remove('hidden');
+        document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
 </body>
 </html>

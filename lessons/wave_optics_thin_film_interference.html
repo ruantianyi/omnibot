@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -71,7 +71,34 @@
             stroke-dasharray: 4 4;
             animation: pulse-wave 1s linear infinite;
         }
-    </style>
+    
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-200 selection:text-primary-900">
 
@@ -92,7 +119,7 @@
             </nav>
             <button id="btnDownload" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition-all active:scale-95 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                Save Notes
+                Save as PDF
             </button>
         </div>
     </header>
@@ -417,14 +444,60 @@
             </section>
 
             <!-- Section 5: Quiz -->
-            <section id="quiz" class="scroll-mt-28 mb-16 font-sans">
-                <h2 class="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">5. Knowledge Check</h2>
-                <div id="quiz-container" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                    <!-- Quiz dynamically injected via JS -->
-                </div>
-            </section>
+            
 
-        </main>
+        
+        <!-- SECTION: Comprehensive Quiz -->
+        <section id="quiz" class="scroll-mt-24 no-print">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+            </div>
+            
+            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <div class="flex gap-2">
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                    </div>
+                </div>
+                
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                
+                <div id="mc-options" class="space-y-3 hidden">
+                    <!-- Options injected here -->
+                </div>
+                
+                <div id="sa-container" class="hidden">
+                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
+                </div>
+                
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
+                </div>
+                
+                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+            </div>
+
+            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+            </div>
+        </section>
+
+    </main>
     </div>
 
     <!-- Footer -->
@@ -834,5 +907,258 @@
             });
         }
     </script>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script>
+<script>
+
+    const qBank = [
+  {t:"mc",d:1,q:"Light is considered to be a wave of:",o:["Sound","Water","Electromagnetic fields","Probability"],a:2},
+  {t:"sa",d:1,q:"The principle that says every point on a wavefront acts as a source of secondary wavelets is named after _______.",a:["huygens","huygen"]},
+  {t:"mc",d:1,q:"Interference occurs when two or more waves:",o:["Bounce off a surface","Bend around a corner","Superpose to form a resultant wave","Change speed"],a:2},
+  {t:"sa",d:1,q:"Constructive interference happens when the phase difference is a multiple of _____ pi.",a:2},
+  {t:"mc",d:1,q:"Destructive interference occurs when the phase difference is an odd multiple of:",o:["pi","pi/2","2*pi","pi/4"],a:0},
+  {t:"sa",d:1,q:"When a wave reflects off a medium with a HIGHER index of refraction, it undergoes a phase shift of _____ radians.",a:["pi"]},
+  {t:"mc",d:1,q:"When a wave reflects off a medium with a LOWER index of refraction, its phase shift is:",o:["pi","pi/2","0","2*pi"],a:2},
+  {t:"sa",d:1,q:"Thin film interference creates the colorful patterns seen on soap _______.",a:["bubbles"]},
+  {t:"mc",d:1,q:"The speed of light in a medium with refractive index n is v = c/n. Therefore, its wavelength in the medium is:",o:["lambda * n","lambda / n","lambda","lambda / n^2"],a:1},
+  {t:"sa",d:1,q:"The path length difference for a wave traveling down and back through a film of thickness t is approximately _____ t.",a:2},
+  {t:"mc",d:1,q:"In a soap bubble (n ~ 1.33) surrounded by air (n=1), the reflection at the top surface has a phase shift of:",o:["0","pi","pi/2","2*pi"],a:1},
+  {t:"sa",d:1,q:"In the same soap bubble, the reflection at the bottom surface (inside to outside) has a phase shift of _____.",a:["0","zero"]},
+  {t:"mc",d:1,q:"Because of the relative pi phase shift between the two reflections in a soap bubble, constructive interference condition is:",o:["2nt = m*lambda","2nt = (m + 1/2)*lambda","2nt = m*lambda / 2","nt = m*lambda"],a:1},
+  {t:"sa",d:1,q:"If a film is extremely thin (t approaches 0), it will appear _______ in reflected light (constructive or destructive).",a:["destructive","dark"]},
+  {t:"mc",d:1,q:"Diffraction is the phenomenon of waves:",o:["Bouncing off surfaces","Bending around obstacles or edges","Changing speed","Combining together"],a:1},
+  {t:"sa",d:1,q:"Young's Double _______ experiment demonstrated the wave nature of light.",a:["slit"]},
+  {t:"mc",d:1,q:"In Young's double slit experiment, bright fringes occur where the path difference is:",o:["m * lambda","(m + 1/2) * lambda","m * lambda / 2","0 only"],a:0},
+  {t:"sa",d:1,q:"The distance between fringes on a screen increases if the distance between the slits _______.",a:["decreases"]},
+  {t:"mc",d:1,q:"Coherent light sources have a constant:",o:["Amplitude","Phase difference","Intensity","Velocity"],a:1},
+  {t:"sa",d:1,q:"A device that produces highly coherent, monochromatic light is a _______.",a:["laser"]},
+
+  {t:"mc",d:2,q:"A thin film of oil (n=1.4) sits on water (n=1.33). Air is above. At the top surface of the oil, the reflected light phase shifts by:",o:["0","pi/2","pi","2*pi"],a:2},
+  {t:"sa",d:2,q:"At the bottom surface of the oil (n=1.4 to water n=1.33), the reflected light phase shifts by _____.",a:["0","zero"]},
+  {t:"mc",d:2,q:"Since there is only one phase shift (pi), the condition for constructive interference for the oil film on water is:",o:["2nt = m*lambda","2nt = (m + 1/2)*lambda","nt = m*lambda","2t = m*lambda"],a:1},
+  {t:"sa",d:2,q:"If you want an anti-reflective coating (destructive) on a glass lens (n=1.5), you use a film (n=1.38). Here, BOTH reflections get a phase shift of pi. So constructive interference is 2nt = ? * lambda.",a:["m"]},
+  {t:"mc",d:2,q:"For the anti-reflective coating (destructive interference, both phase shifted by pi), the minimum thickness t is:",o:["lambda / (2n)","lambda / (4n)","lambda / n","lambda / 4"],a:1},
+  {t:"sa",d:2,q:"If lambda = 500 nm, and film n = 1.25, what is the minimum thickness for anti-reflection? (t = lambda / (4n))",a:100},
+  {t:"mc",d:2,q:"In a single-slit diffraction pattern, the width of the central maximum is:",o:["Half the width of other maxima","Equal to other maxima","Twice the width of other maxima","Independent of slit width"],a:2},
+  {t:"sa",d:2,q:"The condition for the first minimum in single-slit diffraction is a*sin(theta) = ?",a:["lambda"]},
+  {t:"mc",d:2,q:"Newton's rings are formed by:",o:["Diffraction through a circular aperture","Interference in an air wedge between a lens and a flat plate","Refraction through a prism","Polarization of light"],a:1},
+  {t:"sa",d:2,q:"The center of Newton's rings (in reflected light) is always _______ (bright/dark).",a:["dark"]},
+  {t:"mc",d:2,q:"A diffraction grating with N slits per cm has a slit spacing d equal to:",o:["N","1/N cm","N cm","1 cm"],a:1},
+  {t:"sa",d:2,q:"If a grating has 1000 lines/mm, what is d in nm?",a:1000},
+  {t:"mc",d:2,q:"For a diffraction grating, the principal maxima occur at angles theta given by:",o:["d*sin(theta) = m*lambda","d*cos(theta) = m*lambda","d*sin(theta) = (m+0.5)*lambda","a*sin(theta) = m*lambda"],a:0},
+  {t:"sa",d:2,q:"If d = 2000 nm and lambda = 500 nm, what is the value of sin(theta) for the first order (m=1)?",a:0.25},
+  {t:"mc",d:2,q:"The Rayleigh criterion describes the limit of:",o:["Diffraction","Interference","Resolution","Polarization"],a:2},
+  {t:"sa",d:2,q:"For a circular aperture of diameter D, the minimum resolvable angle is theta = 1.22 * lambda / ?",a:["d"]},
+  {t:"mc",d:2,q:"Unpolarized light passes through an ideal polarizer. Its intensity is reduced by:",o:["0%","25%","50%","100%"],a:2},
+  {t:"sa",d:2,q:"Malus's Law: I = I_max * cos^2( ? )",a:["theta"]},
+  {t:"mc",d:2,q:"Light reflecting off a non-metallic surface can become polarized. The angle at which reflected light is 100% polarized is called:",o:["Critical angle","Brewster's angle","Snell's angle","Rayleigh angle"],a:1},
+  {t:"sa",d:2,q:"At Brewster's angle, the reflected and refracted rays are separated by _____ degrees.",a:90},
+
+  {t:"mc",d:3,q:"For thin film interference at an angle of incidence theta_i, the path length difference is 2nt*cos(theta_t). Here theta_t is the angle of:",o:["Incidence","Reflection","Refraction inside the film","Diffraction"],a:2},
+  {t:"sa",d:3,q:"If you view a soap bubble obliquely, does the effective optical path difference increase or decrease?",a:["decrease"]},
+  {t:"mc",d:3,q:"A Michelson interferometer splits a beam, sends it down two arms, and recombines it. If one mirror moves by distance d, the path difference changes by:",o:["d","2d","d/2","4d"],a:1},
+  {t:"sa",d:3,q:"If the mirror moves by lambda/4, the interference pattern shifts from bright to _______.",a:["dark"]},
+  {t:"mc",d:3,q:"The visibility of fringes in an interferometer is related to the source's:",o:["Intensity","Temporal coherence (linewidth)","Spatial coherence","Polarization"],a:1},
+  {t:"sa",d:3,q:"The coherence length L_c is approximately c * tau_c, where tau_c is the coherence _______.",a:["time"]},
+  {t:"mc",d:3,q:"In a Fabry-Perot interferometer, the fringes are very sharp because it involves:",o:["Two-beam interference","Multiple-beam interference","Diffraction","No reflection"],a:1},
+  {t:"sa",d:3,q:"The resolving power of a grating is R = lambda / delta_lambda. It also equals m * ?",a:["n"]},
+  {t:"mc",d:3,q:"The Airy disk is the central bright spot of a diffraction pattern from a:",o:["Single slit","Double slit","Circular aperture","Grating"],a:2},
+  {t:"sa",d:3,q:"About _____ percent of the light energy is contained in the Airy disk.",a:84},
+  {t:"mc",d:3,q:"Holography works by recording the interference pattern between a reference beam and an:",o:["Object beam","Diffracted beam","Reflected beam","Laser beam"],a:0},
+  {t:"sa",d:3,q:"Unlike photography, holography records both the amplitude and the _______ of the light waves.",a:["phase"]},
+  {t:"mc",d:3,q:"Birefringent materials have:",o:["Two different colors","Two different indices of refraction depending on polarization","No index of refraction","Negative index of refraction"],a:1},
+  {t:"sa",d:3,q:"A waveplate (retarder) introduces a phase shift between orthogonal polarizations. A quarter-wave plate introduces a phase shift of _____ radians.",a:["pi/2"]},
+  {t:"mc",d:3,q:"Optical activity is the ability of some substances to:",o:["Emit light","Absorb specific colors","Rotate the plane of polarization of transmitted light","Change the frequency of light"],a:2},
+  {t:"sa",d:3,q:"The Faraday effect involves the rotation of polarization by an external _______ field.",a:["magnetic"]},
+  {t:"mc",d:3,q:"In fiber optics, light is confined in the core primarily due to:",o:["Interference","Total internal reflection","Diffraction","Metallic coating"],a:1},
+  {t:"sa",d:3,q:"Total internal reflection occurs when light travels from a higher index medium to a lower index medium at an angle greater than the _______ angle.",a:["critical"]},
+  {t:"mc",d:3,q:"In a single-mode fiber, the core diameter is on the order of:",o:["Centimeters","Millimeters","Micrometers (comparable to wavelength)","Nanometers"],a:2},
+  {t:"sa",d:3,q:"Numerical Aperture (NA) of a fiber is a measure of its light-_______ ability.",a:["gathering","collecting"]}
+]
+
+</script>
+
+<script>
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE
+    // =========================================================
+    let currentQuiz = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        const results = document.getElementById('results-screen');
+        if (intro) intro.classList.add('hidden');
+        if (results) results.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    function initQuiz() {
+        if (typeof qBank === 'undefined' || qBank.length === 0) return;
+        currentQuiz = [];
+        for(let d=1; d<=3; d++) {
+            let diffQs = qBank.filter(q => q.d === d);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            currentQuiz = currentQuiz.concat(diffQs);
+        }
+        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
+        currentQIndex = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentQIndex >= currentQuiz.length) {
+            showResults();
+            return;
+        }
+        
+        const q = currentQuiz[currentQIndex];
+        document.getElementById('q-current').innerText = currentQIndex + 1;
+        
+        const diffInd = document.getElementById('diff-indicator');
+        diffInd.innerText = 'Level ' + q.d;
+        diffInd.className = 'text-xs font-bold px-3 py-1 rounded-full ' + 
+            (q.d===1 ? 'bg-green-100 text-green-700' : 
+             q.d===2 ? 'bg-blue-100 text-blue-700' : 
+             'bg-yellow-100 text-yellow-700');
+
+        document.getElementById('q-text').innerHTML = q.q;
+        
+        const mcOps = document.getElementById('mc-options');
+        const saCont = document.getElementById('sa-container');
+        const saInput = document.getElementById('sa-input');
+        
+        mcOps.innerHTML = '';
+        if(q.t === 'mc') {
+            mcOps.classList.remove('hidden');
+            saCont.classList.add('hidden');
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-primary-500 hover:bg-primary-50 transition font-medium text-slate-700";
+                btn.innerHTML = String.fromCharCode(65+idx) + ". " + opt;
+                btn.onclick = () => selectOption(btn, idx);
+                mcOps.appendChild(btn);
+            });
+        } else {
+            mcOps.classList.add('hidden');
+            saCont.classList.remove('hidden');
+            saInput.value = '';
+            saInput.disabled = false;
+        }
+        
+        document.getElementById('btn-submit').classList.remove('hidden');
+        document.getElementById('btn-next').classList.add('hidden');
+        document.getElementById('feedback-box').classList.add('hidden');
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([document.getElementById('q-text'), mcOps]).catch(err=>console.log(err));
+        }
+    }
+
+    let selectedIdx = -1;
+    function selectOption(btn, idx) {
+        if(document.getElementById('btn-submit').classList.contains('hidden')) return;
+        const btns = document.getElementById('mc-options').children;
+        for(let b of btns) {
+            b.classList.remove('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+            b.classList.add('border-slate-200');
+        }
+        btn.classList.remove('border-slate-200');
+        btn.classList.add('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+        selectedIdx = idx;
+    }
+
+    function submitAnswer() {
+        const q = currentQuiz[currentQIndex];
+        const fb = document.getElementById('feedback-box');
+        let isCorrect = false;
+        
+        if(q.t === 'mc') {
+            if(selectedIdx === -1) return;
+            isCorrect = (selectedIdx === q.a);
+            const btns = document.getElementById('mc-options').children;
+            btns[q.a].classList.add('bg-green-100', 'border-green-500');
+            if(!isCorrect) {
+                btns[selectedIdx].classList.add('bg-red-100', 'border-red-500');
+            }
+        } else {
+            const input = document.getElementById('sa-input');
+            const val = input.value.trim().toLowerCase();
+            if(val === '') return;
+            input.disabled = true;
+            
+            if(Array.isArray(q.a)) {
+                isCorrect = q.a.some(ans => val === ans.toString().toLowerCase());
+            } else {
+                if(typeof q.a === 'number') {
+                    const numVal = parseFloat(val);
+                    isCorrect = !isNaN(numVal) && Math.abs(numVal - q.a) < 0.05 * Math.abs(q.a);
+                    if(q.a === 0 && Math.abs(numVal) < 0.05) isCorrect = true;
+                } else {
+                    isCorrect = (val === q.a.toString().toLowerCase());
+                }
+            }
+            if(isCorrect) input.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+            else input.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+        }
+        
+        fb.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+        if(isCorrect) {
+            score++;
+            fb.classList.add('bg-green-100', 'text-green-800');
+            fb.innerHTML = "<strong>Correct!</strong> Well done.";
+        } else {
+            fb.classList.add('bg-red-100', 'text-red-800');
+            let corrText = q.t === 'mc' ? String.fromCharCode(65+q.a) + ". " + q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+            fb.innerHTML = "<strong>Incorrect.</strong> The correct answer is: " + corrText;
+        }
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([fb]).catch(e=>console.log(e));
+        }
+        
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        selectedIdx = -1;
+        loadQuestion();
+    }
+
+    function showResults() {
+        document.getElementById('quiz-main-content').classList.add('hidden');
+        const res = document.getElementById('results-screen');
+        res.classList.remove('hidden');
+        document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
 </body>
 </html>

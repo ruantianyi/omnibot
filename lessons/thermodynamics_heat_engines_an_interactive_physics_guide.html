@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -72,7 +72,34 @@
         .path-isochoric { stroke: #22c55e; stroke-width: 3; fill: none; }
         .path-isothermal { stroke: #3b82f6; stroke-width: 3; fill: none; }
         .path-adiabatic { stroke: #ef4444; stroke-width: 3; fill: none; }
-    </style>
+    
+    /* === STANDARDIZED DARK MODE + SIDEBAR ACTIVE HIGHLIGHTING === */
+    :root {
+      --nav-active-bg: #eff6ff; --nav-active-text: #2563eb; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] {
+      --nav-active-bg: #1e3a8a; --nav-active-text: #93c5fd; --nav-active-border: #3b82f6;
+    }
+    [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
+    [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .glass-card { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+    [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5) !important; }
+    .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+    .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+    .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+    #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
+    [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
 
@@ -445,7 +472,58 @@
                 </div>
             </section>
 
-        </main>
+        
+        <!-- SECTION: Comprehensive Quiz -->
+        <section id="quiz" class="scroll-mt-24 no-print">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+            </div>
+            
+            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <div class="flex gap-2">
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                    </div>
+                </div>
+                
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                
+                <div id="mc-options" class="space-y-3 hidden">
+                    <!-- Options injected here -->
+                </div>
+                
+                <div id="sa-container" class="hidden">
+                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
+                </div>
+                
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
+                </div>
+                
+                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+            </div>
+
+            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+            </div>
+        </section>
+
+    </main>
 
         <!-- Sidebar / Table of Contents / Quizzes -->
         <aside class="w-full lg:w-1/3 space-y-8">
@@ -868,7 +946,7 @@
             }
 
             // ==========================================
-            // 3. DOWNLOAD CHEAT SHEET LOGIC
+            // 3. Save as PDF LOGIC
             // ==========================================
             const btnDownload = document.getElementById('btnDownloadHeader');
             if (btnDownload) {
@@ -918,5 +996,256 @@ Generated via PhysicsInteractive Guide
             }
         });
     </script>
+<script>
+(function(){
+  var btn=document.getElementById('darkModeToggle');
+  var sun=document.getElementById('dm-icon-sun');
+  var moon=document.getElementById('dm-icon-moon');
+  var html=document.documentElement;
+  function apply(dark){
+    if(dark){html.setAttribute('data-theme','dark');if(sun)sun.style.display='inline';if(moon)moon.style.display='none';}
+    else{html.removeAttribute('data-theme');if(sun)sun.style.display='none';if(moon)moon.style.display='inline';}
+  }
+  apply(false);
+  if(btn) btn.addEventListener('click',function(){apply(html.getAttribute('data-theme')!=='dark');});
+  var links=document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
+  var ids=Array.from(links).map(function(l){return l.getAttribute('data-section');});
+  var sects=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){if(l.getAttribute('data-section')===id)l.classList.add('active');else l.classList.remove('active');});}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-20% 0px -60% 0px',threshold:0});
+    sects.forEach(function(s){obs.observe(s);});
+  }
+  if(ids.length>0)setActive(ids[0]);
+})();
+</script>
+<script>
+
+    const qBank = [
+  {t:"mc",d:1,q:"What does the First Law of Thermodynamics state?",o:["Entropy always increases","Energy cannot be created or destroyed","Absolute zero is unattainable","Heat flows from cold to hot"],a:1},
+  {t:"sa",d:1,q:"The First Law is Delta U = Q - ?",a:["w"]},
+  {t:"mc",d:1,q:"In an isothermal process, what remains constant?",o:["Pressure","Volume","Temperature","Entropy"],a:2},
+  {t:"sa",d:1,q:"For an ideal gas, if Temperature is constant, the change in internal energy Delta U is _____.",a:["0","zero"]},
+  {t:"mc",d:1,q:"In an adiabatic process, what is zero?",o:["Work done","Change in internal energy","Heat transfer (Q)","Change in temperature"],a:2},
+  {t:"sa",d:1,q:"If a gas expands adiabatically, does its temperature increase or decrease?",a:["decrease"]},
+  {t:"mc",d:1,q:"What is an isochoric process?",o:["Constant pressure","Constant volume","Constant temperature","Constant heat"],a:1},
+  {t:"sa",d:1,q:"In an isochoric process, the work done (W = P Delta V) is equal to _____.",a:["0","zero"]},
+  {t:"mc",d:1,q:"An isobaric process occurs at constant:",o:["Volume","Temperature","Pressure","Density"],a:2},
+  {t:"sa",d:1,q:"The work done in an isobaric process is W = P * Delta_?",a:["v"]},
+  {t:"mc",d:1,q:"What is a heat engine?",o:["A device that converts work into heat","A device that converts heat into work","A device that destroys energy","A perfect insulator"],a:1},
+  {t:"sa",d:1,q:"The efficiency of a heat engine is defined as e = W / ?",a:["q_h","qh"]},
+  {t:"mc",d:1,q:"The Second Law of Thermodynamics implies that:",o:["No heat engine can be 100% efficient","Energy is conserved","Absolute zero can be reached","Heat flows naturally from cold to hot"],a:0},
+  {t:"sa",d:1,q:"A heat engine must always reject some heat to a cold _______.",a:["reservoir","sink"]},
+  {t:"mc",d:1,q:"Which cycle gives the maximum possible efficiency for a heat engine?",o:["Otto cycle","Diesel cycle","Carnot cycle","Stirling cycle"],a:2},
+  {t:"sa",d:1,q:"The Carnot efficiency depends only on the temperatures of the hot and cold _______.",a:["reservoirs"]},
+  {t:"mc",d:1,q:"Entropy is a measure of a system's:",o:["Total energy","Temperature","Disorder or randomness","Pressure"],a:2},
+  {t:"sa",d:1,q:"The Second Law states that the total entropy of an isolated system can never _______ over time.",a:["decrease"]},
+  {t:"mc",d:1,q:"What is the SI unit of heat?",o:["Watt","Joule","Newton","Pascal"],a:1},
+  {t:"sa",d:1,q:"The amount of heat required to raise 1 kg of a substance by 1 K is its specific heat _______.",a:["capacity"]},
+
+  {t:"mc",d:2,q:"Calculate the efficiency of an engine that takes in 1000 J of heat and does 400 J of work.",o:["40%","60%","25%","100%"],a:0},
+  {t:"sa",d:2,q:"An engine has 30% efficiency. If it does 300 J of work, how much heat did it absorb (Q_H)?",a:1000},
+  {t:"mc",d:2,q:"A Carnot engine operates between T_H = 600 K and T_C = 300 K. Its efficiency is:",o:["30%","50%","75%","100%"],a:1},
+  {t:"sa",d:2,q:"If a Carnot engine has T_H = 1000 K and efficiency 40%, what is T_C in Kelvin?",a:600},
+  {t:"mc",d:2,q:"During an isothermal expansion of an ideal gas, the heat added Q is:",o:["Greater than the work done W","Less than the work done W","Equal to the work done W","Zero"],a:2},
+  {t:"sa",d:2,q:"In an adiabatic compression, work is done ON the gas. The internal energy therefore _______.",a:["increases"]},
+  {t:"mc",d:2,q:"For an ideal gas, the internal energy U depends only on:",o:["Pressure","Volume","Temperature","Density"],a:2},
+  {t:"sa",d:2,q:"For a monatomic ideal gas, U = 3/2 n R ?",a:["t"]},
+  {t:"mc",d:2,q:"The heat capacity at constant pressure (C_p) is related to heat capacity at constant volume (C_v) by:",o:["C_p = C_v","C_p = C_v - R","C_p = C_v + R","C_p = C_v / R"],a:2},
+  {t:"sa",d:2,q:"The ratio of specific heats is gamma = C_p / ?",a:["c_v","cv"]},
+  {t:"mc",d:2,q:"In a PV diagram, the net work done in a cyclic process is represented by:",o:["The area under the lowest curve","The area under the highest curve","The area enclosed by the cycle","Zero"],a:2},
+  {t:"sa",d:2,q:"If the cycle on a PV diagram is traversed clockwise, is the net work done BY the gas positive or negative?",a:["positive"]},
+  {t:"mc",d:2,q:"A refrigerator operates by:",o:["Moving heat from a hot reservoir to a cold reservoir","Moving heat from a cold reservoir to a hot reservoir by doing work","Converting all heat into work","Creating cold"],a:1},
+  {t:"sa",d:2,q:"The performance of a refrigerator is measured by its Coefficient of _______ (COP).",a:["performance"]},
+  {t:"mc",d:2,q:"For a Carnot refrigerator, the COP is:",o:["T_H / (T_H - T_C)","T_C / (T_H - T_C)","(T_H - T_C) / T_C","(T_H - T_C) / T_H"],a:1},
+  {t:"sa",d:2,q:"If a refrigerator removes 400 J of heat from the inside and requires 100 J of work, what is its COP?",a:4},
+  {t:"mc",d:2,q:"What is the change in entropy Delta S for a reversible isothermal process where heat Q is added at temperature T?",o:["Q/T","Q*T","Q^2/T","0"],a:0},
+  {t:"sa",d:2,q:"If 500 J of heat is reversibly added to melting ice at 273 K, what is the entropy change? (approx to 1 decimal)",a:1.8},
+  {t:"mc",d:2,q:"In any spontaneous (irreversible) process, the total entropy of the universe:",o:["Decreases","Stays the same","Increases","Can increase or decrease"],a:2},
+  {t:"sa",d:2,q:"A process where the total entropy of the universe remains constant is called _______.",a:["reversible"]},
+
+  {t:"mc",d:3,q:"The work done in a reversible isothermal expansion of n moles of an ideal gas from V_1 to V_2 is:",o:["nRT(V_2 - V_1)","nRT ln(V_2/V_1)","P(V_2 - V_1)","nRT(V_1/V_2)"],a:1},
+  {t:"sa",d:3,q:"If a gas expands isothermally to twice its volume, W = nRT ln(?)",a:2},
+  {t:"mc",d:3,q:"For an adiabatic process in an ideal gas, which relationship holds?",o:["PV = constant","PV^gamma = constant","P/T = constant","VT = constant"],a:1},
+  {t:"sa",d:3,q:"If a diatomic gas (gamma = 1.4) expands adiabatically and its volume doubles, its pressure drops by a factor of 2^?.",a:1.4},
+  {t:"mc",d:3,q:"The Otto cycle (used in spark-ignition engines) consists of:",o:["Two isochoric and two adiabatic processes","Two isobaric and two adiabatic processes","Two isothermal and two adiabatic processes","Two isobaric and two isochoric processes"],a:0},
+  {t:"sa",d:3,q:"The Diesel cycle consists of two adiabatic processes, one isochoric process, and one _______ process.",a:["isobaric"]},
+  {t:"mc",d:3,q:"The efficiency of the Otto cycle depends only on the specific heat ratio gamma and the:",o:["Temperatures T_H and T_C","Compression ratio r","Maximum pressure","Net work"],a:1},
+  {t:"sa",d:3,q:"Otto efficiency is e = 1 - 1/(r^?) where r is the compression ratio.",a:["gamma-1","gamma - 1"]},
+  {t:"mc",d:3,q:"The equipartition theorem states that each degree of freedom contributes how much energy per molecule to the internal energy?",o:["kT","1/2 kT","3/2 kT","RT"],a:1},
+  {t:"sa",d:3,q:"A rigid diatomic molecule (like O2) has how many degrees of freedom at room temperature? (3 translational + 2 rotational)",a:5},
+  {t:"mc",d:3,q:"Molar heat capacity at constant volume C_v for a diatomic ideal gas is:",o:["3/2 R","5/2 R","7/2 R","R"],a:1},
+  {t:"sa",d:3,q:"For a monatomic gas, C_v = 3/2 R, so C_p = ? R",a:["5/2","2.5"]},
+  {t:"mc",d:3,q:"Enthalpy H is defined as:",o:["U - PV","U + PV","Q - W","T * S"],a:1},
+  {t:"sa",d:3,q:"In an isobaric process, the heat transferred Q equals the change in _______.",a:["enthalpy","h"]},
+  {t:"mc",d:3,q:"The Clausius statement of the Second Law is:",o:["No engine can be 100% efficient","Heat cannot spontaneously flow from cold to hot","Entropy always increases","Absolute zero is unattainable"],a:1},
+  {t:"sa",d:3,q:"The Kelvin-Planck statement says it's impossible to build an engine operating in a cycle that absorbs heat and converts it ALL into _______.",a:["work"]},
+  {t:"mc",d:3,q:"The thermodynamic identity is dU = :",o:["T dS - P dV","T dV + P dS","S dT - V dP","Q - W"],a:0},
+  {t:"sa",d:3,q:"Gibbs free energy is G = H - ?",a:["ts","t*s"]}
+]
+
+</script>
+
+<script>
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE
+    // =========================================================
+    let currentQuiz = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        const results = document.getElementById('results-screen');
+        if (intro) intro.classList.add('hidden');
+        if (results) results.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    function initQuiz() {
+        if (typeof qBank === 'undefined' || qBank.length === 0) return;
+        currentQuiz = [];
+        for(let d=1; d<=3; d++) { // Just 1-3 for this reduced bank
+            let diffQs = qBank.filter(q => q.d === d);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            currentQuiz = currentQuiz.concat(diffQs);
+        }
+        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
+        currentQIndex = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentQIndex >= currentQuiz.length) {
+            showResults();
+            return;
+        }
+        
+        const q = currentQuiz[currentQIndex];
+        document.getElementById('q-current').innerText = currentQIndex + 1;
+        
+        const diffInd = document.getElementById('diff-indicator');
+        diffInd.innerText = 'Level ' + q.d;
+        diffInd.className = 'text-xs font-bold px-3 py-1 rounded-full ' + 
+            (q.d===1 ? 'bg-green-100 text-green-700' : 
+             q.d===2 ? 'bg-blue-100 text-blue-700' : 
+             'bg-yellow-100 text-yellow-700');
+
+        document.getElementById('q-text').innerHTML = q.q;
+        
+        const mcOps = document.getElementById('mc-options');
+        const saCont = document.getElementById('sa-container');
+        const saInput = document.getElementById('sa-input');
+        
+        mcOps.innerHTML = '';
+        if(q.t === 'mc') {
+            mcOps.classList.remove('hidden');
+            saCont.classList.add('hidden');
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-primary-500 hover:bg-primary-50 transition font-medium text-slate-700";
+                btn.innerHTML = String.fromCharCode(65+idx) + ". " + opt;
+                btn.onclick = () => selectOption(btn, idx);
+                mcOps.appendChild(btn);
+            });
+        } else {
+            mcOps.classList.add('hidden');
+            saCont.classList.remove('hidden');
+            saInput.value = '';
+            saInput.disabled = false;
+        }
+        
+        document.getElementById('btn-submit').classList.remove('hidden');
+        document.getElementById('btn-next').classList.add('hidden');
+        document.getElementById('feedback-box').classList.add('hidden');
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([document.getElementById('q-text'), mcOps]).catch(err=>console.log(err));
+        }
+    }
+
+    let selectedIdx = -1;
+    function selectOption(btn, idx) {
+        if(document.getElementById('btn-submit').classList.contains('hidden')) return;
+        const btns = document.getElementById('mc-options').children;
+        for(let b of btns) {
+            b.classList.remove('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+            b.classList.add('border-slate-200');
+        }
+        btn.classList.remove('border-slate-200');
+        btn.classList.add('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+        selectedIdx = idx;
+    }
+
+    function submitAnswer() {
+        const q = currentQuiz[currentQIndex];
+        const fb = document.getElementById('feedback-box');
+        let isCorrect = false;
+        
+        if(q.t === 'mc') {
+            if(selectedIdx === -1) return;
+            isCorrect = (selectedIdx === q.a);
+            const btns = document.getElementById('mc-options').children;
+            btns[q.a].classList.add('bg-green-100', 'border-green-500');
+            if(!isCorrect) {
+                btns[selectedIdx].classList.add('bg-red-100', 'border-red-500');
+            }
+        } else {
+            const input = document.getElementById('sa-input');
+            const val = input.value.trim().toLowerCase();
+            if(val === '') return;
+            input.disabled = true;
+            
+            if(Array.isArray(q.a)) {
+                isCorrect = q.a.some(ans => val === ans.toString().toLowerCase());
+            } else {
+                if(typeof q.a === 'number') {
+                    const numVal = parseFloat(val);
+                    isCorrect = !isNaN(numVal) && Math.abs(numVal - q.a) < 0.05 * Math.abs(q.a);
+                    if(q.a === 0 && Math.abs(numVal) < 0.05) isCorrect = true;
+                } else {
+                    isCorrect = (val === q.a.toString().toLowerCase());
+                }
+            }
+            if(isCorrect) input.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+            else input.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+        }
+        
+        fb.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+        if(isCorrect) {
+            score++;
+            fb.classList.add('bg-green-100', 'text-green-800');
+            fb.innerHTML = "<strong>Correct!</strong> Well done.";
+        } else {
+            fb.classList.add('bg-red-100', 'text-red-800');
+            let corrText = q.t === 'mc' ? String.fromCharCode(65+q.a) + ". " + q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+            fb.innerHTML = "<strong>Incorrect.</strong> The correct answer is: " + corrText;
+        }
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([fb]).catch(e=>console.log(e));
+        }
+        
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        selectedIdx = -1;
+        loadQuestion();
+    }
+
+    function showResults() {
+        document.getElementById('quiz-main-content').classList.add('hidden');
+        const res = document.getElementById('results-screen');
+        res.classList.remove('hidden');
+        document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
 </body>
 </html>
