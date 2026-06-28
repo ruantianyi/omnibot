@@ -212,7 +212,17 @@
                         </defs>
                     </svg>
                 </div>
-            </section>
+            
+            <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+              <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+              <p class="text-sm text-emerald-800 mb-4">A Carnot heat engine operates between $T_H = 600\text{ K}$ and $T_C = 300\text{ K}$. What is its maximum thermal efficiency? (Enter decimal e.g. 0.5).</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="number" step="0.1" id="ex_th1-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                <button onclick="checkExercise('ex_th1', 0.5)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+              </div>
+              <p id="ex_th1-fb" class="mt-3 text-sm font-bold hidden"></p>
+            </div>
+</section>
 
             <!-- Section: Mathematical Derivations & Cycle Equations -->
             <section id="processes" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg tex2jax_process">
@@ -1090,7 +1100,52 @@ Generated via PhysicsInteractive Guide
     // =========================================================
     // DIAGNOSTIC QUIZ ENGINE
     // =========================================================
-    let currentQuiz = [];
+    let currentQuiz = [
+  // Level 4 (20 Qs)
+  {t:"mc",d:4,q:"The Helmholtz free energy F is defined as:",o:["U - TS","U + TS","H - TS","U + PV"],a:0},
+  {t:"sa",d:4,q:"The differential dF in terms of dT and dV is dF = -S dT - P d?.",a:["v"]},
+  {t:"mc",d:4,q:"Gibbs free energy G = H - TS. For a process at constant T and P, spontaneous changes occur when Delta G is:",o:["Positive","Zero","Negative","Maximum"],a:2},
+  {t:"sa",d:4,q:"At thermodynamic equilibrium at constant T and P, Delta G is equal to _____.",a:0},
+  {t:"mc",d:4,q:"Maxwell relations are derived from the exactness of differentials of thermodynamic potentials. One Maxwell relation is (partial S / partial V)_T =",o:["(partial P / partial T)_V","-(partial P / partial T)_V","(partial V / partial T)_P","-(partial T / partial P)_S"],a:0},
+  {t:"sa",d:4,q:"The Joule-Thomson coefficient mu_JT = (partial T / partial P)_H. In a Joule-Thomson expansion, the enthalpy H remains _______.",a:["constant"]},
+  {t:"mc",d:4,q:"An ideal gas undergoing a Joule-Thomson expansion experiences a temperature change of:",o:["Heating","Cooling","Zero temperature change","Infinite change"],a:2},
+  {t:"sa",d:4,q:"Real gases cool during Joule-Thomson expansion below their inversion _______.",a:["temperature"]},
+  {t:"mc",d:4,q:"The Third Law of Thermodynamics states that as temperature approaches absolute zero, the entropy of a pure crystalline substance approaches:",o:["Infinity","A constant minimum (zero)","Negative infinity","Boltzmann's constant"],a:1},
+  {t:"sa",d:4,q:"Absolute zero corresponds to _____ Kelvin.",a:0},
+  {t:"mc",d:4,q:"The Clausius-Clapeyron equation dP/dT = L / (T Delta V) describes phase transitions. L represents:",o:["Latent heat","Lorentz factor","Length","Work done"],a:0},
+  {t:"sa",d:4,q:"During a phase transition of a pure substance at constant pressure, does the temperature change or remain constant?",a:["remain constant","constant"]},
+  {t:"mc",d:4,q:"The chemical potential mu represents the change in free energy per change in:",o:["Temperature","Volume","Number of particles N","Pressure"],a:2},
+  {t:"sa",d:4,q:"Matter flows spontaneously from regions of high chemical potential to regions of _______ chemical potential.",a:["low"]},
+  {t:"mc",d:4,q:"Phase rule of Gibbs is F = C - P + 2. For a single component system (C=1) with two phases coexisting (P=2), degrees of freedom F =",o:["0","1","2","3"],a:1},
+  {t:"sa",d:4,q:"At the triple point of water, three phases coexist (P=3, C=1). The degrees of freedom F is _____.",a:0},
+  {t:"mc",d:4,q:"The Maxwell-Boltzmann speed distribution peak (most probable speed v_mp) is:",o:["sqrt(2kT/m)","sqrt(3kT/m)","sqrt(8kT/pi m)","kT/m"],a:0},
+  {t:"sa",d:4,q:"The root-mean-square speed v_rms is sqrt(? * kT / m).",a:3},
+  {t:"mc",d:4,q:"The average kinetic energy of a monatomic gas molecule is:",o:["1/2 kT","3/2 kT","5/2 kT","kT"],a:1},
+  {t:"sa",d:4,q:"In a 3D gas, the average energy per degree of freedom is 1/2 * ? * T.",a:["k","kb"]},
+
+  // Level 5 (20 Qs)
+  {t:"mc",d:5,q:"In statistical mechanics, the fundamental relation for microcanonical ensemble entropy is S =",o:["k ln(Omega)","k Omega","kT ln(Z)","-k sum p_i ln p_i"],a:0},
+  {t:"sa",d:5,q:"In Boltzmann's formula S = k ln(Omega), k is _______'s constant.",a:["boltzmann"]},
+  {t:"mc",d:5,q:"The canonical partition function Z for a system with energy states E_i is:",o:["sum e^(-E_i / kT)","sum e^(E_i / kT)","int E_i dE","e^(-F/kT)"],a:0},
+  {t:"sa",d:5,q:"The Helmholtz free energy F is related to the partition function Z by F = -k T ln( ? ).",a:["z"]},
+  {t:"mc",d:5,q:"Bose-Einstein statistics apply to particles with:",o:["Half-integer spin (Fermions)","Integer spin (Bosons)","Zero mass only","Electric charge"],a:1},
+  {t:"sa",d:5,q:"Photons, gluons, and alpha particles are examples of _______ (bosons/fermions).",a:["bosons"]},
+  {t:"mc",d:5,q:"Fermi-Dirac statistics obey which fundamental quantum principle?",o:["Heisenberg Uncertainty Principle","Pauli Exclusion Principle","Correspondence Principle","Equipartition Principle"],a:1},
+  {t:"sa",d:5,q:"Electrons are fermions because they have spin equal to 1/2. Can two electrons occupy the exact same quantum state? (yes/no)",a:["no"]},
+  {t:"mc",d:5,q:"At absolute zero, electrons fill energy states up to a maximum energy level called the:",o:["Fermi energy E_F","Debye energy","Planck energy","Bohr energy"],a:0},
+  {t:"sa",d:5,q:"The pressure exerted by degenerate electrons in white dwarf stars is called electron _______ pressure.",a:["degeneracy"]},
+  {t:"mc",d:5,q:"Planck's blackbody radiation law resolved which classical physics failure?",o:["Photoelectric anomaly","Ultraviolet catastrophe","Rayleigh scattering","Compton effect"],a:1},
+  {t:"sa",d:5,q:"The Stefan-Boltzmann law states that total radiated power per unit area is P/A = sigma * T^?.",a:4},
+  {t:"mc",d:5,q:"Wien's displacement law states that the peak wavelength lambda_max is inversely proportional to:",o:["Temperature T","T^2","T^4","Pressure"],a:0},
+  {t:"sa",d:5,q:"If a star's temperature doubles, its peak emission wavelength is halved. Product lambda_max * T is a constant b ~ 2.9 x 10^-3 m K. This is _______'s displacement law.",a:["wien"]},
+  {t:"mc",d:5,q:"The Ising model in statistical mechanics is widely used to study:",o:["Gas kinetics","Ferromagnetism and phase transitions","Superconductivity","Nuclear decay"],a:1},
+  {t:"sa",d:5,q:"The Onsager exact solution for the 2D Ising model demonstrated a continuous phase transition at a critical _______.",a:["temperature"]},
+  {t:"mc",d:5,q:"Fluctuation-dissipation theorem relates response functions (like mobility or resistance) to thermal equilibrium fluctuations. Einstein's relation for diffusion D is:",o:["D = mu k T","D = mu / k T","D = k T / m","D = mu^2 T"],a:0},
+  {t:"sa",d:5,q:"In Brownian motion, the mean square displacement <x^2> grows linearly with _______.",a:["time","t"]},
+  {t:"mc",d:5,q:"A Carnot engine's efficiency can reach 100% only if the cold reservoir temperature T_C is:",o:["0 K","100 K","Equal to T_H","Infinite"],a:0},
+  {t:"sa",d:5,q:"The Nernst heat theorem is another name for the _______ Law of Thermodynamics.",a:["third","3rd"]}
+
+];
     let currentQIndex = 0;
     let score = 0;
 
@@ -1107,12 +1162,12 @@ Generated via PhysicsInteractive Guide
     function initQuiz() {
         if (typeof qBank === 'undefined' || qBank.length === 0) return;
         currentQuiz = [];
-        for(let d=1; d<=3; d++) { // Just 1-3 for this reduced bank
+        for(let d=1; d<=5; d++) { // Just 1-3 for this reduced bank
             let diffQs = qBank.filter(q => q.d === d);
-            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
             currentQuiz = currentQuiz.concat(diffQs);
         }
-        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
+        
         currentQIndex = 0;
         score = 0;
         loadQuestion();
@@ -1244,6 +1299,34 @@ Generated via PhysicsInteractive Guide
         const res = document.getElementById('results-screen');
         res.classList.remove('hidden');
         document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
+
+<script>
+    function checkExercise(id, expectedAns) {
+      const el = document.getElementById(`${id}-input`);
+      const fb = document.getElementById(`${id}-fb`);
+      if (!el || !fb) return;
+
+      const userVal = el.value.trim().toLowerCase();
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      let isCorrect = false;
+      if (typeof expectedAns === 'number') {
+        const num = parseFloat(userVal);
+        if (!isNaN(num) && Math.abs(num - expectedAns) < 0.05) isCorrect = true;
+      } else {
+        if (userVal === expectedAns.toLowerCase()) isCorrect = true;
+      }
+
+      if (isCorrect) {
+        fb.innerText = "✓ Correct! Great job.";
+        fb.classList.add('text-emerald-600');
+      } else {
+        fb.innerText = "✗ Incorrect. Try again or check the math above.";
+        fb.classList.add('text-rose-600');
+      }
     }
 </script>
 

@@ -202,7 +202,17 @@
 
         </div>
       </div>
-    </section>
+    
+            <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+              <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+              <p class="text-sm text-emerald-800 mb-4">Calculate the exact area under $f(x) = 3x^2$ from $x=0$ to $x=2$. (Recall $\int 3x^2 dx = x^3$).</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="number" id="ex_rie1-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                <button onclick="checkExercise('ex_rie1', 8)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+              </div>
+              <p id="ex_rie1-fb" class="mt-3 text-sm font-bold hidden"></p>
+            </div>
+</section>
 
     <!-- Section 2: Interactive Visualizer -->
     <section id="visualizer" class="scroll-mt-24">
@@ -1012,7 +1022,52 @@ lim (n->∞) Σ f(x_i*) Δx = ∫ (from a to b) f(x) dx
     // =========================================================
     // DIAGNOSTIC QUIZ ENGINE
     // =========================================================
-    let currentQuiz = [];
+    let currentQuiz = [
+  // Level 4 (20 Qs)
+  {t:"mc",d:4,q:"What is the value of int_0^1 x^3 dx?",o:["1/4","1/3","1/2","1"],a:0},
+  {t:"sa",d:4,q:"Evaluate int_0^2 3x^2 dx.",a:8},
+  {t:"mc",d:4,q:"The average value of a continuous function f(x) on [a,b] is:",o:["1/(b-a) int_a^b f(x) dx","int_a^b f(x) dx","(f(a)+f(b))/2","f((a+b)/2)"],a:0},
+  {t:"sa",d:4,q:"What is the average value of f(x) = 2x on [0, 4]?",a:4},
+  {t:"mc",d:4,q:"By the Mean Value Theorem for Integrals, there exists c in (a,b) such that f(c) equals:",o:["The maximum value","The average value","Zero","The derivative at c"],a:1},
+  {t:"sa",d:4,q:"Find c in [0, 3] such that f(c) equals the average value of f(x) = 2x on [0,3].",a:1.5},
+  {t:"mc",d:4,q:"If F(x) = int_0^x t^2 dt, what is F'(x)?",o:["x^2","2x","x^3/3","x"],a:0},
+  {t:"sa",d:4,q:"If G(x) = int_1^(x^2) t dt, using the Leibniz rule, G'(x) = 2x * (x^2) = 2x^?.",a:3},
+  {t:"mc",d:4,q:"Improper integrals of Type 1 have:",o:["Infinite limits of integration","Discontinuous integrands","Zero length domains","Negative areas"],a:0},
+  {t:"sa",d:4,q:"Evaluate int_1^infinity 1/x^2 dx.",a:1},
+  {t:"mc",d:4,q:"Does int_1^infinity 1/x dx converge or diverge?",o:["Converges to 1","Converges to 0","Diverges","Converges to e"],a:2},
+  {t:"sa",d:4,q:"The p-series integral int_1^infinity 1/x^p dx converges if and only if p > _____.",a:1},
+  {t:"mc",d:4,q:"The integral int_0^1 1/sqrt(x) dx is improper because the integrand is unbounded at x=0. Does it converge?",o:["Yes, to 2","Yes, to 1","No, it diverges","Yes, to 0.5"],a:0},
+  {t:"sa",d:4,q:"Evaluate int_0^1 1/sqrt(x) dx.",a:2},
+  {t:"mc",d:4,q:"The arc length of a curve y = f(x) from a to b is given by int_a^b sqrt(1 + [?]^2) dx.",o:["f(x)","f'(x)","f''(x)","int f(x)"],a:1},
+  {t:"sa",d:4,q:"The surface area of revolution around the x-axis is 2pi int y sqrt(1 + (y')^2) dx. For y=r (cylinder of length L), area = 2pi r * ?.",a:["l","length"]},
+  {t:"mc",d:4,q:"The hydrostatic force on a vertical submerged plate is calculated by integrating:",o:["Pressure * Width * dy","Density * Gravity * Depth * Area","Mass * Gravity","Volume * Density"],a:0},
+  {t:"sa",d:4,q:"Work done in pumping liquid out of a tank involves integrating force over distance. W = int rho g A(y) (h - y) dy. Units are _______.",a:["joules","j"]},
+  {t:"mc",d:4,q:"The center of mass x_bar of a planar lamina with uniform density is M_y / m, where M_y is the moment about the:",o:["x-axis","y-axis","Origin","Centroid"],a:1},
+  {t:"sa",d:4,q:"For a symmetric shape about the y-axis, x_bar is equal to _____.",a:0},
+
+  // Level 5 (20 Qs)
+  {t:"mc",d:5,q:"Which theorem guarantees that continuous functions on compact intervals are Riemann integrable?",o:["Heine-Borel theorem","Extreme Value Theorem","Uniform Continuity Theorem","Fundamental Theorem of Algebra"],a:2},
+  {t:"sa",d:5,q:"Lebesgue's criterion states that a bounded function is Riemann integrable if and only if its set of discontinuities has measure _____.",a:0},
+  {t:"mc",d:5,q:"The gamma function Gamma(n) is defined as int_0^infinity t^(n-1) e^-t dt. For positive integers n, Gamma(n) =",o:["n!","(n-1)!","(n+1)!","2^n"],a:1},
+  {t:"sa",d:5,q:"Evaluate Gamma(4).",a:6},
+  {t:"mc",d:5,q:"The Gaussian integral int_-infinity^infinity e^(-x^2) dx equals:",o:["pi","sqrt(pi)","2*pi","1"],a:1},
+  {t:"sa",d:5,q:"The square of the Gaussian integral is evaluated by converting to polar coordinates (r, theta). The Jacobian determinant r dr dtheta provides the factor r. The result for the integral squared is _____.",a:["pi"]},
+  {t:"mc",d:5,q:"Cauchy Principal Value is used to assign values to certain improper integrals with:",o:["Boundary points","Internal singularities","Infinite dimensions","Complex powers"],a:1},
+  {t:"sa",d:5,q:"The PV of int_-1^1 1/x dx is _____.",a:0},
+  {t:"mc",d:5,q:"Monte Carlo integration estimates integrals by:",o:["Random sampling of points","Trapezoidal grids","Taylor expansion","Polynomial interpolation"],a:0},
+  {t:"sa",d:5,q:"The error in Monte Carlo integration decreases as 1 / sqrt( ? ).",a:["n"]},
+  {t:"mc",d:5,q:"Gaussian quadrature chooses optimal evaluation points (nodes) based on the roots of which polynomials?",o:["Hermite","Legendre","Laguerre","Chebyshev"],a:1},
+  {t:"sa",d:5,q:"An n-point Gaussian quadrature rule integrates polynomials of degree up to 2n - ? exactly.",a:1},
+  {t:"mc",d:5,q:"Euler-Maclaurin formula relates integrals to sums and expresses the difference using:",o:["Bernoulli numbers","Fibonacci numbers","Prime numbers","Euler constants"],a:0},
+  {t:"sa",d:5,q:"The Euler-Mascheroni constant gamma is the limit of sum_(k=1)^n (1/k) - ln( ? ).",a:["n"]},
+  {t:"mc",d:5,q:"Stirling's approximation for n! is derived using integration by parts on ln(n!). The leading term is n ln(n) - :",o:["n","2n","ln(n)","e^n"],a:0},
+  {t:"sa",d:5,q:"For large n, ln(n!) ~ n ln(n) - ?.",a:["n"]},
+  {t:"mc",d:5,q:"In differential geometry, line integrals of vector fields along curves represent:",o:["Flux","Work or circulation","Volume","Curvature"],a:1},
+  {t:"sa",d:5,q:"Green's Theorem in the plane relates a line integral around a simple closed curve C to a double integral over the region D. It is a 2D version of the general _______ Theorem.",a:["stokes"]},
+  {t:"mc",d:5,q:"The Divergence Theorem relates the surface integral of a vector field over a closed surface to the volume integral of its:",o:["Curl","Gradient","Divergence","Laplacian"],a:2},
+  {t:"sa",d:5,q:"If a vector field has zero divergence everywhere in a region, the net outward flux through any closed surface in that region is _____.",a:0}
+
+];
     let currentQIndex = 0;
     let score = 0;
 
@@ -1029,12 +1084,12 @@ lim (n->∞) Σ f(x_i*) Δx = ∫ (from a to b) f(x) dx
     function initQuiz() {
         if (typeof qBank === 'undefined' || qBank.length === 0) return;
         currentQuiz = [];
-        for(let d=1; d<=3; d++) { // Just doing levels 1-3 for this smaller bank
+        for(let d=1; d<=5; d++) { // Just doing levels 1-3 for this smaller bank
             let diffQs = qBank.filter(q => q.d === d);
-            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
             currentQuiz = currentQuiz.concat(diffQs);
         }
-        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]); // 10th Q
+         // 10th Q
         currentQIndex = 0;
         score = 0;
         loadQuestion();
@@ -1166,6 +1221,34 @@ lim (n->∞) Σ f(x_i*) Δx = ∫ (from a to b) f(x) dx
         const res = document.getElementById('results-screen');
         res.classList.remove('hidden');
         document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
+
+<script>
+    function checkExercise(id, expectedAns) {
+      const el = document.getElementById(`${id}-input`);
+      const fb = document.getElementById(`${id}-fb`);
+      if (!el || !fb) return;
+
+      const userVal = el.value.trim().toLowerCase();
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      let isCorrect = false;
+      if (typeof expectedAns === 'number') {
+        const num = parseFloat(userVal);
+        if (!isNaN(num) && Math.abs(num - expectedAns) < 0.05) isCorrect = true;
+      } else {
+        if (userVal === expectedAns.toLowerCase()) isCorrect = true;
+      }
+
+      if (isCorrect) {
+        fb.innerText = "✓ Correct! Great job.";
+        fb.classList.add('text-emerald-600');
+      } else {
+        fb.innerText = "✗ Incorrect. Try again or check the math above.";
+        fb.classList.add('text-rose-600');
+      }
     }
 </script>
 

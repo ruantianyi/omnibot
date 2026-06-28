@@ -225,7 +225,17 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            
+            <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+              <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+              <p class="text-sm text-emerald-800 mb-4">Vectors $\mathbf{A}$ and $\mathbf{B}$ have magnitudes $3$ and $4$ with an angle of $30^\circ$ between them. What is $|\mathbf{A} \times \mathbf{B}|$?</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="number" id="ex_vec1-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                <button onclick="checkExercise('ex_vec1', 6)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+              </div>
+              <p id="ex_vec1-fb" class="mt-3 text-sm font-bold hidden"></p>
+            </div>
+</section>
 
             <!-- 2. Interactive Simulation -->
             <section id="interactive-sim" class="scroll-mt-24 space-y-6">
@@ -923,7 +933,52 @@
     // =========================================================
     // DIAGNOSTIC QUIZ ENGINE
     // =========================================================
-    let currentQuiz = [];
+    let currentQuiz = [
+  // Level 4 (20 Qs)
+  {t:"mc",d:4,q:"The Jacobian determinant of a transformation from Cartesian (x,y) to polar (r, theta) is:",o:["r","r^2","1","r sin(theta)"],a:0},
+  {t:"sa",d:4,q:"In cylindrical coordinates (r, theta, z), the volume element dV is r dr dtheta d?.",a:["z"]},
+  {t:"mc",d:4,q:"In spherical coordinates (r, theta, phi), the volume element dV is:",o:["r^2 sin(theta) dr dtheta dphi","r sin(theta) dr dtheta dphi","r^2 dr dtheta dphi","r^3 sin(theta) dr dtheta dphi"],a:0},
+  {t:"sa",d:4,q:"The gradient of a scalar field f in Cartesian coordinates is grad(f) = (partial f/partial x) i + (partial f/partial y) j + (partial f/partial z) ?.",a:["k"]},
+  {t:"mc",d:4,q:"The directional derivative of f in the direction of a unit vector u is:",o:["grad(f) . u","grad(f) x u","grad(f) + u","|grad(f)|"],a:0},
+  {t:"sa",d:4,q:"The direction of maximum rate of increase of a scalar field f is given by the vector _______(f).",a:["grad","gradient"]},
+  {t:"mc",d:4,q:"The divergence of a vector field F = <P, Q, R> is:",o:["dP/dx + dQ/dy + dR/dz","dP/dx i + dQ/dy j + dR/dz k","dQ/dz - dR/dy","0"],a:0},
+  {t:"sa",d:4,q:"If div(F) = 0 everywhere, the vector field F is called _______.",a:["solenoidal"]},
+  {t:"mc",d:4,q:"The Laplacian operator Del^2 applied to a scalar field f is:",o:["div(grad f)","curl(grad f)","grad(div f)","curl(curl f)"],a:0},
+  {t:"sa",d:4,q:"Laplace's equation is Del^2 f = _____.",a:0},
+  {t:"mc",d:4,q:"The identity curl(grad f) for any twice differentiable scalar field f is always equal to:",o:["0","grad(curl f)","Del^2 f","f"],a:0},
+  {t:"sa",d:4,q:"The vector identity div(curl F) is always equal to _____.",a:0},
+  {t:"mc",d:4,q:"The line integral of a vector field F along a path C is int_C F . dr. If F is conservative (F = grad f), the integral depends only on:",o:["The path taken","The endpoints of C","The speed along C","The curvature"],a:1},
+  {t:"sa",d:4,q:"For a conservative field, the line integral around any closed loop is _____.",a:0},
+  {t:"mc",d:4,q:"Green's Theorem states int_C (P dx + Q dy) = double_int_D ( ? ) dA.",o:["dQ/dx - dP/dy","dP/dx + dQ/dy","dQ/dy - dP/dx","dP/dy + dQ/dx"],a:0},
+  {t:"sa",d:4,q:"If P = -y/2 and Q = x/2, then dQ/dx - dP/dy = 1. The line integral 1/2 int (-y dx + x dy) gives the _______ of region D.",a:["area"]},
+  {t:"mc",d:4,q:"Stokes' Theorem states int_C F . dr = double_int_S ( ? ) . n dS.",o:["curl(F)","div(F)","grad(F)","F"],a:0},
+  {t:"sa",d:4,q:"The surface S in Stokes' Theorem is bounded by the closed curve _______.",a:["c"]},
+  {t:"mc",d:4,q:"The Divergence Theorem relates double_int_S F . n dS to triple_int_V ( ? ) dV.",o:["div(F)","curl(F)","grad(F)","F . F"],a:0},
+  {t:"sa",d:4,q:"If F is the velocity field of an incompressible fluid (div F = 0), the net outward flux through any closed surface is _____.",a:0},
+
+  // Level 5 (20 Qs)
+  {t:"mc",d:5,q:"In tensor analysis, a second-rank tensor in 3D space has how many components?",o:["3","6","9","27"],a:2},
+  {t:"sa",d:5,q:"The stress tensor and inertia tensor in 3D mechanics are examples of rank-_____ tensors.",a:2},
+  {t:"mc",d:5,q:"The metric tensor g_ij describes how to compute distances in a space. In Euclidean 3D space with Cartesian coordinates, g_ij is:",o:["Kronecker delta delta_ij","Levi-Civita symbol","Zero","Pauli matrix"],a:0},
+  {t:"sa",d:5,q:"In special relativity, flat spacetime is described by the Minkowski metric with signature (-1, 1, 1, 1) or (1, -1, -1, -1) in _____ dimensions.",a:4},
+  {t:"mc",d:5,q:"The Christoffel symbols Gamma^i_jk are used in differential geometry to calculate:",o:["Covariant derivatives","Determinants","Cross products","Eigenvalues"],a:0},
+  {t:"sa",d:5,q:"Geodesics are curves of shortest distance in curved space. The equation of a geodesic involves Christoffel _______.",a:["symbols"]},
+  {t:"mc",d:5,q:"Maxwell's equations in vector calculus notation include div(B) = 0. This implies magnetic monopoles:",o:["Exist everywhere","Do not exist (in classical electrodynamics)","Are constant","Flow like current"],a:1},
+  {t:"sa",d:5,q:"Faraday's Law of induction in differential form is curl(E) = - dB/d?.",a:["t","time"]},
+  {t:"mc",d:5,q:"Ampere-Maxwell Law in differential form is curl(B) = mu_0 J + mu_0 epsilon_0 dE/dt. The second term is called:",o:["Conduction current","Displacement current","Eddy current","Magnetization current"],a:1},
+  {t:"sa",d:5,q:"The speed of light in vacuum is c = 1 / sqrt(mu_0 * ?_0).",a:["epsilon","eps_0"]},
+  {t:"mc",d:5,q:"The Helmholtz decomposition theorem states that any sufficiently smooth vector field can be resolved into the sum of:",o:["An irrotational (curl-free) field and a solenoidal (div-free) field","Two scalar fields","A polynomial and an exponential","Normal modes"],a:0},
+  {t:"sa",d:5,q:"Thus F = -grad(phi) + curl(A). phi is scalar potential and A is vector _______.",a:["potential"]},
+  {t:"mc",d:5,q:"In fluid dynamics, vorticity omega is defined as the curl of the velocity field v: omega =",o:["Del x v","Del . v","Del v","v x r"],a:0},
+  {t:"sa",d:5,q:"For irrotational flow, vorticity omega is equal to _____.",a:0},
+  {t:"mc",d:5,q:"Differential forms generalize vector calculus. A 0-form is a scalar function. The exterior derivative d applied to a 0-form gives a 1-form corresponding to:",o:["Gradient","Curl","Divergence","Laplacian"],a:0},
+  {t:"sa",d:5,q:"The exterior derivative d applied to a 1-form corresponds to the _______ operation in vector calculus.",a:["curl"]},
+  {t:"mc",d:5,q:"The generalized Stokes Theorem for differential forms omega on a manifold M with boundary dM is expressed as:",o:["int_dM omega = int_M d(omega)","int_M omega = int_dM d(omega)","d(int omega) = 0","int M = int dM"],a:0},
+  {t:"sa",d:5,q:"The property d(d(omega)) = 0 for any differential form corresponds to the identities curl(grad f) = 0 and div(curl F) = _____.",a:0},
+  {t:"mc",d:5,q:"The Hodge dual operator star converts a k-form in an n-dimensional manifold into a form of degree:",o:["n - k","k + 1","n + k","k/n"],a:0},
+  {t:"sa",d:5,q:"In 3D space, the Hodge dual of a 1-form (vector) is a ____-form (pseudovector/flux).",a:2}
+
+];
     let currentQIndex = 0;
     let score = 0;
 
@@ -940,12 +995,12 @@
     function initQuiz() {
         if (typeof qBank === 'undefined' || qBank.length === 0) return;
         currentQuiz = [];
-        for(let d=1; d<=3; d++) {
+        for(let d=1; d<=5; d++) {
             let diffQs = qBank.filter(q => q.d === d);
-            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
             currentQuiz = currentQuiz.concat(diffQs);
         }
-        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
+        
         currentQIndex = 0;
         score = 0;
         loadQuestion();
@@ -1077,6 +1132,34 @@
         const res = document.getElementById('results-screen');
         res.classList.remove('hidden');
         document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
+
+<script>
+    function checkExercise(id, expectedAns) {
+      const el = document.getElementById(`${id}-input`);
+      const fb = document.getElementById(`${id}-fb`);
+      if (!el || !fb) return;
+
+      const userVal = el.value.trim().toLowerCase();
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      let isCorrect = false;
+      if (typeof expectedAns === 'number') {
+        const num = parseFloat(userVal);
+        if (!isNaN(num) && Math.abs(num - expectedAns) < 0.05) isCorrect = true;
+      } else {
+        if (userVal === expectedAns.toLowerCase()) isCorrect = true;
+      }
+
+      if (isCorrect) {
+        fb.innerText = "✓ Correct! Great job.";
+        fb.classList.add('text-emerald-600');
+      } else {
+        fb.innerText = "✗ Incorrect. Try again or check the math above.";
+        fb.classList.add('text-rose-600');
+      }
     }
 </script>
 

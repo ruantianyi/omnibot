@@ -168,7 +168,17 @@
                         However, cracks began to appear. Classical physics predicted that a theoretical "blackbody" at thermal equilibrium would emit infinite high-frequency radiation—an impossibility dubbed the <em>Ultraviolet Catastrophe</em>. In 1900, Max Planck solved this by mathematically restricting energy exchange to discrete, indivisible packets he called <strong>quanta</strong>. Planck assumed this was merely a mathematical trick, but Albert Einstein soon proved it was physical reality.
                     </p>
                 </div>
-            </section>
+            
+            <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+              <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+              <p class="text-sm text-emerald-800 mb-4">What is the de Broglie wavelength factor change if particle momentum $p$ is doubled? ($\lambda = h/p$). Enter decimal.</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="number" step="0.1" id="ex_qm1-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                <button onclick="checkExercise('ex_qm1', 0.5)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+              </div>
+              <p id="ex_qm1-fb" class="mt-3 text-sm font-bold hidden"></p>
+            </div>
+</section>
 
             <!-- 2. The Photoelectric Effect -->
             <section id="photoelectric" class="mb-16 scroll-mt-24">
@@ -1095,5 +1105,33 @@
   }
   if(ids.length>0)setActive(ids[0]);
 })();
-</script></body>
+</script>
+<script>
+    function checkExercise(id, expectedAns) {
+      const el = document.getElementById(`${id}-input`);
+      const fb = document.getElementById(`${id}-fb`);
+      if (!el || !fb) return;
+
+      const userVal = el.value.trim().toLowerCase();
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      let isCorrect = false;
+      if (typeof expectedAns === 'number') {
+        const num = parseFloat(userVal);
+        if (!isNaN(num) && Math.abs(num - expectedAns) < 0.05) isCorrect = true;
+      } else {
+        if (userVal === expectedAns.toLowerCase()) isCorrect = true;
+      }
+
+      if (isCorrect) {
+        fb.innerText = "✓ Correct! Great job.";
+        fb.classList.add('text-emerald-600');
+      } else {
+        fb.innerText = "✗ Incorrect. Try again or check the math above.";
+        fb.classList.add('text-rose-600');
+      }
+    }
+</script>
+
+</body>
 </html>

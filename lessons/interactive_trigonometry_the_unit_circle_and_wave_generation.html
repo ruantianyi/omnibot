@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Mechanics of Waves: The Unit Circle & Trigonometry</title>
+    <title>The Mechanics of Waves: The Unit Circle & Trigonometry — Interactive Physics</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
     <script>
         window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+            tex: { inlineMath: [['$', '$'], ['\(', '\)']], displayMath: [['$$', '$$'], ['\[', '\]']], processEscapes: true },
             options: { ignoreHtmlClass: 'tex2jax_ignore', processHtmlClass: 'tex2jax_process' }
         };
     </script>
@@ -17,92 +18,265 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Merriweather', 'serif'],
-                    },
                     colors: {
-                        sine: '#ef4444',     // Red-500
-                        cosine: '#3b82f6',   // Blue-500
-                        tangent: '#f59e0b',  // Amber-500
                         brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 900: '#134e4a' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
                     }
                 }
             }
         }
     </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        body { background-color: #f8fafc; color: #0f172a; }
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #0d9488; cursor: pointer; margin-top: -6px; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: #e2e8f0; border-radius: 4px; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        
+        /* STANDARDIZED DARK MODE */
+        :root { --nav-active-bg: #ccfbf1; --nav-active-text: #0d9488; --nav-active-border: #14b8a6; }
+        [data-theme="dark"] { --nav-active-bg: #134e4a; --nav-active-text: #5eead4; --nav-active-border: #14b8a6; }
+        [data-theme="dark"] body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+        [data-theme="dark"] .bg-white { background-color: #1e293b !important; }
+        [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100 { background-color: #1e293b !important; }
+        [data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+        [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
+        [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
+        [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
+        [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
+        [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
+        [data-theme="dark"] nav, [data-theme="dark"] header { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
+        
+        .sidebar-link { display: block; padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #64748b; border-radius: 0.375rem; border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; font-weight: 400; }
+        .sidebar-link:hover { color: var(--nav-active-text); background: var(--nav-active-bg); }
+        .sidebar-link.active { color: var(--nav-active-text); background: var(--nav-active-bg); border-left-color: var(--nav-active-border); font-weight: 700; }
+        
+        #darkModeToggle { background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; padding: 0.375rem 0.5rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+        #darkModeToggle:hover { background: #f1f5f9; color: #0d9488; }
+        [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }
+    </style>
+    <style>
+    @media print {
+      @page { margin: 0.75in; }
+      body { background-color: #ffffff !important; color: #000000 !important; font-size: 11pt; }
+      header, footer, aside, nav, button, input, select, canvas, .no-print, #quiz-intro-box, #quiz-main-content { display: none !important; }
+      main { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      article { page-break-inside: avoid; margin-bottom: 2.5rem !important; }
+    }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- Stub for trig lesson -->
-        <h1 class="text-4xl font-bold mb-4">Trigonometry and Waves</h1>
-    
-        <!-- SECTION: Comprehensive Quiz -->
-        <section id="quiz" class="scroll-mt-24 no-print">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
-                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Header -->
+    <header class="bg-brand-900 text-white border-b border-brand-900 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-400"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    <span class="font-bold text-xl tracking-tight hidden sm:block">Trigonometry & Wave Mechanics</span>
+                    <span class="font-bold text-xl tracking-tight sm:hidden">Trig Waves</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="darkModeToggle" title="Toggle dark/light mode" aria-label="Toggle dark mode">
+                        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>
+                    </button>
+                    <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-md text-sm font-semibold transition-colors shadow-sm flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>Save as PDF</span>
+                    </button>
+                </div>
             </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-8 relative">
+        
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 flex-shrink-0 md:sticky md:top-24 h-fit z-10">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Table of Contents</h3>
+                <nav class="space-y-1" id="toc-nav">
+                    <a href="#unit-circle" class="sidebar-link" data-section="unit-circle">1. The Unit Circle & Angles</a>
+                    <a href="#trig-functions" class="sidebar-link" data-section="trig-functions">2. Sine, Cosine & Tangent</a>
+                    <a href="#wave-generation" class="sidebar-link" data-section="wave-generation">3. Wave Generation & SHM</a>
+                    <a href="#identities" class="sidebar-link" data-section="identities">4. Identities & Phase Shifts</a>
+                    <a href="#quiz" class="sidebar-link" data-section="quiz">5. Concept Check Quiz</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0">
             
-            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
-                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
-                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    Start Quiz
-                </button>
+            <div class="mb-12 border-b border-slate-200 pb-8">
+                <div class="inline-flex items-center space-x-2 bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide mb-4 border border-teal-200">
+                    <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                    <span>Mathematical Foundations</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">The Mechanics of Waves: The Unit Circle & Trigonometry</h1>
+                <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
+                    Explore how circular motion maps directly to oscillatory wave mechanics. Master unit circle geometry, trigonometric relations, phase shifts, and harmonic synthesis.
+                </p>
             </div>
 
-            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
-                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
-                    <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+            <!-- Section 1 -->
+            <article id="unit-circle" class="scroll-mt-24 mb-12">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">1. The Unit Circle & Angle Measurement</h2>
+                <div class="text-slate-700 space-y-4 leading-relaxed">
+                    <p>The unit circle is defined as a circle of radius $r = 1$ centered at the origin $(0,0)$ in the Cartesian coordinate plane. Angles are measured standardly counterclockwise from the positive x-axis.</p>
+                    <p>While angles in introductory geometry are measured in degrees, physical and analytical wave calculations overwhelmingly use <strong>radians</strong>. A full revolution around the unit circle corresponds to a circumference of $2\pi$, meaning $360^\circ = 2\pi	ext{ rad}$.</p>
+                </div>
+                
+                <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+                    <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+                    <p class="text-sm text-emerald-800 mb-4">Convert an angle of $135^\circ$ into radians expressed as a fraction of $\pi$ (e.g., enter 0.75 for $3\pi/4$). What is $135/180$?</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="number" step="0.01" id="ex1-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                        <button onclick="checkExercise('ex1', 0.75)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
                     </div>
+                    <p id="ex1-fb" class="mt-3 text-sm font-bold hidden"></p>
                 </div>
-                
-                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
-                
-                <div id="mc-options" class="space-y-3 hidden">
-                    <!-- Options injected here -->
-                </div>
-                
-                <div id="sa-container" class="hidden">
-                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
-                </div>
-                
-                <div class="mt-8 flex justify-between items-center">
-                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
-                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
-                </div>
-                
-                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
-            </div>
+            </article>
 
-            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
-                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
-                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
-                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
-            </div>
-        </section>
+            <!-- Section 2 -->
+            <article id="trig-functions" class="scroll-mt-24 mb-12">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Sine, Cosine & Tangent Functions</h2>
+                <div class="text-slate-700 space-y-4 leading-relaxed">
+                    <p>For any point $P(x,y)$ on the unit circle corresponding to angle $	heta$, the coordinates are directly defined by the primary trigonometric functions: $x = \cos(	heta)$ and $y = \sin(	heta)$.</p>
+                    <p>The tangent function represents the slope of the line segment connecting the origin to point $P$, given by $	an(	heta) = rac{\sin(	heta)}{\cos(	heta)} = rac{y}{x}$.</p>
+                </div>
 
-</main>
+                <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+                    <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+                    <p class="text-sm text-emerald-800 mb-4">What is the exact value of $\sin(\pi/6)$?</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="number" step="0.1" id="ex2-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                        <button onclick="checkExercise('ex2', 0.5)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+                    </div>
+                    <p id="ex2-fb" class="mt-3 text-sm font-bold hidden"></p>
+                </div>
+            </article>
+
+            <!-- Section 3 -->
+            <article id="wave-generation" class="scroll-mt-24 mb-12">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Wave Generation & Harmonic Motion</h2>
+                <div class="text-slate-700 space-y-4 leading-relaxed">
+                    <p>When a point moves along the unit circle at a constant angular frequency $\omega$, tracking its vertical displacement over time traces out a pure sinusoidal wave: $y(t) = A \sin(\omega t + \phi)$.</p>
+                    <p>Here, $A$ represents amplitude, $\omega = 2\pi f$ is angular frequency, and $\phi$ is the initial phase angle. This mathematical equivalence forms the basis for Simple Harmonic Motion (SHM) in physical systems.</p>
+                </div>
+
+                <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+                    <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+                    <p class="text-sm text-emerald-800 mb-4">If a wave has an angular frequency $\omega = 4\pi	ext{ rad/s}$, what is its cyclic frequency $f$ in Hz?</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="number" id="ex3-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                        <button onclick="checkExercise('ex3', 2)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+                    </div>
+                    <p id="ex3-fb" class="mt-3 text-sm font-bold hidden"></p>
+                </div>
+            </article>
+
+            <!-- Section 4 -->
+            <article id="identities" class="scroll-mt-24 mb-12">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Identities & Phase Shifts</h2>
+                <div class="text-slate-700 space-y-4 leading-relaxed">
+                    <p>Fundamental trigonometric identities originate from the geometry of the unit circle. Applying the Pythagorean theorem ($x^2 + y^2 = r^2$) directly yields $\cos^2(	heta) + \sin^2(	heta) = 1$.</p>
+                    <p>Phase shifts alter the starting point of wave oscillations. A phase difference of $rac{\pi}{2}$ radians ($90^\circ$) converts a cosine wave directly into a sine wave: $\cos\left(	heta - rac{\pi}{2}ight) = \sin(	heta)$.</p>
+                </div>
+
+                <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+                    <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+                    <p class="text-sm text-emerald-800 mb-4">If $\cos(	heta) = 0.6$ in Quadrant I, what is the value of $\sin(	heta)$?</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="number" step="0.1" id="ex4-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                        <button onclick="checkExercise('ex4', 0.8)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+                    </div>
+                    <p id="ex4-fb" class="mt-3 text-sm font-bold hidden"></p>
+                </div>
+            </article>
+
+            <!-- SECTION: Comprehensive Quiz -->
+            <section id="quiz" class="scroll-mt-24 no-print border-t border-slate-200 pt-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-teal-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                    <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+                </div>
+                
+                <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                    <svg class="w-16 h-16 text-teal-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                    <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a comprehensive 100-question bank. The difficulty scales across levels 1–5.</p>
+                    <button onclick="startQuizUI()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Start Quiz
+                    </button>
+                </div>
+
+                <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                        <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-teal-600">1</span> of 10</h3>
+                        <div class="flex gap-2">
+                            <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                        </div>
+                    </div>
+                    
+                    <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                    
+                    <div id="mc-options" class="space-y-3 hidden"></div>
+                    
+                    <div id="sa-container" class="hidden">
+                        <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition" placeholder="Type your answer here..." autocomplete="off">
+                    </div>
+                    
+                    <div class="mt-8 flex justify-between items-center">
+                        <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                        <button id="btn-next" onclick="nextQuestion()" class="hidden bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
+                    </div>
+                    
+                    <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+                </div>
+
+                <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                    <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                    <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                    <div class="text-6xl font-black text-teal-600 mb-8" id="final-score">80%</div>
+                    <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
 
 <script>
+    function checkExercise(id, expectedAns) {
+        const el = document.getElementById(`${id}-input`);
+        const fb = document.getElementById(`${id}-fb`);
+        if (!el || !fb) return;
+        const userVal = el.value.trim().toLowerCase();
+        fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+        let isCorrect = false;
+        if (typeof expectedAns === 'number') {
+            const num = parseFloat(userVal);
+            if (!isNaN(num) && Math.abs(num - expectedAns) < 0.05) isCorrect = true;
+        } else {
+            if (userVal === expectedAns.toLowerCase()) isCorrect = true;
+        }
+        if (isCorrect) {
+            fb.innerText = "✓ Correct! Great job.";
+            fb.classList.add('text-emerald-600');
+        } else {
+            fb.innerText = "✗ Incorrect. Try again or check the formula above.";
+            fb.classList.add('text-rose-600');
+        }
+    }
+</script>
 
+<script>
     const qBank = [
+  // Level 1 (20 Qs)
   {t:"mc",d:1,q:"What is the radius of the unit circle?",o:["0","1","pi","2*pi"],a:1},
   {t:"sa",d:1,q:"In a right triangle, sine is defined as opposite over _______.",a:["hypotenuse"]},
   {t:"mc",d:1,q:"What is the value of sin(0)?",o:["0","1","-1","Undefined"],a:0},
@@ -124,6 +298,7 @@
   {t:"mc",d:1,q:"What is the period of the sine function y = sin(x)?",o:["pi","2*pi","pi/2","4*pi"],a:1},
   {t:"sa",d:1,q:"What is the period of the tangent function y = tan(x)?",a:["pi"]},
 
+  // Level 2 (20 Qs)
   {t:"mc",d:2,q:"What is the value of sin(pi/6)?",o:["0.5","sqrt(2)/2","sqrt(3)/2","1"],a:0},
   {t:"sa",d:2,q:"What is the value of cos(pi/3)?",a:0.5},
   {t:"mc",d:2,q:"What is the value of sin(pi/4)?",o:["0.5","sqrt(2)/2","sqrt(3)/2","1"],a:1},
@@ -145,6 +320,7 @@
   {t:"mc",d:2,q:"A sine wave can be generated by tracking the _______-coordinate of a point moving around the unit circle at constant speed.",o:["x","y","z","radius"],a:1},
   {t:"sa",d:2,q:"A cosine wave is generated by tracking the _______-coordinate.",a:["x"]},
 
+  // Level 3 (20 Qs)
   {t:"mc",d:3,q:"The sum formula for sine is sin(A+B) =",o:["sinA cosB + cosA sinB","sinA sinB + cosA cosB","sinA cosB - cosA sinB","cosA cosB - sinA sinB"],a:0},
   {t:"sa",d:3,q:"The double angle formula for sine is sin(2x) = 2 * sin(x) * ?",a:["cos(x)","cosx"]},
   {t:"mc",d:3,q:"The double angle formula for cosine can be written as cos(2x) =",o:["cos^2(x) + sin^2(x)","cos^2(x) - sin^2(x)","1 - sin^2(x)","2 sin(x) cos(x)"],a:1},
@@ -162,15 +338,57 @@
   {t:"mc",d:3,q:"The addition of two sine waves of slightly different frequencies produces:",o:["Standing waves","Beats","Resonance","Diffraction"],a:1},
   {t:"sa",d:3,q:"The beat frequency is the absolute difference between the two individual _______.",a:["frequencies"]},
   {t:"mc",d:3,q:"Fourier's theorem states that any periodic function can be represented as a sum of:",o:["Polynomials","Exponentials only","Sines and cosines","Logarithms"],a:2},
-  {t:"sa",d:3,q:"In Fourier analysis, the sine/cosine wave with the lowest frequency is called the _______ frequency.",a:["fundamental"]}
-]
+  {t:"sa",d:3,q:"In Fourier analysis, the sine/cosine wave with the lowest frequency is called the _______ frequency.",a:["fundamental"]},
+  {t:"mc",d:3,q:"What is the exact value of tan(pi/3)?",o:["1/sqrt(3)","sqrt(3)","1","2"],a:1},
+  {t:"sa",d:3,q:"What is the period of y = tan(3x)? (Format: pi/3)",a:["pi/3"]},
 
+  // Level 4 (20 Qs)
+  {t:"mc",d:4,q:"What is the exact value of cos(5*pi/6)?",o:["-sqrt(3)/2","-1/2","sqrt(3)/2","1/2"],a:0},
+  {t:"sa",d:4,q:"What is sin(-pi/4)? (Format: -sqrt(2)/2 or -0.707)",a:["-sqrt(2)/2","-0.707"]},
+  {t:"mc",d:4,q:"Which of the following is equal to cos(A-B)?",o:["cosA cosB + sinA sinB","cosA cosB - sinA sinB","sinA cosB - cosA sinB","sinA sinB - cosA cosB"],a:0},
+  {t:"sa",d:4,q:"If tan(theta) = 2, what is tan(2*theta)? (Formula: 2tan/(1-tan^2))",a:-1.33},
+  {t:"mc",d:4,q:"What is the derivative of tan(x)?",o:["sec(x)","sec^2(x)","csc^2(x)","cot(x)"],a:1},
+  {t:"sa",d:4,q:"What is the derivative of sec(x)?",a:["sec(x)tan(x)","sec(x)*tan(x)","secx tanx"]},
+  {t:"mc",d:4,q:"The principal value range of arcsin(x) is:",o:["[0, pi]","[-pi/2, pi/2]","(-pi/2, pi/2)","[0, 2*pi]"],a:1},
+  {t:"sa",d:4,q:"What is the principal value of arccos(-1) in radians?",a:["pi"]},
+  {t:"mc",d:4,q:"What is the principal value of arctan(1) in radians?",o:["pi/2","pi/4","pi/6","pi/3"],a:1},
+  {t:"sa",d:4,q:"Solve for x in [0, 2pi]: 2 sin(x) - 1 = 0. The smallest positive solution is pi / _____.",a:6},
+  {t:"mc",d:4,q:"What is the RMS (root-mean-square) value of a sinusoidal AC voltage V(t) = V_peak * sin(omega t)?",o:["V_peak / 2","V_peak / sqrt(2)","V_peak * sqrt(2)","V_peak / pi"],a:1},
+  {t:"sa",d:4,q:"If peak voltage is 141.4 V, what is the RMS voltage?",a:100},
+  {t:"mc",d:4,q:"In an RLC circuit at resonance, the phase angle between voltage and current is:",o:["pi/2","pi/4","0","pi"],a:2},
+  {t:"sa",d:4,q:"The group velocity of a wave packet is defined as v_g = d? / dk.",a:["omega"]},
+  {t:"mc",d:4,q:"Phase velocity is v_p = :",o:["omega / k","k / omega","d(omega)/dk","omega * k"],a:0},
+  {t:"sa",d:4,q:"In non-dispersive media, phase velocity is _______ to group velocity.",a:["equal"]},
+  {t:"mc",d:4,q:"The trigonometric form of a complex number z = x + i y is:",o:["r(cos theta + i sin theta)","r(sin theta + i cos theta)","r cos theta","r e^(theta)"],a:0},
+  {t:"sa",d:4,q:"Using De Moivre's Theorem, (cos theta + i sin theta)^n = cos(n theta) + i sin(? theta)",a:["n"]},
+  {t:"mc",d:4,q:"What is the Fourier series coefficient a_0 for a function f(x)? It represents the:",o:["Peak value","DC or average value","Fundamental frequency","Harmonic distortion"],a:1},
+  {t:"sa",d:4,q:"A square wave contains only _______ (even/odd) harmonics of the fundamental frequency.",a:["odd"]},
+
+  // Level 5 (20 Qs)
+  {t:"mc",d:5,q:"Which differential equation governs simple harmonic motion?",o:["d^2x/dt^2 - omega^2 x = 0","d^2x/dt^2 + omega^2 x = 0","dx/dt + omega x = 0","d^2x/dt^2 + omega dx/dt = 0"],a:1},
+  {t:"sa",d:5,q:"The general real solution to d^2x/dt^2 + omega^2 x = 0 is C1 cos(omega t) + C2 _______(omega t).",a:["sin","sine"]},
+  {t:"mc",d:5,q:"Hyperbolic functions are defined using exponentials. sinh(x) is:",o:["(e^x - e^-x)/2","(e^x + e^-x)/2","e^x - e^-x","(e^x + e^-x)/x"],a:0},
+  {t:"sa",d:5,q:"The fundamental hyperbolic identity is cosh^2(x) - sinh^2(x) = ?",a:1},
+  {t:"mc",d:5,q:"How are trigonometric and hyperbolic functions related via complex numbers?",o:["cos(ix) = cosh(x)","sin(ix) = sinh(x)","cos(ix) = i cosh(x)","sin(x) = sinh(ix)"],a:0},
+  {t:"sa",d:5,q:"sin(ix) = i * _______(x)",a:["sinh"]},
+  {t:"mc",d:5,q:"In quantum mechanics, the position wave function of a free particle is expressed as a superposition of plane waves: psi(x,t) = A e^(i(kx - omega t)). The real part is:",o:["A cos(kx - omega t)","A sin(kx - omega t)","A tan(kx - omega t)","A exp(kx)"],a:0},
+  {t:"sa",d:5,q:"Euler's formula expresses e^(i theta) as cos(theta) + i * _______(theta).",a:["sin","sine"]},
+  {t:"mc",d:5,q:"What is the Taylor series expansion of sin(x) around x=0?",o:["x - x^3/3! + x^5/5! - ...","1 - x^2/2! + x^4/4! - ...","x + x^2/2 + x^3/3 + ...","x - x^2 + x^3 - ..."],a:0},
+  {t:"sa",d:5,q:"The Taylor series for cos(x) around x=0 begins with 1 - x^2 / ?",a:2},
+  {t:"mc",d:5,q:"What is the limit of sin(x)/x as x approaches 0?",o:["0","1","infinity","Undefined"],a:1},
+  {t:"sa",d:5,q:"What is the limit of (1 - cos(x))/x^2 as x approaches 0?",a:0.5},
+  {t:"mc",d:5,q:"In spherical coordinates (r, theta, phi), the transformation for x is:",o:["r sin(theta) cos(phi)","r sin(theta) sin(phi)","r cos(theta)","r tan(theta)"],a:0},
+  {t:"sa",d:5,q:"In spherical coordinates, z = r * _______(theta).",a:["cos","cosine"]},
+  {t:"mc",d:5,q:"The Orthogonality relation for sine waves states that the integral from 0 to 2pi of sin(m x) sin(n x) dx for m != n is:",o:["pi","2pi","0","1/2"],a:2},
+  {t:"sa",d:5,q:"If m = n != 0, the integral from 0 to 2pi of sin^2(m x) dx equals _______.",a:["pi"]},
+  {t:"mc",d:5,q:"The Bessel functions J_n(x) arise in wave equations with which symmetry?",o:["Cartesian","Spherical","Cylindrical","Planar"],a:2},
+  {t:"sa",d:5,q:"The zeros of Bessel functions correspond to circular nodes in vibrating _______ membranes.",a:["drum","circular"]},
+  {t:"mc",d:5,q:"In non-linear optics, second harmonic generation (SHG) doubles the frequency of light using media with non-zero second-order susceptibility chi^(2). This process relies on the trigonometric identity for:",o:["sin(A+B)","cos(2 theta) or sin(2 theta)","tan(theta)","sec(theta)"],a:1},
+  {t:"sa",d:5,q:"The wave vector magnitude k is related to wavelength lambda by k = 2pi / _______.",a:["lambda","wavelength"]}
+];
 </script>
 
 <script>
-    // =========================================================
-    // DIAGNOSTIC QUIZ ENGINE
-    // =========================================================
     let currentQuiz = [];
     let currentQIndex = 0;
     let score = 0;
@@ -188,12 +406,11 @@
     function initQuiz() {
         if (typeof qBank === 'undefined' || qBank.length === 0) return;
         currentQuiz = [];
-        for(let d=1; d<=3; d++) {
+        for(let d=1; d<=5; d++) {
             let diffQs = qBank.filter(q => q.d === d);
-            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
             currentQuiz = currentQuiz.concat(diffQs);
         }
-        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
         currentQIndex = 0;
         score = 0;
         loadQuestion();
@@ -213,7 +430,9 @@
         diffInd.className = 'text-xs font-bold px-3 py-1 rounded-full ' + 
             (q.d===1 ? 'bg-green-100 text-green-700' : 
              q.d===2 ? 'bg-blue-100 text-blue-700' : 
-             'bg-yellow-100 text-yellow-700');
+             q.d===3 ? 'bg-yellow-100 text-yellow-700' : 
+             q.d===4 ? 'bg-orange-100 text-orange-700' : 
+             'bg-red-100 text-red-700');
 
         document.getElementById('q-text').innerHTML = q.q;
         
@@ -227,7 +446,7 @@
             saCont.classList.add('hidden');
             q.o.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-primary-500 hover:bg-primary-50 transition font-medium text-slate-700";
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50 transition font-medium text-slate-700";
                 btn.innerHTML = String.fromCharCode(65+idx) + ". " + opt;
                 btn.onclick = () => selectOption(btn, idx);
                 mcOps.appendChild(btn);
@@ -253,11 +472,11 @@
         if(document.getElementById('btn-submit').classList.contains('hidden')) return;
         const btns = document.getElementById('mc-options').children;
         for(let b of btns) {
-            b.classList.remove('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+            b.classList.remove('border-teal-600', 'bg-teal-50', 'ring-2', 'ring-teal-500');
             b.classList.add('border-slate-200');
         }
         btn.classList.remove('border-slate-200');
-        btn.classList.add('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+        btn.classList.add('border-teal-600', 'bg-teal-50', 'ring-2', 'ring-teal-500');
         selectedIdx = idx;
     }
 
@@ -328,5 +547,43 @@
     }
 </script>
 
+<script>
+  // Dark mode & Sidebar Active observer
+  (function() {
+    var btn = document.getElementById('darkModeToggle');
+    function setTheme(dark) {
+      if(dark) { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('lesson_theme', 'dark'); }
+      else { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('lesson_theme', 'light'); }
+    }
+    var saved = localStorage.getItem('lesson_theme');
+    if(saved === 'dark') setTheme(true);
+    if(btn) {
+      btn.addEventListener('click', function() {
+        var isDark = document.documentElement.hasAttribute('data-theme');
+        setTheme(!isDark);
+      });
+    }
+    
+    var links = document.querySelectorAll('.sidebar-link');
+    var sections = [];
+    links.forEach(function(l) {
+      var id = l.getAttribute('data-section') || l.getAttribute('href').replace('#','');
+      var sec = document.getElementById(id);
+      if(sec) sections.push({link: l, sec: sec});
+    });
+    if('IntersectionObserver' in window && sections.length) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if(entry.isIntersecting) {
+            links.forEach(function(l){l.classList.remove('active');});
+            var match = sections.find(function(s){return s.sec === entry.target;});
+            if(match) match.link.classList.add('active');
+          }
+        });
+      }, {threshold: 0.2});
+      sections.forEach(function(s){obs.observe(s.sec);});
+    }
+  })();
+</script>
 </body>
 </html>

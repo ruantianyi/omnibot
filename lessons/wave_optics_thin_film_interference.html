@@ -238,7 +238,17 @@
                         <strong>Figure 1:</strong> The incident ray splits at the top boundary. Ray 1 reflects immediately. Ray 2 travels through the film (distance ~2t) before exiting. Their phase relationship upon exiting determines the resulting interference pattern.
                     </figcaption>
                 </figure>
-            </section>
+            
+            <div class="my-6 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+              <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+              <p class="text-sm text-emerald-800 mb-4">Light of wavelength $\lambda = 600\text{ nm}$ in vacuum enters a film of refractive index $n=1.5$. What is the wavelength inside the film (in nm)?</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="number" id="ex_wa1-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter number...">
+                <button onclick="checkExercise('ex_wa1', 400)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+              </div>
+              <p id="ex_wa1-fb" class="mt-3 text-sm font-bold hidden"></p>
+            </div>
+</section>
 
             <!-- Section 2: Mathematical Derivations -->
             <section id="derivations" class="scroll-mt-28 mb-16">
@@ -1003,7 +1013,52 @@
     // =========================================================
     // DIAGNOSTIC QUIZ ENGINE
     // =========================================================
-    let currentQuiz = [];
+    let currentQuiz = [
+  // Level 4 (20 Qs)
+  {t:"mc",d:4,q:"In a Michelson interferometer, moving one mirror by distance d causes how many fringe shifts N to pass? (N = 2d / lambda)",o:["d / lambda","2d / lambda","d / (2 lambda)","4d / lambda"],a:1},
+  {t:"sa",d:4,q:"If mirror moves by 15 micrometers and light wavelength is 600 nm (0.6 um), how many fringe shifts occur? (2*15/0.6)",a:50},
+  {t:"mc",d:4,q:"The Mach-Zehnder interferometer uses two beam splitters and two mirrors. It is commonly used for:",o:["Measuring refractive index changes in gas flows","Telescope focusing","Radio astronomy","X-ray diffraction"],a:0},
+  {t:"sa",d:4,q:"In quantum mechanics, the Elitzur-Vaidman bomb-tester paradox utilizes a Mach-Zehnder _______.",a:["interferometer"]},
+  {t:"mc",d:4,q:"X-ray diffraction in crystals obeys Bragg's Law: 2d sin(theta) =",o:["m lambda","(m+0.5) lambda","m lambda / 2","2 m lambda"],a:0},
+  {t:"sa",d:4,q:"In Bragg's Law, d is the interplanar _______ of the crystal lattice.",a:["spacing","distance"]},
+  {t:"mc",d:4,q:"If crystal lattice spacing d = 0.2 nm and first order reflection (m=1) occurs at theta = 30 degrees (sin 30 = 0.5), what is X-ray wavelength lambda?",o:["0.1 nm","0.2 nm","0.4 nm","0.05 nm"],a:1},
+  {t:"sa",d:4,q:"Evaluate 2 * 0.2 * 0.5 = ? nm.",a:0.2},
+  {t:"mc",d:4,q:"The resolving power of a telescope increases when the aperture diameter D is:",o:["Decreased","Increased","Kept constant","Made zero"],a:1},
+  {t:"sa",d:4,q:"The angular resolution theta = 1.22 lambda / D. Smaller angle theta means _______ (better/worse) resolution.",a:["better"]},
+  {t:"mc",d:4,q:"Spatial coherence describes the correlation between phase of light waves at different:",o:["Times at the same point","Locations in space at the same time","Wavelengths","Polarization states"],a:1},
+  {t:"sa",d:4,q:"Temporal coherence is related to the monochromaticity or bandwidth of the light source, measured by coherence _______.",a:["time","length"]},
+  {t:"mc",d:4,q:"Liquid crystal displays (LCDs) control light transmission using liquid crystals sandwiched between two crossed:",o:["Lenses","Prisms","Polarizers","Mirrors"],a:2},
+  {t:"sa",d:4,q:"Applying an electric field aligns liquid crystals, changing their birefringence and altering the light _______.",a:["polarization"]},
+  {t:"mc",d:4,q:"In non-reflecting coatings on solar cells (silicon n=3.5), silicon monoxide SiO (n=1.45) is used. Minimum thickness t =",o:["lambda / (4 n_film)","lambda / (2 n_film)","lambda / n_film","lambda / 4"],a:0},
+  {t:"sa",d:4,q:"For lambda = 580 nm and n_film = 1.45, t = 580 / (4 * 1.45) = ? nm.",a:100},
+  {t:"mc",d:4,q:"Single slit diffraction intensity pattern is described by I(theta) = I_0 [ sin(beta) / beta ]^2 where beta =",o:["(pi a / lambda) sin(theta)","(2pi a / lambda) sin(theta)","(pi d / lambda) cos(theta)","a sin(theta)"],a:0},
+  {t:"sa",d:4,q:"The function sin(x)/x is commonly known as the _______ function.",a:["sinc"]},
+  {t:"mc",d:4,q:"Babinet's Principle states that the diffraction pattern from an opaque body is identical to that from a complementary aperture of the same size, except for:",o:["The central spot intensity","The fringe spacing","The wavelength","The speed"],a:0},
+  {t:"sa",d:4,q:"Babinet's principle allows measuring the thickness of a thin hair by treating it as a narrow _______.",a:["slit"]},
+
+  // Level 5 (20 Qs)
+  {t:"mc",d:5,q:"Fresnel diffraction occurs when the light source or observation screen is at a:",o:["Finite distance from the diffracting aperture","Infinite distance (collimated light)","Zero distance","Angle of 45 degrees"],a:0},
+  {t:"sa",d:5,q:"Fraunhofer diffraction applies when source and screen are effectively at _______ distance.",a:["infinite"]},
+  {t:"mc",d:5,q:"Fresnel zones are concentric circular zones on a wavefront. The Poisson (Arago) spot is a bright point appearing at the center of the shadow of a circular obstacle due to:",o:["Constructive interference of wavelets diffracted from the edge","Refraction through the obstacle","Quantum tunneling","Rayleigh scattering"],a:0},
+  {t:"sa",d:5,q:"The discovery of the Arago spot experimentally confirmed the _______ theory of light.",a:["wave"]},
+  {t:"mc",d:5,q:"In a Fabry-Perot etalon, the Finesse F is a measure of the sharpness of interference fringes, defined as free spectral range divided by fringe width. F depends strongly on mirror:",o:["Thickness","Reflectivity R","Diameter","Absorptance"],a:1},
+  {t:"sa",d:5,q:"Higher mirror reflectivity R yields _______ (higher/lower) finesse.",a:["higher"]},
+  {t:"mc",d:5,q:"Fourier Optics treats optical imaging systems as linear spatial systems where a lens performs a spatial:",o:["Laplace transform","Fourier transform","Hankel transform","Z-transform"],a:1},
+  {t:"sa",d:5,q:"The focal plane of a convex lens displays the mathematical _______ transform of the object field.",a:["fourier"]},
+  {t:"mc",d:5,q:"Photonic crystals are nanostructured materials with periodic variations in refractive index that create a photonic:",o:["Bandgap","Resonance","Waveguide","Interferometer"],a:0},
+  {t:"sa",d:5,q:"Photonic bandgaps prevent light of certain frequencies from propagating through the material, acting like an optical _______.",a:["semiconductor","insulator"]},
+  {t:"mc",d:5,q:"The Kerr effect is a non-linear optical effect where the refractive index changes in proportion to the:",o:["Square of the electric field E^2","Electric field E","Magnetic field B","Frequency omega"],a:0},
+  {t:"sa",d:5,q:"Self-focusing of intense laser beams in materials is driven by the non-linear _______ effect.",a:["kerr"]},
+  {t:"mc",d:5,q:"In Second Harmonic Generation (SHG), light of frequency omega passing through a non-centrosymmetric crystal generates light of frequency:",o:["omega / 2","2 omega","3 omega","omega^2"],a:1},
+  {t:"sa",d:5,q:"Green laser pointers often use a 1064 nm infrared laser passed through a frequency doubling crystal (KTP) to produce _____ nm green light.",a:532},
+  {t:"mc",d:5,q:"Electromagnetically Induced Transparency (EIT) makes an opaque medium transparent over a narrow spectral range using quantum interference between:",o:["Atomic transition pathways","Polarization modes","Photons and phonons","Diffraction orders"],a:0},
+  {t:"sa",d:5,q:"EIT can dramatically slow down light pulses, leading to the phenomenon of _______ light.",a:["slow"]},
+  {t:"mc",d:5,q:"Metamaterials with negative refractive index (n < 0) exhibit which unusual optical property?",o:["Light refracts on the same side of the normal (negative refraction)","Speed of light exceeds c","Zero reflection","No dispersion"],a:0},
+  {t:"sa",d:5,q:"Negative index metamaterials enable the construction of a superlens that overcomes the classical _______ limit.",a:["diffraction"]},
+  {t:"mc",d:5,q:"The Jones calculus uses 2x1 vectors and 2x2 matrices to model the propagation of:",o:["Fully polarized light","Unpolarized light","Diffracted light","Incoherent light"],a:0},
+  {t:"sa",d:5,q:"To model partially polarized or unpolarized light, one uses Mueller calculus with 4x1 Stokes parameters and 4x4 Mueller _______.",a:["matrices","matrix"]}
+
+];
     let currentQIndex = 0;
     let score = 0;
 
@@ -1020,12 +1075,12 @@
     function initQuiz() {
         if (typeof qBank === 'undefined' || qBank.length === 0) return;
         currentQuiz = [];
-        for(let d=1; d<=3; d++) {
+        for(let d=1; d<=5; d++) {
             let diffQs = qBank.filter(q => q.d === d);
-            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
             currentQuiz = currentQuiz.concat(diffQs);
         }
-        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
+        
         currentQIndex = 0;
         score = 0;
         loadQuestion();
@@ -1157,6 +1212,34 @@
         const res = document.getElementById('results-screen');
         res.classList.remove('hidden');
         document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
+
+<script>
+    function checkExercise(id, expectedAns) {
+      const el = document.getElementById(`${id}-input`);
+      const fb = document.getElementById(`${id}-fb`);
+      if (!el || !fb) return;
+
+      const userVal = el.value.trim().toLowerCase();
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      let isCorrect = false;
+      if (typeof expectedAns === 'number') {
+        const num = parseFloat(userVal);
+        if (!isNaN(num) && Math.abs(num - expectedAns) < 0.05) isCorrect = true;
+      } else {
+        if (userVal === expectedAns.toLowerCase()) isCorrect = true;
+      }
+
+      if (isCorrect) {
+        fb.innerText = "✓ Correct! Great job.";
+        fb.classList.add('text-emerald-600');
+      } else {
+        fb.innerText = "✗ Incorrect. Try again or check the math above.";
+        fb.classList.add('text-rose-600');
+      }
     }
 </script>
 
