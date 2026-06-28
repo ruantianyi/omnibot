@@ -40,4 +40,293 @@
         .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #0d9488; cursor: pointer; margin-top: -6px; }
-        input[type=range]::-webkit-slider-run
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: #e2e8f0; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Stub for trig lesson -->
+        <h1 class="text-4xl font-bold mb-4">Trigonometry and Waves</h1>
+    
+        <!-- SECTION: Comprehensive Quiz -->
+        <section id="quiz" class="scroll-mt-24 no-print">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+            </div>
+            
+            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <div class="flex gap-2">
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                    </div>
+                </div>
+                
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                
+                <div id="mc-options" class="space-y-3 hidden">
+                    <!-- Options injected here -->
+                </div>
+                
+                <div id="sa-container" class="hidden">
+                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
+                </div>
+                
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
+                </div>
+                
+                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+            </div>
+
+            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+            </div>
+        </section>
+
+</main>
+
+<script>
+
+    const qBank = [
+  {t:"mc",d:1,q:"What is the radius of the unit circle?",o:["0","1","pi","2*pi"],a:1},
+  {t:"sa",d:1,q:"In a right triangle, sine is defined as opposite over _______.",a:["hypotenuse"]},
+  {t:"mc",d:1,q:"What is the value of sin(0)?",o:["0","1","-1","Undefined"],a:0},
+  {t:"sa",d:1,q:"What is the value of cos(0)?",a:1},
+  {t:"mc",d:1,q:"Which function gives the x-coordinate of a point on the unit circle?",o:["Sine","Cosine","Tangent","Secant"],a:1},
+  {t:"sa",d:1,q:"Which function gives the y-coordinate of a point on the unit circle?",a:["sine"]},
+  {t:"mc",d:1,q:"How many radians are in a full circle?",o:["pi","2*pi","360","100"],a:1},
+  {t:"sa",d:1,q:"How many degrees are in pi radians?",a:180},
+  {t:"mc",d:1,q:"What is the value of sin(pi/2) or sin(90 degrees)?",o:["0","1","-1","0.5"],a:1},
+  {t:"sa",d:1,q:"What is the value of cos(pi/2)?",a:0},
+  {t:"mc",d:1,q:"Tangent is defined as the ratio of which two functions?",o:["cos/sin","sin/cos","1/cos","1/sin"],a:1},
+  {t:"sa",d:1,q:"The reciprocal of cosine is _______.",a:["secant"]},
+  {t:"mc",d:1,q:"The reciprocal of sine is:",o:["Secant","Cosecant","Cotangent","Tangent"],a:1},
+  {t:"sa",d:1,q:"The reciprocal of tangent is _______.",a:["cotangent"]},
+  {t:"mc",d:1,q:"In which quadrant are both sine and cosine positive?",o:["I","II","III","IV"],a:0},
+  {t:"sa",d:1,q:"In Quadrant II, is sine positive or negative?",a:["positive"]},
+  {t:"mc",d:1,q:"The Pythagorean identity states that sin^2(x) + cos^2(x) = ?",o:["0","1","tan^2(x)","sec^2(x)"],a:1},
+  {t:"sa",d:1,q:"Another Pythagorean identity: 1 + tan^2(x) = ?^2(x)",a:["sec","secant"]},
+  {t:"mc",d:1,q:"What is the period of the sine function y = sin(x)?",o:["pi","2*pi","pi/2","4*pi"],a:1},
+  {t:"sa",d:1,q:"What is the period of the tangent function y = tan(x)?",a:["pi"]},
+
+  {t:"mc",d:2,q:"What is the value of sin(pi/6)?",o:["0.5","sqrt(2)/2","sqrt(3)/2","1"],a:0},
+  {t:"sa",d:2,q:"What is the value of cos(pi/3)?",a:0.5},
+  {t:"mc",d:2,q:"What is the value of sin(pi/4)?",o:["0.5","sqrt(2)/2","sqrt(3)/2","1"],a:1},
+  {t:"sa",d:2,q:"What is the value of tan(pi/4)?",a:1},
+  {t:"mc",d:2,q:"For y = A sin(Bx - C) + D, what does 'A' represent?",o:["Period","Phase shift","Amplitude","Vertical shift"],a:2},
+  {t:"sa",d:2,q:"For y = 3 sin(2x), the amplitude is _____.",a:3},
+  {t:"mc",d:2,q:"For y = A sin(Bx - C) + D, the period is given by:",o:["2*pi/B","B/(2*pi)","2*pi/A","C/B"],a:0},
+  {t:"sa",d:2,q:"For y = sin(4x), the period is pi / _____.",a:2},
+  {t:"mc",d:2,q:"The phase shift (horizontal shift) of y = A sin(Bx - C) + D is:",o:["C","C/B","-C/B","B/C"],a:1},
+  {t:"sa",d:2,q:"For y = sin(x - pi/2), the graph shifts to the _______ (left/right) by pi/2.",a:["right"]},
+  {t:"mc",d:2,q:"Which function is an even function? (f(-x) = f(x))",o:["Sine","Cosine","Tangent","Cosecant"],a:1},
+  {t:"sa",d:2,q:"Is sine an even or odd function?",a:["odd"]},
+  {t:"mc",d:2,q:"At what values of x does y = tan(x) have vertical asymptotes?",o:["x = n*pi","x = (pi/2) + n*pi","x = 2n*pi","It doesn't have asymptotes"],a:1},
+  {t:"sa",d:2,q:"What is the value of tan(pi)?",a:0},
+  {t:"mc",d:2,q:"What is the domain of y = sin(x)?",o:["[-1, 1]","(-infinity, infinity)","[0, 2*pi]","x != (pi/2) + n*pi"],a:1},
+  {t:"sa",d:2,q:"What is the range of y = cos(x)? (Provide as interval [-1, 1] or similar)",a:["[-1,1]","[-1, 1]"]},
+  {t:"mc",d:2,q:"If sin(theta) = 3/5 and theta is in Q1, what is cos(theta)?",o:["4/5","-4/5","3/4","5/3"],a:0},
+  {t:"sa",d:2,q:"If sin(theta) = 3/5 and theta is in Q2, what is cos(theta)?",a:"-4/5"},
+  {t:"mc",d:2,q:"A sine wave can be generated by tracking the _______-coordinate of a point moving around the unit circle at constant speed.",o:["x","y","z","radius"],a:1},
+  {t:"sa",d:2,q:"A cosine wave is generated by tracking the _______-coordinate.",a:["x"]},
+
+  {t:"mc",d:3,q:"The sum formula for sine is sin(A+B) =",o:["sinA cosB + cosA sinB","sinA sinB + cosA cosB","sinA cosB - cosA sinB","cosA cosB - sinA sinB"],a:0},
+  {t:"sa",d:3,q:"The double angle formula for sine is sin(2x) = 2 * sin(x) * ?",a:["cos(x)","cosx"]},
+  {t:"mc",d:3,q:"The double angle formula for cosine can be written as cos(2x) =",o:["cos^2(x) + sin^2(x)","cos^2(x) - sin^2(x)","1 - sin^2(x)","2 sin(x) cos(x)"],a:1},
+  {t:"sa",d:3,q:"Express cos(2x) entirely in terms of sine: cos(2x) = 1 - 2*?^2(x)",a:["sin"]},
+  {t:"mc",d:3,q:"What is the derivative of sin(x)?",o:["-cos(x)","cos(x)","sec^2(x)","sin(x)"],a:1},
+  {t:"sa",d:3,q:"What is the derivative of cos(x)?",a:["-sin(x)","-sinx"]},
+  {t:"mc",d:3,q:"What is the integral of sin(x) dx?",o:["cos(x) + C","-cos(x) + C","sin(x) + C","-sin(x) + C"],a:1},
+  {t:"sa",d:3,q:"What is the integral of cos(x) dx?",a:["sin(x) + C","sin(x)+c","sinx+c"]},
+  {t:"mc",d:3,q:"Euler's formula states that e^(ix) =",o:["cos(x) + i sin(x)","sin(x) + i cos(x)","cos(x) - i sin(x)","cosh(x) + i sinh(x)"],a:0},
+  {t:"sa",d:3,q:"According to Euler's Identity, e^(i*pi) + 1 = ?",a:0},
+  {t:"mc",d:3,q:"The Law of Sines for a triangle with sides a,b,c and opposite angles A,B,C is:",o:["a/sinA = b/sinB = c/sinC","a*sinA = b*sinB = c*sinC","sinA/a + sinB/b = sinC/c","a^2 = b^2 + c^2 - 2bc cosA"],a:0},
+  {t:"sa",d:3,q:"The Law of Cosines is c^2 = a^2 + b^2 - 2ab * ?",a:["cos(C)","cosC"]},
+  {t:"mc",d:3,q:"Superposition of two sine waves of the same frequency and amplitude traveling in opposite directions creates a:",o:["Standing wave","Beat pattern","Shock wave","Soliton"],a:0},
+  {t:"sa",d:3,q:"In a standing wave, points that do not move are called _______.",a:["nodes"]},
+  {t:"mc",d:3,q:"The addition of two sine waves of slightly different frequencies produces:",o:["Standing waves","Beats","Resonance","Diffraction"],a:1},
+  {t:"sa",d:3,q:"The beat frequency is the absolute difference between the two individual _______.",a:["frequencies"]},
+  {t:"mc",d:3,q:"Fourier's theorem states that any periodic function can be represented as a sum of:",o:["Polynomials","Exponentials only","Sines and cosines","Logarithms"],a:2},
+  {t:"sa",d:3,q:"In Fourier analysis, the sine/cosine wave with the lowest frequency is called the _______ frequency.",a:["fundamental"]}
+]
+
+</script>
+
+<script>
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE
+    // =========================================================
+    let currentQuiz = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        const results = document.getElementById('results-screen');
+        if (intro) intro.classList.add('hidden');
+        if (results) results.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    function initQuiz() {
+        if (typeof qBank === 'undefined' || qBank.length === 0) return;
+        currentQuiz = [];
+        for(let d=1; d<=3; d++) {
+            let diffQs = qBank.filter(q => q.d === d);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            currentQuiz = currentQuiz.concat(diffQs);
+        }
+        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
+        currentQIndex = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentQIndex >= currentQuiz.length) {
+            showResults();
+            return;
+        }
+        
+        const q = currentQuiz[currentQIndex];
+        document.getElementById('q-current').innerText = currentQIndex + 1;
+        
+        const diffInd = document.getElementById('diff-indicator');
+        diffInd.innerText = 'Level ' + q.d;
+        diffInd.className = 'text-xs font-bold px-3 py-1 rounded-full ' + 
+            (q.d===1 ? 'bg-green-100 text-green-700' : 
+             q.d===2 ? 'bg-blue-100 text-blue-700' : 
+             'bg-yellow-100 text-yellow-700');
+
+        document.getElementById('q-text').innerHTML = q.q;
+        
+        const mcOps = document.getElementById('mc-options');
+        const saCont = document.getElementById('sa-container');
+        const saInput = document.getElementById('sa-input');
+        
+        mcOps.innerHTML = '';
+        if(q.t === 'mc') {
+            mcOps.classList.remove('hidden');
+            saCont.classList.add('hidden');
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-primary-500 hover:bg-primary-50 transition font-medium text-slate-700";
+                btn.innerHTML = String.fromCharCode(65+idx) + ". " + opt;
+                btn.onclick = () => selectOption(btn, idx);
+                mcOps.appendChild(btn);
+            });
+        } else {
+            mcOps.classList.add('hidden');
+            saCont.classList.remove('hidden');
+            saInput.value = '';
+            saInput.disabled = false;
+        }
+        
+        document.getElementById('btn-submit').classList.remove('hidden');
+        document.getElementById('btn-next').classList.add('hidden');
+        document.getElementById('feedback-box').classList.add('hidden');
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([document.getElementById('q-text'), mcOps]).catch(err=>console.log(err));
+        }
+    }
+
+    let selectedIdx = -1;
+    function selectOption(btn, idx) {
+        if(document.getElementById('btn-submit').classList.contains('hidden')) return;
+        const btns = document.getElementById('mc-options').children;
+        for(let b of btns) {
+            b.classList.remove('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+            b.classList.add('border-slate-200');
+        }
+        btn.classList.remove('border-slate-200');
+        btn.classList.add('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+        selectedIdx = idx;
+    }
+
+    function submitAnswer() {
+        const q = currentQuiz[currentQIndex];
+        const fb = document.getElementById('feedback-box');
+        let isCorrect = false;
+        
+        if(q.t === 'mc') {
+            if(selectedIdx === -1) return;
+            isCorrect = (selectedIdx === q.a);
+            const btns = document.getElementById('mc-options').children;
+            btns[q.a].classList.add('bg-green-100', 'border-green-500');
+            if(!isCorrect) {
+                btns[selectedIdx].classList.add('bg-red-100', 'border-red-500');
+            }
+        } else {
+            const input = document.getElementById('sa-input');
+            const val = input.value.trim().toLowerCase();
+            if(val === '') return;
+            input.disabled = true;
+            
+            if(Array.isArray(q.a)) {
+                isCorrect = q.a.some(ans => val === ans.toString().toLowerCase());
+            } else {
+                if(typeof q.a === 'number') {
+                    const numVal = parseFloat(val);
+                    isCorrect = !isNaN(numVal) && Math.abs(numVal - q.a) < 0.05 * Math.abs(q.a);
+                    if(q.a === 0 && Math.abs(numVal) < 0.05) isCorrect = true;
+                } else {
+                    isCorrect = (val === q.a.toString().toLowerCase());
+                }
+            }
+            if(isCorrect) input.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+            else input.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+        }
+        
+        fb.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+        if(isCorrect) {
+            score++;
+            fb.classList.add('bg-green-100', 'text-green-800');
+            fb.innerHTML = "<strong>Correct!</strong> Well done.";
+        } else {
+            fb.classList.add('bg-red-100', 'text-red-800');
+            let corrText = q.t === 'mc' ? String.fromCharCode(65+q.a) + ". " + q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+            fb.innerHTML = "<strong>Incorrect.</strong> The correct answer is: " + corrText;
+        }
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([fb]).catch(e=>console.log(e));
+        }
+        
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        selectedIdx = -1;
+        loadQuestion();
+    }
+
+    function showResults() {
+        document.getElementById('quiz-main-content').classList.add('hidden');
+        const res = document.getElementById('results-screen');
+        res.classList.remove('hidden');
+        document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
+</body>
+</html>

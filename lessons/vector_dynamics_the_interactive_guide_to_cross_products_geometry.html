@@ -528,7 +528,58 @@
                 </div>
             </section>
 
-        </main>
+        
+        <!-- SECTION: Comprehensive Quiz -->
+        <section id="quiz" class="scroll-mt-24 no-print">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+            </div>
+            
+            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <div class="flex gap-2">
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                    </div>
+                </div>
+                
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                
+                <div id="mc-options" class="space-y-3 hidden">
+                    <!-- Options injected here -->
+                </div>
+                
+                <div id="sa-container" class="hidden">
+                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
+                </div>
+                
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
+                </div>
+                
+                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+            </div>
+
+            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+            </div>
+        </section>
+
+</main>
     </div>
 
     <!-- JavaScript Application Logic -->
@@ -746,6 +797,288 @@
             const az = parseFloat(document.getElementById('az-slider').value);
         }
     </script>
+
+        <!-- SECTION: Comprehensive Quiz -->
+        <section id="quiz" class="scroll-mt-24 no-print">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
+                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+            </div>
+            
+            <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+                <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
+                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <div class="flex gap-2">
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                    </div>
+                </div>
+                
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                
+                <div id="mc-options" class="space-y-3 hidden">
+                    <!-- Options injected here -->
+                </div>
+                
+                <div id="sa-container" class="hidden">
+                    <input type="text" id="sa-input" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition" placeholder="Type your answer here..." autocomplete="off">
+                </div>
+                
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="btn-submit" onclick="submitAnswer()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Submit Answer</button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">Next Question ➔</button>
+                </div>
+                
+                <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl font-medium text-sm"></div>
+            </div>
+
+            <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
+                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+            </div>
+        </section>
+
 </main>
+
+<script>
+
+    const qBank = [
+  {t:"mc",d:1,q:"A scalar quantity has:",o:["Magnitude only","Direction only","Magnitude and direction","Neither"],a:0},
+  {t:"sa",d:1,q:"A vector quantity has both magnitude and _______.",a:["direction"]},
+  {t:"mc",d:1,q:"Which of the following is a vector?",o:["Temperature","Mass","Velocity","Time"],a:2},
+  {t:"sa",d:1,q:"The length of an arrow representing a vector corresponds to its _______.",a:["magnitude"]},
+  {t:"mc",d:1,q:"The cross product of two vectors results in a:",o:["Scalar","Vector","Matrix","Tensor"],a:1},
+  {t:"sa",d:1,q:"The dot product of two vectors results in a _______.",a:["scalar"]},
+  {t:"mc",d:1,q:"The magnitude of the cross product |A x B| is equal to:",o:["|A||B| cos(theta)","|A||B| sin(theta)","|A||B|","0"],a:1},
+  {t:"sa",d:1,q:"If two non-zero vectors A and B are parallel, their cross product is _____.",a:["0","zero"]},
+  {t:"mc",d:1,q:"The direction of the cross product A x B is determined by the:",o:["Left-hand rule","Right-hand rule","Thumb rule","Maxwell rule"],a:1},
+  {t:"sa",d:1,q:"The cross product A x B is _______ to both vector A and vector B.",a:["perpendicular","orthogonal","normal"]},
+  {t:"mc",d:1,q:"Is the cross product commutative? (Does A x B = B x A?)",o:["Yes","No, it's anticommutative (A x B = -B x A)","Only for orthogonal vectors","Only for parallel vectors"],a:1},
+  {t:"sa",d:1,q:"i x j = ?",a:["k"]},
+  {t:"mc",d:1,q:"What does the magnitude of the cross product |A x B| geometrically represent?",o:["The volume of a parallelepiped","The area of a parallelogram spanned by A and B","The perimeter of a triangle","The projection of A onto B"],a:1},
+  {t:"sa",d:1,q:"The area of the triangle formed by vectors A and B is _____ the magnitude of their cross product.",a:["half","0.5"]},
+  {t:"mc",d:1,q:"In physics, torque (tau) is defined as the cross product of:",o:["Force and Velocity","Position vector (r) and Force (F)","Mass and Acceleration","Momentum and Velocity"],a:1},
+  {t:"sa",d:1,q:"Angular momentum L is the cross product of position r and linear _______ p.",a:["momentum"]},
+  {t:"mc",d:1,q:"The magnetic force on a moving charge is F = q(v x B). If velocity v is parallel to magnetic field B, the force is:",o:["Maximum","Zero","q v B","Negative"],a:1},
+  {t:"sa",d:1,q:"If v is along the x-axis (i) and B is along the y-axis (j), the magnetic force on a positive charge is along the _____ axis.",a:["z"]},
+  {t:"mc",d:1,q:"Which operation does not exist for vectors in 3D?",o:["Cross product","Dot product","Vector addition","Vector division"],a:3},
+  {t:"sa",d:1,q:"The cross product of a vector with itself (A x A) is always _____.",a:["0","zero"]},
+
+  {t:"mc",d:2,q:"If A = <1, 0, 0> and B = <0, 1, 0>, what is A x B?",o:["<0, 0, 1>","<0, 0, -1>","<1, 1, 0>","0"],a:0},
+  {t:"sa",d:2,q:"If A = 2i and B = 3j, what is A x B?",a:["6k"]},
+  {t:"mc",d:2,q:"Given A = <a1, a2, a3> and B = <b1, b2, b3>, the x-component of A x B is:",o:["a2 b3 - a3 b2","a3 b1 - a1 b3","a1 b2 - a2 b1","a1 b1"],a:0},
+  {t:"sa",d:2,q:"The y-component of A x B is a3 b1 - a1 b?.",a:3},
+  {t:"mc",d:2,q:"If the angle between A and B is 30 degrees, and |A|=4, |B|=5, what is |A x B|?",o:["20","10","10*sqrt(3)","0"],a:1},
+  {t:"sa",d:2,q:"If |A|=3, |B|=4, and |A x B|=12, what is the angle between them in degrees? (Assume 0 to 90)",a:90},
+  {t:"mc",d:2,q:"Torque tau = r x F. If r = 2i and F = 5j, tau is:",o:["10k","-10k","7k","10"],a:0},
+  {t:"sa",d:2,q:"If r = 3j and F = 4i, tau = r x F = ?",a:["-12k"]},
+  {t:"mc",d:2,q:"The scalar triple product A . (B x C) gives:",o:["The area of a triangle","The volume of a parallelepiped formed by A, B, C","A vector","Zero always"],a:1},
+  {t:"sa",d:2,q:"If A, B, and C are coplanar, their scalar triple product A . (B x C) is _____.",a:["0","zero"]},
+  {t:"mc",d:2,q:"The cross product distributes over addition: A x (B + C) =",o:["(A x B) + (A x C)","A x B x C","(A+B) x (A+C)","0"],a:0},
+  {t:"sa",d:2,q:"Evaluate: (i x j) x k. (Recall i x j = k)",a:["0","zero"]},
+  {t:"mc",d:2,q:"Which of the following is true for scalar multiplication: (cA) x B =",o:["c(A x B)","A x (cB)","Both are true","Neither is true"],a:2},
+  {t:"sa",d:2,q:"Evaluate the magnitude of (2i + 2j) x (3i + 3j).",a:["0","zero"]},
+  {t:"mc",d:2,q:"Vector A is pointing East, Vector B is pointing North. A x B points:",o:["Up (Out of the page)","Down (Into the page)","North-East","South-West"],a:0},
+  {t:"sa",d:2,q:"Vector A points North, Vector B points East. A x B points _______.",a:["down","into the page"]},
+  {t:"mc",d:2,q:"A charged particle q > 0 moves with velocity v in the +z direction in a magnetic field B in the -x direction. The force F = q(v x B) is in the:",o:["+y direction","-y direction","+x direction","-z direction"],a:1},
+  {t:"sa",d:2,q:"If an electron (q < 0) moves North in a magnetic field pointing Up, the force is towards the _______.",a:["east"]},
+  {t:"mc",d:2,q:"The cross product is only defined in how many dimensions (for standard vector algebra)?",o:["2D","3D and 7D","Any dimension","4D"],a:1},
+  {t:"sa",d:2,q:"In 2D, the cross product is often treated as a scalar representing the area. Technically, the result points out of the 2D plane into the _____ dimension.",a:["third","3rd"]},
+
+  {t:"mc",d:3,q:"Given A = <1, 2, 3> and B = <4, 5, 6>. The z-component of A x B is:",o:["1*5 - 2*4","2*6 - 3*5","3*4 - 1*6","1*4 + 2*5"],a:0},
+  {t:"sa",d:3,q:"Calculate the z-component: (1*5) - (2*4) = ?",a:-3},
+  {t:"mc",d:3,q:"The vector triple product A x (B x C) is equal to:",o:["(A.C)B - (A.B)C","(A.B)C - (A.C)B","A(B.C)","0"],a:0},
+  {t:"sa",d:3,q:"This expansion formula for A x (B x C) is commonly called the ____-CAB rule.",a:["bac"]},
+  {t:"mc",d:3,q:"What is i x (j x j)?",o:["i","j","k","0"],a:3},
+  {t:"sa",d:3,q:"What is i x (i x j)? (Use BAC-CAB or evaluate directly)",a:["-j"]},
+  {t:"mc",d:3,q:"The curl of a vector field F, denoted as Del x F, produces:",o:["A scalar field","A vector field","A constant","Zero"],a:1},
+  {t:"sa",d:3,q:"If Del x F = 0 everywhere, the vector field F is called irrotational or _______.",a:["conservative"]},
+  {t:"mc",d:3,q:"In uniform circular motion, the velocity v is given by omega x r. If omega is in the +z direction and r is in the +x direction, v is in the:",o:["+y direction","-y direction","+x direction","-z direction"],a:0},
+  {t:"sa",d:3,q:"Acceleration in circular motion a = alpha x r + omega x v. The term omega x v is the _______ acceleration.",a:["centripetal"]},
+  {t:"mc",d:3,q:"The Lorentz force on a moving charge is F = qE + q(v x B). The magnetic part does how much work on the charge?",o:["q v B d","Positive work","Negative work","Zero work"],a:3},
+  {t:"sa",d:3,q:"Magnetic forces do no work because the force is always _______ to the velocity.",a:["perpendicular","orthogonal"]},
+  {t:"mc",d:3,q:"The Poynting vector S, which describes energy flux in an electromagnetic field, is proportional to:",o:["E . B","E x B","B x E","E + B"],a:1},
+  {t:"sa",d:3,q:"In an EM wave, if E is in the +y direction and B is in the +z direction, the wave propagates in the _______ direction.",a:["+x","x"]},
+  {t:"mc",d:3,q:"A gyroscope spins with angular momentum L. A torque tau applied perpendicular to L causes:",o:["Linear acceleration","Precession (change in direction of L)","Change in magnitude of L","It to stop"],a:1},
+  {t:"sa",d:3,q:"The rate of change of angular momentum is dL/dt = ?.",a:["tau","torque"]},
+  {t:"mc",d:3,q:"If you know the area of a triangle formed by vectors A and B is 15, what is |A x B|?",o:["15","7.5","30","0"],a:2},
+  {t:"sa",d:3,q:"Two vectors A and B have lengths 3 and 4. The maximum possible value of |A x B| is _____.",a:12},
+  {t:"mc",d:3,q:"The Levi-Civita symbol (epsilon_ijk) is used to express the cross product in index notation: (A x B)_i = epsilon_ijk A_j B_k. epsilon_123 is:",o:["0","1","-1","3"],a:1},
+  {t:"sa",d:3,q:"If any two indices in the Levi-Civita symbol are the same (e.g., epsilon_112), its value is _____.",a:["0","zero"]}
+]
+
+</script>
+
+<script>
+    // =========================================================
+    // DIAGNOSTIC QUIZ ENGINE
+    // =========================================================
+    let currentQuiz = [];
+    let currentQIndex = 0;
+    let score = 0;
+
+    function startQuizUI() {
+        const intro = document.getElementById('quiz-intro-box');
+        const main = document.getElementById('quiz-main-content');
+        const results = document.getElementById('results-screen');
+        if (intro) intro.classList.add('hidden');
+        if (results) results.classList.add('hidden');
+        if (main) main.classList.remove('hidden');
+        initQuiz();
+    }
+
+    function initQuiz() {
+        if (typeof qBank === 'undefined' || qBank.length === 0) return;
+        currentQuiz = [];
+        for(let d=1; d<=3; d++) {
+            let diffQs = qBank.filter(q => q.d === d);
+            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            currentQuiz = currentQuiz.concat(diffQs);
+        }
+        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
+        currentQIndex = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentQIndex >= currentQuiz.length) {
+            showResults();
+            return;
+        }
+        
+        const q = currentQuiz[currentQIndex];
+        document.getElementById('q-current').innerText = currentQIndex + 1;
+        
+        const diffInd = document.getElementById('diff-indicator');
+        diffInd.innerText = 'Level ' + q.d;
+        diffInd.className = 'text-xs font-bold px-3 py-1 rounded-full ' + 
+            (q.d===1 ? 'bg-green-100 text-green-700' : 
+             q.d===2 ? 'bg-blue-100 text-blue-700' : 
+             'bg-yellow-100 text-yellow-700');
+
+        document.getElementById('q-text').innerHTML = q.q;
+        
+        const mcOps = document.getElementById('mc-options');
+        const saCont = document.getElementById('sa-container');
+        const saInput = document.getElementById('sa-input');
+        
+        mcOps.innerHTML = '';
+        if(q.t === 'mc') {
+            mcOps.classList.remove('hidden');
+            saCont.classList.add('hidden');
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-primary-500 hover:bg-primary-50 transition font-medium text-slate-700";
+                btn.innerHTML = String.fromCharCode(65+idx) + ". " + opt;
+                btn.onclick = () => selectOption(btn, idx);
+                mcOps.appendChild(btn);
+            });
+        } else {
+            mcOps.classList.add('hidden');
+            saCont.classList.remove('hidden');
+            saInput.value = '';
+            saInput.disabled = false;
+        }
+        
+        document.getElementById('btn-submit').classList.remove('hidden');
+        document.getElementById('btn-next').classList.add('hidden');
+        document.getElementById('feedback-box').classList.add('hidden');
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([document.getElementById('q-text'), mcOps]).catch(err=>console.log(err));
+        }
+    }
+
+    let selectedIdx = -1;
+    function selectOption(btn, idx) {
+        if(document.getElementById('btn-submit').classList.contains('hidden')) return;
+        const btns = document.getElementById('mc-options').children;
+        for(let b of btns) {
+            b.classList.remove('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+            b.classList.add('border-slate-200');
+        }
+        btn.classList.remove('border-slate-200');
+        btn.classList.add('border-primary-600', 'bg-primary-50', 'ring-2', 'ring-primary-500');
+        selectedIdx = idx;
+    }
+
+    function submitAnswer() {
+        const q = currentQuiz[currentQIndex];
+        const fb = document.getElementById('feedback-box');
+        let isCorrect = false;
+        
+        if(q.t === 'mc') {
+            if(selectedIdx === -1) return;
+            isCorrect = (selectedIdx === q.a);
+            const btns = document.getElementById('mc-options').children;
+            btns[q.a].classList.add('bg-green-100', 'border-green-500');
+            if(!isCorrect) {
+                btns[selectedIdx].classList.add('bg-red-100', 'border-red-500');
+            }
+        } else {
+            const input = document.getElementById('sa-input');
+            const val = input.value.trim().toLowerCase();
+            if(val === '') return;
+            input.disabled = true;
+            
+            if(Array.isArray(q.a)) {
+                isCorrect = q.a.some(ans => val === ans.toString().toLowerCase());
+            } else {
+                if(typeof q.a === 'number') {
+                    const numVal = parseFloat(val);
+                    isCorrect = !isNaN(numVal) && Math.abs(numVal - q.a) < 0.05 * Math.abs(q.a);
+                    if(q.a === 0 && Math.abs(numVal) < 0.05) isCorrect = true;
+                } else {
+                    isCorrect = (val === q.a.toString().toLowerCase());
+                }
+            }
+            if(isCorrect) input.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+            else input.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+        }
+        
+        fb.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+        if(isCorrect) {
+            score++;
+            fb.classList.add('bg-green-100', 'text-green-800');
+            fb.innerHTML = "<strong>Correct!</strong> Well done.";
+        } else {
+            fb.classList.add('bg-red-100', 'text-red-800');
+            let corrText = q.t === 'mc' ? String.fromCharCode(65+q.a) + ". " + q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+            fb.innerHTML = "<strong>Incorrect.</strong> The correct answer is: " + corrText;
+        }
+        
+        if(window.MathJax) {
+            window.MathJax.typesetPromise([fb]).catch(e=>console.log(e));
+        }
+        
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentQIndex++;
+        selectedIdx = -1;
+        loadQuestion();
+    }
+
+    function showResults() {
+        document.getElementById('quiz-main-content').classList.add('hidden');
+        const res = document.getElementById('results-screen');
+        res.classList.remove('hidden');
+        document.getElementById('final-score').innerText = Math.round((score / currentQuiz.length) * 100) + '%';
+    }
+</script>
+
 </body>
 </html>

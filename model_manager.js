@@ -164,6 +164,16 @@ class ModelManager {
                 this.triggerWebLLMDownload(key);
             }
         }
+        
+        // Resume when connectivity is restored
+        window.addEventListener('online', () => {
+            console.log('Network connected. Resuming downloads...');
+            for (const key in this.state) {
+                if (this.state[key].status === 'downloading') {
+                    this.triggerWebLLMDownload(key);
+                }
+            }
+        });
     }
 
     getBestTextModel() {
