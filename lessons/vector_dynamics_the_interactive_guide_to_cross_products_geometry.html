@@ -933,7 +933,6 @@
     // =========================================================
     // DIAGNOSTIC QUIZ ENGINE
     // =========================================================
-<<<<<<< HEAD
     let currentQuiz = [
   // Level 4 (20 Qs)
   {t:"mc",d:4,q:"The Jacobian determinant of a transformation from Cartesian (x,y) to polar (r, theta) is:",o:["r","r^2","1","r sin(theta)"],a:0},
@@ -980,9 +979,6 @@
   {t:"sa",d:5,q:"In 3D space, the Hodge dual of a 1-form (vector) is a ____-form (pseudovector/flux).",a:2}
 
 ];
-=======
-    let currentQuiz = [];
->>>>>>> 55d9b79fa4d51420e31a8ed185dba1d65fbddfea
     let currentQIndex = 0;
     let score = 0;
 
@@ -999,21 +995,12 @@
     function initQuiz() {
         if (typeof qBank === 'undefined' || qBank.length === 0) return;
         currentQuiz = [];
-<<<<<<< HEAD
         for(let d=1; d<=5; d++) {
             let diffQs = qBank.filter(q => q.d === d);
             diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 2);
             currentQuiz = currentQuiz.concat(diffQs);
         }
         
-=======
-        for(let d=1; d<=3; d++) {
-            let diffQs = qBank.filter(q => q.d === d);
-            diffQs = diffQs.sort(() => 0.5 - Math.random()).slice(0, 3);
-            currentQuiz = currentQuiz.concat(diffQs);
-        }
-        currentQuiz.push(qBank.filter(q=>q.d===3).sort(()=>0.5-Math.random())[0]);
->>>>>>> 55d9b79fa4d51420e31a8ed185dba1d65fbddfea
         currentQIndex = 0;
         score = 0;
         loadQuestion();
@@ -1148,7 +1135,6 @@
     }
 </script>
 
-<<<<<<< HEAD
 
 <script>
     function checkExercise(id, expectedAns) {
@@ -1177,7 +1163,5 @@
     }
 </script>
 
-=======
->>>>>>> 55d9b79fa4d51420e31a8ed185dba1d65fbddfea
 </body>
 </html>
