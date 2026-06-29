@@ -92,8 +92,10 @@
                 <input type="text" id="searchInput" placeholder="Search lessons or describe what you want to learn..." 
                     class="w-full pl-11 pr-[150px] py-4 bg-slate-900/50 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all shadow-lg backdrop-blur-md">
                 <div class="absolute right-2 top-2 bottom-2 flex items-center gap-2">
-                    <button id="aiSearchBtn" class="w-10 h-10 rounded-xl bg-gradient-to-r from-indigo-600 to-teal-500 hover:from-indigo-500 hover:to-teal-400 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)] hover:shadow-[0_0_25px_rgba(45,212,191,0.6)] transition-all flex items-center justify-center" title="AI Search Mode (Google AI Mode)">
-                        <i class="fa-solid fa-sparkles"></i>
+                    <button id="aiSearchBtn" onclick="alert('AI Feature initialization triggered.')" class="w-10 h-10 rounded-xl bg-gradient-to-r from-indigo-600 to-teal-500 hover:from-indigo-500 hover:to-teal-400 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)] hover:shadow-[0_0_25px_rgba(45,212,191,0.6)] transition-all flex items-center justify-center" title="AI Search Mode (Google AI Mode)">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/>
+                        </svg>
                     </button>
                     <button id="normalSearchBtn" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all flex items-center justify-center shadow-lg" title="Normal Search">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -108,15 +110,23 @@
                 </div>
                 <div id="aiOverviewHeader" class="flex items-center gap-3 p-6 cursor-pointer group select-none">
                     <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
-                        <i class="fa-solid fa-robot"></i>
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/>
+                        </svg>
                     </div>
-                    <h3 class="font-bold text-slate-200 group-hover:text-white transition-colors">AI Overview</h3>
-                    <i id="aiOverviewChevron" class="fa-solid fa-chevron-up text-slate-400 text-sm ml-1 transition-transform duration-300"></i>
-                    <span id="aiStatusBadge" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 ml-auto">Ready</span>
+                    <div class="flex-1">
+                        <h3 class="text-white font-bold text-lg">AI Lesson Recommendations</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="aiStatusBadge" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">Ready</span>
+                            <span id="aiModelLoadingText" class="text-xs text-slate-400 hidden">Downloading Model... <span id="downloadPct">0</span>%</span>
+                        </div>
+                    </div>
+                    <i id="aiOverviewChevron" class="fa-solid fa-chevron-up text-slate-500 group-hover:text-white transition"></i>
                 </div>
-                <div id="aiOverviewContent" class="px-6 pb-6 transition-all duration-300 origin-top">
-                    <p id="aiOutputText" class="text-sm text-slate-300 leading-relaxed min-h-[40px]"></p>
-                    <div id="aiModelLoadingText" class="text-xs text-slate-500 mt-4 hidden">Downloading SLM weights (runs locally, 0 server calls)... <span id="downloadPct">0</span>%</div>
+                <div id="aiOverviewContent" class="px-6 pb-6 pt-2 border-t border-slate-800/50">
+                    <div id="aiOutputText" class="text-sm text-slate-300 leading-relaxed font-mono">
+                        Describe what you want to learn, and the AI will recommend the best modules and generate a custom learning overview!
+                    </div>
                 </div>
             </div>
         </div>
@@ -548,7 +558,7 @@
 
                 const bestModelKey = window.modelManager ? window.modelManager.getBestTextModel() : null;
                 if (!bestModelKey) {
-                    document.getElementById('downloadModal').classList.remove('hidden');
+                    alert("Please go to the 7.0 Workspace and download an AI model first before using AI Lesson Recommendations.");
                     return;
                 }
 
