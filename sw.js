@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anthocyan-v7-cache-v1';
+const CACHE_NAME = 'anthocyan-v7-cache-v2';
 
 const urlsToCache = [
   './7.0.html',
@@ -32,7 +32,7 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Cache first, falling back to network strategy for all GET requests (including CDNs)
+// Network first, falling back to cache strategy for all GET requests to ensure updates
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   
@@ -43,30 +43,24 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      
-      return fetch(event.request).then(networkResponse => {
-        // Don't cache if not a valid response or if it's an opaque cross-origin response that failed
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic' && networkResponse.type !== 'cors') {
-          return networkResponse;
-        }
-
-        // Clone the response because it can only be consumed once
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache);
-        });
-
+    fetch(event.request).then(networkResponse => {
+      if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic' && networkResponse.type !== 'cors') {
         return networkResponse;
-      }).catch(() => {
-          // If network fails and we don't have it in cache, we just fail gracefully
-          return new Response('Offline: Resource not available in cache.', {
-              status: 503,
-              statusText: 'Service Unavailable'
-          });
+      }
+      const responseToCache = networkResponse.clone();
+      caches.open(CACHE_NAME).then(cache => {
+        cache.put(event.request, responseToCache);
+      });
+      return networkResponse;
+    }).catch(() => {
+      return caches.match(event.request).then(cachedResponse => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return new Response('Offline: Resource not available in cache.', {
+            status: 503,
+            statusText: 'Service Unavailable'
+        });
       });
     })
   );
