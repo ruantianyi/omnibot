@@ -104,7 +104,7 @@
     #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
     [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
-<body class="text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
+<body class="text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900 dark:text-slate-200">
 
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-200">
@@ -114,9 +114,9 @@
                     <svg class="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
-                    <span class="font-bold text-xl tracking-tight text-slate-900">Physics<span class="text-primary-600">Interactive</span></span>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-slate-200">Physics<span class="text-primary-600">Interactive</span></span>
                 </div>
-                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-900">
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-900 dark:text-slate-200">
                     <a href="#governing" class="hover:text-primary-600 transition-colors">Governing Physics</a>
                     <a href="#processes" class="hover:text-primary-600 transition-colors">Mathematical Derivations</a>
                     <a href="#simulation" class="hover:text-primary-600 transition-colors">Carnot Simulator</a>
@@ -142,10 +142,10 @@
                 </span>
                 <span>Chapter 7</span>
             </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6 dark:text-slate-200">
                 Thermodynamics & <span class="gradient-text">Ideal Gas Heat Engines</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-900 leading-relaxed max-w-3xl mx-auto math-serif">
+            <p class="text-lg md:text-xl text-slate-900 leading-relaxed max-w-3xl mx-auto math-serif dark:text-slate-200">
                 A rigorous exploration of macroscopic state parameters, cycle equations, and the theoretical limits of thermodynamic efficiency. Master the $P-V$ diagram and the Carnot Engine.
             </p>
         </div>
@@ -157,14 +157,14 @@
         <main class="w-full lg:w-2/3 space-y-16">
             
             <!-- Section: Governing Physics -->
-            <section id="governing" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg tex2jax_process">
+            <section id="governing" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg tex2jax_process dark:text-slate-200">
                 <div class="flex items-center space-x-3 mb-6">
                     <div class="bg-primary-100 p-2 rounded-lg text-primary-600">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                     </div>
-                    <h2 class="text-3xl font-bold text-slate-900">The Governing Physics</h2>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">The Governing Physics</h2>
                 </div>
                 <p class="mb-4">
                     Thermodynamics tracks macroscopic state parameters—<strong>Pressure ($P$)</strong>, <strong>Volume ($V$)</strong>, <strong>Temperature ($T$)</strong>, and <strong>Entropy ($S$)</strong>—as thermal systems interact. 
@@ -175,7 +175,7 @@
 
                 <!-- Visual: Heat Engine Flow Block -->
                 <div class="my-8 glass-panel rounded-xl p-8 flex flex-col items-center justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-6">Standard Heat Engine Flow Diagram</h3>
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 dark:text-slate-200">Standard Heat Engine Flow Diagram</h3>
                     <svg width="300" height="350" viewBox="0 0 300 350" class="overflow-visible">
                         <!-- Hot Reservoir -->
                         <rect x="50" y="20" width="200" height="60" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
@@ -228,23 +228,23 @@
 </section>
 
             <!-- Section: Mathematical Derivations & Cycle Equations -->
-            <section id="processes" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg tex2jax_process">
+            <section id="processes" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg tex2jax_process dark:text-slate-200">
                 <div class="flex items-center space-x-3 mb-6">
                     <div class="bg-secondary-100 p-2 rounded-lg text-secondary-600">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <h2 class="text-3xl font-bold text-slate-900">Mathematical Derivations & Cycle Equations</h2>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Mathematical Derivations & Cycle Equations</h2>
                 </div>
                 
                 <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-6 mb-8 border-l-4 border-l-primary-500">
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">The First Law of Thermodynamics</h3>
-                    <p class="text-slate-900 mb-4">The fundamental statement of the Conservation of Energy for a thermal system.</p>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2 dark:text-slate-200">The First Law of Thermodynamics</h3>
+                    <p class="text-slate-900 mb-4 dark:text-slate-200">The fundamental statement of the Conservation of Energy for a thermal system.</p>
                     <div class="bg-slate-50 p-4 rounded-lg overflow-x-auto text-center font-bold text-2xl my-4">
                         $$\Delta U = Q - W$$
                     </div>
-                    <ul class="list-disc list-inside space-y-2 text-slate-900 ml-2">
+                    <ul class="list-disc list-inside space-y-2 text-slate-900 ml-2 dark:text-slate-200">
                         <li><strong>$\Delta U$</strong>: Change in internal energy (depends <em>only</em> on temperature for an ideal gas).</li>
                         <li><strong>$Q$</strong>: Heat <em>added to</em> the system.</li>
                         <li><strong>$W$</strong>: Work performed <em>by</em> the gas ($+W$ indicates expansion).</li>
@@ -258,16 +258,16 @@
                     $$W = \int_{V_1}^{V_2} P \, dV$$
                 </div>
 
-                <h3 class="text-2xl font-bold text-slate-900 mt-10 mb-6">The Four Fundamental Processes</h3>
+                <h3 class="text-2xl font-bold text-slate-900 mt-10 mb-6 dark:text-slate-200">The Four Fundamental Processes</h3>
                 <p class="mb-6">Evaluating the work integral and applying the First Law yields simplified relations for four special thermodynamic paths:</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                     <!-- Isobaric -->
                     <div class="glass-panel p-6 rounded-xl border-t-4 border-t-yellow-500 relative overflow-hidden group">
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-yellow-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
-                        <h4 class="font-bold text-xl text-slate-900 mb-2">Isobaric</h4>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2 dark:text-slate-200">Isobaric</h4>
                         <p class="text-sm text-yellow-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Pressure ($\Delta P = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-900">The gas expands or compresses at a steady pressure.</p>
+                        <p class="text-sm mb-2 text-slate-900 dark:text-slate-200">The gas expands or compresses at a steady pressure.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$W = P(V_2 - V_1)$$
                         </div>
@@ -275,9 +275,9 @@
                     <!-- Isochoric -->
                     <div class="glass-panel p-6 rounded-xl border-t-4 border-t-green-500 relative overflow-hidden group">
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
-                        <h4 class="font-bold text-xl text-slate-900 mb-2">Isochoric</h4>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2 dark:text-slate-200">Isochoric</h4>
                         <p class="text-sm text-green-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Volume ($\Delta V = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-900">No spatial displacement occurs, thus no mechanical work is done.</p>
+                        <p class="text-sm mb-2 text-slate-900 dark:text-slate-200">No spatial displacement occurs, thus no mechanical work is done.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$W = 0 \implies \Delta U = Q$$
                         </div>
@@ -285,9 +285,9 @@
                     <!-- Isothermal -->
                     <div class="glass-panel p-6 rounded-xl border-t-4 border-t-blue-500 relative overflow-hidden group">
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
-                        <h4 class="font-bold text-xl text-slate-900 mb-2">Isothermal</h4>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2 dark:text-slate-200">Isothermal</h4>
                         <p class="text-sm text-blue-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Temperature ($\Delta T = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-900">Internal energy is strictly tied to temp, so $\Delta U = 0$. Using $P = \frac{nRT}{V}$, the integral becomes a natural log.</p>
+                        <p class="text-sm mb-2 text-slate-900 dark:text-slate-200">Internal energy is strictly tied to temp, so $\Delta U = 0$. Using $P = \frac{nRT}{V}$, the integral becomes a natural log.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$Q = W = nRT\ln\left(\frac{V_2}{V_1}\right)$$
                         </div>
@@ -295,9 +295,9 @@
                     <!-- Adiabatic -->
                     <div class="glass-panel p-6 rounded-xl border-t-4 border-t-red-500 relative overflow-hidden group">
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-red-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
-                        <h4 class="font-bold text-xl text-slate-900 mb-2">Adiabatic</h4>
+                        <h4 class="font-bold text-xl text-slate-900 mb-2 dark:text-slate-200">Adiabatic</h4>
                         <p class="text-sm text-red-600 font-semibold mb-4 border-b border-slate-200 pb-2">No Heat Transfer ($Q = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-900">The system is perfectly insulated. Expansion cools the gas natively. Follows $P V^\gamma = \text{Constant}$.</p>
+                        <p class="text-sm mb-2 text-slate-900 dark:text-slate-200">The system is perfectly insulated. Expansion cools the gas natively. Follows $P V^\gamma = \text{Constant}$.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$\Delta U = -W$$
                         </div>
@@ -306,8 +306,8 @@
 
                 <!-- Combined PV Diagram SVG -->
                 <div class="my-8 glass-panel rounded-xl p-8 text-center shadow-inner">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Visualizing Expansion on the P-V Plane</h3>
-                    <p class="text-sm text-slate-800 mb-6">Starting from a single state $(P_0, V_0)$, observe how pressure drops across different expansion regimes.</p>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 dark:text-slate-200">Visualizing Expansion on the P-V Plane</h3>
+                    <p class="text-sm text-slate-800 mb-6 dark:text-slate-200">Starting from a single state $(P_0, V_0)$, observe how pressure drops across different expansion regimes.</p>
                     <svg viewBox="0 0 400 300" class="w-full max-w-lg mx-auto bg-white rounded border border-slate-200 shadow-sm" aria-label="P-V Diagram showing 4 processes">
                         <!-- Grid and Axes -->
                         <g stroke="#e2e8f0" stroke-width="1">
@@ -348,7 +348,7 @@
                     </svg>
                 </div>
                 
-                <h3 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Engine Efficiency & The Carnot Limit</h3>
+                <h3 class="text-2xl font-bold text-slate-900 mt-10 mb-4 dark:text-slate-200">Engine Efficiency & The Carnot Limit</h3>
                 <p class="mb-4">
                     The efficiency $\eta$ of <em>any</em> engine cycle is defined by the ratio of the desired output (net work) to the costly input (heat from the high-temperature reservoir):
                 </p>
@@ -364,7 +364,7 @@
             </section>
 
             <!-- Section: Interactive Simulation (Carnot Engine) -->
-            <section id="simulation" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg">
+            <section id="simulation" class="scroll-mt-24 text-slate-700 leading-relaxed text-lg dark:text-slate-200">
                 <div class="flex items-center space-x-3 mb-6">
                     <div class="bg-primary-600 p-2 rounded-lg text-white shadow-md shadow-primary-200">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -372,7 +372,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h2 class="text-3xl font-bold text-slate-900">Interactive Carnot Engine Simulator</h2>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Interactive Carnot Engine Simulator</h2>
                 </div>
                 
                 <p class="mb-6">
@@ -384,15 +384,15 @@
                     <!-- Top Readouts -->
                     <div class="grid grid-cols-3 divide-x divide-slate-200 bg-slate-50 border-b border-slate-200">
                         <div class="p-4 text-center">
-                            <p class="text-xs font-bold text-slate-800 uppercase tracking-wide">Max Efficiency ($\eta$)</p>
+                            <p class="text-xs font-bold text-slate-800 uppercase tracking-wide dark:text-slate-200">Max Efficiency ($\eta$)</p>
                             <p id="sim-efficiency" class="text-2xl font-black text-primary-600 font-mono">--%</p>
                         </div>
                         <div class="p-4 text-center">
-                            <p class="text-xs font-bold text-slate-800 uppercase tracking-wide">Net Work ($W_{\text{net}}$)</p>
+                            <p class="text-xs font-bold text-slate-800 uppercase tracking-wide dark:text-slate-200">Net Work ($W_{\text{net}}$)</p>
                             <p id="sim-work" class="text-2xl font-black text-secondary-600 font-mono">-- J</p>
                         </div>
                         <div class="p-4 text-center bg-slate-800 text-white">
-                            <p class="text-xs font-bold text-slate-700 uppercase tracking-wide">Current Phase</p>
+                            <p class="text-xs font-bold text-slate-700 uppercase tracking-wide dark:text-slate-200">Current Phase</p>
                             <p id="sim-phase" class="text-lg font-bold font-mono tracking-tight text-green-400 mt-1">Isothermal Exp.</p>
                         </div>
                     </div>
@@ -407,7 +407,7 @@
 
                         <!-- Piston Animation -->
                         <div class="w-full md:w-1/2 flex flex-col items-center">
-                            <h4 class="font-bold text-slate-700 mb-4">Cylinder Volume</h4>
+                            <h4 class="font-bold text-slate-700 mb-4 dark:text-slate-200">Cylinder Volume</h4>
                             <div class="relative w-48 h-64 border-4 border-slate-800 rounded-b-xl border-t-0 bg-slate-100 overflow-hidden shadow-inner">
                                 <!-- Fire/Ice Indicator underneath -->
                                 <div id="reservoir-indicator" class="absolute bottom-0 w-full h-8 bg-gradient-to-t from-red-500 to-transparent opacity-50 transition-colors duration-500"></div>
@@ -426,19 +426,19 @@
                     <div class="bg-slate-50 p-6 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <div class="flex justify-between items-center mb-2">
-                                <label for="slider-th" class="font-bold text-slate-700 text-sm">Hot Reservoir ($T_H$)</label>
+                                <label for="slider-th" class="font-bold text-slate-700 text-sm dark:text-slate-200">Hot Reservoir ($T_H$)</label>
                                 <span id="val-th" class="text-red-600 font-mono font-bold bg-red-100 px-2 py-1 rounded text-sm">800 K</span>
                             </div>
                             <input type="range" id="slider-th" min="400" max="1200" value="800" step="10" class="w-full accent-red-500">
-                            <p class="text-xs text-slate-800 mt-2">Increasing $T_H$ expands the Carnot envelope upwards, vastly increasing net work and max efficiency.</p>
+                            <p class="text-xs text-slate-800 mt-2 dark:text-slate-200">Increasing $T_H$ expands the Carnot envelope upwards, vastly increasing net work and max efficiency.</p>
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-2">
-                                <label for="slider-tc" class="font-bold text-slate-700 text-sm">Cold Reservoir ($T_C$)</label>
+                                <label for="slider-tc" class="font-bold text-slate-700 text-sm dark:text-slate-200">Cold Reservoir ($T_C$)</label>
                                 <span id="val-tc" class="text-blue-600 font-mono font-bold bg-blue-100 px-2 py-1 rounded text-sm">300 K</span>
                             </div>
                             <input type="range" id="slider-tc" min="100" max="800" value="300" step="10" class="w-full accent-blue-500">
-                            <p class="text-xs text-slate-800 mt-2">Decreasing $T_C$ expands the envelope downwards. Must be less than $T_H$.</p>
+                            <p class="text-xs text-slate-800 mt-2 dark:text-slate-200">Decreasing $T_C$ expands the envelope downwards. Must be less than $T_H$.</p>
                         </div>
                     </div>
                 </div>
@@ -459,7 +459,7 @@
 
                     <div class="space-y-6">
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4">1</div>
+                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4 dark:text-slate-200">1</div>
                             <div>
                                 <h3 class="text-xl font-bold text-yellow-400 mb-1">Construct a State Table</h3>
                                 <p class="text-slate-300">Solve for $P$, $V$, and $T$ at every vertex (A, B, C, D) using the Ideal Gas Law ($PV = nRT$) before attempting to track energy metrics. The table grounds your variables.</p>
@@ -467,7 +467,7 @@
                         </div>
                         
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4">2</div>
+                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4 dark:text-slate-200">2</div>
                             <div>
                                 <h3 class="text-xl font-bold text-yellow-400 mb-1">Calculate Work Graphically</h3>
                                 <p class="text-slate-300">Sum up work values across all individual steps ($W_{\text{net}} = W_{AB} + W_{BC} + \dots$). Remember that a <strong>clockwise loop</strong> on a $P-V$ diagram signifies net positive work output (an engine). A counter-clockwise loop implies work is done <em>on</em> the system (a refrigerator/heat pump).</p>
@@ -475,7 +475,7 @@
                         </div>
 
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4">3</div>
+                            <div class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500 text-slate-900 font-bold mr-4 dark:text-slate-200">3</div>
                             <div>
                                 <h3 class="text-xl font-bold text-yellow-400 mb-1">Enforce Kelvin Temperature Scale</h3>
                                 <p class="text-slate-300">This is the most common pitfall! Always convert Celsius to Kelvin ($T_K = T_C + 273.15$) before evaluating any thermodynamic equations, especially the Carnot Efficiency equation. Using Celsius will mathematically fail.</p>
@@ -490,13 +490,13 @@
         <section id="quiz" class="scroll-mt-24 no-print">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
-                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Concept Check Quiz</h2>
             </div>
             
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-200">Test Your Knowledge</h3>
+                <p class="text-slate-900 mb-6 dark:text-slate-200">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -504,13 +504,13 @@
 
             <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900 dark:text-slate-200">Level 1</span>
                     </div>
                 </div>
                 
-                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium dark:text-slate-200">Question goes here...</div>
                 
                 <div id="mc-options" class="space-y-3 hidden">
                     <!-- Options injected here -->
@@ -529,10 +529,10 @@
             </div>
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
-                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
+                <h3 class="text-3xl font-bold text-slate-900 mb-2 dark:text-slate-200">Quiz Complete!</h3>
+                <p class="text-slate-900 mb-8 dark:text-slate-200">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
-                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition dark:text-slate-200">Retake Quiz</button>
             </div>
         </section>
 
@@ -543,8 +543,8 @@
             
             <!-- Sticky TOC -->
             <div class="sticky top-24 glass-panel rounded-xl p-6 hidden lg:block">
-                <h3 class="font-bold text-slate-900 uppercase tracking-wider text-sm mb-4">Table of Contents</h3>
-                <nav class="space-y-3 text-sm text-slate-900 font-medium">
+                <h3 class="font-bold text-slate-900 uppercase tracking-wider text-sm mb-4 dark:text-slate-200">Table of Contents</h3>
+                <nav class="space-y-3 text-sm text-slate-900 font-medium dark:text-slate-200">
                     <a href="#governing" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">1. The Governing Physics</a>
                     <a href="#processes" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">2. Mathematical Derivations</a>
                     <a href="#simulation" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">3. Carnot Simulator</a>
@@ -555,17 +555,17 @@
 
             <!-- Quiz Widget -->
             <div id="quiz-container" class="glass-panel rounded-xl p-6 shadow-md border-t-4 border-t-primary-500 tex2jax_process">
-                <h3 class="font-bold text-xl text-slate-900 mb-2 flex items-center">
+                <h3 class="font-bold text-xl text-slate-900 mb-2 flex items-center dark:text-slate-200">
                     <svg class="w-5 h-5 mr-2 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Knowledge Check
                 </h3>
-                <p class="text-sm text-slate-800 mb-6">Test your mastery of thermodynamic principles.</p>
+                <p class="text-sm text-slate-800 mb-6 dark:text-slate-200">Test your mastery of thermodynamic principles.</p>
 
                 <!-- Question 1 -->
                 <div class="quiz-q mb-6" data-answer="b">
-                    <p class="font-semibold text-slate-800 mb-3 text-sm">1. If a gas undergoes an isochoric heating process, what is the work done by the gas?</p>
+                    <p class="font-semibold text-slate-800 mb-3 text-sm dark:text-slate-200">1. If a gas undergoes an isochoric heating process, what is the work done by the gas?</p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
                             <input type="radio" name="q1" value="a" class="accent-primary-600"> <span>$W = P\Delta V$</span>
@@ -582,7 +582,7 @@
 
                 <!-- Question 2 -->
                 <div class="quiz-q mb-6" data-answer="c">
-                    <p class="font-semibold text-slate-800 mb-3 text-sm">2. What is the theoretical maximum efficiency of a heat engine operating between $T_H = 600\text{ K}$ and $T_C = 300\text{ K}$?</p>
+                    <p class="font-semibold text-slate-800 mb-3 text-sm dark:text-slate-200">2. What is the theoretical maximum efficiency of a heat engine operating between $T_H = 600\text{ K}$ and $T_C = 300\text{ K}$?</p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
                             <input type="radio" name="q2" value="a" class="accent-primary-600"> <span>100%</span>
@@ -599,7 +599,7 @@
 
                 <!-- Question 3 -->
                 <div class="quiz-q mb-6" data-answer="a">
-                    <p class="font-semibold text-slate-800 mb-3 text-sm">3. On a $P-V$ diagram, a closed cycle traced in a clockwise direction signifies:</p>
+                    <p class="font-semibold text-slate-800 mb-3 text-sm dark:text-slate-200">3. On a $P-V$ diagram, a closed cycle traced in a clockwise direction signifies:</p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-2 cursor-pointer p-2 rounded hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
                             <input type="radio" name="q3" value="a" class="accent-primary-600"> <span>Net positive work output (Heat Engine)</span>
@@ -623,10 +623,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-700 py-8 text-center text-sm border-t border-slate-800 mt-12">
+    <footer class="bg-slate-900 text-slate-700 py-8 text-center text-sm border-t border-slate-800 mt-12 dark:text-slate-200">
         <div class="max-w-4xl mx-auto px-6">
             <p>PhysicsInteractive &copy; 2026. Interactive Thermodynamics Lesson.</p>
-            <p class="mt-2 text-slate-800">Built for educational purposes. Math expressions powered by MathJax.</p>
+            <p class="mt-2 text-slate-800 dark:text-slate-200">Built for educational purposes. Math expressions powered by MathJax.</p>
         </div>
     </footer>
 

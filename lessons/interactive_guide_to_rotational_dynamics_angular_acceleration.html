@@ -124,7 +124,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Back to Lessons
                     </a>
-                    <span class="text-slate-700">|</span>
+                    <span class="text-slate-700 dark:text-slate-200">|</span>
                     <div class="flex items-center gap-3">
                         <i data-lucide="rotate-cw" class="w-6 h-6 text-physics-accent"></i>
                         <span class="font-bold text-lg tracking-tight">Physics Interactive Lessons</span>
@@ -172,9 +172,9 @@
             <section id="governing-physics" class="scroll-mt-24">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="book-open" class="text-physics-700 w-6 h-6"></i></div>
-                    <h2 class="text-3xl font-bold text-slate-800">1. The Governing Physics</h2>
+                    <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-200">1. The Governing Physics</h2>
                 </div>
-                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6 dark:text-slate-200">
                     <p class="text-lg leading-relaxed">
                         <strong>Rotational dynamics</strong> maps Newton's classical laws of linear motion into an angular coordinate system. In linear kinematics, we analyze objects moving along straight paths. In rotational kinematics, we analyze extended, rigid bodies spinning around an axis.
                     </p>
@@ -184,7 +184,7 @@
                     
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 interactive-card">
                         <h3 class="text-xl font-semibold mb-4 text-physics-900 border-b pb-2">The Angular-Linear Dictionary</h3>
-                        <p class="text-sm text-slate-800 mb-4">To master rotational dynamics, you must learn to translate between linear and angular variables.</p>
+                        <p class="text-sm text-slate-800 mb-4 dark:text-slate-200">To master rotational dynamics, you must learn to translate between linear and angular variables.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Position -->
                             <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
@@ -266,9 +266,9 @@
             <section id="torque" class="scroll-mt-24">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="crosshair" class="text-physics-700 w-6 h-6"></i></div>
-                    <h2 class="text-3xl font-bold text-slate-800">2. Mathematical Derivations: Torque ($\vec{\tau}$)</h2>
+                    <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-200">2. Mathematical Derivations: Torque ($\vec{\tau}$)</h2>
                 </div>
-                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6 dark:text-slate-200">
                     <p>
                         To alter a system's angular velocity ($\vec{\omega}$), a net external <strong>torque</strong> ($\vec{\tau}$) must be applied. Torque is the rotational equivalent of force. It measures how effectively a force can cause an object to rotate.
                     </p>
@@ -281,7 +281,7 @@
                                 $$\vec{\tau} = \vec{r} \times \vec{F} \implies \tau = r F \sin\phi$$
                             </div>
                             <div class="bg-white p-4 rounded shadow-sm border border-slate-200 flex flex-col items-center">
-                                <h5 class="text-sm font-bold text-slate-800 mb-2">The Cross Product</h5>
+                                <h5 class="text-sm font-bold text-slate-800 mb-2 dark:text-slate-200">The Cross Product</h5>
                                 <svg viewBox="0 0 200 150" class="w-full h-auto max-w-xs" xmlns="http://www.w3.org/2000/svg">
                                     <!-- Pivot -->
                                     <circle cx="50" cy="100" r="5" fill="#334155" />
@@ -307,24 +307,24 @@
                     <!-- Interactive Torque Simulation -->
                     <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden mt-8">
                         <div class="bg-slate-50 border-b border-slate-200 p-4 flex justify-between items-center">
-                            <h3 class="font-semibold text-slate-800"><i data-lucide="mouse-pointer-click" class="inline w-4 h-4 mr-2"></i>Interactive Torque Visualizer</h3>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200"><i data-lucide="mouse-pointer-click" class="inline w-4 h-4 mr-2"></i>Interactive Torque Visualizer</h3>
                         </div>
                         <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="col-span-1 space-y-6">
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-1">Applied Force ($F$): <span id="valF" class="font-mono text-physics-700">100</span> N</label>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-200">Applied Force ($F$): <span id="valF" class="font-mono text-physics-700">100</span> N</label>
                                     <input type="range" id="sliderF" min="10" max="200" value="100" class="w-full accent-physics-500">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-1">Radius ($r$): <span id="valR" class="font-mono text-physics-700">2.0</span> m</label>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-200">Radius ($r$): <span id="valR" class="font-mono text-physics-700">2.0</span> m</label>
                                     <input type="range" id="sliderR" min="0.5" max="4.0" step="0.1" value="2.0" class="w-full accent-physics-500">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-1">Angle ($\phi$): <span id="valAngle" class="font-mono text-physics-700">90</span>°</label>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-200">Angle ($\phi$): <span id="valAngle" class="font-mono text-physics-700">90</span>°</label>
                                     <input type="range" id="sliderAngle" min="0" max="180" value="90" class="w-full accent-physics-500">
                                 </div>
                                 <div class="bg-physics-50 p-4 rounded-lg text-center mt-4 border border-physics-100">
-                                    <p class="text-xs text-slate-800 uppercase tracking-wider font-semibold">Resulting Torque</p>
+                                    <p class="text-xs text-slate-800 uppercase tracking-wider font-semibold dark:text-slate-200">Resulting Torque</p>
                                     <p class="text-3xl font-bold text-physics-900 mt-1"><span id="outTau">200.0</span> <span class="text-lg font-normal">N·m</span></p>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-800 italic mt-2">
+                    <p class="text-sm text-slate-800 italic mt-2 dark:text-slate-200">
                         <strong>Simulation Notes:</strong> Notice how torque is maximized when the force is strictly perpendicular ($\phi = 90^\circ$). When pushing directly parallel to the wrench ($\phi = 0^\circ$ or $180^\circ$), the torque is zero, regardless of the force magnitude!
                     </p>
                 </div>
@@ -343,16 +343,16 @@
             <section id="inertia" class="scroll-mt-24">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="disc-3" class="text-physics-700 w-6 h-6"></i></div>
-                    <h2 class="text-3xl font-bold text-slate-800">3. Moment of Inertia & Mass Distribution</h2>
+                    <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-200">3. Moment of Inertia & Mass Distribution</h2>
                 </div>
-                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6 dark:text-slate-200">
                     <p>
                         A net torque acts against the system's rotational inertia—defined formally as the <strong>moment of inertia</strong> ($I$). Unlike linear mass ($m$), which is an intrinsic property, the moment of inertia depends heavily on <em>how that mass is distributed</em> relative to the axis of rotation.
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
                         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
-                            <h4 class="font-bold text-slate-800 mb-2 w-full">Discrete Point Masses</h4>
+                            <h4 class="font-bold text-slate-800 mb-2 w-full dark:text-slate-200">Discrete Point Masses</h4>
                             <p class="text-sm mb-4 w-full">For a collection of distinct point masses, sum the products of each mass and the square of its perpendicular distance from the axis:</p>
                             <svg viewBox="0 0 200 150" class="w-full h-auto max-w-xs mb-4" xmlns="http://www.w3.org/2000/svg">
                                 <line x1="100" y1="20" x2="100" y2="130" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
@@ -371,7 +371,7 @@
                             <div class="text-center bg-slate-50 py-3 rounded-lg w-full">$$I = \sum_{i=1}^{n} m_i r_i^2$$</div>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
-                            <h4 class="font-bold text-slate-800 mb-2 w-full">Continuous Solid Bodies</h4>
+                            <h4 class="font-bold text-slate-800 mb-2 w-full dark:text-slate-200">Continuous Solid Bodies</h4>
                             <p class="text-sm mb-4 w-full">For continuous solid masses, the summation generalizes to a volume integral involving mass density ($\rho$):</p>
                             <svg viewBox="0 0 200 150" class="w-full h-auto max-w-xs mb-4" xmlns="http://www.w3.org/2000/svg">
                                 <line x1="100" y1="20" x2="100" y2="130" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" />
@@ -431,9 +431,9 @@
             <section id="dynamics" class="scroll-mt-24">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="zap" class="text-physics-700 w-6 h-6"></i></div>
-                    <h2 class="text-3xl font-bold text-slate-800">4. Newton's 2nd Law & Rolling Energy</h2>
+                    <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-200">4. Newton's 2nd Law & Rolling Energy</h2>
                 </div>
-                <div class="prose prose-lg text-slate-700 max-w-none space-y-6">
+                <div class="prose prose-lg text-slate-700 max-w-none space-y-6 dark:text-slate-200">
                     <p>
                         Newton's Second Law for rotation unites the concepts of Torque and Inertia to yield angular acceleration:
                     </p>
@@ -456,7 +456,7 @@
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center my-6">
-                        <h4 class="font-bold text-slate-800 mb-4">Rolling Without Slipping Anatomy</h4>
+                        <h4 class="font-bold text-slate-800 mb-4 dark:text-slate-200">Rolling Without Slipping Anatomy</h4>
                         <svg viewBox="0 0 400 200" class="w-full h-auto max-w-lg" xmlns="http://www.w3.org/2000/svg">
                             <!-- Ground -->
                             <line x1="20" y1="180" x2="380" y2="180" stroke="#94a3b8" stroke-width="4" stroke-dasharray="8,4" />
@@ -489,7 +489,7 @@
                     <!-- Interactive Rolling Race -->
                     <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden mt-10">
                         <div class="bg-slate-50 border-b border-slate-200 p-4 flex justify-between items-center">
-                            <h3 class="font-semibold text-slate-800"><i data-lucide="play-circle" class="inline w-5 h-5 mr-2 text-physics-600"></i>Simulation: The Great Incline Race</h3>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200"><i data-lucide="play-circle" class="inline w-5 h-5 mr-2 text-physics-600"></i>Simulation: The Great Incline Race</h3>
                         </div>
                         <div class="p-6">
                             <p class="text-sm mb-4">
@@ -528,7 +528,7 @@
             <section id="strategy" class="scroll-mt-24">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="bg-physics-100 p-2 rounded-lg"><i data-lucide="target" class="text-physics-700 w-6 h-6"></i></div>
-                    <h2 class="text-3xl font-bold text-slate-800">5. Problem-Solving Master Strategy</h2>
+                    <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-200">5. Problem-Solving Master Strategy</h2>
                 </div>
                 
                 <div class="space-y-6">
@@ -536,8 +536,8 @@
                     <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">1</div>
                         <div>
-                            <h4 class="text-xl font-bold text-slate-800 mb-2">Draw Extended Free-Body Diagrams</h4>
-                            <p class="text-slate-900 mb-4">Standard point-mass FBDs are insufficient for rotational dynamics. You must place force vectors <strong>precisely at their physical points of application</strong>. For example, gravity always acts at the center of mass, while tension acts at the outer rim of a pulley, and friction acts exactly at the surface contact point.</p>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-200">Draw Extended Free-Body Diagrams</h4>
+                            <p class="text-slate-900 mb-4 dark:text-slate-200">Standard point-mass FBDs are insufficient for rotational dynamics. You must place force vectors <strong>precisely at their physical points of application</strong>. For example, gravity always acts at the center of mass, while tension acts at the outer rim of a pulley, and friction acts exactly at the surface contact point.</p>
                             <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
                                 <svg viewBox="0 0 300 150" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                                     <!-- Extended Body (Rod) -->
@@ -564,8 +564,8 @@
                     <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">2</div>
                         <div>
-                            <h4 class="text-xl font-bold text-slate-800 mb-2">Apply the Parallel-Axis Theorem (If Needed)</h4>
-                            <p class="text-slate-900 mb-4">Determine the axis of rotation. If the object rotates around a hinge or pivot point that is <em>not</em> its center of mass, immediately calculate the new moment of inertia using $I = I_{\text{cm}} + Md^2$ before proceeding with dynamics equations.</p>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-200">Apply the Parallel-Axis Theorem (If Needed)</h4>
+                            <p class="text-slate-900 mb-4 dark:text-slate-200">Determine the axis of rotation. If the object rotates around a hinge or pivot point that is <em>not</em> its center of mass, immediately calculate the new moment of inertia using $I = I_{\text{cm}} + Md^2$ before proceeding with dynamics equations.</p>
                             <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center">
                                 <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="50" y="30" width="200" height="40" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="4" />
@@ -579,10 +579,10 @@
                     <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">3</div>
                         <div>
-                            <h4 class="text-xl font-bold text-slate-800 mb-2">Set Up Coupled Equations</h4>
-                            <p class="text-slate-900">Complex systems (like a mass falling while unwinding a pulley) require setting up independent systems of equations and coupling them:</p>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-200">Set Up Coupled Equations</h4>
+                            <p class="text-slate-900 dark:text-slate-200">Complex systems (like a mass falling while unwinding a pulley) require setting up independent systems of equations and coupling them:</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                <ul class="list-disc ml-6 text-slate-700 space-y-1 font-mono text-sm bg-slate-50 p-4 rounded-lg">
+                                <ul class="list-disc ml-6 text-slate-700 space-y-1 font-mono text-sm bg-slate-50 p-4 rounded-lg dark:text-slate-200">
                                     <li>Write $\sum F = ma$ for purely linear objects.</li>
                                     <li>Write $\sum \tau = I\alpha$ for rotating components.</li>
                                     <li>Link the systems strictly using the constraint equation: $a = \alpha R$.</li>
@@ -613,8 +613,8 @@
                     <div class="flex gap-4 p-6 bg-white border border-slate-200 shadow-sm rounded-xl interactive-card">
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">4</div>
                         <div>
-                            <h4 class="text-xl font-bold text-slate-800 mb-2">Check for Conservation of Angular Momentum</h4>
-                            <p class="text-slate-900 mb-4">If the net external torque on a system is zero ($\sum \tau_{\text{ext}} = 0$), then the total angular momentum of the system is conserved ($L_i = L_f$). This is often true in collisions between spinning objects or when an object changes its own moment of inertia internally.</p>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2 dark:text-slate-200">Check for Conservation of Angular Momentum</h4>
+                            <p class="text-slate-900 mb-4 dark:text-slate-200">If the net external torque on a system is zero ($\sum \tau_{\text{ext}} = 0$), then the total angular momentum of the system is conserved ($L_i = L_f$). This is often true in collisions between spinning objects or when an object changes its own moment of inertia internally.</p>
                             <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex justify-center">
                                 <svg viewBox="0 0 400 120" class="w-full h-auto max-w-md" xmlns="http://www.w3.org/2000/svg">
                                     <!-- Initial State -->

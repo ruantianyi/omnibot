@@ -529,14 +529,14 @@
                 class="absolute top-4 right-4 text-slate-300 hover:text-white transition"><i
                     class="fa-solid fa-xmark text-lg"></i></button>
             <h2 class="text-xl font-bold text-white mb-1"><i class="fa-solid fa-gear text-indigo-400 mr-2"></i>Anthocyan AI Settings</h2>
-            <p class="text-xs text-slate-700 mb-5">Manage your workspace preferences.</p>
+            <p class="text-xs text-slate-700 mb-5 dark:text-slate-200">Manage your workspace preferences.</p>
 
             <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
 
                 <!-- ═══ API Connection ═══ -->
                 <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-plug text-indigo-400"></i>API Connection</h3>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Provider</label>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">Provider</label>
                     <select id="api-provider"
                         class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
                         <option value="gemini">Google Gemini</option>
@@ -545,11 +545,11 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">API Key</label>
-                    <p class="text-[10px] text-slate-800 mb-2">Keys are stored locally in your browser and are never sent to our servers.</p>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">API Key</label>
+                    <p class="text-[10px] text-slate-800 mb-2 dark:text-slate-200">Keys are stored locally in your browser and are never sent to our servers.</p>
                     <input type="password" id="api-key-input" placeholder="sk-..."
                         oninput="document.querySelector('#settings-modal > div').dataset.keySaved = 'false'"
-                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-100 placeholder:text-slate-900 transition duration-150">
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-100 placeholder:text-slate-900 transition duration-150 dark:text-slate-200">
                 </div>
                 <div class="flex gap-2">
                     <button onclick="saveAPIKey()"
@@ -563,7 +563,7 @@
                 <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-palette text-indigo-400"></i>Preferences</h3>
 
                 <div class="flex items-center justify-between">
-                    <label class="text-xs font-semibold text-slate-700 uppercase tracking-wider">Light Mode</label>
+                    <label class="text-xs font-semibold text-slate-700 uppercase tracking-wider dark:text-slate-200">Light Mode</label>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="light-mode-toggle" class="sr-only peer" onchange="toggleLightMode()">
                         <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500"></div>
@@ -571,7 +571,7 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <label class="text-xs font-semibold text-slate-700 uppercase tracking-wider">Auto-Save History</label>
+                    <label class="text-xs font-semibold text-slate-700 uppercase tracking-wider dark:text-slate-200">Auto-Save History</label>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="autosave-toggle" class="sr-only peer" checked onchange="handleHistoryToggle(this)">
                         <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500"></div>
@@ -583,19 +583,19 @@
                 <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-sliders text-indigo-400"></i>Advanced</h3>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">System Prompt Override</label>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">System Prompt Override</label>
                     <textarea id="settings-sys-prompt" rows="2" placeholder="Leave blank for default..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="flex justify-between text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label class="flex justify-between text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">
                         <span>Temperature</span> <span id="temp-val">0.7</span>
                     </label>
                     <input type="range" id="settings-temp" min="0" max="2" step="0.1" value="0.7" class="w-full accent-indigo-500" oninput="document.getElementById('temp-val').innerText = this.value">
                 </div>
 
                 <div>
-                    <label class="flex justify-between text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <label class="flex justify-between text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">
                         <span>Context Window / Max Tokens</span> <span id="token-val">4096</span>
                     </label>
                     <input type="range" id="settings-tokens" min="1024" max="128000" step="1024" value="4096" class="w-full accent-indigo-500" oninput="document.getElementById('token-val').innerText = this.value">
@@ -631,7 +631,7 @@
 
         <div class="relative flex items-center max-w-full">
             <button onclick="document.getElementById('top-nav-scroll').scrollBy({left: -200, behavior: 'smooth'})"
-                class="absolute left-0 z-10 w-8 h-full bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent flex items-center justify-start text-slate-700 hover:text-white transition rounded-l-xl opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 lg:flex"
+                class="absolute left-0 z-10 w-8 h-full bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent flex items-center justify-start text-slate-700 hover:text-white transition rounded-l-xl opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 lg:flex dark:text-slate-200"
                 style="opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity=1"
                 onmouseout="this.style.opacity=0">
                 <i class="fa-solid fa-chevron-left"></i>
@@ -711,23 +711,23 @@
                     <i class="fa-regular fa-comment text-blue-300"></i> Chat Bot
                 </button>
                 <button onclick="switchTab('essay')" id="tab-btn-essay"
-                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold">
+                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold dark:text-slate-200">
                     <i class="fa-solid fa-pen-nib text-violet-400"></i> Compose Engine
                 </button>
                 <button onclick="switchTab('humanizer')" id="tab-btn-humanizer"
-                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold">
+                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold dark:text-slate-200">
                     <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i> Rephraser
                 </button>
                 <button onclick="switchTab('solver')" id="tab-btn-solver"
-                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold">
+                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold dark:text-slate-200">
                     <i class="fa-solid fa-calculator text-teal-400"></i> Physics & Math
                 </button>
                 <button onclick="switchTab('sandbox')" id="tab-btn-sandbox"
-                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold">
+                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold dark:text-slate-200">
                     <i class="fa-solid fa-laptop-code text-emerald-400"></i> ML Sandbox
                 </button>
                 <button onclick="switchTab('game')" id="tab-btn-game"
-                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold">
+                    class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-700 hover:text-slate-200 transition-all duration-200 shrink-0 font-bold dark:text-slate-200">
                     <i class="fa-solid fa-gamepad text-amber-400"></i> Game & Draw
                 </button>
 
@@ -735,23 +735,23 @@
 
                 <div class="flex items-center gap-1 shrink-0">
                     <button onclick="document.getElementById('import-file').click()" title="Import Session Backup"
-                        class="flex items-center gap-1.5 px-2 py-1.5 text-slate-700 hover:text-white transition">
+                        class="flex items-center gap-1.5 px-2 py-1.5 text-slate-700 hover:text-white transition dark:text-slate-200">
                         <i class="fa-solid fa-upload text-xs"></i> <span
                             class="text-[10px] font-bold uppercase tracking-wider">Import</span>
                     </button>
                     <button onclick="exportHistory()" title="Export Session Backup"
-                        class="flex items-center gap-1.5 px-2 py-1.5 text-slate-700 hover:text-white transition">
+                        class="flex items-center gap-1.5 px-2 py-1.5 text-slate-700 hover:text-white transition dark:text-slate-200">
                         <i class="fa-solid fa-download text-xs"></i> <span
                             class="text-[10px] font-bold uppercase tracking-wider">Export</span>
                     </button>
                     <button onclick="toggleSettings()" title="Settings"
-                        class="flex items-center gap-1.5 px-2 py-1.5 text-slate-700 hover:text-indigo-400 transition shrink-0">
+                        class="flex items-center gap-1.5 px-2 py-1.5 text-slate-700 hover:text-indigo-400 transition shrink-0 dark:text-slate-200">
                         <i class="fa-solid fa-gear text-xs"></i> <span
                             class="text-[10px] font-bold uppercase tracking-wider hidden md:block">Settings</span>
                     </button>
                 </div>
                 <button onclick="document.getElementById('top-nav-scroll').scrollBy({left: 200, behavior: 'smooth'})"
-                    class="absolute right-0 z-10 w-8 h-full bg-gradient-to-l from-slate-900 via-slate-900/90 to-transparent flex items-center justify-end text-slate-700 hover:text-white transition rounded-r-xl opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 lg:flex"
+                    class="absolute right-0 z-10 w-8 h-full bg-gradient-to-l from-slate-900 via-slate-900/90 to-transparent flex items-center justify-end text-slate-700 hover:text-white transition rounded-r-xl opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 lg:flex dark:text-slate-200"
                     style="opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity=1"
                     onmouseout="this.style.opacity=0">
                     <i class="fa-solid fa-chevron-right"></i>
@@ -773,7 +773,7 @@
             <div class="md:col-span-1 bg-slate-900/40 border border-slate-800/60 rounded-2xl p-4 flex flex-col gap-4">
                 <h3 class="text-sm font-bold text-indigo-400 uppercase tracking-wider mb-2">Engine Setup</h3>
                 <div class="space-y-2">
-                    <label class="text-xs text-slate-700 font-medium">Personality Configuration</label>
+                    <label class="text-xs text-slate-700 font-medium dark:text-slate-200">Personality Configuration</label>
                     <div class="grid grid-cols-1 gap-2">
                         <button onclick="setPersonality('alpha')" id="per-alpha"
                             class="personality-opt flex items-center gap-3 p-3 rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-left transition-all hover:bg-slate-800">
@@ -782,7 +782,7 @@
                                     class="fa-solid fa-robot"></i></span>
                             <div>
                                 <h4 class="text-xs font-bold text-white">Alpha Engine</h4>
-                                <p class="text-[10px] text-slate-700">Polite & Academic</p>
+                                <p class="text-[10px] text-slate-700 dark:text-slate-200">Polite & Academic</p>
                             </div>
                         </button>
                         <button onclick="setPersonality('nova')" id="per-nova"
@@ -792,7 +792,7 @@
                                     class="fa-solid fa-ghost"></i></span>
                             <div>
                                 <h4 class="text-xs font-bold text-white">Nova Engine</h4>
-                                <p class="text-[10px] text-slate-700">Critical & Analytical</p>
+                                <p class="text-[10px] text-slate-700 dark:text-slate-200">Critical & Analytical</p>
                             </div>
                         </button>
                         <button onclick="setPersonality('luna')" id="per-luna"
@@ -802,7 +802,7 @@
                                     class="fa-solid fa-spa"></i></span>
                             <div>
                                 <h4 class="text-xs font-bold text-white">Luna Engine</h4>
-                                <p class="text-[10px] text-slate-700">Creative & Philosophical</p>
+                                <p class="text-[10px] text-slate-700 dark:text-slate-200">Creative & Philosophical</p>
                             </div>
                         </button>
                     </div>
@@ -811,7 +811,7 @@
                     <h4 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5"><i
                             class="fa-solid fa-database text-indigo-400"></i> AI Memory Status</h4>
                     <div
-                        class="p-3 bg-slate-950/60 rounded-xl border border-slate-800/80 space-y-1.5 text-[11px] text-slate-700 font-mono">
+                        class="p-3 bg-slate-950/60 rounded-xl border border-slate-800/80 space-y-1.5 text-[11px] text-slate-700 font-mono dark:text-slate-200">
                         <div>Model: <span id="mem-model-type" class="text-indigo-300">6.0 AI Core</span></div>
                         <div>Extracted Topics: <span class="text-emerald-300">Active</span></div>
                         <div>Dictionary Keys: <span id="mem-word-count" class="text-indigo-300">Loading...</span></div>
@@ -848,7 +848,7 @@
                             persistent memory, a Math.js integration for true calculus and algebra, and smart Intent
                             Recognition. If you enter an API key via the settings gear above, I become fully live.
                             Otherwise, my massive offline Knowledge Graph handles everything.<br>
-                            <span class="text-xs text-slate-700 mt-2 block leading-relaxed">Try typing: <br>• <code
+                            <span class="text-xs text-slate-700 mt-2 block leading-relaxed dark:text-slate-200">Try typing: <br>• <code
                                     class="bg-slate-900/80 px-1.5 py-0.5 rounded text-indigo-300">derivative of 4x^3 + 2x</code>
                                 <br>• <code
                                     class="bg-slate-900/80 px-1.5 py-0.5 rounded text-teal-300">analyze the nuances of aerodynamics</code><br>•
@@ -859,7 +859,7 @@
                 </div>
 
                 <div id="chat-typing"
-                    class="hidden px-4 py-2 flex gap-2 items-center text-xs text-slate-800 bg-slate-900/50 z-10">
+                    class="hidden px-4 py-2 flex gap-2 items-center text-xs text-slate-800 bg-slate-900/50 z-10 dark:text-slate-200">
                     <i class="fa-solid fa-circle-notch animate-spin text-indigo-500"></i> <span
                         id="typing-bot-name">Alpha</span> is processing query...
                 </div>
@@ -897,7 +897,7 @@
                     <div class="flex items-end gap-3 w-full">
                         <textarea id="chat-input" rows="1" oninput="updateMathPreview('chat-input', 'chat-preview')"
                             placeholder="Type a message, physics problem, or use LaTeX..."
-                            class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-100 placeholder:text-slate-800 transition duration-150 resize-none overflow-hidden max-h-[150px]"></textarea>
+                            class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-100 placeholder:text-slate-800 transition duration-150 resize-none overflow-hidden max-h-[150px] dark:text-slate-200"></textarea>
                         <button type="submit"
                             class="bg-indigo-600 hover:bg-indigo-500 text-white w-11 h-11 rounded-xl flex items-center justify-center transition shadow-lg shadow-indigo-600/20 shrink-0 font-bold mb-0.5">
                             <i class="fa-solid fa-paper-plane text-sm"></i>
@@ -914,14 +914,14 @@
                     <div>
                         <h3 class="text-base font-bold text-slate-100 flex items-center gap-2"><i
                                 class="fa-solid fa-file-signature text-indigo-400"></i> Smart Document Writer</h3>
-                        <p class="text-xs text-slate-700 mt-2">Generates unique, massive analyses by dynamically
+                        <p class="text-xs text-slate-700 mt-2 dark:text-slate-200">Generates unique, massive analyses by dynamically
                             assembling procedural text structures from our database.</p>
                     </div>
 
                     <div class="space-y-4">
                         <div>
                             <label
-                                class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Composition
+                                class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">Composition
                                 Mode</label>
                             <select id="composer-mode" onchange="switchComposerMode()"
                                 class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
@@ -931,7 +931,7 @@
                         </div>
                         <div>
                             <label
-                                class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Prompt
+                                class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">Prompt
                                 or Interdisciplinary Topic</label>
                             <textarea id="composer-topic" rows="3"
                                 placeholder="e.g., The intersection of Aerospace Engineering, Orbital Mechanics, and Astronomy"
@@ -940,7 +940,7 @@
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label
-                                    class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Narrative
+                                    class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">Narrative
                                     Tone</label>
                                 <select id="composer-style"
                                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
@@ -952,7 +952,7 @@
                             </div>
                             <div>
                                 <label
-                                    class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Length</label>
+                                    class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">Length</label>
                                 <select id="composer-length"
                                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
                                     <option value="medium">Standard Length</option>
@@ -977,23 +977,23 @@
                     class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-3">
                     <div class="flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span><span
-                            class="text-xs font-bold text-slate-700 uppercase tracking-wider">Output Paper Draft</span>
+                            class="text-xs font-bold text-slate-700 uppercase tracking-wider dark:text-slate-200">Output Paper Draft</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="copyEssayToClipboard()"
-                            class="text-xs text-slate-700 hover:text-indigo-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                            class="text-xs text-slate-700 hover:text-indigo-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5 dark:text-slate-200"><i
                                 class="fa-solid fa-copy"></i> Copy</button>
                         <button onclick="exportEssayTXT()"
-                            class="text-xs text-slate-700 hover:text-indigo-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                            class="text-xs text-slate-700 hover:text-indigo-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5 dark:text-slate-200"><i
                                 class="fa-solid fa-file-lines"></i> .TXT</button>
                         <button onclick="exportEssayPDF()"
-                            class="text-xs text-slate-700 hover:text-indigo-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5"><i
+                            class="text-xs text-slate-700 hover:text-indigo-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700/60 transition flex items-center gap-1.5 dark:text-slate-200"><i
                                 class="fa-solid fa-file-pdf"></i> .PDF</button>
                     </div>
                 </div>
                 <div id="essay-paper"
                     class="flex-grow overflow-y-auto max-h-[420px] bg-slate-950/60 border border-slate-850 p-6 rounded-xl leading-relaxed text-slate-300 text-sm space-y-4 font-sans">
-                    <div class="text-center italic text-slate-800 py-20">
+                    <div class="text-center italic text-slate-800 py-20 dark:text-slate-200">
                         <i class="fa-solid fa-file-invoice text-3xl mb-3 block opacity-40"></i><br>Select your
                         parameters and click "Synthesize" to extract facts, rephrase sentences, and weave them together
                         dynamically.
@@ -1069,7 +1069,7 @@
                 </div>
                 <div id="humanizer-output"
                     class="flex-grow overflow-y-auto max-h-[360px] bg-slate-950/60 border border-slate-850 p-6 rounded-xl leading-relaxed text-slate-300 text-sm space-y-4 font-sans">
-                    <div class="text-center italic text-slate-800 py-20">
+                    <div class="text-center italic text-slate-800 py-20 dark:text-slate-200">
                         <i class="fa-solid fa-face-smile text-3xl mb-3 block opacity-40"></i><br>Humanized prose with
                         natural dynamic phrasing variations will generate here.
                     </div>
@@ -1084,7 +1084,7 @@
                     <div>
                         <h3 class="text-base font-bold text-slate-100 flex items-center gap-2"><i
                                 class="fa-solid fa-calculator text-teal-400"></i> Math & Physics Solver</h3>
-                        <p class="text-xs text-slate-700 mt-2">Configure parameters below, or enter any complex
+                        <p class="text-xs text-slate-700 mt-2 dark:text-slate-200">Configure parameters below, or enter any complex
                             physical/algebraic word problem directly in the chatbot for automatic parsing using Math.js!
                         </p>
                     </div>
@@ -1092,7 +1092,7 @@
                     <div class="space-y-4">
                         <div>
                             <label
-                                class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Physics
+                                class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 dark:text-slate-200">Physics
                                 Model</label>
                             <select id="solver-module" onchange="switchSolverModule()"
                                 class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-teal-500">
@@ -1105,13 +1105,13 @@
                         </div>
                         <div class="bg-slate-950/60 border border-slate-850 p-4 rounded-xl space-y-3">
                             <div id="form-natural" class="solver-form hidden space-y-3">
-                                <p class="text-[11px] text-slate-700 italic">Type a non-straightforward physics problem
+                                <p class="text-[11px] text-slate-700 italic dark:text-slate-200">Type a non-straightforward physics problem
                                     in natural language. The AI engine will extract variables, auto-detect the
                                     necessary formulas (from 200+ stored), and chain them together to find the solution.
                                 </p>
                                 <div>
                                     <label
-                                        class="text-[10px] text-slate-800 block mb-1 font-bold uppercase tracking-widest">Problem
+                                        class="text-[10px] text-slate-800 block mb-1 font-bold uppercase tracking-widest dark:text-slate-200">Problem
                                         Description & Equation Input</label>
                                     <div class="flex gap-1 mb-2 overflow-x-auto scrollbar-none">
                                         <button type="button" onclick="insertMath('natural-nlp-input', '\\frac{}{}')"
@@ -1133,65 +1133,65 @@
                                 </div>
                             </div>
                             <div id="form-inclined" class="solver-form space-y-3">
-                                <p class="text-[11px] text-slate-700 italic">Analyzes gravitational vector decomposition
+                                <p class="text-[11px] text-slate-700 italic dark:text-slate-200">Analyzes gravitational vector decomposition
                                     on inclined plane systems ($F_{\parallel} = m g \sin\theta$).</p>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Mass $m$
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Mass $m$
                                             (kg)</label><input type="number" id="inclined-mass" value="10" step="any"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-xs text-white">
                                     </div>
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Angle $\theta$
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Angle $\theta$
                                             (deg)</label><input type="number" id="inclined-angle" value="30" step="any"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-2 text-xs text-white">
                                     </div>
                                 </div>
                             </div>
                             <div id="form-centripetal" class="solver-form hidden space-y-3">
-                                <p class="text-[11px] text-slate-700 italic">Solves circular motion mechanics ($F_c =
+                                <p class="text-[11px] text-slate-700 italic dark:text-slate-200">Solves circular motion mechanics ($F_c =
                                     \frac{m v^2}{r}$).</p>
                                 <div class="grid grid-cols-3 gap-2">
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Mass $m$
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Mass $m$
                                             (kg)</label><input type="number" id="cent-mass" value="5"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                                     </div>
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Velocity $v$
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Velocity $v$
                                             (m/s)</label><input type="number" id="cent-velocity" value="12"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                                     </div>
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Radius $r$
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Radius $r$
                                             (m)</label><input type="number" id="cent-radius" value="3"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                                     </div>
                                 </div>
                             </div>
                             <div id="form-thermal" class="solver-form hidden space-y-3">
-                                <p class="text-[11px] text-slate-700 italic">Models heat transfer equations ($Q = m c
+                                <p class="text-[11px] text-slate-700 italic dark:text-slate-200">Models heat transfer equations ($Q = m c
                                     \Delta T$).</p>
                                 <div class="grid grid-cols-3 gap-2">
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Mass (kg)</label><input
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Mass (kg)</label><input
                                             type="number" id="therm-mass" value="2"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                                     </div>
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Specific Heat
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Specific Heat
                                             ($c$)</label><input type="number" id="therm-c" value="4184"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                                     </div>
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Temp Diff ($\Delta
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Temp Diff ($\Delta
                                             T$)</label><input type="number" id="therm-dt" value="15"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                                     </div>
                                 </div>
                             </div>
                             <div id="form-quad" class="solver-form hidden space-y-3">
-                                <p class="text-[11px] text-slate-700 italic">Algebraic solutions and power-rule symbolic
+                                <p class="text-[11px] text-slate-700 italic dark:text-slate-200">Algebraic solutions and power-rule symbolic
                                     derivatives.</p>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Equation /
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Equation /
                                             Poly</label><input type="text" id="solve-algebraic-input"
                                             value="4x^3 - 3x^2 + 8"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white code-font">
                                     </div>
-                                    <div><label class="text-[10px] text-slate-800 block mb-1">Action</label><select
+                                    <div><label class="text-[10px] text-slate-800 block mb-1 dark:text-slate-200">Action</label><select
                                             id="solve-algebraic-action"
                                             class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                                             <option value="derivative">Find Derivative</option>
@@ -1214,7 +1214,7 @@
                 class="lg:col-span-8 bg-slate-900/30 border border-slate-800/60 rounded-2xl p-6 flex flex-col justify-between min-h-[500px]">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
                     <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span><span
-                            class="text-xs font-bold text-slate-700 uppercase tracking-wider">Symbolic Resolution
+                            class="text-xs font-bold text-slate-700 uppercase tracking-wider dark:text-slate-200">Symbolic Resolution
                             Trace</span></div>
                     <span
                         class="text-[10px] text-teal-400 font-mono bg-teal-500/10 px-2 py-0.5 rounded border border-teal-500/20">Offline
@@ -1222,7 +1222,7 @@
                 </div>
                 <div id="solver-paper"
                     class="flex-grow overflow-y-auto max-h-[420px] bg-slate-950/60 border border-slate-850 p-6 rounded-xl leading-relaxed text-slate-300 text-sm space-y-4 font-sans">
-                    <div class="text-center italic text-slate-800 py-20"><i
+                    <div class="text-center italic text-slate-800 py-20 dark:text-slate-200"><i
                             class="fa-solid fa-calculator text-3xl mb-3 block opacity-40"></i><br>Please select your
                         analytical options and click "Compute & Solve".</div>
                 </div>
@@ -1237,7 +1237,7 @@
                     <div>
                         <h3 class="text-base font-bold text-slate-100 flex items-center gap-2"><i
                                 class="fa-solid fa-upload text-violet-400"></i> Local ML Training Sandbox</h3>
-                        <p class="text-xs text-slate-700">Upload datasets or raw texts offline to train mathematical or
+                        <p class="text-xs text-slate-700 dark:text-slate-200">Upload datasets or raw texts offline to train mathematical or
                             custom text generation models!</p>
                     </div>
                     <div id="drop-zone"
@@ -1247,13 +1247,13 @@
                             accept=".txt,.csv,.json,.docx">
                         <i class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-400 mb-2"></i>
                         <h5 class="text-xs font-bold text-slate-200">Drag & Drop or Click to Upload</h5>
-                        <p class="text-[10px] text-slate-800 mt-1">Accepts raw text (.txt), Word docs (.docx),
+                        <p class="text-[10px] text-slate-800 mt-1 dark:text-slate-200">Accepts raw text (.txt), Word docs (.docx),
                             coordinate tables (.csv), or structured JSON arrays</p>
                     </div>
                     <div id="uploaded-files-list" class="space-y-1.5 mt-3 max-h-32 overflow-y-auto custom-scrollbar">
                     </div>
                     <div class="space-y-2">
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Inject
+                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider dark:text-slate-200">Inject
                             Synthesized Test Datasets</label>
                         <div class="grid grid-cols-1 gap-2">
                             <button onclick="injectSampleMarkovDataset()"
@@ -1263,7 +1263,7 @@
                     </div>
                 </div>
                 <div class="border-t border-slate-800/80 pt-4 mt-4 space-y-2">
-                    <div class="flex justify-between text-xs font-mono text-slate-700">
+                    <div class="flex justify-between text-xs font-mono text-slate-700 dark:text-slate-200">
                         <span>Regression Status: <strong class="text-emerald-400">Live</strong></span>
                         <span>Markov Vocabulary: <strong id="ml-vocab-size" class="text-indigo-400">0
                                 words</strong></span>
@@ -1273,7 +1273,7 @@
                 <div
                     class="mt-4 p-4 bg-slate-950/80 border border-slate-800/60 rounded-xl flex flex-col justify-between">
                     <div>
-                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-800">Mimic Engine Chat
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-800 dark:text-slate-200">Mimic Engine Chat
                             (Markov)</span>
                         <div class="mt-2 flex items-center gap-2">
                             <input type="text" id="markov-seed" placeholder="Ask anything..."
@@ -1289,7 +1289,7 @@
                 </div>
                 <button
                     onclick="if(confirm('Are you sure you want to flush all training weights and models?')) clearSandboxModels()"
-                    class="w-full mt-4 py-2 border border-slate-800 hover:border-slate-700 bg-slate-950 text-xs text-slate-700 hover:text-rose-400 font-semibold rounded-lg transition">Flush
+                    class="w-full mt-4 py-2 border border-slate-800 hover:border-slate-700 bg-slate-950 text-xs text-slate-700 hover:text-rose-400 font-semibold rounded-lg transition dark:text-slate-200">Flush
                     Training Weights</button>
             </div>
             <div
@@ -1297,14 +1297,14 @@
                 <div>
                     <h4 class="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-1 font-mono">TRAINING_LOGS
                         // Matrix Weights</h4>
-                    <p class="text-xs text-slate-700 mb-4">View the resulting metrics, regression graphs, or synthesized
+                    <p class="text-xs text-slate-700 mb-4 dark:text-slate-200">View the resulting metrics, regression graphs, or synthesized
                         sentences below.</p>
                 </div>
                 <div
                     class="relative bg-slate-950 border border-slate-850 p-4 rounded-xl flex flex-col items-center justify-center aspect-video w-full my-3">
                     <canvas id="regression-canvas" class="block w-full h-full max-h-[180px]"></canvas>
                     <div id="ml-no-data-tag"
-                        class="absolute italic text-xs text-slate-900 flex flex-col items-center gap-2">
+                        class="absolute italic text-xs text-slate-900 flex flex-col items-center gap-2 dark:text-slate-200">
                         <i class="fa-solid fa-circle-nodes text-2xl"></i> No numeric coordinate data mapped. Inject a
                         sample set or upload a .csv file above!
                     </div>
@@ -1312,14 +1312,14 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="p-4 bg-slate-950/80 border border-slate-800/60 rounded-xl">
-                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-800">Linear Slope Model
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-800 dark:text-slate-200">Linear Slope Model
                             ($y = mx + c$)</span>
                         <div class="space-y-1.5 mt-2.5 text-xs font-mono">
-                            <div class="flex justify-between"><span class="text-slate-700">Slope Coefficient
+                            <div class="flex justify-between"><span class="text-slate-700 dark:text-slate-200">Slope Coefficient
                                     ($m$):</span><span id="reg-stat-slope" class="text-white">0.00</span></div>
-                            <div class="flex justify-between"><span class="text-slate-700">Intercept ($c$):</span><span
+                            <div class="flex justify-between"><span class="text-slate-700 dark:text-slate-200">Intercept ($c$):</span><span
                                     id="reg-stat-intercept" class="text-white">0.00</span></div>
-                            <div class="flex justify-between"><span class="text-slate-700">Correlation Coefficient
+                            <div class="flex justify-between"><span class="text-slate-700 dark:text-slate-200">Correlation Coefficient
                                     ($R$):</span><span id="reg-stat-r" class="text-emerald-400 font-bold">0.00</span>
                             </div>
                         </div>
@@ -1327,9 +1327,9 @@
                     <div
                         class="p-4 bg-slate-950/80 border border-slate-800/60 rounded-xl flex flex-col justify-between">
                         <div>
-                            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-800">Inject
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-800 dark:text-slate-200">Inject
                                 Data</span>
-                            <p class="text-xs text-slate-700 mt-2">Load a predefined sample dataset to test the linear
+                            <p class="text-xs text-slate-700 mt-2 dark:text-slate-200">Load a predefined sample dataset to test the linear
                                 regression plotting and stat generation.</p>
                         </div>
                         <button onclick="injectSampleRegressionDataset()"
@@ -1348,7 +1348,7 @@
                 <div class="w-full mb-3">
                     <h3 class="text-base font-bold text-slate-100 flex items-center gap-2"><i
                             class="fa-solid fa-palette text-teal-400"></i> Geometric Canvas Classifier</h3>
-                    <p class="text-xs text-slate-700">Draw a single-stroke shape (Circle, Square, Triangle, or Straight
+                    <p class="text-xs text-slate-700 dark:text-slate-200">Draw a single-stroke shape (Circle, Square, Triangle, or Straight
                         Line) to evaluate geometric features locally.</p>
                 </div>
                 <div
@@ -1373,7 +1373,7 @@
                         <div id="shape-prediction" class="text-sm font-black text-slate-800 dark:text-white mt-0.5">NO SHAPE DRAWN</div>
                     </div>
                     <div class="text-right"><span
-                            class="text-[10px] uppercase font-bold tracking-widest text-slate-700">Confidence</span>
+                            class="text-[10px] uppercase font-bold tracking-widest text-slate-700 dark:text-slate-200">Confidence</span>
                         <div id="shape-confidence" class="text-sm font-bold font-mono text-emerald-400 mt-0.5">0%</div>
                     </div>
                 </div>
@@ -1383,24 +1383,24 @@
                 <div class="mb-4">
                     <h3 class="text-base font-bold text-slate-100 flex items-center gap-2"><i
                             class="fa-solid fa-brain text-violet-400"></i> Markov Game Pattern Learner</h3>
-                    <p class="text-xs text-slate-700">The AI constructs transition probability matrices based on your
+                    <p class="text-xs text-slate-700 dark:text-slate-200">The AI constructs transition probability matrices based on your
                         historical moves. Can you defeat the predictive heuristic?</p>
                 </div>
                 <div class="grid grid-cols-4 gap-2 bg-slate-950 p-4 rounded-xl border border-slate-800/60 text-center">
                     <div>
-                        <div class="text-[10px] uppercase text-slate-700 font-bold">User Wins</div>
+                        <div class="text-[10px] uppercase text-slate-700 font-bold dark:text-slate-200">User Wins</div>
                         <div id="rps-user" class="text-xl font-extrabold text-emerald-400 mt-0.5">0</div>
                     </div>
                     <div>
-                        <div class="text-[10px] uppercase text-slate-700 font-bold">AI Wins</div>
+                        <div class="text-[10px] uppercase text-slate-700 font-bold dark:text-slate-200">AI Wins</div>
                         <div id="rps-ai" class="text-xl font-extrabold text-indigo-400 mt-0.5">0</div>
                     </div>
                     <div>
-                        <div class="text-[10px] uppercase text-slate-700 font-bold">Ties</div>
-                        <div id="rps-ties" class="text-xl font-extrabold text-slate-700 mt-0.5">0</div>
+                        <div class="text-[10px] uppercase text-slate-700 font-bold dark:text-slate-200">Ties</div>
+                        <div id="rps-ties" class="text-xl font-extrabold text-slate-700 mt-0.5 dark:text-slate-200">0</div>
                     </div>
                     <div>
-                        <div class="text-[10px] uppercase text-slate-700 font-bold">Win Rate</div>
+                        <div class="text-[10px] uppercase text-slate-700 font-bold dark:text-slate-200">Win Rate</div>
                         <div id="rps-rate" class="text-xl font-extrabold text-teal-400 mt-0.5">0%</div>
                     </div>
                 </div>
@@ -1420,11 +1420,11 @@
                 </div>
                 <div
                     class="p-3 bg-slate-950/40 border border-slate-800 rounded-xl flex items-center justify-around text-center text-xs">
-                    <div><span class="text-[10px] uppercase text-slate-800 tracking-wider">You Played</span>
+                    <div><span class="text-[10px] uppercase text-slate-800 tracking-wider dark:text-slate-200">You Played</span>
                         <div id="rps-player-choice" class="text-2xl my-1">➖</div>
                     </div>
-                    <div class="font-extrabold text-slate-900">VS</div>
-                    <div><span class="text-[10px] uppercase text-slate-800 tracking-wider">AI Counter</span>
+                    <div class="font-extrabold text-slate-900 dark:text-slate-200">VS</div>
+                    <div><span class="text-[10px] uppercase text-slate-800 tracking-wider dark:text-slate-200">AI Counter</span>
                         <div id="rps-ai-choice" class="text-2xl my-1">➖</div>
                     </div>
                 </div>
@@ -1512,7 +1512,7 @@
     </main>
 
     <footer
-        class="mt-auto border-t border-slate-900 bg-slate-950 px-4 py-4 md:px-8 text-center text-xs text-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3">
+        class="mt-auto border-t border-slate-900 bg-slate-950 px-4 py-4 md:px-8 text-center text-xs text-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3 dark:text-slate-200">
         <p>&copy; 2026 Anthocyan AI AI Suite. Crafted with client-side mathematical and linguistic compilers.</p>
         <div class="flex gap-4">
             <span class="flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> Hybrid Engine
@@ -3358,7 +3358,7 @@
                 <div class="space-y-3 no-humanize">
                     <p class="text-emerald-400 font-semibold flex items-center gap-1.5 text-xs"><i class="fa-solid fa-square-check"></i> Smart Writing Engine Activated</p>
                     <p class="text-xs text-slate-300">Generated a custom research document for <strong class="text-indigo-300">"${escapeHTML(titleCasedTopic)}"</strong> by extracting, rephrasing, and cross-referencing nodes from the offline Knowledge Graph.</p>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-700 text-xs leading-relaxed max-h-48 overflow-y-auto mt-2">
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-700 text-xs leading-relaxed max-h-48 overflow-y-auto mt-2 dark:text-slate-200">
                         ${humanizedCompiledText}
                     </div>
                 </div>
@@ -3500,13 +3500,13 @@
                 }
                 if (solvedVars.length > 0) {
                     let html = `<div class="space-y-2 no-humanize"><h4 class="text-teal-400 font-bold text-sm"><i class="fa-solid fa-wand-magic-sparkles"></i> Heuristic Solver Chain</h4>`;
-                    html += `<p class="text-[10px] text-slate-700">Extracted: ${Object.entries(nlpVars.knowns).map(([k, v]) => `<span class="text-slate-200">${k}</span>=<span class="text-emerald-400">${typeof v === 'number' ? parseFloat(v.toFixed(6)) : v}</span>`).join(', ')}</p>`;
+                    html += `<p class="text-[10px] text-slate-700 dark:text-slate-200">Extracted: ${Object.entries(nlpVars.knowns).map(([k, v]) => `<span class="text-slate-200">${k}</span>=<span class="text-emerald-400">${typeof v === 'number' ? parseFloat(v.toFixed(6)) : v}</span>`).join(', ')}</p>`;
                     if (conceptNotes.length > 0) {
                         conceptNotes.forEach(note => {
                             html += `<p class="text-[10px] text-indigo-300"><i class="fa-solid fa-lightbulb text-amber-400"></i> ${note}</p>`;
                         });
                     }
-                    html += solvedVars.map(s => `<div class="p-2 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono"><span class="text-slate-800">${s.eq}</span><br><span class="text-emerald-400">${s.unk} = ${Math.abs(s.val) < 0.001 || Math.abs(s.val) > 99999 ? s.val.toExponential(4) : parseFloat(s.val.toFixed(6))}</span></div>`).join('');
+                    html += solvedVars.map(s => `<div class="p-2 bg-slate-950 border border-slate-800 rounded text-[10px] font-mono"><span class="text-slate-800 dark:text-slate-200">${s.eq}</span><br><span class="text-emerald-400">${s.unk} = ${Math.abs(s.val) < 0.001 || Math.abs(s.val) > 99999 ? s.val.toExponential(4) : parseFloat(s.val.toFixed(6))}</span></div>`).join('');
                     if (target && target in currentKnowns) {
                         let finalVal = currentKnowns[target];
                         html += `<div class="p-3 bg-emerald-950/50 border border-emerald-500/30 rounded-lg mt-1"><p class="text-emerald-400 font-bold"><i class="fa-solid fa-check-circle"></i> Answer: <span class="font-mono text-lg">${target} = ${Math.abs(finalVal) < 0.001 || Math.abs(finalVal) > 99999 ? finalVal.toExponential(4) : parseFloat(finalVal.toFixed(6))}</span></p></div>`;
@@ -3866,7 +3866,7 @@
                         outputHTML = `<p class="text-xs text-rose-400">Could not detect any physics variables or units. Please use standard units like kg, m/s, s, N, J, W, V, etc.</p>`;
                     } else {
                         let stepsHTML = `<div class="space-y-3 text-xs"><h4 class="text-sm font-bold text-teal-400"><i class="fa-solid fa-wand-magic-sparkles"></i> NLP Multi-Formula Solver Chain</h4>`;
-                        stepsHTML += `<p class="text-slate-700">Extracted Knowns: ${Object.entries(knowns).map(([k, v]) => `<span class="text-slate-200 font-mono">${k}</span>=<span class="text-emerald-400 font-mono">${typeof v === 'number' ? (Math.abs(v) < 0.001 || Math.abs(v) > 99999 ? v.toExponential(4) : parseFloat(v.toFixed(6))) : v}</span>`).join(', ')}</p>`;
+                        stepsHTML += `<p class="text-slate-700 dark:text-slate-200">Extracted Knowns: ${Object.entries(knowns).map(([k, v]) => `<span class="text-slate-200 font-mono">${k}</span>=<span class="text-emerald-400 font-mono">${typeof v === 'number' ? (Math.abs(v) < 0.001 || Math.abs(v) > 99999 ? v.toExponential(4) : parseFloat(v.toFixed(6))) : v}</span>`).join(', ')}</p>`;
                         if (target) stepsHTML += `<p class="text-indigo-400"><i class="fa-solid fa-crosshairs"></i> Detected Target: <span class="font-mono font-bold">${target}</span></p>`;
 
                         // Show concept notes if any
@@ -3914,7 +3914,7 @@
                                             changed = true;
 
                                             stepsHTML += `<div class="p-2 bg-slate-950 border border-slate-800 rounded">
-                                        <p class="text-[10px] text-slate-800 mb-1">Applying: <span class="text-slate-300 font-mono">${eq}</span></p>
+                                        <p class="text-[10px] text-slate-800 mb-1 dark:text-slate-200">Applying: <span class="text-slate-300 font-mono">${eq}</span></p>
                                         <p class="text-emerald-400 font-mono">Found ${unk} = ${Math.abs(val) < 0.001 || Math.abs(val) > 99999 ? val.toExponential(4) : parseFloat(val.toFixed(6))}</p>
                                     </div>`;
 
@@ -4724,7 +4724,7 @@
                         <i class="fa-solid fa-file-lines text-indigo-400 text-xs"></i>
                         <span class="text-xs text-slate-300 truncate">${file.name}</span>
                     </div>
-                    <button onclick="removeUploadedFile(${index}, event)" class="text-slate-800 hover:text-rose-400 p-1 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-xs"></i></button>
+                    <button onclick="removeUploadedFile(${index}, event)" class="text-slate-800 hover:text-rose-400 p-1 opacity-0 group-hover:opacity-100 transition dark:text-slate-200"><i class="fa-solid fa-xmark text-xs"></i></button>
                 `;
                 listEl.appendChild(item);
             });
@@ -4779,7 +4779,7 @@
             </div>
             <div class="p-4 overflow-y-auto flex-grow bg-slate-950">
                 <pre id="file-preview-content"
-                    class="text-xs text-slate-700 font-mono whitespace-pre-wrap word-break"></pre>
+                    class="text-xs text-slate-700 font-mono whitespace-pre-wrap word-break dark:text-slate-200"></pre>
             </div>
         </div>
     </div>

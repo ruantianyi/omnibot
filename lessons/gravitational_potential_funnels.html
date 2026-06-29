@@ -96,16 +96,16 @@
     #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
     [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900 dark:text-slate-200">
 
     <!-- Sticky Navigation -->
     <nav class="fixed top-0 w-full glass-panel z-50 shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white font-bold font-serif">G</div>
-                <span class="font-bold text-lg text-slate-900 tracking-tight">Gravitational Potential Funnels</span>
+                <span class="font-bold text-lg text-slate-900 tracking-tight dark:text-slate-200">Gravitational Potential Funnels</span>
             </div>
-            <div class="hidden md:flex gap-6 text-sm font-semibold text-slate-900">
+            <div class="hidden md:flex gap-6 text-sm font-semibold text-slate-900 dark:text-slate-200">
                 <a href="#governing-physics" class="hover:text-primary-600 transition-colors">1. Governing Physics</a>
                 <a href="#well-geometry" class="hover:text-primary-600 transition-colors">2. Well Geometry & Derivations</a>
                 <a href="#master-strategy" class="hover:text-primary-600 transition-colors">3. Master Strategy</a>
@@ -121,8 +121,8 @@
     <header class="pt-32 pb-16 px-4 bg-white border-b border-slate-200">
         <div class="max-w-4xl mx-auto text-center">
             <h4 class="text-primary-600 font-bold tracking-widest uppercase text-sm mb-3">Chapter 10</h4>
-            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6">Planetary Gravitational Potential Funnels</h1>
-            <p class="text-lg text-slate-900 leading-relaxed max-w-2xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6 dark:text-slate-200">Planetary Gravitational Potential Funnels</h1>
+            <p class="text-lg text-slate-900 leading-relaxed max-w-2xl mx-auto dark:text-slate-200">
                 Discover the spatial mechanics of gravity. We will map the invisible, deep hyperbolic wells created by massive celestial bodies, calculate the exact energy required to escape them, and master complex orbital superposition calculations.
             </p>
         </div>
@@ -134,10 +134,10 @@
         <section id="governing-physics" class="scroll-mt-24">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">1</div>
-                <h2 class="text-3xl font-bold text-slate-900">The Governing Physics</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">The Governing Physics</h2>
             </div>
             
-            <div class="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed">
+            <div class="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed dark:text-slate-200">
                 <p>
                     Newton's law of universal gravitation mandates that every point mass attracts every other mass with a force pointing strictly along the line intersecting their centers. This force weakens as the inverse square of the distance between them.
                 </p>
@@ -148,8 +148,8 @@
 
             <!-- SIMULATION 1: The Energy Well Graph -->
             <div class="mt-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h3 class="text-xl font-bold text-slate-900 mb-2 font-sans">Interactive Viz: The 1D Potential Energy Well</h3>
-                <p class="text-sm text-slate-800 mb-6">Observe how the potential energy $U(r)$ approaches 0 at infinity, creating a hyperbolic "well". Adjust the object's total energy to see bounded vs. unbound states.</p>
+                <h3 class="text-xl font-bold text-slate-900 mb-2 font-sans dark:text-slate-200">Interactive Viz: The 1D Potential Energy Well</h3>
+                <p class="text-sm text-slate-800 mb-6 dark:text-slate-200">Observe how the potential energy $U(r)$ approaches 0 at infinity, creating a hyperbolic "well". Adjust the object's total energy to see bounded vs. unbound states.</p>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2 relative rounded-xl overflow-hidden border border-slate-700 bg-dark-900 aspect-video">
@@ -162,16 +162,16 @@
                     
                     <div class="flex flex-col justify-center space-y-6 bg-slate-50 p-6 rounded-xl border border-slate-100">
                         <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">Total Mechanical Energy ($E$)</label>
+                            <label class="block text-sm font-bold text-slate-700 mb-2 dark:text-slate-200">Total Mechanical Energy ($E$)</label>
                             <input type="range" id="energySlider" min="-100" max="50" value="-40" class="w-full accent-primary-600">
-                            <div class="flex justify-between text-xs text-slate-800 mt-1">
+                            <div class="flex justify-between text-xs text-slate-800 mt-1 dark:text-slate-200">
                                 <span>Bound ($E < 0$)</span>
                                 <span>Escape ($E \ge 0$)</span>
                             </div>
                         </div>
                         
                         <div class="p-4 rounded-lg bg-white border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-sm text-slate-800 mb-3 border-b pb-2">Real-time Kinematics</h4>
+                            <h4 class="font-bold text-sm text-slate-800 mb-3 border-b pb-2 dark:text-slate-200">Real-time Kinematics</h4>
                             <div class="space-y-2 font-mono text-sm">
                                 <div class="flex justify-between text-blue-600 font-bold">
                                     <span>Total Energy $E$:</span> <span id="val-E">-40 J</span>
@@ -183,7 +183,7 @@
                                     <span>Kinetic $K$:</span> <span id="val-K">+60 J</span>
                                 </div>
                             </div>
-                            <p id="orbit-status" class="mt-3 text-xs font-bold text-center py-1 rounded bg-slate-100 text-slate-900">
+                            <p id="orbit-status" class="mt-3 text-xs font-bold text-center py-1 rounded bg-slate-100 text-slate-900 dark:text-slate-200">
                                 Bounded Orbit (Elliptical)
                             </p>
                         </div>
@@ -206,11 +206,11 @@
         <section id="well-geometry" class="scroll-mt-24">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">2</div>
-                <h2 class="text-3xl font-bold text-slate-900">Mathematical Derivations & Well Geometry</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Mathematical Derivations & Well Geometry</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="prose prose-slate max-w-none text-slate-700">
+                <div class="prose prose-slate max-w-none text-slate-700 dark:text-slate-200">
                     <p>
                         The conservative gravitational force vector field generated by a planet of mass $M$ on a test mass $m$ is given by Newton's law:
                     </p>
@@ -225,7 +225,7 @@
                     </div>
                 </div>
 
-                <div class="prose prose-slate max-w-none text-slate-700">
+                <div class="prose prose-slate max-w-none text-slate-700 dark:text-slate-200">
                     <p>
                         Notice that mathematically, $U(r) \to 0$ as $r \to \infty$. This negative mapping explicitly indicates a <strong>bound energy state</strong>. The mass $m$ is trapped in the potential well and requires external energy to climb out.
                     </p>
@@ -272,7 +272,7 @@
                     </button>
 
                     <div class="mt-6 p-4 rounded-lg bg-dark-900 border border-slate-700">
-                        <div class="text-xs text-slate-700 mb-1">Escape Velocity Required:</div>
+                        <div class="text-xs text-slate-700 mb-1 dark:text-slate-200">Escape Velocity Required:</div>
                         <div class="font-mono text-accent-400 font-bold text-lg">10.0 km/s</div>
                     </div>
                 </div>
@@ -283,10 +283,10 @@
         <section id="master-strategy" class="scroll-mt-24">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">3</div>
-                <h2 class="text-3xl font-bold text-slate-900">Problem-Solving Master Strategy</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Problem-Solving Master Strategy</h2>
             </div>
             
-            <p class="text-lg text-slate-700 mb-8 max-w-3xl">
+            <p class="text-lg text-slate-700 mb-8 max-w-3xl dark:text-slate-200">
                 Advanced orbital mechanics problems often combine multiple gravitational sources or require precise energy transitions. Follow these three master protocols to avoid common calculation traps.
             </p>
 
@@ -296,11 +296,11 @@
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <svg class="w-16 h-16 text-primary-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 7.5l-10-5v3.5l10 5 10-5v-3.5l-10 5z"/></svg>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-primary-200 pb-2 inline-block">1. Superposition of Wells</h3>
-                    <p class="text-sm text-slate-900 leading-relaxed mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-primary-200 pb-2 inline-block dark:text-slate-200">1. Superposition of Wells</h3>
+                    <p class="text-sm text-slate-900 leading-relaxed mb-4 dark:text-slate-200">
                         If a satellite sits between two planets, compute the total potential energy by summing the individual <strong>scalar values</strong>. Never use vector components for energy!
                     </p>
-                    <div class="bg-slate-50 p-3 rounded font-mono text-xs text-slate-800 border border-slate-200">
+                    <div class="bg-slate-50 p-3 rounded font-mono text-xs text-slate-800 border border-slate-200 dark:text-slate-200">
                         $$U_{\text{net}} = -\frac{GM_1m}{r_1} - \frac{GM_2m}{r_2}$$
                     </div>
                 </div>
@@ -310,8 +310,8 @@
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <svg class="w-16 h-16 text-accent-600" fill="currentColor" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-accent-200 pb-2 inline-block">2. Escape Reference Check</h3>
-                    <p class="text-sm text-slate-900 leading-relaxed">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-accent-200 pb-2 inline-block dark:text-slate-200">2. Escape Reference Check</h3>
+                    <p class="text-sm text-slate-900 leading-relaxed dark:text-slate-200">
                         When calculating escape velocities from deep planetary surfaces, remember to use the planet's radius $R$ for the starting distance $r$. If launching from altitude $h$, use $r = R + h$. Altitude is <strong>never</strong> the absolute radius $r$.
                     </p>
                 </div>
@@ -321,11 +321,11 @@
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <svg class="w-16 h-16 text-orange-600" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-orange-200 pb-2 inline-block">3. Work Requirements</h3>
-                    <p class="text-sm text-slate-900 leading-relaxed mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b-2 border-orange-200 pb-2 inline-block dark:text-slate-200">3. Work Requirements</h3>
+                    <p class="text-sm text-slate-900 leading-relaxed mb-4 dark:text-slate-200">
                         To move an orbit from radius $r_1$ out to $r_2$, calculate work via $\Delta E = E_f - E_i$. Crucially, for <strong>circular orbits</strong>, use the total mechanical energy formula which accounts for kinetic orbital velocity:
                     </p>
-                    <div class="bg-slate-50 p-3 rounded font-mono text-xs text-slate-800 border border-slate-200">
+                    <div class="bg-slate-50 p-3 rounded font-mono text-xs text-slate-800 border border-slate-200 dark:text-slate-200">
                         $$E = -\frac{GMm}{2r}$$
                     </div>
                 </div>
@@ -335,8 +335,8 @@
             <div class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 font-sans">Binary System Superposition Profiler</h3>
-                        <p class="text-sm text-slate-800 mt-1">Visualize the scalar addition of two intersecting gravitational wells. Observe the Lagrange point (L1) peak between them.</p>
+                        <h3 class="text-xl font-bold text-slate-900 font-sans dark:text-slate-200">Binary System Superposition Profiler</h3>
+                        <p class="text-sm text-slate-800 mt-1 dark:text-slate-200">Visualize the scalar addition of two intersecting gravitational wells. Observe the Lagrange point (L1) peak between them.</p>
                     </div>
                 </div>
                 
@@ -346,15 +346,15 @@
                 
                 <div class="mt-6 flex flex-wrap gap-8 justify-center bg-slate-100 p-4 rounded-lg">
                     <div class="flex items-center gap-3">
-                        <label class="text-sm font-bold text-slate-700">Mass 1 ($M_1$)</label>
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-200">Mass 1 ($M_1$)</label>
                         <input type="range" id="mass1Slider" min="10" max="150" value="100" class="w-32 accent-blue-600">
                     </div>
                     <div class="flex items-center gap-3">
-                        <label class="text-sm font-bold text-slate-700">Mass 2 ($M_2$)</label>
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-200">Mass 2 ($M_2$)</label>
                         <input type="range" id="mass2Slider" min="10" max="150" value="50" class="w-32 accent-orange-500">
                     </div>
                     <div class="flex items-center gap-3">
-                        <label class="text-sm font-bold text-slate-700">Separation Distance</label>
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-200">Separation Distance</label>
                         <input type="range" id="distSlider" min="200" max="600" value="400" class="w-32 accent-slate-600">
                     </div>
                 </div>
@@ -385,13 +385,13 @@
         <section id="quiz" class="scroll-mt-24 no-print">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
-                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Concept Check Quiz</h2>
             </div>
             
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-200">Test Your Knowledge</h3>
+                <p class="text-slate-900 mb-6 dark:text-slate-200">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -399,13 +399,13 @@
 
             <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900 dark:text-slate-200">Level 1</span>
                     </div>
                 </div>
                 
-                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium dark:text-slate-200">Question goes here...</div>
                 
                 <div id="mc-options" class="space-y-3 hidden">
                     <!-- Options injected here -->
@@ -424,16 +424,16 @@
             </div>
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
-                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
+                <h3 class="text-3xl font-bold text-slate-900 mb-2 dark:text-slate-200">Quiz Complete!</h3>
+                <p class="text-slate-900 mb-8 dark:text-slate-200">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
-                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition dark:text-slate-200">Retake Quiz</button>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-slate-900 text-slate-700 py-12 text-center text-sm border-t border-slate-800 mt-20">
+    <footer class="bg-slate-900 text-slate-700 py-12 text-center text-sm border-t border-slate-800 mt-20 dark:text-slate-200">
         <p class="max-w-xl mx-auto px-4">
             "The mathematical mapping of gravity reveals that the cosmos is not flat, but a deeply textured landscape of invisible energy wells."
         </p>

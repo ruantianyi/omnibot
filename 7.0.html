@@ -666,21 +666,21 @@ window.webllm = webllm;
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Planner (Qwen-2.5 0.5B)</h5>
-                                        <p class="text-[9px] text-slate-800">JSON/Step planner, ~350MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">JSON/Step planner, ~350MB RAM.</p>
                                     </div>
                                     <div id="controls-potato-planner" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Text (Qwen-2.5 0.5B)</h5>
-                                        <p class="text-[9px] text-slate-800">Fast fallback chat, ~350MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">Fast fallback chat, ~350MB RAM.</p>
                                     </div>
                                     <div id="controls-potato-text" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Coder (Qwen-2.5-Coder 0.5B)</h5>
-                                        <p class="text-[9px] text-slate-800">Regex/SQL snippets, ~350MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">Regex/SQL snippets, ~350MB RAM.</p>
                                     </div>
                                     <div id="controls-potato-coder" class="flex gap-1 ml-auto"></div>
                                 </div>
@@ -696,21 +696,21 @@ window.webllm = webllm;
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Planner (Llama-3.2 3B)</h5>
-                                        <p class="text-[9px] text-slate-800">Chain-of-thought routing, ~2.0GB RAM.</p>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">Chain-of-thought routing, ~2.0GB RAM.</p>
                                     </div>
                                     <div id="controls-medium-planner" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Text (Llama-3.2 1B)</h5>
-                                        <p class="text-[9px] text-slate-800">Advanced mobile assistant, ~750MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">Advanced mobile assistant, ~750MB RAM.</p>
                                     </div>
                                     <div id="controls-medium-text" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Coder (Qwen-2.5-Coder 1.5B)</h5>
-                                        <p class="text-[9px] text-slate-800">Complete logic/function gen, ~1.1GB RAM.</p>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">Complete logic/function gen, ~1.1GB RAM.</p>
                                     </div>
                                     <div id="controls-medium-coder" class="flex gap-1 ml-auto"></div>
                                 </div>
@@ -1646,7 +1646,7 @@ window.webllm = webllm;
                         class="relative bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 p-4 rounded-xl flex flex-col items-center justify-center aspect-video w-full my-3">
                         <canvas id="regression-canvas" class="block w-full h-full max-h-[180px]"></canvas>
                         <div id="ml-no-data-tag"
-                            class="absolute italic text-xs text-slate-900 flex flex-col items-center gap-2">
+                            class="absolute italic text-xs text-slate-900 flex flex-col items-center gap-2 dark:text-slate-200">
                             <i class="fa-solid fa-circle-nodes text-2xl"></i> No numeric coordinate data mapped. Inject
                             a
                             sample set or upload a .csv file above!
@@ -1790,7 +1790,7 @@ window.webllm = webllm;
                                 Played</span>
                             <div id="rps-player-choice" class="text-2xl my-1">❓</div>
                         </div>
-                        <div class="font-extrabold text-slate-900">VS</div>
+                        <div class="font-extrabold text-slate-900 dark:text-slate-200">VS</div>
                         <div><span class="text-[10px] uppercase text-slate-700 dark:text-slate-200 tracking-wider">AI
                                 Counter</span>
                             <div id="rps-ai-choice" class="text-2xl my-1">❓</div>
@@ -1904,22 +1904,22 @@ window.webllm = webllm;
                         <div
                             class="grid grid-cols-4 gap-2 bg-slate-50/55 dark:bg-slate-950/55 p-2.5 rounded-xl border border-slate-200/40 dark:border-slate-800/40 text-center text-[10px]">
                             <div>
-                                <span class="text-slate-700 font-medium">Wins:</span>
+                                <span class="text-slate-700 font-medium dark:text-slate-200">Wins:</span>
                                 <span id="lifetime-wins"
                                     class="font-bold text-emerald-600 dark:text-emerald-400 ml-1">0</span>
                             </div>
                             <div>
-                                <span class="text-slate-700 font-medium">Losses:</span>
+                                <span class="text-slate-700 font-medium dark:text-slate-200">Losses:</span>
                                 <span id="lifetime-losses"
                                     class="font-bold text-rose-600 dark:text-rose-400 ml-1">0</span>
                             </div>
                             <div>
-                                <span class="text-slate-700 font-medium">Ties:</span>
+                                <span class="text-slate-700 font-medium dark:text-slate-200">Ties:</span>
                                 <span id="lifetime-ties"
                                     class="font-bold text-slate-800 dark:text-slate-100 ml-1">0</span>
                             </div>
                             <div>
-                                <span class="text-slate-700 font-medium">Win Rate:</span>
+                                <span class="text-slate-700 font-medium dark:text-slate-200">Win Rate:</span>
                                 <span id="lifetime-rate"
                                     class="font-bold text-teal-600 dark:text-teal-400 ml-1">0%</span>
                             </div>
@@ -4373,7 +4373,7 @@ window.webllm = webllm;
                     }
                     const codeBody = lines.join('\n');
                     return `<div class="my-2 bg-slate-900 rounded-lg overflow-hidden border border-slate-700 font-mono text-xs">
-                        <div class="px-3 py-1 bg-slate-800 text-slate-700 border-b border-slate-700 flex justify-between">
+                        <div class="px-3 py-1 bg-slate-800 text-slate-700 border-b border-slate-700 flex justify-between dark:text-slate-200">
                             <span>${lang || 'Code'}</span>
                         </div>
                         <div class="p-3 overflow-x-auto text-slate-200 whitespace-pre">${escapeHTML(codeBody)}</div>
@@ -5310,7 +5310,7 @@ window.webllm = webllm;
                                 
                                 const plannerPrompt = `${recentHistory}User Request: ${text}\nGenerate the JSON plan to fulfill the request.`;
                                 
-                                appendBotMessage(`<div class="text-[10px] text-slate-800 mb-1 italic" id="planner-status">Planner devising a strategy...</div>`);
+                                appendBotMessage(`<div class="text-[10px] text-slate-800 mb-1 italic dark:text-slate-200" id="planner-status">Planner devising a strategy...</div>`);
                                 if (chatTypingEl) chatTypingEl.classList.add('hidden');
                                 
                                 const plannerReply = await engine.chat.completions.create({
@@ -5407,7 +5407,7 @@ window.webllm = webllm;
                                 }
                                 
                                 setCognitiveMode('NATIVE');
-                                appendBotMessage(`<div class="text-[10px] text-slate-800 mb-1 italic">Generating locally via ${modelKey}...</div><div id="local-stream-output"></div>`);
+                                appendBotMessage(`<div class="text-[10px] text-slate-800 mb-1 italic dark:text-slate-200">Generating locally via ${modelKey}...</div><div id="local-stream-output"></div>`);
                                 if (chatTypingEl) chatTypingEl.classList.add('hidden');
                                 
                                 const container = document.getElementById('local-stream-output');
@@ -5652,7 +5652,7 @@ window.webllm = webllm;
                     return `
                     <div class="flex items-center justify-between p-2 rounded-lg border transition group cursor-pointer ${activeClasses}" onclick="loadChat('${chat.id}')">
                         <span class="text-[11px] truncate flex-grow pr-2">${chat.name}</span>
-                        <button onclick="deleteChat('${chat.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                        <button onclick="deleteChat('${chat.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1 dark:text-slate-200">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -5775,7 +5775,7 @@ window.webllm = webllm;
                                 <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${doc.title}</span>
                                 <span class="text-[9px] text-slate-700 dark:text-slate-200 font-mono">${doc.type} — ${doc.date}</span>
                             </div>
-                            <button onclick="deleteDocument('${doc.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                            <button onclick="deleteDocument('${doc.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1 dark:text-slate-200">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
@@ -5879,7 +5879,7 @@ window.webllm = webllm;
                             <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${model.name}</span>
                             <span class="text-[9px] text-slate-700 dark:text-slate-200 font-mono">Vocab: ${model.vocabSize} — ${model.date}</span>
                         </div>
-                        <button onclick="deleteModel('${model.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                        <button onclick="deleteModel('${model.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1 dark:text-slate-200">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -5995,7 +5995,7 @@ window.webllm = webllm;
                             <span class="text-[11px] font-bold truncate">${session.name}</span>
                             <span class="text-[9px] text-slate-700 dark:text-slate-200 font-mono">Wins: ${session.userWins} | AI: ${session.aiWins} | Ties: ${session.tiesCount}</span>
                         </div>
-                        <button onclick="deleteGameSession('${session.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] transition px-1">
+                        <button onclick="deleteGameSession('${session.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] transition px-1 dark:text-slate-200">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -6104,10 +6104,10 @@ window.webllm = webllm;
                     if (state.status === 'not-downloaded' || state.status === 'error') {
                         html = `<button onclick="window.modelManager.startDownload('${modelKey}')" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">${state.status === 'error' ? 'Retry' : 'Download'}</button>`;
                     } else if (state.status === 'downloading') {
-                        html = `<div class="text-[10px] text-slate-800 font-mono mr-2 flex items-center">${state.progress}%</div>
+                        html = `<div class="text-[10px] text-slate-800 font-mono mr-2 flex items-center dark:text-slate-200">${state.progress}%</div>
                                 <button onclick="window.modelManager.pauseDownload('${modelKey}')" class="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-[10px] font-bold text-white rounded uppercase transition shadow">Pause</button>`;
                     } else if (state.status === 'paused') {
-                        html = `<div class="text-[10px] text-slate-800 font-mono mr-2 flex items-center">${state.progress}%</div>
+                        html = `<div class="text-[10px] text-slate-800 font-mono mr-2 flex items-center dark:text-slate-200">${state.progress}%</div>
                                 <button onclick="window.modelManager.startDownload('${modelKey}')" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-[10px] font-bold text-white rounded uppercase transition shadow mr-1">Resume</button>
                                 <button onclick="confirmDeleteModel('${modelKey}')" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-[10px] font-bold text-white rounded uppercase transition shadow" title="Delete Model"><i class="fa-solid fa-trash"></i></button>`;
                     } else if (state.status === 'downloaded') {

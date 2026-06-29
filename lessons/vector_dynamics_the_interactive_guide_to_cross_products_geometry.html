@@ -103,7 +103,7 @@
     #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
     [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-100 selection:text-primary-900 dark:text-slate-200">
 
     <!-- Top Navigation -->
     <nav class="sticky top-0 z-50 glass-card shadow-sm">
@@ -113,7 +113,7 @@
                     <div class="bg-primary-600 text-white p-2 rounded-lg">
                         <i data-lucide="box"></i>
                     </div>
-                    <span class="font-bold text-xl tracking-tight text-slate-900">Vector Dynamics Academy</span>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-slate-200">Vector Dynamics Academy</span>
                 </div>
                 <div class="flex items-center space-x-4">
                     <button id="btnSave as PDF" class="hidden md:flex items-center px-4 py-2 bg-primary-50 text-primary-700 hover:bg-primary-100 rounded-lg text-sm font-semibold transition-colors">
@@ -130,15 +130,15 @@
         <!-- Sidebar Navigation (TOC) -->
         <aside class="hidden md:block w-64 flex-shrink-0">
             <div class="sticky top-24 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-4">Contents</h3>
+                <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-4 dark:text-slate-200">Contents</h3>
                 <nav id="toc-nav"  class="space-y-1 border-l-2 border-slate-100" id="toc">
-                    <a href="#core-concept" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px]">1. The Core Concept</a>
-                    <a href="#interactive-sim" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px]">2. 3D Interactive Simulation</a>
-                    <a href="#analytical-derivation" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px]">3. Analytical Matrix Derivations</a>
-                    <a href="#interactive-solver" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px]">4. Step-by-Step Calculator</a>
-                    <a href="#master-strategy" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px]">5. Problem-Solving Strategy</a>
-                    <a href="#physics-apps" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px]">6. Applications in Physics</a>
-                    <a href="#quiz-section" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px]">7. Knowledge Check</a>
+                    <a href="#core-concept" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px] dark:text-slate-200">1. The Core Concept</a>
+                    <a href="#interactive-sim" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px] dark:text-slate-200">2. 3D Interactive Simulation</a>
+                    <a href="#analytical-derivation" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px] dark:text-slate-200">3. Analytical Matrix Derivations</a>
+                    <a href="#interactive-solver" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px] dark:text-slate-200">4. Step-by-Step Calculator</a>
+                    <a href="#master-strategy" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px] dark:text-slate-200">5. Problem-Solving Strategy</a>
+                    <a href="#physics-apps" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px] dark:text-slate-200">6. Applications in Physics</a>
+                    <a href="#quiz-section" class="toc-link block pl-4 py-2 text-sm text-slate-900 hover:text-primary-600 border-l-2 border-transparent hover:border-primary-300 -ml-[2px] dark:text-slate-200">7. Knowledge Check</a>
                 </nav>
             </div>
         </aside>
@@ -148,20 +148,20 @@
             
             <!-- Header Section -->
             <header class="pb-8 border-b border-slate-200">
-                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 dark:text-slate-200">
                     Vector Cross Products &amp; Parallelogram Geometry
                 </h1>
-                <p class="text-lg text-slate-900 leading-relaxed">
+                <p class="text-lg text-slate-900 leading-relaxed dark:text-slate-200">
                     Unlike the dot product which returns a mere scalar number, the cross product is a vector operation that literally builds new dimensions. It takes two vectors and produces a third that is perfectly perpendicular to both, unlocking the mathematics behind torque, angular momentum, and magnetic forces.
                 </p>
             </header>
 
             <!-- 1. The Core Concept -->
             <section id="core-concept" class="scroll-mt-24 space-y-6">
-                <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center dark:text-slate-200">
                     <i data-lucide="target" class="text-primary-600 mr-3"></i> 1. The Core Concept
                 </h2>
-                <div class="prose prose-slate max-w-none text-slate-700 leading-loose">
+                <div class="prose prose-slate max-w-none text-slate-700 leading-loose dark:text-slate-200">
                     <p>
                         The cross product, denoted as $\vec{A} \times \vec{B}$, is a vector multiplication operation between two three-dimensional vectors that produces a third vector. This resultant vector possesses a unique spatial property: <strong>it is strictly perpendicular (orthogonal) to the plane containing the two original inputs.</strong>
                     </p>
@@ -179,13 +179,13 @@
                         </p>
                     </div>
 
-                    <h3 class="text-xl font-semibold text-slate-800 mt-8 mb-4">The Right-Hand Rule</h3>
+                    <h3 class="text-xl font-semibold text-slate-800 mt-8 mb-4 dark:text-slate-200">The Right-Hand Rule</h3>
                     <div class="flex flex-col md:flex-row items-center gap-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                         <div class="flex-1">
                             <p>
                                 While the equation above gives us the <em>magnitude</em>, vectors also need a <em>direction</em>. The absolute direction of the resultant vector is dictated by the <strong>Right-Hand Rule</strong>:
                             </p>
-                            <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-900">
+                            <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-900 dark:text-slate-200">
                                 <li>Point the fingers of your right hand in the direction of the first vector, $\vec{A}$.</li>
                                 <li>Curl your fingers toward the second vector, $\vec{B}$, taking the shortest angular path.</li>
                                 <li>Your extended thumb now points in the exact direction of the cross product vector, $\vec{C}$.</li>
@@ -242,10 +242,10 @@
 
             <!-- 2. Interactive Simulation -->
             <section id="interactive-sim" class="scroll-mt-24 space-y-6">
-                <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center dark:text-slate-200">
                     <i data-lucide="box" class="text-primary-600 mr-3"></i> 2. 3D Interactive Simulation
                 </h2>
-                <p class="text-slate-900">
+                <p class="text-slate-900 dark:text-slate-200">
                     Interact with the coordinates of Vector $\vec{A}$ (Red) and Vector $\vec{B}$ (Blue). Observe how the Cross Product vector $\vec{A} \times \vec{B}$ (Green) reacts, and watch the geometry of the parallelogram spanned by the inputs. <strong>Drag the canvas to rotate the camera.</strong>
                 </p>
 
@@ -257,7 +257,7 @@
                             <div class="absolute top-4 left-4 bg-black/60 text-white px-3 py-1 rounded text-sm font-mono backdrop-blur-sm pointer-events-none" id="sim-stats">
                                 Area: 0.00
                             </div>
-                            <div class="absolute bottom-4 left-4 text-xs text-slate-700 pointer-events-none">
+                            <div class="absolute bottom-4 left-4 text-xs text-slate-700 pointer-events-none dark:text-slate-200">
                                 Drag to rotate | Scroll to zoom
                             </div>
                         </div>
@@ -298,15 +298,15 @@
 
             <!-- 3. Analytical Matrix Derivations -->
             <section id="analytical-derivation" class="scroll-mt-24 space-y-6">
-                <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center dark:text-slate-200">
                     <i data-lucide="calculator" class="text-primary-600 mr-3"></i> 3. Analytical & Matrix Derivations
                 </h2>
-                <p class="text-slate-900 leading-relaxed">
+                <p class="text-slate-900 leading-relaxed dark:text-slate-200">
                     To compute the vector components explicitly in a right-handed Cartesian coordinate system, we evaluate the determinant of a $3 \times 3$ matrix using the standard unit vectors ($\hat{i}$ for X, $\hat{j}$ for Y, and $\hat{k}$ for Z).
                 </p>
                 
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="bg-slate-50 p-4 border-b border-slate-200 font-semibold text-slate-700">
+                    <div class="bg-slate-50 p-4 border-b border-slate-200 font-semibold text-slate-700 dark:text-slate-200">
                         The Determinant Setup
                     </div>
                     <div class="p-6 overflow-x-auto">
@@ -314,12 +314,12 @@
                     </div>
                 </div>
 
-                <p class="text-slate-900 leading-relaxed mt-4">
+                <p class="text-slate-900 leading-relaxed mt-4 dark:text-slate-200">
                     Expanding this matrix along the top row (Laplace expansion) breaks the 3D problem into three smaller 2D determinant problems. This yields the explicit formula:
                 </p>
 
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="bg-slate-50 p-4 border-b border-slate-200 font-semibold text-slate-700">
+                    <div class="bg-slate-50 p-4 border-b border-slate-200 font-semibold text-slate-700 dark:text-slate-200">
                         The Expansion Formula
                     </div>
                     <div class="p-6 overflow-x-auto text-lg">
@@ -340,10 +340,10 @@
 
             <!-- 4. Step-by-Step Calculator -->
             <section id="interactive-solver" class="scroll-mt-24 space-y-6">
-                <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center dark:text-slate-200">
                     <i data-lucide="cpu" class="text-primary-600 mr-3"></i> 4. Step-by-Step Matrix Calculator
                 </h2>
-                <p class="text-slate-900">
+                <p class="text-slate-900 dark:text-slate-200">
                     Input your own vector components below. The calculator will dynamically generate the mathematical steps required to solve the cross product manually.
                 </p>
 
@@ -352,7 +352,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Input A -->
                             <div class="space-y-3">
-                                <label class="font-bold text-slate-700 block border-b pb-2">Vector A (Row 2)</label>
+                                <label class="font-bold text-slate-700 block border-b pb-2 dark:text-slate-200">Vector A (Row 2)</label>
                                 <div class="flex space-x-2">
                                     <input type="number" id="in-ax" value="2" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary-500 font-mono text-center" placeholder="Ax">
                                     <input type="number" id="in-ay" value="-1" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary-500 font-mono text-center" placeholder="Ay">
@@ -361,7 +361,7 @@
                             </div>
                             <!-- Input B -->
                             <div class="space-y-3">
-                                <label class="font-bold text-slate-700 block border-b pb-2">Vector B (Row 3)</label>
+                                <label class="font-bold text-slate-700 block border-b pb-2 dark:text-slate-200">Vector B (Row 3)</label>
                                 <div class="flex space-x-2">
                                     <input type="number" id="in-bx" value="4" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary-500 font-mono text-center" placeholder="Bx">
                                     <input type="number" id="in-by" value="2" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary-500 font-mono text-center" placeholder="By">
@@ -374,13 +374,13 @@
 
                     <!-- Dynamic Output Zone -->
                     <div id="calc-output" class="hidden mt-8 p-6 bg-slate-50 border border-slate-200 rounded-lg">
-                        <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2">Calculation Steps</h3>
+                        <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2 dark:text-slate-200">Calculation Steps</h3>
                         <div id="math-steps-container" class="space-y-4 overflow-x-auto">
                             <!-- MathJax content will be injected here -->
                         </div>
                         <div class="mt-6 pt-4 border-t border-slate-200">
-                            <h4 class="font-bold text-slate-700 text-sm mb-2">Orthogonality Verification (Dot Product Check)</h4>
-                            <div id="ortho-check-container" class="text-sm text-slate-900 bg-white p-3 rounded border border-slate-200 font-mono">
+                            <h4 class="font-bold text-slate-700 text-sm mb-2 dark:text-slate-200">Orthogonality Verification (Dot Product Check)</h4>
+                            <div id="ortho-check-container" class="text-sm text-slate-900 bg-white p-3 rounded border border-slate-200 font-mono dark:text-slate-200">
                                 <!-- Check injected here -->
                             </div>
                         </div>
@@ -390,7 +390,7 @@
 
             <!-- 5. Problem-Solving Master Strategy -->
             <section id="master-strategy" class="scroll-mt-24 space-y-6">
-                <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center dark:text-slate-200">
                     <i data-lucide="check-circle" class="text-primary-600 mr-3"></i> 5. Problem-Solving Master Strategy
                 </h2>
                 
@@ -400,8 +400,8 @@
                         <div class="absolute -right-4 -top-4 opacity-5">
                             <i data-lucide="list-ordered" class="w-32 h-32"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-slate-800 mb-2 relative z-10">1. Matrix Setup Order</h3>
-                        <p class="text-slate-900 text-sm relative z-10">
+                        <h3 class="font-bold text-lg text-slate-800 mb-2 relative z-10 dark:text-slate-200">1. Matrix Setup Order</h3>
+                        <p class="text-slate-900 text-sm relative z-10 dark:text-slate-200">
                             Order is crucial! Ensure the components of the first vector occupy Row 2, and the second vector occupies Row 3. Because cross products are anti-commutative, swapping these rows will reverse the signs of your final vector coordinates.
                         </p>
                     </div>
@@ -411,8 +411,8 @@
                         <div class="absolute -right-4 -top-4 opacity-5">
                             <i data-lucide="alert-circle" class="w-32 h-32"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-slate-800 mb-2 relative z-10">2. Track the Middle Sign</h3>
-                        <p class="text-slate-900 text-sm relative z-10">
+                        <h3 class="font-bold text-lg text-slate-800 mb-2 relative z-10 dark:text-slate-200">2. Track the Middle Sign</h3>
+                        <p class="text-slate-900 text-sm relative z-10 dark:text-slate-200">
                             Write out the empty expansion skeleton before filling in numbers: <br>
                             <code class="block mt-2 bg-slate-100 p-1 text-center rounded text-xs text-red-600 font-bold">( )i - ( )j + ( )k</code><br>
                             Physically write the negative sign for the $\hat{j}$ component first to ensure you don't forget it during arithmetic.
@@ -424,8 +424,8 @@
                         <div class="absolute -right-4 -top-4 opacity-5">
                             <i data-lucide="shield-check" class="w-32 h-32"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-slate-800 mb-2 relative z-10">3. Orthogonality Check</h3>
-                        <p class="text-slate-900 text-sm relative z-10">
+                        <h3 class="font-bold text-lg text-slate-800 mb-2 relative z-10 dark:text-slate-200">3. Orthogonality Check</h3>
+                        <p class="text-slate-900 text-sm relative z-10 dark:text-slate-200">
                             Never submit a test without checking your work. Take the dot product of your final resultant vector $\vec{C}$ with either input vector $\vec{A}$ or $\vec{B}$. The result <strong>must equal exactly zero</strong>: $\vec{C} \cdot \vec{A} = 0$.
                         </p>
                     </div>
@@ -434,24 +434,24 @@
 
             <!-- 6. Applications in Physics -->
             <section id="physics-apps" class="scroll-mt-24 space-y-6">
-                <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center dark:text-slate-200">
                     <i data-lucide="rocket" class="text-primary-600 mr-3"></i> 6. Crucial Applications in Physics
                 </h2>
-                <p class="text-slate-900">
+                <p class="text-slate-900 dark:text-slate-200">
                     Why do we care about a mathematical operation that spits out perpendicular vectors? Because the universe operates on perpendicular dynamics. Rotational mechanics and electromagnetism are deeply tied to the geometry of the cross product.
                 </p>
 
                 <div class="space-y-4">
                     <!-- Torque -->
                     <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition">
-                        <h4 class="font-bold text-slate-800 text-lg mb-2 flex items-center">
+                        <h4 class="font-bold text-slate-800 text-lg mb-2 flex items-center dark:text-slate-200">
                             <span class="bg-purple-100 text-purple-700 p-1 rounded mr-2"><i data-lucide="refresh-cw" class="w-4 h-4"></i></span>
                             Torque ($\vec{\tau}$)
                         </h4>
                         <div class="flex flex-col md:flex-row gap-4">
-                            <div class="flex-1 text-slate-900 text-sm">
+                            <div class="flex-1 text-slate-900 text-sm dark:text-slate-200">
                                 <p>Torque is the rotational equivalent of force. It measures how effectively a force causes an object to rotate around an axis. It depends on the distance from the pivot ($\vec{r}$) and the applied force ($\vec{F}$).</p>
-                                <p class="mt-2 font-bold text-slate-800">Formula: $\vec{\tau} = \vec{r} \times \vec{F}$</p>
+                                <p class="mt-2 font-bold text-slate-800 dark:text-slate-200">Formula: $\vec{\tau} = \vec{r} \times \vec{F}$</p>
                             </div>
                             <div class="bg-slate-50 p-3 rounded border border-slate-100 text-xs italic w-full md:w-1/3">
                                 Pushing straight into a door hinge ($\theta = 0^\circ$) yields zero torque. Pushing perpendicular to the door ($\theta = 90^\circ$) yields maximum torque.
@@ -461,14 +461,14 @@
 
                     <!-- Magnetic Lorentz Force -->
                     <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition">
-                        <h4 class="font-bold text-slate-800 text-lg mb-2 flex items-center">
+                        <h4 class="font-bold text-slate-800 text-lg mb-2 flex items-center dark:text-slate-200">
                             <span class="bg-yellow-100 text-yellow-700 p-1 rounded mr-2"><i data-lucide="zap" class="w-4 h-4"></i></span>
                             Magnetic Lorentz Force ($\vec{F}_B$)
                         </h4>
                         <div class="flex flex-col md:flex-row gap-4">
-                            <div class="flex-1 text-slate-900 text-sm">
+                            <div class="flex-1 text-slate-900 text-sm dark:text-slate-200">
                                 <p>When a charged particle ($q$) moves with velocity ($\vec{v}$) through a magnetic field ($\vec{B}$), it experiences a force that is perpendicular to both its direction of motion and the magnetic field.</p>
-                                <p class="mt-2 font-bold text-slate-800">Formula: $\vec{F}_B = q(\vec{v} \times \vec{B})$</p>
+                                <p class="mt-2 font-bold text-slate-800 dark:text-slate-200">Formula: $\vec{F}_B = q(\vec{v} \times \vec{B})$</p>
                             </div>
                             <div class="bg-slate-50 p-3 rounded border border-slate-100 text-xs italic w-full md:w-1/3">
                                 This perpendicular force acts as a centripetal force, causing moving electrons to spiral around magnetic field lines!
@@ -478,14 +478,14 @@
 
                     <!-- Angular Momentum -->
                     <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition">
-                        <h4 class="font-bold text-slate-800 text-lg mb-2 flex items-center">
+                        <h4 class="font-bold text-slate-800 text-lg mb-2 flex items-center dark:text-slate-200">
                             <span class="bg-blue-100 text-blue-700 p-1 rounded mr-2"><i data-lucide="aperture" class="w-4 h-4"></i></span>
                             Angular Momentum ($\vec{L}$)
                         </h4>
                         <div class="flex flex-col md:flex-row gap-4">
-                            <div class="flex-1 text-slate-900 text-sm">
+                            <div class="flex-1 text-slate-900 text-sm dark:text-slate-200">
                                 <p>Angular momentum is the rotational analogue of linear momentum. A particle with linear momentum ($\vec{p}$) moving at a position ($\vec{r}$) relative to an origin possesses angular momentum.</p>
-                                <p class="mt-2 font-bold text-slate-800">Formula: $\vec{L} = \vec{r} \times \vec{p}$</p>
+                                <p class="mt-2 font-bold text-slate-800 dark:text-slate-200">Formula: $\vec{L} = \vec{r} \times \vec{p}$</p>
                             </div>
                             <div class="bg-slate-50 p-3 rounded border border-slate-100 text-xs italic w-full md:w-1/3">
                                 Conservation of angular momentum explains why planets sweep out equal areas in equal times (Kepler's Second Law).
@@ -497,7 +497,7 @@
 
             <!-- 7. Knowledge Check Quiz -->
             <section id="quiz-section" class="scroll-mt-24 space-y-6 pb-20">
-                <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center dark:text-slate-200">
                     <i data-lucide="help-circle" class="text-primary-600 mr-3"></i> 7. Knowledge Check
                 </h2>
                 
@@ -506,7 +506,7 @@
                         
                         <!-- Q1 -->
                         <div class="space-y-3">
-                            <p class="font-bold text-slate-800">1. If two vectors are completely parallel, what is the magnitude of their cross product?</p>
+                            <p class="font-bold text-slate-800 dark:text-slate-200">1. If two vectors are completely parallel, what is the magnitude of their cross product?</p>
                             <div class="space-y-2">
                                 <label class="flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-slate-50"><input type="radio" name="q1" value="wrong1" class="text-primary-600"> <span>The product of their magnitudes</span></label>
                                 <label class="flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-slate-50"><input type="radio" name="q1" value="correct" class="text-primary-600"> <span>Zero</span></label>
@@ -516,7 +516,7 @@
 
                         <!-- Q2 -->
                         <div class="space-y-3">
-                            <p class="font-bold text-slate-800">2. Due to anti-commutativity, what is $\vec{A} \times \vec{A}$?</p>
+                            <p class="font-bold text-slate-800 dark:text-slate-200">2. Due to anti-commutativity, what is $\vec{A} \times \vec{A}$?</p>
                             <div class="space-y-2">
                                 <label class="flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-slate-50"><input type="radio" name="q2" value="wrong1" class="text-primary-600"> <span>$A^2$</span></label>
                                 <label class="flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-slate-50"><input type="radio" name="q2" value="wrong2" class="text-primary-600"> <span>$1$</span></label>
@@ -526,7 +526,7 @@
 
                         <!-- Q3 -->
                         <div class="space-y-3">
-                            <p class="font-bold text-slate-800">3. In the matrix expansion, which unit vector component carries a mandatory negative sign?</p>
+                            <p class="font-bold text-slate-800 dark:text-slate-200">3. In the matrix expansion, which unit vector component carries a mandatory negative sign?</p>
                             <div class="space-y-2">
                                 <label class="flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-slate-50"><input type="radio" name="q3" value="wrong1" class="text-primary-600"> <span>$\hat{i}$ (X-component)</span></label>
                                 <label class="flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-slate-50"><input type="radio" name="q3" value="correct" class="text-primary-600"> <span>$\hat{j}$ (Y-component)</span></label>
@@ -546,13 +546,13 @@
         <section id="quiz" class="scroll-mt-24 no-print">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
-                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Concept Check Quiz</h2>
             </div>
             
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-200">Test Your Knowledge</h3>
+                <p class="text-slate-900 mb-6 dark:text-slate-200">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -560,13 +560,13 @@
 
             <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900 dark:text-slate-200">Level 1</span>
                     </div>
                 </div>
                 
-                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium dark:text-slate-200">Question goes here...</div>
                 
                 <div id="mc-options" class="space-y-3 hidden">
                     <!-- Options injected here -->
@@ -585,10 +585,10 @@
             </div>
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
-                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
+                <h3 class="text-3xl font-bold text-slate-900 mb-2 dark:text-slate-200">Quiz Complete!</h3>
+                <p class="text-slate-900 mb-8 dark:text-slate-200">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
-                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition dark:text-slate-200">Retake Quiz</button>
             </div>
         </section>
 
@@ -815,13 +815,13 @@
         <section id="quiz" class="scroll-mt-24 no-print">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
-                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Concept Check Quiz</h2>
             </div>
             
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-200">Test Your Knowledge</h3>
+                <p class="text-slate-900 mb-6 dark:text-slate-200">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -829,13 +829,13 @@
 
             <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900 dark:text-slate-200">Level 1</span>
                     </div>
                 </div>
                 
-                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium dark:text-slate-200">Question goes here...</div>
                 
                 <div id="mc-options" class="space-y-3 hidden">
                     <!-- Options injected here -->
@@ -854,10 +854,10 @@
             </div>
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
-                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
+                <h3 class="text-3xl font-bold text-slate-900 mb-2 dark:text-slate-200">Quiz Complete!</h3>
+                <p class="text-slate-900 mb-8 dark:text-slate-200">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
-                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition dark:text-slate-200">Retake Quiz</button>
             </div>
         </section>
 

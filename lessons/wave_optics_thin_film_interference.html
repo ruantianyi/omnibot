@@ -103,7 +103,7 @@
     #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
     [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-200 selection:text-primary-900">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-200 selection:text-primary-900 dark:text-slate-200">
 
     <!-- Top Navigation -->
     <header class="fixed top-0 w-full glass-panel z-50 border-b border-slate-200">
@@ -112,9 +112,9 @@
                 <svg class="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                <span class="font-bold text-xl tracking-tight text-slate-900">Optics<span class="text-primary-600">Mastery</span></span>
+                <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-slate-200">Optics<span class="text-primary-600">Mastery</span></span>
             </div>
-            <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-900">
+            <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-900 dark:text-slate-200">
                 <a href="#physics" class="hover:text-primary-600 transition-colors">The Physics</a>
                 <a href="#derivations" class="hover:text-primary-600 transition-colors">Derivations</a>
                 <a href="#simulation" class="hover:text-primary-600 transition-colors">Simulation</a>
@@ -133,8 +133,8 @@
         <!-- Sticky Sidebar -->
         <aside class="hidden lg:block w-64 flex-shrink-0">
             <div class="sticky top-28 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                <h3 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Table of Contents</h3>
-                <ul class="space-y-3 text-sm font-medium text-slate-800">
+                <h3 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs dark:text-slate-200">Table of Contents</h3>
+                <ul class="space-y-3 text-sm font-medium text-slate-800 dark:text-slate-200">
                     <li><a href="#physics" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">1. The Governing Physics</a></li>
                     <li><a href="#derivations" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">2. Mathematical Derivations</a></li>
                     <li><a href="#simulation" class="hover:text-primary-600 block border-l-2 border-transparent hover:border-primary-600 pl-3 transition-all">3. Interactive Simulation</a></li>
@@ -145,19 +145,19 @@
         </aside>
 
         <!-- Main Content Area -->
-        <main class="flex-1 min-w-0 font-serif leading-relaxed text-lg text-slate-700">
+        <main class="flex-1 min-w-0 font-serif leading-relaxed text-lg text-slate-700 dark:text-slate-200">
             
             <header class="mb-12 font-sans">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-bold uppercase tracking-widest mb-4">
                     Chapter 8
                 </div>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Wave Optics & Thin-Film Interference</h1>
-                <p class="text-xl text-slate-800 font-light">Understanding how microscopic layers orchestrate light into brilliant colors through constructive and destructive phase matching.</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 dark:text-slate-200">Wave Optics & Thin-Film Interference</h1>
+                <p class="text-xl text-slate-800 font-light dark:text-slate-200">Understanding how microscopic layers orchestrate light into brilliant colors through constructive and destructive phase matching.</p>
             </header>
 
             <!-- Section 1: The Governing Physics -->
             <section id="physics" class="scroll-mt-28 mb-16">
-                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">1. The Governing Physics</h2>
+                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100 dark:text-slate-200">1. The Governing Physics</h2>
                 <p class="mb-6">
                     Thin-film interference tracking monitors phase shifts when light hits a microscopic medium sandwiched between two layers of alternative refractive indices. This phenomenon is responsible for the iridescent swirls of color seen in soap bubbles, oil slicks on water, and the anti-reflective coatings on camera lenses.
                 </p>
@@ -167,7 +167,7 @@
 
                 <!-- High Quality SVG Diagram -->
                 <figure class="my-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 overflow-hidden font-sans">
-                    <h4 class="text-center font-bold text-slate-800 mb-4">Anatomy of Thin-Film Interference</h4>
+                    <h4 class="text-center font-bold text-slate-800 mb-4 dark:text-slate-200">Anatomy of Thin-Film Interference</h4>
                     <div class="flex justify-center w-full max-w-2xl mx-auto">
                         <svg viewBox="0 0 600 400" class="w-full h-auto drop-shadow-md">
                             <defs>
@@ -237,7 +237,7 @@
 
                         </svg>
                     </div>
-                    <figcaption class="text-sm text-center text-slate-800 mt-4">
+                    <figcaption class="text-sm text-center text-slate-800 mt-4 dark:text-slate-200">
                         <strong>Figure 1:</strong> The incident ray splits at the top boundary. Ray 1 reflects immediately. Ray 2 travels through the film (distance ~2t) before exiting. Their phase relationship upon exiting determines the resulting interference pattern.
                     </figcaption>
                 </figure>
@@ -255,7 +255,7 @@
 
             <!-- Section 2: Mathematical Derivations -->
             <section id="derivations" class="scroll-mt-28 mb-16">
-                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">2. Mathematical Derivations & Optical Conditions</h2>
+                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100 dark:text-slate-200">2. Mathematical Derivations & Optical Conditions</h2>
                 
                 <p class="mb-4">
                     When light transitions from a medium with index $n_1$ to a denser medium with index $n_2$ (where $n_2 > n_1$), the reflected wave undergoes an instantaneous $180^\circ$ phase inversion (equivalent to a path shift of half a wavelength, $\frac{\lambda}{2}$). This is often called a "hard reflection." If $n_2 < n_1$, the reflection causes zero phase shift ("soft reflection").
@@ -280,9 +280,9 @@
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xl">A</div>
-                            <h3 class="font-bold text-lg text-slate-900">Exactly ONE boundary shift</h3>
+                            <h3 class="font-bold text-lg text-slate-900 dark:text-slate-200">Exactly ONE boundary shift</h3>
                         </div>
-                        <p class="text-sm text-slate-900 mb-4 h-10">Occurs when e.g., $n_{\text{air}} < n_{\text{film}} > n_{\text{air}}$ (like a soap bubble).</p>
+                        <p class="text-sm text-slate-900 mb-4 h-10 dark:text-slate-200">Occurs when e.g., $n_{\text{air}} < n_{\text{film}} > n_{\text{air}}$ (like a soap bubble).</p>
                         
                         <div class="bg-slate-50 p-4 rounded-lg mb-3">
                             <span class="block text-xs font-bold text-green-600 uppercase mb-1">Constructive (Bright)</span>
@@ -296,16 +296,16 @@
                                 $$2t = m\lambda_{\text{film}}$$
                             </div>
                         </div>
-                        <p class="text-xs text-right mt-2 text-slate-700">Where $m \in \{0, 1, 2...\}$</p>
+                        <p class="text-xs text-right mt-2 text-slate-700 dark:text-slate-200">Where $m \in \{0, 1, 2...\}$</p>
                     </div>
 
                     <!-- Case B -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold text-xl">B</div>
-                            <h3 class="font-bold text-lg text-slate-900">BOTH or NEITHER shift</h3>
+                            <h3 class="font-bold text-lg text-slate-900 dark:text-slate-200">BOTH or NEITHER shift</h3>
                         </div>
-                        <p class="text-sm text-slate-900 mb-4 h-10">Occurs when e.g., $n_{\text{air}} < n_{\text{film}} < n_{\text{glass}}$ (like lens coatings).</p>
+                        <p class="text-sm text-slate-900 mb-4 h-10 dark:text-slate-200">Occurs when e.g., $n_{\text{air}} < n_{\text{film}} < n_{\text{glass}}$ (like lens coatings).</p>
                         
                         <div class="bg-slate-50 p-4 rounded-lg mb-3">
                             <span class="block text-xs font-bold text-green-600 uppercase mb-1">Constructive (Bright)</span>
@@ -319,7 +319,7 @@
                                 $$2t = \left(m + \frac{1}{2}\right)\lambda_{\text{film}}$$
                             </div>
                         </div>
-                        <p class="text-xs text-right mt-2 text-slate-700">Where $m \in \{0, 1, 2...\}$</p>
+                        <p class="text-xs text-right mt-2 text-slate-700 dark:text-slate-200">Where $m \in \{0, 1, 2...\}$</p>
                     </div>
                 </div>
 
@@ -327,8 +327,8 @@
 
             <!-- Section 3: Interactive Simulation -->
             <section id="simulation" class="scroll-mt-28 mb-16 font-sans">
-                <h2 class="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">3. Interactive Optics Laboratory</h2>
-                <p class="mb-6 font-serif text-slate-700">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b-2 border-slate-100 dark:text-slate-200">3. Interactive Optics Laboratory</h2>
+                <p class="mb-6 font-serif text-slate-700 dark:text-slate-200">
                     Adjust the refractive indices, film thickness, and incident wavelength below. The simulation calculates the optical path difference and visualizes the resulting interference in real-time. Notice how the phase shifts (marked as $\pi$) appear or disappear as you change the indices.
                 </p>
 
@@ -396,20 +396,20 @@
                         
                         <!-- Overlay Metrics -->
                         <div class="absolute top-4 right-4 bg-slate-900/80 backdrop-blur border border-slate-600 rounded-lg p-4 w-56 pointer-events-none">
-                            <h4 class="text-xs uppercase text-slate-700 font-bold tracking-wider mb-2 border-b border-slate-700 pb-1">Interference Result</h4>
+                            <h4 class="text-xs uppercase text-slate-700 font-bold tracking-wider mb-2 border-b border-slate-700 pb-1 dark:text-slate-200">Interference Result</h4>
                             
                             <div class="mb-2">
-                                <span class="text-xs text-slate-700 block">Condition</span>
+                                <span class="text-xs text-slate-700 block dark:text-slate-200">Condition</span>
                                 <span id="res_case" class="text-sm font-bold text-white">Case A (1 Shift)</span>
                             </div>
                             
                             <div class="mb-2">
-                                <span class="text-xs text-slate-700 block">Phase Diff ($\Delta\phi$)</span>
+                                <span class="text-xs text-slate-700 block dark:text-slate-200">Phase Diff ($\Delta\phi$)</span>
                                 <span id="res_phase" class="text-sm font-mono text-white">0.00 rad</span>
                             </div>
 
                             <div class="mt-3 pt-3 border-t border-slate-700">
-                                <span class="text-xs text-slate-700 block mb-1">Intensity</span>
+                                <span class="text-xs text-slate-700 block mb-1 dark:text-slate-200">Intensity</span>
                                 <div class="w-full bg-slate-800 rounded-full h-3">
                                     <div id="res_intensity_bar" class="bg-green-500 h-3 rounded-full transition-all duration-300" style="width: 100%"></div>
                                 </div>
@@ -418,12 +418,12 @@
                         </div>
                     </div>
                 </div>
-                <p class="text-xs text-slate-800 mt-3 text-center">Note: Simulation assumes near-normal incidence for strict alignment with the simplified $2t$ path difference formulas.</p>
+                <p class="text-xs text-slate-800 mt-3 text-center dark:text-slate-200">Note: Simulation assumes near-normal incidence for strict alignment with the simplified $2t$ path difference formulas.</p>
             </section>
 
             <!-- Section 4: Problem-Solving Master Strategy -->
             <section id="strategy" class="scroll-mt-28 mb-16">
-                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100">4. Problem-Solving Master Strategy</h2>
+                <h2 class="text-2xl font-bold font-sans text-slate-900 mb-6 pb-2 border-b-2 border-slate-100 dark:text-slate-200">4. Problem-Solving Master Strategy</h2>
                 <p class="mb-6">
                     Thin-film problems require a systematic approach. If you skip a step, you will almost certainly use the wrong equation. Follow this protocol strictly:
                 </p>
@@ -431,26 +431,26 @@
                 <ol class="space-y-6 list-none pl-0 font-sans">
                     <li class="bg-white p-6 rounded-xl border-l-4 border-primary-600 shadow-sm relative">
                         <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-primary-600 text-white font-bold flex items-center justify-center text-sm shadow-md">1</div>
-                        <h4 class="font-bold text-slate-900 text-lg mb-2">Analyze Index Steps & Phase Shifts</h4>
-                        <p class="text-slate-900 text-sm">
+                        <h4 class="font-bold text-slate-900 text-lg mb-2 dark:text-slate-200">Analyze Index Steps & Phase Shifts</h4>
+                        <p class="text-slate-900 text-sm dark:text-slate-200">
                             List out $n_{\text{ambient}}$, $n_{\text{film}}$, and $n_{\text{substrate}}$ in vertical sequence. Identify phase shifts at the upper and lower reflections. 
                             <br><span class="inline-block mt-2 font-mono bg-slate-100 px-2 py-1 rounded text-primary-800 border border-slate-200">Rule: If traversing Low &rarr; High index, record a $\pi$ shift.</span>
                         </p>
                     </li>
                     <li class="bg-white p-6 rounded-xl border-l-4 border-indigo-500 shadow-sm relative">
                         <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center text-sm shadow-md">2</div>
-                        <h4 class="font-bold text-slate-900 text-lg mb-2">Select the Governing Equation</h4>
-                        <p class="text-slate-900 text-sm">
+                        <h4 class="font-bold text-slate-900 text-lg mb-2 dark:text-slate-200">Select the Governing Equation</h4>
+                        <p class="text-slate-900 text-sm dark:text-slate-200">
                             Choose Case A (one shift total) or Case B (zero or two shifts total) based on your boundary shift count from Step 1.
                         </p>
                     </li>
                     <li class="bg-white p-6 rounded-xl border-l-4 border-teal-500 shadow-sm relative">
                         <div class="absolute -left-3 top-6 w-6 h-6 rounded-full bg-teal-500 text-white font-bold flex items-center justify-center text-sm shadow-md">3</div>
-                        <h4 class="font-bold text-slate-900 text-lg mb-2">Isolate the Minimum Boundary Limit</h4>
-                        <p class="text-slate-900 text-sm">
+                        <h4 class="font-bold text-slate-900 text-lg mb-2 dark:text-slate-200">Isolate the Minimum Boundary Limit</h4>
+                        <p class="text-slate-900 text-sm dark:text-slate-200">
                             Often, problems ask for the "thinnest" film. Set $m=0$ or $m=1$ to find the minimum $t$. <br>
                             <em>Example:</em> If solving for the thinnest non-zero constructive film under Case A conditions, set $m=0$, yielding:
-                            <span class="block mt-2 text-center text-lg text-slate-800">$$2t = \frac{1}{2}\lambda_{\text{film}} \implies t = \frac{\lambda_{\text{vacuum}}}{4n_{\text{film}}}$$</span>
+                            <span class="block mt-2 text-center text-lg text-slate-800 dark:text-slate-200">$$2t = \frac{1}{2}\lambda_{\text{film}} \implies t = \frac{\lambda_{\text{vacuum}}}{4n_{\text{film}}}$$</span>
                         </p>
                     </li>
                 </ol>
@@ -464,13 +464,13 @@
         <section id="quiz" class="scroll-mt-24 no-print">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
-                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Concept Check Quiz</h2>
             </div>
             
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-200">Test Your Knowledge</h3>
+                <p class="text-slate-900 mb-6 dark:text-slate-200">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -478,13 +478,13 @@
 
             <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900 dark:text-slate-200">Level 1</span>
                     </div>
                 </div>
                 
-                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium dark:text-slate-200">Question goes here...</div>
                 
                 <div id="mc-options" class="space-y-3 hidden">
                     <!-- Options injected here -->
@@ -503,10 +503,10 @@
             </div>
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
-                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
+                <h3 class="text-3xl font-bold text-slate-900 mb-2 dark:text-slate-200">Quiz Complete!</h3>
+                <p class="text-slate-900 mb-8 dark:text-slate-200">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
-                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition dark:text-slate-200">Retake Quiz</button>
             </div>
         </section>
 
@@ -515,7 +515,7 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 py-8 text-center border-t border-slate-800 font-sans">
-        <p class="text-slate-700 text-sm">Interactive Physics Guide &copy; 2026. Generated for optimal learning.</p>
+        <p class="text-slate-700 text-sm dark:text-slate-200">Interactive Physics Guide &copy; 2026. Generated for optimal learning.</p>
     </footer>
 
     <!-- Logic Script -->

@@ -155,7 +155,7 @@
     </style>
     
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-100 selection:text-primary-900">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-100 selection:text-primary-900 dark:text-slate-200">
 
     <!-- Top Navigation -->
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
@@ -163,7 +163,7 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center space-x-3">
                     <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span class="font-bold text-xl tracking-tight text-slate-900">Electromagnetic Induction</span>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-slate-200">Electromagnetic Induction</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <button id="darkModeToggle" title="Toggle dark/light mode" aria-label="Toggle dark mode">
@@ -185,7 +185,7 @@
         <!-- Table of Contents Sidebar -->
         <aside class="w-full md:w-64 flex-shrink-0 hidden lg:block">
             <div class="sticky top-24 bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                <h4 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Table of Contents</h4>
+                <h4 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs dark:text-slate-200">Table of Contents</h4>
                 <nav id="toc-nav" class="space-y-1 text-sm">
                     <a href="#intro" class="sidebar-link" data-section="intro">1. The Governing Physics</a>
                     <a href="#flux" class="sidebar-link" data-section="flux">2. Magnetic Flux</a>
@@ -204,12 +204,12 @@
             
             <!-- Hero Header -->
             <header class="mb-12 border-b border-slate-100 pb-8">
-                <a href="../lessons.html" class="inline-flex items-center gap-1 text-slate-800 hover:text-primary-600 transition font-semibold text-sm mb-4">
+                <a href="../lessons.html" class="inline-flex items-center gap-1 text-slate-800 hover:text-primary-600 transition font-semibold text-sm mb-4 dark:text-slate-200">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     Back to Lessons
                 </a>
-                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Electromagnetic Induction & Lenz's Law</h1>
-                <p class="text-xl text-slate-800 leading-relaxed">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 dark:text-slate-200">Electromagnetic Induction & Lenz's Law</h1>
+                <p class="text-xl text-slate-800 leading-relaxed dark:text-slate-200">
                     Discover how dynamic magnetic fields conjure electric currents out of thin air, forming the foundation of modern power generation, electric motors, and wireless technology.
                 </p>
             </header>
@@ -226,7 +226,7 @@
                         </p>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden p-6 flex flex-col justify-center items-center">
-                        <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-4 w-full text-center mt-0">Oersted vs. Faraday</h3>
+                        <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-4 w-full text-center mt-0 dark:text-slate-200">Oersted vs. Faraday</h3>
                         <svg viewBox="0 0 300 200" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- Oersted -->
                             <text x="75" y="20" font-family="sans-serif" font-size="12" font-weight="bold" fill="#334155" text-anchor="middle">Oersted (1820)</text>
@@ -281,7 +281,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
                     <!-- SVG: Surface Normal -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">1. The Area Vector ($\vec{A}$)</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2 dark:text-slate-200">1. The Area Vector ($\vec{A}$)</h4>
                         <svg viewBox="0 0 200 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- Loop -->
                             <ellipse cx="100" cy="100" rx="60" ry="20" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
@@ -290,12 +290,12 @@
                             <text x="110" y="30" font-family="sans-serif" font-size="14" font-weight="bold" fill="#3b82f6">A</text>
                             <rect x="100" y="90" width="10" height="10" fill="none" stroke="#475569" stroke-width="1.5" />
                         </svg>
-                        <p class="text-xs text-slate-800 mt-2">The area vector is strictly perpendicular to the surface of the loop.</p>
+                        <p class="text-xs text-slate-800 mt-2 dark:text-slate-200">The area vector is strictly perpendicular to the surface of the loop.</p>
                     </div>
                     
                     <!-- SVG: Max Flux -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">2. Maximum Flux ($\theta = 0^\circ$)</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2 dark:text-slate-200">2. Maximum Flux ($\theta = 0^\circ$)</h4>
                         <svg viewBox="0 0 200 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- B Field Lines -->
                             <g stroke="#10b981" stroke-width="2" marker-end="url(#arrow)">
@@ -308,12 +308,12 @@
                             <!-- Normal Vector -->
                             <line x1="100" y1="100" x2="100" y2="20" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow)" />
                         </svg>
-                        <p class="text-xs text-slate-800 mt-2">Field is parallel to the normal vector. All lines piece the loop. $\cos(0) = 1$.</p>
+                        <p class="text-xs text-slate-800 mt-2 dark:text-slate-200">Field is parallel to the normal vector. All lines piece the loop. $\cos(0) = 1$.</p>
                     </div>
 
                     <!-- SVG: Zero Flux -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center">
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">3. Zero Flux ($\theta = 90^\circ$)</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2 dark:text-slate-200">3. Zero Flux ($\theta = 90^\circ$)</h4>
                         <svg viewBox="0 0 200 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- Loop -->
                             <line x1="40" y1="90" x2="160" y2="90" stroke="#475569" stroke-width="6" stroke-linecap="round" />
@@ -326,17 +326,17 @@
                             <!-- Normal Vector -->
                             <line x1="100" y1="90" x2="100" y2="30" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow)" />
                         </svg>
-                        <p class="text-xs text-slate-800 mt-2">Field skims along the loop. No lines pass through. $\cos(90^\circ) = 0$.</p>
+                        <p class="text-xs text-slate-800 mt-2 dark:text-slate-200">Field skims along the loop. No lines pass through. $\cos(90^\circ) = 0$.</p>
                     </div>
                 </div>
 
                 <!-- Interactive Simulation 1: Magnetic Flux -->
                 <div class="my-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800">
+                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800 dark:text-slate-200">
                         <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         Interactive Simulation: Magnetic Flux vs. Angle
                     </h4>
-                    <p class="text-sm text-slate-900 mb-4">Adjust the angle of the loop relative to the magnetic field to see how flux changes. Maximum flux occurs when the field is parallel to the area normal ($\theta = 0^\circ$).</p>
+                    <p class="text-sm text-slate-900 mb-4 dark:text-slate-200">Adjust the angle of the loop relative to the magnetic field to see how flux changes. Maximum flux occurs when the field is parallel to the area normal ($\theta = 0^\circ$).</p>
                     
                     <div class="flex flex-col md:flex-row gap-6">
                         <div class="flex-1 relative aspect-video bg-white rounded-lg border border-slate-200 overflow-hidden shadow-inner">
@@ -344,13 +344,13 @@
                         </div>
                         <div class="w-full md:w-64 flex flex-col justify-center space-y-6">
                             <div>
-                                <label for="fluxAngleSlider" class="block text-sm font-medium text-slate-700 mb-1">Angle ($\theta$): <span id="fluxAngleValue">0</span>°</label>
+                                <label for="fluxAngleSlider" class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-200">Angle ($\theta$): <span id="fluxAngleValue">0</span>°</label>
                                 <input type="range" id="fluxAngleSlider" min="0" max="180" value="0" class="slider-custom">
                             </div>
                             <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-                                <div class="text-xs text-slate-800 uppercase font-semibold mb-1">Calculated Flux</div>
+                                <div class="text-xs text-slate-800 uppercase font-semibold mb-1 dark:text-slate-200">Calculated Flux</div>
                                 <div class="text-2xl font-mono text-flux">$\Phi_B = $<span id="fluxDisplayCalc">1.00</span></div>
-                                <div class="text-sm text-slate-700 mt-1">Relative Units ($\cos\theta$)</div>
+                                <div class="text-sm text-slate-700 mt-1 dark:text-slate-200">Relative Units ($\cos\theta$)</div>
                             </div>
                         </div>
                     </div>
@@ -382,7 +382,7 @@
                         </p>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col items-center">
-                        <h4 class="font-bold text-slate-800 text-sm mb-4">Effect of N-Turns on EMF</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-4 dark:text-slate-200">Effect of N-Turns on EMF</h4>
                         <svg viewBox="0 0 300 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- N=1 -->
                             <ellipse cx="60" cy="75" rx="30" ry="60" fill="none" stroke="#475569" stroke-width="2" />
@@ -445,7 +445,7 @@
                 <p>
                     The negative sign in Faraday's Law is so conceptually important that it gets its own name: <strong>Lenz's Law</strong>. Formulated by Heinrich Lenz in 1834, it states:
                 </p>
-                <blockquote class="border-l-4 border-primary-500 pl-4 py-2 italic text-slate-700 bg-slate-50 my-4 rounded-r-lg">
+                <blockquote class="border-l-4 border-primary-500 pl-4 py-2 italic text-slate-700 bg-slate-50 my-4 rounded-r-lg dark:text-slate-200">
                     "The direction of the induced electric current is such that its own magnetic field <strong>opposes</strong> the change in magnetic flux that produced it."
                 </blockquote>
                 <p>
@@ -458,7 +458,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
                     <!-- SVG: Approaching -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center relative">
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">Magnet Approaching</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2 dark:text-slate-200">Magnet Approaching</h4>
                         <svg viewBox="0 0 250 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- Coil -->
                             <ellipse cx="180" cy="75" rx="20" ry="60" fill="none" stroke="#475569" stroke-width="4" />
@@ -482,7 +482,7 @@
 
                     <!-- SVG: Receding -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 text-center relative">
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">Magnet Receding</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2 dark:text-slate-200">Magnet Receding</h4>
                         <svg viewBox="0 0 250 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- Coil -->
                             <ellipse cx="180" cy="75" rx="20" ry="60" fill="none" stroke="#475569" stroke-width="4" />
@@ -507,11 +507,11 @@
 
                 <!-- Interactive Simulation 2: Lenz's Law -->
                 <div class="my-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800">
+                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800 dark:text-slate-200">
                         <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
                         Interactive Simulation: Lenz's Law & Magnet Drop
                     </h4>
-                    <p class="text-sm text-slate-900 mb-4">Drag the magnet back and forth through the conductive coil. Notice the direction of the induced current (yellow arrows) and the induced magnetic field (green arrows) opposing your motion.</p>
+                    <p class="text-sm text-slate-900 mb-4 dark:text-slate-200">Drag the magnet back and forth through the conductive coil. Notice the direction of the induced current (yellow arrows) and the induced magnetic field (green arrows) opposing your motion.</p>
                     
                     <div class="relative aspect-video max-h-80 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-inner mb-4 cursor-ew-resize" id="simLenzContainer">
                         <canvas id="simLenzCanvas" class="w-full h-full block"></canvas>
@@ -521,11 +521,11 @@
                     </div>
                     <div class="grid grid-cols-2 gap-4 text-center">
                         <div class="bg-white p-3 rounded border border-slate-200">
-                            <span class="block text-xs uppercase text-slate-800">External Flux Change ($\frac{d\Phi}{dt}$)</span>
-                            <span id="lenzFluxStatus" class="font-bold text-slate-700">Stable</span>
+                            <span class="block text-xs uppercase text-slate-800 dark:text-slate-200">External Flux Change ($\frac{d\Phi}{dt}$)</span>
+                            <span id="lenzFluxStatus" class="font-bold text-slate-700 dark:text-slate-200">Stable</span>
                         </div>
                         <div class="bg-white p-3 rounded border border-slate-200">
-                            <span class="block text-xs uppercase text-slate-800">Induced Current</span>
+                            <span class="block text-xs uppercase text-slate-800 dark:text-slate-200">Induced Current</span>
                             <span id="lenzCurrentStatus" class="font-bold text-emf">Zero</span>
                         </div>
                     </div>
@@ -552,7 +552,7 @@
                         </p>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h4 class="font-bold text-slate-800 text-sm mb-4 text-center">Lorentz Force on Electrons</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-4 text-center dark:text-slate-200">Lorentz Force on Electrons</h4>
                         <svg viewBox="0 0 250 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- B Field (into page) -->
                             <g stroke="#94a3b8" stroke-width="2">
@@ -584,11 +584,11 @@
 
                 <!-- Interactive Simulation 3: Motional EMF -->
                 <div class="my-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800">
+                    <h4 class="font-bold flex items-center gap-2 mb-4 text-slate-800 dark:text-slate-200">
                         <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         Interactive Simulation: Motional EMF
                     </h4>
-                    <p class="text-sm text-slate-900 mb-4">Adjust the velocity of the sliding bar. The magnetic field (X marks) points <em>into</em> the screen. The faster the bar moves, the higher the induced EMF.</p>
+                    <p class="text-sm text-slate-900 mb-4 dark:text-slate-200">Adjust the velocity of the sliding bar. The magnetic field (X marks) points <em>into</em> the screen. The faster the bar moves, the higher the induced EMF.</p>
                     
                     <div class="flex flex-col md:flex-row gap-6">
                         <div class="flex-1 relative aspect-[4/3] bg-[#eef2ff] rounded-lg border border-slate-300 overflow-hidden shadow-inner">
@@ -596,22 +596,22 @@
                         </div>
                         <div class="w-full md:w-64 flex flex-col justify-center space-y-6">
                             <div>
-                                <label for="motionalVelocitySlider" class="block text-sm font-medium text-slate-700 mb-1">Velocity ($v$): <span id="motionalVelocityValue">2.0</span> m/s</label>
+                                <label for="motionalVelocitySlider" class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-200">Velocity ($v$): <span id="motionalVelocityValue">2.0</span> m/s</label>
                                 <input type="range" id="motionalVelocitySlider" min="-5" max="5" value="2" step="0.1" class="slider-custom">
-                                <div class="flex justify-between text-xs text-slate-700 mt-1">
+                                <div class="flex justify-between text-xs text-slate-700 mt-1 dark:text-slate-200">
                                     <span>Left</span>
                                     <span>Right</span>
                                 </div>
                             </div>
                             <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm space-y-3">
                                 <div>
-                                    <div class="text-xs text-slate-800 uppercase font-semibold">Induced EMF ($\mathcal{E}$)</div>
+                                    <div class="text-xs text-slate-800 uppercase font-semibold dark:text-slate-200">Induced EMF ($\mathcal{E}$)</div>
                                     <div class="text-xl font-mono text-emf"><span id="motionalEmfCalc">20.0</span> V</div>
                                 </div>
                                 <div class="w-full h-px bg-slate-100"></div>
                                 <div>
-                                    <div class="text-xs text-slate-800 uppercase font-semibold">Current Direction</div>
-                                    <div class="text-sm font-bold text-slate-700" id="motionalDirCalc">Counter-Clockwise</div>
+                                    <div class="text-xs text-slate-800 uppercase font-semibold dark:text-slate-200">Current Direction</div>
+                                    <div class="text-sm font-bold text-slate-700 dark:text-slate-200" id="motionalDirCalc">Counter-Clockwise</div>
                                 </div>
                             </div>
                         </div>
@@ -635,7 +635,7 @@
                         </p>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h4 class="font-bold text-slate-800 text-sm mb-4 text-center">Self-Inductance: The Electrical Inertia</h4>
+                        <h4 class="font-bold text-slate-800 text-sm mb-4 text-center dark:text-slate-200">Self-Inductance: The Electrical Inertia</h4>
                         <svg viewBox="0 0 250 150" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                             <!-- Circuit line -->
                             <line x1="20" y1="75" x2="230" y2="75" stroke="#94a3b8" stroke-width="4" />
@@ -670,7 +670,7 @@
                 </p>
 
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 my-6 max-w-2xl mx-auto">
-                    <h4 class="font-bold text-slate-800 text-sm mb-4 text-center">Eddy Current Magnetic Braking</h4>
+                    <h4 class="font-bold text-slate-800 text-sm mb-4 text-center dark:text-slate-200">Eddy Current Magnetic Braking</h4>
                     <svg viewBox="0 0 350 200" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                         <!-- Metal sheet moving right -->
                         <rect x="50" y="60" width="250" height="80" fill="#cbd5e1" />

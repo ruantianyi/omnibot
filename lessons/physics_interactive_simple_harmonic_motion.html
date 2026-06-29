@@ -103,7 +103,7 @@
     #darkModeToggle:hover { background: #f1f5f9; color: #2563eb; }
     [data-theme="dark"] #darkModeToggle { border-color: #334155; color: #94a3b8; }</style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed dark:text-slate-200">
 
     <!-- Navigation Bar -->
     <nav class="fixed top-0 w-full glass-panel z-50">
@@ -111,9 +111,9 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-3">
                     <svg class="w-8 h-8 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span class="font-bold text-xl tracking-tight text-slate-900">Physics<span class="text-brand-600">Interactive</span></span>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-slate-200">Physics<span class="text-brand-600">Interactive</span></span>
                 </div>
-                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-900">
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-900 dark:text-slate-200">
                     <a href="#theory" class="hover:text-brand-600 transition-colors">Theory & Math</a>
                     <a href="#kinematics" class="hover:text-brand-600 transition-colors">Kinematics Sim</a>
                     <a href="#energy" class="hover:text-brand-600 transition-colors">Energy Conservation</a>
@@ -134,10 +134,10 @@
             <div class="inline-flex items-center px-3 py-1 rounded-full bg-brand-100 text-brand-800 text-sm font-semibold mb-6">
                 Unit 9: Oscillations & Waves
             </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 dark:text-slate-200">
                 Simple Harmonic Motion & Resonance
             </h1>
-            <p class="text-lg md:text-xl text-slate-900 max-w-3xl mx-auto mb-8">
+            <p class="text-lg md:text-xl text-slate-900 max-w-3xl mx-auto mb-8 dark:text-slate-200">
                 Explore the universal physics of restoring forces. From the invisible vibrations of diatomic molecules to the catastrophic collapse of bridges, understanding oscillatory motion is fundamental to classical mechanics.
             </p>
         </div>
@@ -149,15 +149,15 @@
         <section id="theory" class="scroll-mt-24">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">01</div>
-                <h2 class="text-3xl font-bold text-slate-900">The Governing Physics</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">The Governing Physics</h2>
             </div>
             
-            <div class="prose prose-slate max-w-none text-slate-700 text-lg">
+            <div class="prose prose-slate max-w-none text-slate-700 text-lg dark:text-slate-200">
                 <p>
                     <strong>Simple Harmonic Motion (SHM)</strong> occurs when an object is systematically perturbed from a stable equilibrium position by a restoring force that scales linearly with displacement. Because this restoring force always points directly back toward the central origin, the accelerating path describes a continuous sine or cosine waveform.
                 </p>
 
-                <h3 class="text-2xl font-bold text-slate-800 mt-10 mb-4">Mathematical Derivations & Governing Calculus</h3>
+                <h3 class="text-2xl font-bold text-slate-800 mt-10 mb-4 dark:text-slate-200">Mathematical Derivations & Governing Calculus</h3>
                 <p>
                     Consider a mass $m$ linked to an ideal, massless spring with stiffness constant $k$. Applying <strong>Hooke's Law</strong> ($\vec{F} = -k\vec{x}$) to <strong>Newton's Second Law</strong> ($\vec{F} = m\vec{a}$) provides a linear second-order differential equation:
                 </p>
@@ -182,14 +182,14 @@
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                         <h4 class="font-bold text-brand-700 mb-2">Velocity Function</h4>
                         $$v(t) = \frac{dx}{dt} = -\omega A\sin(\omega t + \phi)$$
-                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-900">
+                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-900 dark:text-slate-200">
                             <strong>Max Velocity:</strong> $v_{\text{max}} = \omega A$ (Occurs at equilibrium, $x=0$)
                         </div>
                     </div>
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                         <h4 class="font-bold text-accent-600 mb-2">Acceleration Function</h4>
                         $$a(t) = \frac{dv}{dt} = -\omega^2 A\cos(\omega t + \phi)$$
-                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-900">
+                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-900 dark:text-slate-200">
                             <strong>Max Acceleration:</strong> $a_{\text{max}} = \omega^2 A$ (Occurs at extremes, $x=\pm A$)
                         </div>
                     </div>
@@ -219,10 +219,10 @@
         <section id="kinematics" class="scroll-mt-24">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">02</div>
-                <h2 class="text-3xl font-bold text-slate-900">Interactive Kinematics Simulator</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Interactive Kinematics Simulator</h2>
             </div>
             
-            <p class="text-slate-700 text-lg mb-6">
+            <p class="text-slate-700 text-lg mb-6 dark:text-slate-200">
                 Observe the phase relationships between Position ($x$), Velocity ($v$), and Acceleration ($a$). Notice how velocity peaks when position is zero, and acceleration perfectly mirrors position (scaled by $-\omega^2$).
             </p>
 
@@ -230,15 +230,15 @@
                 <div class="p-6 bg-slate-50 border-b border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Controls -->
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Mass ($m$): <span id="valMass" class="font-bold text-brand-600">1.0</span> kg</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-200">Mass ($m$): <span id="valMass" class="font-bold text-brand-600">1.0</span> kg</label>
                         <input type="range" id="sliderMass" min="0.5" max="5.0" step="0.1" value="1.0" class="w-full accent-brand-600">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Spring Constant ($k$): <span id="valSpring" class="font-bold text-brand-600">10.0</span> N/m</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-200">Spring Constant ($k$): <span id="valSpring" class="font-bold text-brand-600">10.0</span> N/m</label>
                         <input type="range" id="sliderSpring" min="2.0" max="30.0" step="0.5" value="10.0" class="w-full accent-brand-600">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Amplitude ($A$): <span id="valAmp" class="font-bold text-brand-600">2.0</span> m</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-200">Amplitude ($A$): <span id="valAmp" class="font-bold text-brand-600">2.0</span> m</label>
                         <input type="range" id="sliderAmp" min="0.5" max="4.0" step="0.1" value="2.0" class="w-full accent-brand-600">
                     </div>
                 </div>
@@ -262,11 +262,11 @@
         <section id="energy" class="scroll-mt-24">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">03</div>
-                <h2 class="text-3xl font-bold text-slate-900">Energy Conservation</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Energy Conservation</h2>
             </div>
 
             <div class="grid md:grid-cols-2 gap-10 items-center">
-                <div class="prose prose-slate text-slate-700 text-lg">
+                <div class="prose prose-slate text-slate-700 text-lg dark:text-slate-200">
                     <p>
                         In an ideal SHM system (with no non-conservative forces like friction or air resistance), the total mechanical energy $E_{\text{total}}$ remains strictly constant. It continuously transforms between Elastic Potential Energy ($U_s$) and Kinetic Energy ($K$).
                     </p>
@@ -286,7 +286,7 @@
                 </div>
                 
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-lg p-6">
-                    <h3 class="text-center font-bold text-slate-800 mb-4">Energy vs. Displacement ($x$)</h3>
+                    <h3 class="text-center font-bold text-slate-800 mb-4 dark:text-slate-200">Energy vs. Displacement ($x$)</h3>
                     <div class="relative w-full h-[300px]">
                         <canvas id="energyCanvas" class="w-full h-full block"></canvas>
                     </div>
@@ -303,10 +303,10 @@
         <section id="resonance" class="scroll-mt-24">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">04</div>
-                <h2 class="text-3xl font-bold text-slate-900">Forced Oscillations & Resonance</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Forced Oscillations & Resonance</h2>
             </div>
             
-            <p class="text-slate-700 text-lg mb-6">
+            <p class="text-slate-700 text-lg mb-6 dark:text-slate-200">
                 If an external periodic driving force ($F_{\text{drive}} = F_0 \cos(\omega_d t)$) is applied to the system, the resulting amplitude depends heavily on how close the driving frequency ($\omega_d$) is to the system's natural frequency ($\omega_0 = \sqrt{k/m}$). 
             </p>
             
@@ -319,11 +319,11 @@
             <div class="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
                 <div class="p-6 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div class="w-full md:w-1/2">
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Damping Ratio ($b$): <span id="valDamping" class="font-bold text-brand-600">0.2</span> N·s/m</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-200">Damping Ratio ($b$): <span id="valDamping" class="font-bold text-brand-600">0.2</span> N·s/m</label>
                         <input type="range" id="sliderDamping" min="0.05" max="1.5" step="0.05" value="0.2" class="w-full accent-brand-600">
-                        <p class="text-xs text-slate-800 mt-2">Lower damping leads to a sharper, higher resonance peak.</p>
+                        <p class="text-xs text-slate-800 mt-2 dark:text-slate-200">Lower damping leads to a sharper, higher resonance peak.</p>
                     </div>
-                    <div class="w-full md:w-1/2 text-sm text-slate-700">
+                    <div class="w-full md:w-1/2 text-sm text-slate-700 dark:text-slate-200">
                         Steady-state amplitude equation:
                         $$A(\omega_d) = \frac{F_0}{\sqrt{m^2(\omega_0^2 - \omega_d^2)^2 + b^2\omega_d^2}}$$
                     </div>
@@ -338,7 +338,7 @@
         <section id="strategy" class="scroll-mt-24">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-lg">05</div>
-                <h2 class="text-3xl font-bold text-slate-900">Problem-Solving Master Strategy</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Problem-Solving Master Strategy</h2>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
@@ -382,13 +382,13 @@
         <section id="quiz" class="scroll-mt-24 no-print">
             <div class="flex items-center gap-4 mb-6">
                 <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xl font-serif shadow-inner">Q</div>
-                <h2 class="text-3xl font-bold text-slate-900">Concept Check Quiz</h2>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-200">Concept Check Quiz</h2>
             </div>
             
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2 dark:text-slate-200">Test Your Knowledge</h3>
+                <p class="text-slate-900 mb-6 dark:text-slate-200">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -396,13 +396,13 @@
 
             <div id="quiz-main-content" class="hidden bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900 dark:text-slate-200">Level 1</span>
                     </div>
                 </div>
                 
-                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium">Question goes here...</div>
+                <div id="q-text" class="text-lg text-slate-700 mb-8 font-medium dark:text-slate-200">Question goes here...</div>
                 
                 <div id="mc-options" class="space-y-3 hidden">
                     <!-- Options injected here -->
@@ -421,16 +421,16 @@
             </div>
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
-                <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
+                <h3 class="text-3xl font-bold text-slate-900 mb-2 dark:text-slate-200">Quiz Complete!</h3>
+                <p class="text-slate-900 mb-8 dark:text-slate-200">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
-                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
+                <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition dark:text-slate-200">Retake Quiz</button>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-slate-900 text-slate-700 py-8 text-center text-sm">
+    <footer class="bg-slate-900 text-slate-700 py-8 text-center text-sm dark:text-slate-200">
         <p>&copy; 2026 Physics Interactive Education. Created for rigor and clarity.</p>
     </footer>
 
