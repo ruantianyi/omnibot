@@ -599,17 +599,17 @@ window.webllm = webllm;
             class="fixed inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4" onclick="if(event.target===this)closeSettings()">
             <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative" data-key-saved="true">
                 <button onclick="closeSettings()"
-                    class="absolute top-4 right-4 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition"><i
+                    class="absolute top-4 right-4 text-slate-800 hover:text-slate-800 dark:text-slate-100 dark:hover:text-white transition"><i
                         class="fa-solid fa-xmark text-lg"></i></button>
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1"><i class="fa-solid fa-gear text-indigo-600 dark:text-indigo-400 mr-2"></i>Anthocyan AI Settings</h2>
-                <p class="text-xs text-slate-550 dark:text-slate-400 mb-5 font-sans">Manage your workspace preferences.</p>
+                <p class="text-xs text-slate-550 dark:text-slate-100 mb-5 font-sans">Manage your workspace preferences.</p>
 
                 <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar font-sans text-left">
 
                     <!-- ══API Connection ══-->
                     <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-plug text-indigo-600 dark:text-indigo-400"></i>API Connection</h3>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Provider</label>
+                        <label class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Provider</label>
                         <select id="api-provider"
                             class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:border-indigo-500">
                             <option value="gemini">Google Gemini</option>
@@ -618,11 +618,11 @@ window.webllm = webllm;
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">API Key</label>
-                        <p class="text-[10px] text-slate-400 dark:text-slate-500 mb-2">Keys are stored locally in your browser and are never sent to our servers.</p>
+                        <label class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">API Key</label>
+                        <p class="text-[10px] text-slate-700 dark:text-slate-200 mb-2">Keys are stored locally in your browser and are never sent to our servers.</p>
                         <input type="password" id="api-key-input" placeholder="sk-..."
                             oninput="document.querySelector('#settings-modal > div').dataset.keySaved = 'false'"
-                            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 transition duration-150">
+                            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-700 transition duration-150">
                         <div class="flex gap-2 mt-3">
                             <button onclick="saveAPIKey()"
                                 class="flex-grow py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-lg shadow-indigo-600/20">Save &amp; Apply</button>
@@ -636,7 +636,7 @@ window.webllm = webllm;
                     <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-palette text-indigo-600 dark:text-indigo-400"></i>Preferences</h3>
 
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-semibold text-slate-550 dark:text-slate-400 uppercase tracking-wider">Light Mode</label>
+                        <label class="text-xs font-semibold text-slate-550 dark:text-slate-100 uppercase tracking-wider">Light Mode</label>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="light-mode-toggle" class="sr-only peer" onchange="toggleLightMode()">
                             <div class="w-9 h-5 bg-slate-250 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500"></div>
@@ -644,7 +644,7 @@ window.webllm = webllm;
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-semibold text-slate-550 dark:text-slate-400 uppercase tracking-wider">Auto-Save History</label>
+                        <label class="text-xs font-semibold text-slate-550 dark:text-slate-100 uppercase tracking-wider">Auto-Save History</label>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="autosave-toggle" class="sr-only peer" checked onchange="handleHistoryToggle(this)">
                             <div class="w-9 h-5 bg-slate-250 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-500"></div>
@@ -654,33 +654,33 @@ window.webllm = webllm;
                     <!-- ══Model Manager (Anthocyan AI 7.0) ══-->
                     <hr class="border-slate-200 dark:border-slate-800 my-2">
                     <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-microchip text-indigo-600 dark:text-indigo-400"></i>Local AI Models</h3>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 mb-2">Download AI models (via WebLLM) to run offline directly in your browser without API keys.</p>
+                    <p class="text-[10px] text-slate-700 dark:text-slate-200 mb-2">Download AI models (via WebLLM) to run offline directly in your browser without API keys.</p>
 
                     <div class="space-y-4 mt-3">
                         <!-- Potato Tier Section -->
                         <div class="border-t border-slate-200 dark:border-slate-800 pt-2">
                             <h4 class="text-[10px] font-bold text-indigo-650 dark:text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-                                <span>🥔 Potato Tier</span> <span class="text-[9px] font-normal text-slate-400 dark:text-slate-500 normal-case">(2GB - 3GB RAM)</span>
+                                <span>🥔 Potato Tier</span> <span class="text-[9px] font-normal text-slate-700 dark:text-slate-200 normal-case">(2GB - 3GB RAM)</span>
                             </h4>
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Planner (Qwen-2.5 0.5B)</h5>
-                                        <p class="text-[9px] text-slate-500">JSON/Step planner, ~350MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800">JSON/Step planner, ~350MB RAM.</p>
                                     </div>
                                     <div id="controls-potato-planner" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Text (Qwen-2.5 0.5B)</h5>
-                                        <p class="text-[9px] text-slate-500">Fast fallback chat, ~350MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800">Fast fallback chat, ~350MB RAM.</p>
                                     </div>
                                     <div id="controls-potato-text" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Potato Coder (Qwen-2.5-Coder 0.5B)</h5>
-                                        <p class="text-[9px] text-slate-500">Regex/SQL snippets, ~350MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800">Regex/SQL snippets, ~350MB RAM.</p>
                                     </div>
                                     <div id="controls-potato-coder" class="flex gap-1 ml-auto"></div>
                                 </div>
@@ -690,27 +690,27 @@ window.webllm = webllm;
                         <!-- Medium Tier Section -->
                         <div class="border-t border-slate-200 dark:border-slate-800 pt-2">
                             <h4 class="text-[10px] font-bold text-indigo-650 dark:text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-                                <span>📱 Medium Tier</span> <span class="text-[9px] font-normal text-slate-400 dark:text-slate-500 normal-case">(4GB - 8GB RAM)</span>
+                                <span>📱 Medium Tier</span> <span class="text-[9px] font-normal text-slate-700 dark:text-slate-200 normal-case">(4GB - 8GB RAM)</span>
                             </h4>
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Planner (Llama-3.2 3B)</h5>
-                                        <p class="text-[9px] text-slate-500">Chain-of-thought routing, ~2.0GB RAM.</p>
+                                        <p class="text-[9px] text-slate-800">Chain-of-thought routing, ~2.0GB RAM.</p>
                                     </div>
                                     <div id="controls-medium-planner" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Text (Llama-3.2 1B)</h5>
-                                        <p class="text-[9px] text-slate-500">Advanced mobile assistant, ~750MB RAM.</p>
+                                        <p class="text-[9px] text-slate-800">Advanced mobile assistant, ~750MB RAM.</p>
                                     </div>
                                     <div id="controls-medium-text" class="flex gap-1 ml-auto"></div>
                                 </div>
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Medium Coder (Qwen-2.5-Coder 1.5B)</h5>
-                                        <p class="text-[9px] text-slate-500">Complete logic/function gen, ~1.1GB RAM.</p>
+                                        <p class="text-[9px] text-slate-800">Complete logic/function gen, ~1.1GB RAM.</p>
                                     </div>
                                     <div id="controls-medium-coder" class="flex gap-1 ml-auto"></div>
                                 </div>
@@ -756,7 +756,7 @@ window.webllm = webllm;
                     class="relative flex items-center flex-grow overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/50">
                     <button
                         onclick="document.getElementById('top-nav-scroll').scrollBy({left: -200, behavior: 'smooth'})"
-                        class="absolute left-0 z-10 w-8 h-full bg-gradient-to-r from-slate-100 dark:from-slate-900 via-slate-100/90 dark:via-slate-900/90 to-transparent flex items-center justify-start text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white transition opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 hidden md:flex"
+                        class="absolute left-0 z-10 w-8 h-full bg-gradient-to-r from-slate-100 dark:from-slate-900 via-slate-100/90 dark:via-slate-900/90 to-transparent flex items-center justify-start text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-white transition opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 hidden md:flex"
                         onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
@@ -773,33 +773,33 @@ window.webllm = webllm;
                             <i class="fa-regular fa-comment text-indigo-200"></i> Chat Bot
                         </button>
                         <button onclick="switchTab('essay')" id="tab-btn-essay"
-                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-pen-nib text-violet-500 dark:text-violet-400"></i> Compose
                         </button>
                         <button onclick="switchTab('humanizer')" id="tab-btn-humanizer"
-                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-wand-magic-sparkles text-pink-500 dark:text-pink-400"></i> Rephraser
                         </button>
                         <button onclick="switchTab('solver')" id="tab-btn-solver"
-                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-calculator text-teal-500 dark:text-teal-400"></i> Math
                         </button>
                         <button onclick="switchTab('sandbox')" id="tab-btn-sandbox"
-                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-laptop-code text-emerald-500 dark:text-emerald-400"></i> Sandbox
                         </button>
                         <button onclick="switchTab('game')" id="tab-btn-game"
-                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-gamepad text-amber-500 dark:text-amber-400"></i> Game
                         </button>
                         <a href="lessons.html" id="tab-btn-lessons"
-                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
+                            class="tab-btn flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:shadow-sm transition-all duration-200 shrink-0">
                             <i class="fa-solid fa-book text-blue-500 dark:text-blue-400"></i> Lessons
                         </a>
                     </nav>
                     <button
                         onclick="document.getElementById('top-nav-scroll').scrollBy({left: 200, behavior: 'smooth'})"
-                        class="absolute right-0 z-10 w-8 h-full bg-gradient-to-l from-slate-100 dark:from-slate-900 via-slate-100/90 dark:via-slate-900/90 to-transparent flex items-center justify-end text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white transition opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 hidden md:flex"
+                        class="absolute right-0 z-10 w-8 h-full bg-gradient-to-l from-slate-100 dark:from-slate-900 via-slate-100/90 dark:via-slate-900/90 to-transparent flex items-center justify-end text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-white transition opacity-0 hover:opacity-100 group-hover:opacity-100 px-2 hidden md:flex"
                         onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
                         <i class="fa-solid fa-chevron-right"></i>
                     </button>
@@ -809,15 +809,15 @@ window.webllm = webllm;
                 <div
                     class="flex items-center gap-1.5 shrink-0 bg-white/60 dark:bg-slate-900/60 p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                     <button onclick="document.getElementById('import-file').click()" title="Import Session Backup"
-                        class="flex items-center justify-center w-8 h-8 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                        class="flex items-center justify-center w-8 h-8 rounded-lg text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
                         <i class="fa-solid fa-upload text-sm"></i>
                     </button>
                     <button onclick="exportHistory()" title="Export Session Backup"
-                        class="flex items-center justify-center w-8 h-8 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                        class="flex items-center justify-center w-8 h-8 rounded-lg text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
                         <i class="fa-solid fa-download text-sm"></i>
                     </button>
                     <button onclick="toggleSettings()" title="Settings"
-                        class="flex items-center justify-center w-8 h-8 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                        class="flex items-center justify-center w-8 h-8 rounded-lg text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
                         <i class="fa-solid fa-gear text-sm"></i>
                     </button>
                 </div>
@@ -839,7 +839,7 @@ window.webllm = webllm;
                     <h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2">
                         Engine Setup</h3>
                     <div class="space-y-2">
-                        <label class="text-xs text-slate-500 dark:text-slate-400 font-medium">Personality
+                        <label class="text-xs text-slate-800 dark:text-slate-100 font-medium">Personality
                             Configuration</label>
                         <div class="grid grid-cols-1 gap-2">
                             <button onclick="setPersonality('alpha')" id="per-alpha"
@@ -849,7 +849,7 @@ window.webllm = webllm;
                                         class="fa-solid fa-robot"></i></span>
                                 <div>
                                     <h4 class="text-xs font-bold text-slate-800 dark:text-white">Alpha Engine</h4>
-                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Polite & Academic</p>
+                                    <p class="text-[10px] text-slate-800 dark:text-slate-100">Polite & Academic</p>
                                 </div>
                             </button>
                             <button onclick="setPersonality('nova')" id="per-nova"
@@ -859,7 +859,7 @@ window.webllm = webllm;
                                         class="fa-solid fa-ghost"></i></span>
                                 <div>
                                     <h4 class="text-xs font-bold text-slate-800 dark:text-white">Nova Engine</h4>
-                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Critical & Analytical</p>
+                                    <p class="text-[10px] text-slate-800 dark:text-slate-100">Critical & Analytical</p>
                                 </div>
                             </button>
                             <button onclick="setPersonality('luna')" id="per-luna"
@@ -869,7 +869,7 @@ window.webllm = webllm;
                                         class="fa-solid fa-spa"></i></span>
                                 <div>
                                     <h4 class="text-xs font-bold text-slate-800 dark:text-white">Luna Engine</h4>
-                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Creative & Philosophical
+                                    <p class="text-[10px] text-slate-800 dark:text-slate-100">Creative & Philosophical
                                     </p>
                                 </div>
                             </button>
@@ -878,18 +878,18 @@ window.webllm = webllm;
 
                     <!-- AI Engine Selector -->
                     <div class="mt-6 pt-6 border-t border-slate-200/80 dark:border-slate-800/80">
-                        <label class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+                        <label class="text-[11px] font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-3 flex items-center justify-between">
                             AI Engine
                             <div id="thinking-mode-wrapper" class="relative hidden">
                             <label class="relative inline-flex items-center cursor-pointer" title="Thinking Mode">
                                 <input type="checkbox" id="planner-mode-toggle" class="sr-only peer" onchange="togglePlannerMode()">
                                 <div class="w-7 h-4 bg-slate-250 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-indigo-500"></div>
-                                <span class="ml-2 text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase flex items-center gap-1">
+                                <span class="ml-2 text-[9px] font-bold text-slate-800 dark:text-slate-100 uppercase flex items-center gap-1">
                                     Thinking
-                                    <button id="thinking-info-btn" class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700 text-[8px] flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-300 dark:hover:bg-slate-600 transition" onclick="toggleThinkingInfo(event); return false;">?</button>
+                                    <button id="thinking-info-btn" class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700 text-[8px] flex items-center justify-center text-slate-800 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 transition" onclick="toggleThinkingInfo(event); return false;">?</button>
                                 </span>
                             </label>
-                            <div id="thinking-info-popup" class="hidden absolute z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 rounded-lg shadow-lg text-[10px] text-slate-600 dark:text-slate-300 w-48 right-0 top-6">
+                            <div id="thinking-info-popup" class="hidden absolute z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 rounded-lg shadow-lg text-[10px] text-slate-900 dark:text-slate-300 w-48 right-0 top-6">
                                 Enables local planning model if using local models.
                             </div>
                         </div>
@@ -907,7 +907,7 @@ window.webllm = webllm;
                     <div class="pt-4 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col gap-2">
                         <div class="flex items-center justify-between">
                             <h4
-                                class="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 font-sans">
+                                class="text-xs font-bold text-slate-900 dark:text-slate-300 flex items-center gap-1.5 font-sans">
                                 <i class="fa-solid fa-comments text-indigo-600 dark:text-indigo-400"></i> Conversations
                             </h4>
                             <button onclick="createNewChat()"
@@ -921,11 +921,11 @@ window.webllm = webllm;
                     </div>
 
                     <div class="mt-auto pt-4 border-t border-slate-200/80 dark:border-slate-800/80">
-                        <h4 class="text-xs font-bold text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-1.5">
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-slate-300 mb-2 flex items-center gap-1.5">
                             <i class="fa-solid fa-database text-indigo-600 dark:text-indigo-400"></i> AI Memory Status
                         </h4>
                         <div
-                            class="p-3 bg-white/60 dark:bg-slate-950/60 rounded-xl border border-slate-200/80 dark:border-slate-800/80 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                            class="p-3 bg-white/60 dark:bg-slate-950/60 rounded-xl border border-slate-200/80 dark:border-slate-800/80 space-y-1.5 text-[11px] text-slate-800 dark:text-slate-100 font-mono">
                             <div>Model: <span id="mem-model-type" class="text-indigo-600 dark:text-indigo-300">7.0 Nexus
                                     Core</span></div>
                             <div>Extracted Topics: <span class="text-emerald-600 dark:text-emerald-300">Active</span>
@@ -935,7 +935,7 @@ window.webllm = webllm;
                             <div>Markov Nodes: <span id="mem-markov-count"
                                     class="text-emerald-600 dark:text-emerald-300">0 loaded</span></div>
                             <button onclick="clearMemory()"
-                                class="w-full mt-2 py-1 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded text-[10px] transition font-sans font-medium">Reset
+                                class="w-full mt-2 py-1 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-300 rounded text-[10px] transition font-sans font-medium">Reset
                                 AI Memory</button>
                         </div>
                     </div>
@@ -967,7 +967,7 @@ window.webllm = webllm;
                                     Nexus</strong> — the most advanced offline AI suite yet. 🚀<br><br>Powered by an
                                 expanded knowledge graph, a procedural creative fiction engine, and real Math.js
                                 calculus. Add an API key in settings to unlock the full live hybrid engine.
-                                <span class="text-xs text-slate-500 dark:text-slate-400 mt-2 block leading-relaxed">Try
+                                <span class="text-xs text-slate-800 dark:text-slate-100 mt-2 block leading-relaxed">Try
                                     typing: <br>- <code
                                         class="bg-white/80 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/80 px-1.5 py-0.5 rounded text-indigo-600 dark:text-indigo-300">write a fantasy story about a mage who lost their powers</code>
                                     <br>- <code
@@ -979,7 +979,7 @@ window.webllm = webllm;
                     </div>
 
                     <div id="chat-typing"
-                        class="hidden px-4 py-2 flex gap-2 items-center text-xs text-slate-400 dark:text-slate-500 bg-white/50 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/50 z-10">
+                        class="hidden px-4 py-2 flex gap-2 items-center text-xs text-slate-700 dark:text-slate-200 bg-white/50 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/50 z-10">
                         <i class="fa-solid fa-circle-notch animate-spin text-indigo-500"></i> <span
                             id="typing-bot-name">Alpha</span> is processing query...
                     </div>
@@ -1001,22 +1001,22 @@ window.webllm = webllm;
                         class="p-4 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col gap-2 bg-white/20 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/20 rounded-b-2xl z-10 font-sans">
                         <div id="chat-math-toolbar" class="flex gap-1 overflow-x-auto pb-1 scrollbar-none">
                             <button type="button" onclick="insertMath('chat-input', '\\frac{}{}')"
-                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-600 dark:text-slate-300 font-mono">$\frac{a}{b}$</button>
+                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-900 dark:text-slate-300 font-mono">$\frac{a}{b}$</button>
                             <button type="button" onclick="insertMath('chat-input', '\\sqrt{}')"
-                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-600 dark:text-slate-300 font-mono">$\sqrt{x}$</button>
+                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-900 dark:text-slate-300 font-mono">$\sqrt{x}$</button>
                             <button type="button" onclick="insertMath('chat-input', '^{}')"
-                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-600 dark:text-slate-300 font-mono">$x^y$</button>
+                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-900 dark:text-slate-300 font-mono">$x^y$</button>
                             <button type="button" onclick="insertMath('chat-input', '_{}')"
-                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-600 dark:text-slate-300 font-mono">$x_n$</button>
+                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-900 dark:text-slate-300 font-mono">$x_n$</button>
                             <button type="button" onclick="insertMath('chat-input', '\\int')"
-                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-600 dark:text-slate-300 font-mono">$\int$</button>
+                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-900 dark:text-slate-300 font-mono">$\int$</button>
                             <button type="button" onclick="insertMath('chat-input', '\\Delta')"
-                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-600 dark:text-slate-300 font-mono">$\Delta$</button>
+                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[10px] text-slate-900 dark:text-slate-300 font-mono">$\Delta$</button>
                         </div>
                         <div class="flex items-end gap-3 w-full">
                             <div id="chat-input" contenteditable="true"
                                 data-placeholder="Type a message, physics problem, or use interactive math..."
-                                class="flex-grow bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-500 transition duration-150 overflow-y-auto max-h-[150px] empty:before:content-[attr(data-placeholder)] empty:before:text-slate-500">
+                                class="flex-grow bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-800 transition duration-150 overflow-y-auto max-h-[150px] empty:before:content-[attr(data-placeholder)] empty:before:text-slate-800">
                             </div>
                             <button type="submit"
                                 class="bg-indigo-600 hover:bg-indigo-500 text-white w-11 h-11 rounded-xl flex items-center justify-center transition shadow-lg shadow-indigo-600/20 shrink-0 font-bold mb-0.5">
@@ -1028,7 +1028,7 @@ window.webllm = webllm;
                     <!-- Saved Documents Section -->
                     <div class="pt-4 border-t border-slate-200/30 dark:border-slate-800/30 flex flex-col gap-2">
                         <h4
-                            class="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 font-sans">
+                            class="text-xs font-bold text-slate-900 dark:text-slate-300 flex items-center gap-1.5 font-sans">
                             <i class="fa-solid fa-folder-open text-indigo-600 dark:text-indigo-400"></i> Saved Documents
                         </h4>
                         <div class="doc-history-list max-h-[160px] overflow-y-auto space-y-1.5 pr-1 font-sans">
@@ -1047,7 +1047,7 @@ window.webllm = webllm;
                             <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                                 <i class="fa-solid fa-wand-sparkles text-indigo-600 dark:text-indigo-400"></i> Nexus
                                 Compose Engine</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Generates unique essays
+                            <p class="text-xs text-slate-800 dark:text-slate-100 mt-1.5">Generates unique essays
                                 <em>and</em> original creative stories from structural libraries — never the same twice.
                             </p>
                         </div>
@@ -1055,7 +1055,7 @@ window.webllm = webllm;
                         <div class="space-y-4">
                             <div>
                                 <label
-                                    class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Composition
+                                    class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Composition
                                     Mode</label>
                                 <select id="composer-mode" onchange="switchComposerMode()"
                                     class="w-full bg-white/80 dark:bg-slate-950/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
@@ -1065,7 +1065,7 @@ window.webllm = webllm;
                                 </select>
                             </div>
                             <div class="mt-2">
-                                <label class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+                                <label class="text-xs text-slate-800 dark:text-slate-100 font-medium flex items-center justify-between">
                                     Local AI Engine
                                     <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
                                 </label>
@@ -1075,7 +1075,7 @@ window.webllm = webllm;
                             </div>
                             <div>
                                 <label
-                                    class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Topic
+                                    class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Topic
                                     / Story Prompt</label>
                                 <textarea id="composer-topic" rows="3"
                                     placeholder="e.g., The intersection of Aerospace Engineering, Orbital Mechanics, and Astronomy"
@@ -1087,42 +1087,42 @@ window.webllm = webllm;
                             <div id="creative-controls" class="hidden space-y-3">
                                 <div>
                                     <label
-                                        class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Genre</label>
+                                        class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-2">Genre</label>
                                     <div class="flex flex-wrap gap-1.5" id="genre-pills">
                                         <span
-                                            class="genre-pill selected px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill selected px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="auto"
                                             onclick="selectGenre(this)">Auto</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="scifi"
                                             onclick="selectGenre(this)">Sci-Fi</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="fantasy"
                                             onclick="selectGenre(this)">Fantasy</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="mystery"
                                             onclick="selectGenre(this)">Mystery</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="historical"
                                             onclick="selectGenre(this)">Historical</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="cyberpunk"
                                             onclick="selectGenre(this)">Cyberpunk</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="postapoc"
                                             onclick="selectGenre(this)">Post-Apoc</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="mythology"
                                             onclick="selectGenre(this)">Mythology</span>
                                         <span
-                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+                                            class="genre-pill px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-900 dark:text-slate-300"
                                             style="background: rgba(10,12,30,0.7);" data-genre="psychological"
                                             onclick="selectGenre(this)">Psychological</span>
                                     </div>
@@ -1131,7 +1131,7 @@ window.webllm = webllm;
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
                                         <label
-                                            class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Protagonist</label>
+                                            class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Protagonist</label>
                                         <select id="story-protagonist"
                                             class="w-full rounded-xl px-2.5 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none"
                                             style="border: 1px solid rgba(99,102,241,0.2); background: rgba(5,8,25,0.7);">
@@ -1149,7 +1149,7 @@ window.webllm = webllm;
                                     </div>
                                     <div>
                                         <label
-                                            class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Length</label>
+                                            class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Length</label>
                                         <select id="story-length"
                                             class="w-full rounded-xl px-2.5 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none"
                                             style="border: 1px solid rgba(99,102,241,0.2); background: rgba(5,8,25,0.7);">
@@ -1165,7 +1165,7 @@ window.webllm = webllm;
                             <div id="essay-controls" class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label
-                                        class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Narrative
+                                        class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Narrative
                                         Tone</label>
                                     <select id="composer-style"
                                         class="w-full rounded-xl px-3.5 py-2.5 text-xs text-slate-700 dark:text-slate-200 focus:outline-none"
@@ -1178,7 +1178,7 @@ window.webllm = webllm;
                                 </div>
                                 <div>
                                     <label
-                                        class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Length</label>
+                                        class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Length</label>
                                     <select id="composer-length"
                                         class="w-full rounded-xl px-3.5 py-2.5 text-xs text-slate-700 dark:text-slate-200 focus:outline-none"
                                         style="border: 1px solid rgba(99,102,241,0.2); background: rgba(5,8,25,0.7);">
@@ -1202,7 +1202,7 @@ window.webllm = webllm;
                     <!-- Saved Documents Section -->
                     <div class="pt-4 border-t border-slate-200/30 dark:border-slate-800/30 flex flex-col gap-2">
                         <h4
-                            class="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 font-sans">
+                            class="text-xs font-bold text-slate-900 dark:text-slate-300 flex items-center gap-1.5 font-sans">
                             <i class="fa-solid fa-folder-open text-indigo-600 dark:text-indigo-400"></i> Saved Documents
                         </h4>
                         <div class="doc-history-list max-h-[160px] overflow-y-auto space-y-1.5 pr-1 font-sans">
@@ -1217,24 +1217,24 @@ window.webllm = webllm;
                         class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4 gap-3">
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span><span
-                                class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Output
+                                class="text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Output
                                 Paper Draft</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <button onclick="copyEssayToClipboard()"
-                                class="text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="text-xs text-slate-800 dark:text-slate-100 hover:text-indigo-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
                                     class="fa-solid fa-copy"></i> Copy</button>
                             <button onclick="exportEssayTXT()"
-                                class="text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="text-xs text-slate-800 dark:text-slate-100 hover:text-indigo-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
                                     class="fa-solid fa-file-lines"></i> .TXT</button>
                             <button onclick="exportEssayPDF()"
-                                class="text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="text-xs text-slate-800 dark:text-slate-100 hover:text-indigo-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
                                     class="fa-solid fa-file-pdf"></i> .PDF</button>
                         </div>
                     </div>
                     <div id="essay-paper"
-                        class="flex-grow overflow-y-auto max-h-[420px] bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 p-6 rounded-xl leading-relaxed text-slate-600 dark:text-slate-300 text-sm space-y-4 font-sans">
-                        <div class="text-center italic text-slate-400 dark:text-slate-500 py-20">
+                        class="flex-grow overflow-y-auto max-h-[420px] bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 p-6 rounded-xl leading-relaxed text-slate-900 dark:text-slate-300 text-sm space-y-4 font-sans">
+                        <div class="text-center italic text-slate-700 dark:text-slate-200 py-20">
                             <i class="fa-solid fa-file-invoice text-3xl mb-3 block opacity-40"></i><br>Select your
                             parameters and click "Synthesize" to extract facts, rephrase sentences, and weave them
                             together
@@ -1256,7 +1256,7 @@ window.webllm = webllm;
                                     class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                                     <i class="fa-solid fa-wand-magic-sparkles text-pink-600 dark:text-pink-400"></i>
                                     Rephraser</h3>
-                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">Bypass structural analysis
+                                <p class="text-xs text-slate-900 dark:text-slate-300 mt-2">Bypass structural analysis
                                     algorithms and completely
                                     rewrite phrasing with natural flow and dynamic variations.</p>
                             </div>
@@ -1266,12 +1266,12 @@ window.webllm = webllm;
                                     class="w-9 h-5 bg-slate-100 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-pink-500">
                                 </div>
                                 <span
-                                    class="ml-2 text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase">Humanize</span>
+                                    class="ml-2 text-[10px] font-bold text-slate-900 dark:text-slate-300 uppercase">Humanize</span>
                             </label>
                         </div>
                         <div>
                             <label
-                                class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Rewriting
+                                class="block text-xs font-semibold text-slate-900 dark:text-slate-300 uppercase tracking-wider mb-1.5">Rewriting
                                 Style</label>
                             <select id="humanizer-style-select"
                                 class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-pink-500">
@@ -1282,7 +1282,7 @@ window.webllm = webllm;
                             </select>
                         </div>
                         <div class="mt-2">
-                            <label class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+                            <label class="text-xs text-slate-800 dark:text-slate-100 font-medium flex items-center justify-between">
                                 Local AI Engine
                                 <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
                             </label>
@@ -1292,7 +1292,7 @@ window.webllm = webllm;
                         </div>
                         <div>
                             <label
-                                class="block text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">Raw
+                                class="block text-xs font-semibold text-slate-900 dark:text-slate-300 uppercase tracking-wider mb-1.5">Raw
                                 Robotic Input Text</label>
                             <textarea id="humanizer-input" rows="8"
                                 placeholder="Paste robotic AI-generated text or regular sentences here..."
@@ -1312,23 +1312,23 @@ window.webllm = webllm;
                         class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
                         <div class="flex items-center gap-2"><span
                                 class="w-2.5 h-2.5 rounded-full bg-pink-400"></span><span
-                                class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Rewritten
+                                class="text-xs font-bold text-slate-900 dark:text-slate-300 uppercase tracking-wider">Rewritten
                                 Text Output</span></div>
                         <div class="flex items-center gap-2">
                             <button onclick="copyHumanizedToClipboard()"
-                                class="text-xs text-slate-600 dark:text-slate-300 hover:text-pink-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="text-xs text-slate-900 dark:text-slate-300 hover:text-pink-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
                                     class="fa-solid fa-copy"></i> Copy</button>
                             <button onclick="exportHumanizedTXT()"
-                                class="text-xs text-slate-600 dark:text-slate-300 hover:text-pink-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="text-xs text-slate-900 dark:text-slate-300 hover:text-pink-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
                                     class="fa-solid fa-file-lines"></i> .TXT</button>
                             <button onclick="exportHumanizedPDF()"
-                                class="text-xs text-slate-600 dark:text-slate-300 hover:text-pink-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
+                                class="text-xs text-slate-900 dark:text-slate-300 hover:text-pink-400 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 px-3 py-1.5 rounded-lg border-slate-300/60 dark:border-slate-700/60 transition flex items-center gap-1.5"><i
                                     class="fa-solid fa-file-pdf"></i> .PDF</button>
                         </div>
                     </div>
                     <div id="humanizer-output"
-                        class="flex-grow overflow-y-auto max-h-[360px] bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 p-6 rounded-xl leading-relaxed text-slate-600 dark:text-slate-300 text-sm space-y-4 font-sans">
-                        <div class="text-center italic text-slate-400 dark:text-slate-500 py-20">
+                        class="flex-grow overflow-y-auto max-h-[360px] bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 p-6 rounded-xl leading-relaxed text-slate-900 dark:text-slate-300 text-sm space-y-4 font-sans">
+                        <div class="text-center italic text-slate-700 dark:text-slate-200 py-20">
                             <i class="fa-solid fa-face-smile text-3xl mb-3 block opacity-40"></i><br>Humanized prose
                             with
                             natural dynamic phrasing variations will generate here.
@@ -1346,7 +1346,7 @@ window.webllm = webllm;
                             <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                                 <i class="fa-solid fa-calculator text-teal-600 dark:text-teal-400"></i> Math & Physics
                                 Solver</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Configure parameters below, or
+                            <p class="text-xs text-slate-800 dark:text-slate-100 mt-2">Configure parameters below, or
                                 enter any complex
                                 physical/algebraic word problem directly in the chatbot for automatic parsing using
                                 Math.js!
@@ -1356,7 +1356,7 @@ window.webllm = webllm;
                         <div class="space-y-4">
                             <div>
                                 <label
-                                    class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Physics
+                                    class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider mb-1.5">Physics
                                     Model</label>
                                 <select id="solver-module" onchange="switchSolverModule()"
                                     class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-teal-500">
@@ -1370,7 +1370,7 @@ window.webllm = webllm;
                             <div
                                 class="bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 p-4 rounded-xl space-y-3">
                                 <div id="form-natural" class="solver-form hidden space-y-3">
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 italic">Type a
+                                    <p class="text-[11px] text-slate-800 dark:text-slate-100 italic">Type a
                                         non-straightforward physics problem
                                         in natural language. The AI engine will extract variables, auto-detect the
                                         necessary formulas (from 200+ stored), and chain them together to find the
@@ -1378,25 +1378,25 @@ window.webllm = webllm;
                                     </p>
                                     <div>
                                         <label
-                                            class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1 font-bold uppercase tracking-widest">Problem
+                                            class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1 font-bold uppercase tracking-widest">Problem
                                             Description & Equation Input</label>
                                         <div class="flex gap-1 mb-2 overflow-x-auto scrollbar-none">
                                             <button type="button"
                                                 onclick="insertMath('natural-nlp-input', '\\frac{}{}')"
-                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 font-mono">$\frac{a}{b}$</button>
+                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-900 dark:text-slate-300 font-mono">$\frac{a}{b}$</button>
                                             <button type="button" onclick="insertMath('natural-nlp-input', '\\sqrt{}')"
-                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 font-mono">$\sqrt{x}$</button>
+                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-900 dark:text-slate-300 font-mono">$\sqrt{x}$</button>
                                             <button type="button" onclick="insertMath('natural-nlp-input', '^{}')"
-                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 font-mono">$x^y$</button>
+                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-900 dark:text-slate-300 font-mono">$x^y$</button>
                                             <button type="button" onclick="insertMath('natural-nlp-input', '\\Delta')"
-                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 font-mono">$\Delta$</button>
+                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-900 dark:text-slate-300 font-mono">$\Delta$</button>
                                             <button type="button" onclick="insertMath('natural-nlp-input', '\\pi')"
-                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 font-mono">$\pi$</button>
+                                                class="px-2 py-0.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-[9px] text-slate-900 dark:text-slate-300 font-mono">$\pi$</button>
                                         </div>
                                         <div class="mt-2">
                                             <div id="natural-nlp-input" contenteditable="true"
                                                 data-placeholder="e.g. solve the integral of x^2 from 0 to 5 or find the derivative of 3x..."
-                                                class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-500 transition duration-150 overflow-y-auto max-h-[150px] min-h-[100px] empty:before:content-[attr(data-placeholder)] empty:before:text-slate-500">
+                                                class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-100 placeholder:text-slate-800 transition duration-150 overflow-y-auto max-h-[150px] min-h-[100px] empty:before:content-[attr(data-placeholder)] empty:before:text-slate-800">
                                             </div>
                                         </div>
                                         <button onclick="solveNaturalNLP()"
@@ -1406,19 +1406,19 @@ window.webllm = webllm;
                                     </div>
                                 </div>
                                 <div id="form-inclined" class="solver-form space-y-3">
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 italic">Analyzes
+                                    <p class="text-[11px] text-slate-800 dark:text-slate-100 italic">Analyzes
                                         gravitational vector decomposition
                                         on inclined plane systems ($F_{\parallel} = m g \sin\theta$).</p>
                                     <div class="grid grid-cols-2 gap-2">
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Mass
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Mass
                                                 $m$
                                                 (kg)</label><input type="number" id="inclined-mass" value="10"
                                                 step="any"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-2 text-xs text-slate-800 dark:text-slate-100">
                                         </div>
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Angle
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Angle
                                                 $\theta$
                                                 (deg)</label><input type="number" id="inclined-angle" value="30"
                                                 step="any"
@@ -1427,24 +1427,24 @@ window.webllm = webllm;
                                     </div>
                                 </div>
                                 <div id="form-centripetal" class="solver-form hidden space-y-3">
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 italic">Solves circular
+                                    <p class="text-[11px] text-slate-800 dark:text-slate-100 italic">Solves circular
                                         motion mechanics ($F_c =
                                         \frac{m v^2}{r}$).</p>
                                     <div class="grid grid-cols-3 gap-2">
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Mass
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Mass
                                                 $m$
                                                 (kg)</label><input type="number" id="cent-mass" value="5"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100">
                                         </div>
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Velocity
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Velocity
                                                 $v$
                                                 (m/s)</label><input type="number" id="cent-velocity" value="12"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100">
                                         </div>
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Radius
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Radius
                                                 $r$
                                                 (m)</label><input type="number" id="cent-radius" value="3"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100">
@@ -1452,23 +1452,23 @@ window.webllm = webllm;
                                     </div>
                                 </div>
                                 <div id="form-thermal" class="solver-form hidden space-y-3">
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 italic">Models heat
+                                    <p class="text-[11px] text-slate-800 dark:text-slate-100 italic">Models heat
                                         transfer equations ($Q = m c
                                         \Delta T$).</p>
                                     <div class="grid grid-cols-3 gap-2">
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Mass
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Mass
                                                 (kg)</label><input type="number" id="therm-mass" value="2"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100">
                                         </div>
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Specific
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Specific
                                                 Heat
                                                 ($c$)</label><input type="number" id="therm-c" value="4184"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100">
                                         </div>
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Temp
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Temp
                                                 Diff ($\Delta
                                                 T$)</label><input type="number" id="therm-dt" value="15"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100">
@@ -1476,19 +1476,19 @@ window.webllm = webllm;
                                     </div>
                                 </div>
                                 <div id="form-quad" class="solver-form hidden space-y-3">
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 italic">Algebraic solutions
+                                    <p class="text-[11px] text-slate-800 dark:text-slate-100 italic">Algebraic solutions
                                         and power-rule symbolic
                                         derivatives.</p>
                                     <div class="grid grid-cols-2 gap-2">
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Equation
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Equation
                                                 /
                                                 Poly</label><input type="text" id="solve-algebraic-input"
                                                 value="4x^3 - 3x^2 + 8"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100 code-font">
                                         </div>
                                         <div><label
-                                                class="text-[10px] text-slate-400 dark:text-slate-500 block mb-1">Action</label><select
+                                                class="text-[10px] text-slate-700 dark:text-slate-200 block mb-1">Action</label><select
                                                 id="solve-algebraic-action"
                                                 class="w-full bg-white shadow-sm dark:shadow-none dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-800 dark:text-slate-100">
                                                 <option value="derivative">Find Derivative</option>
@@ -1510,7 +1510,7 @@ window.webllm = webllm;
                     <!-- Saved Documents Section -->
                     <div class="pt-4 border-t border-slate-200/30 dark:border-slate-800/30 flex flex-col gap-2">
                         <h4
-                            class="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 font-sans">
+                            class="text-xs font-bold text-slate-900 dark:text-slate-300 flex items-center gap-1.5 font-sans">
                             <i class="fa-solid fa-folder-open text-indigo-600 dark:text-indigo-400"></i> Saved Documents
                         </h4>
                         <div class="doc-history-list max-h-[160px] overflow-y-auto space-y-1.5 pr-1 font-sans">
@@ -1524,7 +1524,7 @@ window.webllm = webllm;
                         class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
                         <div class="flex items-center gap-2"><span
                                 class="w-2.5 h-2.5 rounded-full bg-teal-400"></span><span
-                                class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Symbolic
+                                class="text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Symbolic
                                 Resolution
                                 Trace</span></div>
                         <span
@@ -1532,8 +1532,8 @@ window.webllm = webllm;
                             Engine</span>
                     </div>
                     <div id="solver-paper"
-                        class="flex-grow overflow-y-auto max-h-[420px] bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 p-6 rounded-xl leading-relaxed text-slate-600 dark:text-slate-300 text-sm space-y-4 font-sans">
-                        <div class="text-center italic text-slate-400 dark:text-slate-500 py-20"><i
+                        class="flex-grow overflow-y-auto max-h-[420px] bg-white/60 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-850 p-6 rounded-xl leading-relaxed text-slate-900 dark:text-slate-300 text-sm space-y-4 font-sans">
+                        <div class="text-center italic text-slate-700 dark:text-slate-200 py-20"><i
                                 class="fa-solid fa-calculator text-3xl mb-3 block opacity-40"></i><br>Please select your
                             analytical options and click "Compute & Solve".</div>
                     </div>
@@ -1549,7 +1549,7 @@ window.webllm = webllm;
                             <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                                 <i class="fa-solid fa-upload text-violet-600 dark:text-violet-400"></i> Local ML
                                 Training Sandbox</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Upload datasets or raw texts offline
+                            <p class="text-xs text-slate-800 dark:text-slate-100">Upload datasets or raw texts offline
                                 to train mathematical or
                                 custom text generation models!</p>
                         </div>
@@ -1562,7 +1562,7 @@ window.webllm = webllm;
                                 class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-600 dark:text-indigo-400 mb-2"></i>
                             <h5 class="text-xs font-bold text-slate-700 dark:text-slate-200">Drag & Drop or Click to
                                 Upload</h5>
-                            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Accepts raw text (.txt), Word
+                            <p class="text-[10px] text-slate-700 dark:text-slate-200 mt-1">Accepts raw text (.txt), Word
                                 docs (.docx),
                                 coordinate tables (.csv), or structured JSON arrays</p>
                         </div>
@@ -1570,11 +1570,11 @@ window.webllm = webllm;
                             class="space-y-1.5 mt-3 max-h-32 overflow-y-auto custom-scrollbar"></div>
                         <div class="space-y-2">
                             <label
-                                class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Inject
+                                class="block text-xs font-semibold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Inject
                                 Synthesized Test Datasets</label>
                             <div class="grid grid-cols-1 gap-2">
                                 <button onclick="injectSampleMarkovDataset()"
-                                    class="py-2.5 bg-slate-50/60 dark:bg-slate-800/60 hover:bg-slate-100 hover:shadow-md dark:hover:shadow-none dark:hover:bg-slate-800 text-[10px] text-slate-600 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700/60 rounded-lg transition font-medium flex items-center justify-center gap-1"><i
+                                    class="py-2.5 bg-slate-50/60 dark:bg-slate-800/60 hover:bg-slate-100 hover:shadow-md dark:hover:shadow-none dark:hover:bg-slate-800 text-[10px] text-slate-900 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700/60 rounded-lg transition font-medium flex items-center justify-center gap-1"><i
                                         class="fa-solid fa-font text-violet-600 dark:text-violet-400"></i> Local Text
                                     Corpus</button>
                             </div>
@@ -1582,7 +1582,7 @@ window.webllm = webllm;
                     </div>
                     <div class="border-t border-slate-200/80 dark:border-slate-800/80 pt-4 mt-4 space-y-3">
                         <div
-                            class="flex justify-between text-xs font-mono text-slate-500 dark:text-slate-400 items-center">
+                            class="flex justify-between text-xs font-mono text-slate-800 dark:text-slate-100 items-center">
                             <span>Regression Status: <strong
                                     class="text-emerald-600 dark:text-emerald-400">Live</strong></span>
                             <span>Markov Vocabulary: <strong id="ml-vocab-size"
@@ -1598,7 +1598,7 @@ window.webllm = webllm;
                         class="mt-4 p-4 bg-white/80 dark:bg-slate-950/80 border border-slate-200/60 dark:border-slate-800/60 rounded-xl flex flex-col justify-between">
                         <div>
                             <span
-                                class="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">Mimic
+                                class="text-[10px] uppercase font-bold tracking-wider text-slate-700 dark:text-slate-200">Mimic
                                 Engine Chat
                                 (Markov)</span>
                             <div class="mt-2 flex items-center gap-2">
@@ -1608,7 +1608,7 @@ window.webllm = webllm;
                                     class="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-600 dark:text-indigo-300 text-[12px] rounded border border-indigo-500/30 font-bold transition whitespace-nowrap">Generate</button>
                             </div>
                             <p id="markov-sample-text"
-                                class="text-[13px] text-slate-600 dark:text-slate-300 italic mt-3 leading-relaxed max-h-[120px] overflow-y-auto custom-scrollbar p-2 bg-white/50 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/50 rounded border border-slate-200/50 dark:border-slate-800/50 min-h-[60px]">
+                                class="text-[13px] text-slate-900 dark:text-slate-300 italic mt-3 leading-relaxed max-h-[120px] overflow-y-auto custom-scrollbar p-2 bg-white/50 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/50 rounded border border-slate-200/50 dark:border-slate-800/50 min-h-[60px]">
                                 Train a text file to chat with an AI that mimics your exact style and vocabulary!
                             </p>
                         </div>
@@ -1617,7 +1617,7 @@ window.webllm = webllm;
                     <div
                         class="mt-4 p-4 bg-white/80 dark:bg-slate-950/80 border border-slate-200/60 dark:border-slate-800/60 rounded-xl flex flex-col gap-2">
                         <h4
-                            class="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 font-sans">
+                            class="text-xs font-bold text-slate-900 dark:text-slate-300 flex items-center gap-1.5 font-sans">
                             <i class="fa-solid fa-server text-indigo-600 dark:text-indigo-400"></i> Saved Models
                         </h4>
                         <div id="sandbox-saved-models-list"
@@ -1628,7 +1628,7 @@ window.webllm = webllm;
 
                     <button
                         onclick="if(confirm('Are you sure you want to flush all training weights and models?')) clearSandboxModels()"
-                        class="w-full mt-4 py-2 border border-slate-200 dark:border-slate-800 hover:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-500 dark:text-slate-400 hover:text-rose-400 font-semibold rounded-lg transition">Flush
+                        class="w-full mt-4 py-2 border border-slate-200 dark:border-slate-800 hover:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-800 dark:text-slate-100 hover:text-rose-400 font-semibold rounded-lg transition">Flush
                         Training Weights</button>
                 </div>
                 <div
@@ -1638,7 +1638,7 @@ window.webllm = webllm;
                             class="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1 font-mono">
                             TRAINING_LOGS
                             // Matrix Weights</h4>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">View the resulting metrics,
+                        <p class="text-xs text-slate-800 dark:text-slate-100 mb-4">View the resulting metrics,
                             regression graphs, or synthesized
                             sentences below.</p>
                     </div>
@@ -1646,7 +1646,7 @@ window.webllm = webllm;
                         class="relative bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 p-4 rounded-xl flex flex-col items-center justify-center aspect-video w-full my-3">
                         <canvas id="regression-canvas" class="block w-full h-full max-h-[180px]"></canvas>
                         <div id="ml-no-data-tag"
-                            class="absolute italic text-xs text-slate-600 flex flex-col items-center gap-2">
+                            class="absolute italic text-xs text-slate-900 flex flex-col items-center gap-2">
                             <i class="fa-solid fa-circle-nodes text-2xl"></i> No numeric coordinate data mapped. Inject
                             a
                             sample set or upload a .csv file above!
@@ -1657,18 +1657,18 @@ window.webllm = webllm;
                         <div
                             class="p-4 bg-white/80 dark:bg-slate-950/80 border border-slate-200/60 dark:border-slate-800/60 rounded-xl">
                             <span
-                                class="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">Linear
+                                class="text-[10px] uppercase font-bold tracking-wider text-slate-700 dark:text-slate-200">Linear
                                 Slope Model
                                 ($y = mx + c$)</span>
                             <div class="space-y-1.5 mt-2.5 text-xs font-mono">
-                                <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Slope
+                                <div class="flex justify-between"><span class="text-slate-800 dark:text-slate-100">Slope
                                         Coefficient
                                         ($m$):</span><span id="reg-stat-slope" class="text-slate-800 dark:text-white">0.00</span></div>
                                 <div class="flex justify-between"><span
-                                        class="text-slate-500 dark:text-slate-400">Intercept ($c$):</span><span
+                                        class="text-slate-800 dark:text-slate-100">Intercept ($c$):</span><span
                                         id="reg-stat-intercept" class="text-slate-800 dark:text-white">0.00</span></div>
                                 <div class="flex justify-between"><span
-                                        class="text-slate-500 dark:text-slate-400">Correlation Coefficient
+                                        class="text-slate-800 dark:text-slate-100">Correlation Coefficient
                                         ($R$):</span><span id="reg-stat-r"
                                         class="text-emerald-600 dark:text-emerald-400 font-bold">0.00</span>
                                 </div>
@@ -1678,9 +1678,9 @@ window.webllm = webllm;
                             class="p-4 bg-white/80 dark:bg-slate-950/80 border border-slate-200/60 dark:border-slate-800/60 rounded-xl flex flex-col justify-between">
                             <div>
                                 <span
-                                    class="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">Inject
+                                    class="text-[10px] uppercase font-bold tracking-wider text-slate-700 dark:text-slate-200">Inject
                                     Data</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Load a predefined sample
+                                <p class="text-xs text-slate-800 dark:text-slate-100 mt-2">Load a predefined sample
                                     dataset to test the linear regression plotting and stat generation.</p>
                             </div>
                             <button onclick="injectSampleRegressionDataset()"
@@ -1701,7 +1701,7 @@ window.webllm = webllm;
                         <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"><i
                                 class="fa-solid fa-palette text-teal-600 dark:text-teal-400"></i> Geometric Canvas
                             Classifier</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Draw a single-stroke shape (Circle,
+                        <p class="text-xs text-slate-800 dark:text-slate-100">Draw a single-stroke shape (Circle,
                             Square, Triangle, or Straight
                             Line) to evaluate geometric features locally.</p>
                     </div>
@@ -1714,7 +1714,7 @@ window.webllm = webllm;
                     </div>
                     <div class="grid grid-cols-2 gap-2 w-full max-w-[280px] mt-4">
                         <button onclick="clearCanvas()"
-                            class="py-2.5 bg-slate-850 hover:bg-slate-100 hover:shadow-md dark:hover:shadow-none dark:hover:bg-slate-800 text-xs text-slate-600 dark:text-slate-300 rounded-xl transition font-semibold flex items-center justify-center gap-1.5 border border-slate-200 dark:border-slate-800"><i
+                            class="py-2.5 bg-slate-850 hover:bg-slate-100 hover:shadow-md dark:hover:shadow-none dark:hover:bg-slate-800 text-xs text-slate-900 dark:text-slate-300 rounded-xl transition font-semibold flex items-center justify-center gap-1.5 border border-slate-200 dark:border-slate-800"><i
                                 class="fa-solid fa-trash-can"></i> Clear</button>
                         <button onclick="testPreloaded('circle')"
                             class="py-2.5 bg-slate-850 hover:bg-slate-100 hover:shadow-md dark:hover:shadow-none dark:hover:bg-slate-800 text-xs text-indigo-600 dark:text-indigo-300 rounded-xl transition font-semibold flex items-center justify-center gap-1.5 border border-slate-200 dark:border-slate-800"><i
@@ -1727,7 +1727,7 @@ window.webllm = webllm;
                             <div id="shape-prediction" class="text-sm font-black text-slate-800 dark:text-white mt-0.5">NO SHAPE DRAWN</div>
                         </div>
                         <div class="text-right"><span
-                                class="text-[10px] uppercase font-bold tracking-widest text-slate-500 dark:text-slate-400">Confidence</span>
+                                class="text-[10px] uppercase font-bold tracking-widest text-slate-800 dark:text-slate-100">Confidence</span>
                             <div id="shape-confidence"
                                 class="text-sm font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-0.5">0%
                             </div>
@@ -1740,31 +1740,31 @@ window.webllm = webllm;
                         <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"><i
                                 class="fa-solid fa-brain text-violet-600 dark:text-violet-400"></i> Markov Game Pattern
                             Learner</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">The AI constructs transition probability
+                        <p class="text-xs text-slate-800 dark:text-slate-100">The AI constructs transition probability
                             matrices based on your
                             historical moves. Can you defeat the predictive heuristic?</p>
                     </div>
                     <div
                         class="grid grid-cols-4 gap-2 bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800/60 text-center">
                         <div>
-                            <div class="text-[10px] uppercase text-slate-500 dark:text-slate-400 font-bold">User Wins
+                            <div class="text-[10px] uppercase text-slate-800 dark:text-slate-100 font-bold">User Wins
                             </div>
                             <div id="rps-user"
                                 class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">0</div>
                         </div>
                         <div>
-                            <div class="text-[10px] uppercase text-slate-500 dark:text-slate-400 font-bold">AI Wins
+                            <div class="text-[10px] uppercase text-slate-800 dark:text-slate-100 font-bold">AI Wins
                             </div>
                             <div id="rps-ai" class="text-xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-0.5">
                                 0</div>
                         </div>
                         <div>
-                            <div class="text-[10px] uppercase text-slate-500 dark:text-slate-400 font-bold">Ties</div>
-                            <div id="rps-ties" class="text-xl font-extrabold text-slate-500 dark:text-slate-400 mt-0.5">
+                            <div class="text-[10px] uppercase text-slate-800 dark:text-slate-100 font-bold">Ties</div>
+                            <div id="rps-ties" class="text-xl font-extrabold text-slate-800 dark:text-slate-100 mt-0.5">
                                 0</div>
                         </div>
                         <div>
-                            <div class="text-[10px] uppercase text-slate-500 dark:text-slate-400 font-bold">Win Rate
+                            <div class="text-[10px] uppercase text-slate-800 dark:text-slate-100 font-bold">Win Rate
                             </div>
                             <div id="rps-rate" class="text-xl font-extrabold text-teal-600 dark:text-teal-400 mt-0.5">0%
                             </div>
@@ -1774,24 +1774,24 @@ window.webllm = webllm;
                         <button onclick="playRPS('R')"
                             class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/60 hover:border-indigo-500/50 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-center transition group"><span
                                 class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">✊</span><span
-                                class="text-[10px] font-bold text-slate-600 dark:text-slate-300">Rock</span></button>
+                                class="text-[10px] font-bold text-slate-900 dark:text-slate-300">Rock</span></button>
                         <button onclick="playRPS('P')"
                             class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/60 hover:border-indigo-500/50 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-center transition group"><span
                                 class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">✋</span><span
-                                class="text-[10px] font-bold text-slate-600 dark:text-slate-300">Paper</span></button>
+                                class="text-[10px] font-bold text-slate-900 dark:text-slate-300">Paper</span></button>
                         <button onclick="playRPS('S')"
                             class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 backdrop-blur-xl dark:backdrop-blur-md dark:bg-slate-900/60 hover:border-indigo-500/50 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-center transition group"><span
                                 class="text-2xl block mb-1 group-hover:scale-110 transition duration-150">✌️</span><span
-                                class="text-[10px] font-bold text-slate-600 dark:text-slate-300">Scissors</span></button>
+                                class="text-[10px] font-bold text-slate-900 dark:text-slate-300">Scissors</span></button>
                     </div>
                     <div
                         class="p-3 bg-white/40 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-around text-center text-xs">
-                        <div><span class="text-[10px] uppercase text-slate-400 dark:text-slate-500 tracking-wider">You
+                        <div><span class="text-[10px] uppercase text-slate-700 dark:text-slate-200 tracking-wider">You
                                 Played</span>
                             <div id="rps-player-choice" class="text-2xl my-1">❓</div>
                         </div>
-                        <div class="font-extrabold text-slate-600">VS</div>
-                        <div><span class="text-[10px] uppercase text-slate-400 dark:text-slate-500 tracking-wider">AI
+                        <div class="font-extrabold text-slate-900">VS</div>
+                        <div><span class="text-[10px] uppercase text-slate-700 dark:text-slate-200 tracking-wider">AI
                                 Counter</span>
                             <div id="rps-ai-choice" class="text-2xl my-1">❓</div>
                         </div>
@@ -1890,7 +1890,7 @@ window.webllm = webllm;
                     <div class="mt-4 pt-4 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-col gap-3">
                         <div class="flex items-center justify-between">
                             <h4
-                                class="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 font-mono">
+                                class="text-xs font-bold text-slate-900 dark:text-slate-300 flex items-center gap-1.5 font-mono">
                                 <i class="fa-solid fa-trophy text-indigo-600 dark:text-indigo-400"></i> Lifetime Stats
                                 &amp; Sessions
                             </h4>
@@ -1904,22 +1904,22 @@ window.webllm = webllm;
                         <div
                             class="grid grid-cols-4 gap-2 bg-slate-50/55 dark:bg-slate-950/55 p-2.5 rounded-xl border border-slate-200/40 dark:border-slate-800/40 text-center text-[10px]">
                             <div>
-                                <span class="text-slate-400 font-medium">Wins:</span>
+                                <span class="text-slate-700 font-medium">Wins:</span>
                                 <span id="lifetime-wins"
                                     class="font-bold text-emerald-600 dark:text-emerald-400 ml-1">0</span>
                             </div>
                             <div>
-                                <span class="text-slate-400 font-medium">Losses:</span>
+                                <span class="text-slate-700 font-medium">Losses:</span>
                                 <span id="lifetime-losses"
                                     class="font-bold text-rose-600 dark:text-rose-400 ml-1">0</span>
                             </div>
                             <div>
-                                <span class="text-slate-400 font-medium">Ties:</span>
+                                <span class="text-slate-700 font-medium">Ties:</span>
                                 <span id="lifetime-ties"
-                                    class="font-bold text-slate-500 dark:text-slate-400 ml-1">0</span>
+                                    class="font-bold text-slate-800 dark:text-slate-100 ml-1">0</span>
                             </div>
                             <div>
-                                <span class="text-slate-400 font-medium">Win Rate:</span>
+                                <span class="text-slate-700 font-medium">Win Rate:</span>
                                 <span id="lifetime-rate"
                                     class="font-bold text-teal-600 dark:text-teal-400 ml-1">0%</span>
                             </div>
@@ -1937,7 +1937,7 @@ window.webllm = webllm;
         </main>
 
         <footer
-            class="mt-auto border-t border-slate-900 bg-slate-50 dark:bg-slate-950 px-4 py-4 md:px-8 text-center text-xs text-slate-400 dark:text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-3">
+            class="mt-auto border-t border-slate-900 bg-slate-50 dark:bg-slate-950 px-4 py-4 md:px-8 text-center text-xs text-slate-700 dark:text-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3">
             <p>&copy; 2026 Anthocyan AI AI Suite. Crafted with client-side mathematical and linguistic compilers.</p>
             <div class="flex gap-4">
                 <span class="flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> Hybrid Engine
@@ -2185,7 +2185,7 @@ window.webllm = webllm;
                 }
 
                 document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.className = "tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-all duration-200 shrink-0 font-bold";
+                    btn.className = "tab-btn flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-800 hover:text-slate-800 dark:text-slate-100 dark:hover:text-slate-200 transition-all duration-200 shrink-0 font-bold";
                 });
                 const activeBtn = document.getElementById(`tab-btn-${tabId}`);
                 if (activeBtn) {
@@ -3165,19 +3165,19 @@ window.webllm = webllm;
                 let totalParagraphs = (length === 'long' || length === 'Massive Deep Dive (2000+ Words)') ? 15 : 5;
 
                 const INTRO_TEMPLATES = [
-                    `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">The comprehensive academic analysis of {TOPIC} requires a rigorous interdisciplinary approach. Rather than relying on isolated metrics, an evaluation of {TOPIC} reveals a dynamic system that fundamentally challenges traditional paradigms. By integrating empirical frameworks and theoretical principles from multiple domains, researchers can effectively map the structural evolution of this subject.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">Investigating the multidimensional nuances of {TOPIC} has historically posed significant challenges to established methodologies. To construct a reliable framework for {TOPIC}, it is necessary to cross-reference quantitative data with qualitative insights. Such synthesis allows for a robust deconstruction of the intricate mechanisms governing this rapidly evolving field.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">Modern scholarship increasingly recognizes the profound theoretical implications surrounding {TOPIC}. This paper seeks to synthesize the prevailing academic discourse, arguing that an accurate understanding of {TOPIC} cannot be achieved through narrow disciplinary lenses alone. Instead, a macroscopic assessment of its interactive variables provides the necessary clarity to drive future innovation.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">A critical evaluation of the literature reveals a fundamental paradigm shift concerning {TOPIC}. Historically marginalized in classical models, the precise quantification of {TOPIC} is now considered central to predictive accuracy. By interrogating these new frameworks, analysts can isolate the core dependencies that dictate systemic stability.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">The intersection of theoretical abstraction and empirical validation is perhaps nowhere more visible than in the study of {TOPIC}. As institutional models adapt to unprecedented structural complexities, the rigorous study of {TOPIC} has emerged as an indispensable tool. This discourse maps out the historical trajectory and current impact of these pivotal developments.</p>`
+                    `<p class="text-slate-900 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">The comprehensive academic analysis of {TOPIC} requires a rigorous interdisciplinary approach. Rather than relying on isolated metrics, an evaluation of {TOPIC} reveals a dynamic system that fundamentally challenges traditional paradigms. By integrating empirical frameworks and theoretical principles from multiple domains, researchers can effectively map the structural evolution of this subject.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">Investigating the multidimensional nuances of {TOPIC} has historically posed significant challenges to established methodologies. To construct a reliable framework for {TOPIC}, it is necessary to cross-reference quantitative data with qualitative insights. Such synthesis allows for a robust deconstruction of the intricate mechanisms governing this rapidly evolving field.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">Modern scholarship increasingly recognizes the profound theoretical implications surrounding {TOPIC}. This paper seeks to synthesize the prevailing academic discourse, arguing that an accurate understanding of {TOPIC} cannot be achieved through narrow disciplinary lenses alone. Instead, a macroscopic assessment of its interactive variables provides the necessary clarity to drive future innovation.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">A critical evaluation of the literature reveals a fundamental paradigm shift concerning {TOPIC}. Historically marginalized in classical models, the precise quantification of {TOPIC} is now considered central to predictive accuracy. By interrogating these new frameworks, analysts can isolate the core dependencies that dictate systemic stability.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:text-indigo-500 first-letter:mr-3 first-letter:float-left leading-relaxed text-md">The intersection of theoretical abstraction and empirical validation is perhaps nowhere more visible than in the study of {TOPIC}. As institutional models adapt to unprecedented structural complexities, the rigorous study of {TOPIC} has emerged as an indispensable tool. This discourse maps out the historical trajectory and current impact of these pivotal developments.</p>`
                 ];
 
                 const CONCLUSION_TEMPLATES = [
-                    `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">In conclusion, this synthesized analysis demonstrates that {TOPIC} remains one of the most intellectually demanding subjects in contemporary academia. By balancing systemic models with persistent empirical oversight, future scholarship can securely navigate these complex uncertainties. Ultimately, continuous, collaborative evaluation is the only valid mechanism to ensure the structural integrity of this domain going forward.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">Ultimately, the discourse surrounding {TOPIC} underscores a broader necessity for methodological agility. While early models provided foundational insights, the evolving nature of {TOPIC} demands constant analytical recalibration. Moving forward, the integration of new empirical datasets will be crucial for maintaining theoretical validity in this expansive arena.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">To summarize, the profound downstream effects of {TOPIC} cannot be overstated. As demonstrated through interdisciplinary synthesis, the intricate variables defining {TOPIC} exert a stabilizing force on related theoretical structures. Future inquiry must therefore prioritize robust longitudinal studies to fully capture the breadth of its impact.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">In final analysis, the shifting paradigms associated with {TOPIC} reveal a domain in constant flux. By acknowledging these dynamic interactions, researchers can construct more resilient models capable of accommodating rapid systemic changes. {TOPIC} will undoubtedly remain a focal point of intense scholarly investigation for the foreseeable future.</p>`,
-                    `<p class="text-slate-600 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">Consequently, it is evident that a multifaceted approach is required to decode the complexities of {TOPIC}. Isolated observations are insufficient; a holistic synthesis is the only reliable pathway to true comprehension. As the field matures, the continued academic scrutiny of {TOPIC} will serve as the cornerstone for advanced theoretical breakthroughs.</p>`
+                    `<p class="text-slate-900 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">In conclusion, this synthesized analysis demonstrates that {TOPIC} remains one of the most intellectually demanding subjects in contemporary academia. By balancing systemic models with persistent empirical oversight, future scholarship can securely navigate these complex uncertainties. Ultimately, continuous, collaborative evaluation is the only valid mechanism to ensure the structural integrity of this domain going forward.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">Ultimately, the discourse surrounding {TOPIC} underscores a broader necessity for methodological agility. While early models provided foundational insights, the evolving nature of {TOPIC} demands constant analytical recalibration. Moving forward, the integration of new empirical datasets will be crucial for maintaining theoretical validity in this expansive arena.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">To summarize, the profound downstream effects of {TOPIC} cannot be overstated. As demonstrated through interdisciplinary synthesis, the intricate variables defining {TOPIC} exert a stabilizing force on related theoretical structures. Future inquiry must therefore prioritize robust longitudinal studies to fully capture the breadth of its impact.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">In final analysis, the shifting paradigms associated with {TOPIC} reveal a domain in constant flux. By acknowledging these dynamic interactions, researchers can construct more resilient models capable of accommodating rapid systemic changes. {TOPIC} will undoubtedly remain a focal point of intense scholarly investigation for the foreseeable future.</p>`,
+                    `<p class="text-slate-900 dark:text-slate-300 pt-6 mt-4 border-t border-slate-200 dark:border-slate-800 leading-relaxed text-md">Consequently, it is evident that a multifaceted approach is required to decode the complexities of {TOPIC}. Isolated observations are insufficient; a holistic synthesis is the only reliable pathway to true comprehension. As the field matures, the continued academic scrutiny of {TOPIC} will serve as the cornerstone for advanced theoretical breakthroughs.</p>`
                 ];
 
                 let essayHTML = `<div class="mb-8">`;
@@ -3225,7 +3225,7 @@ window.webllm = webllm;
                         paragraphContent += advancedSpintax(domainSentences[sentenceIndex].trim(), cleanTopicInline) + " ";
                         sentenceIndex++;
                     }
-                    paragraphsHTML += `<p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-md">${paragraphContent}</p>`;
+                    paragraphsHTML += `<p class="text-slate-900 dark:text-slate-300 mb-6 leading-relaxed text-md">${paragraphContent}</p>`;
                 }
 
                 let conclusionHtml = CONCLUSION_TEMPLATES[Math.floor(Math.random() * CONCLUSION_TEMPLATES.length)].replace(/\{TOPIC\}/g, cleanTopicInline);
@@ -3596,7 +3596,7 @@ window.webllm = webllm;
                 }
 
                 if (outputEl) {
-                    outputEl.innerHTML = `<div class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${result}</div>`;
+                    outputEl.innerHTML = `<div class="text-slate-900 dark:text-slate-300 whitespace-pre-wrap">${result}</div>`;
                     if (window.MathJax) {
                         try { MathJax.typesetPromise(); } catch (e) { }
                     }
@@ -3944,8 +3944,8 @@ window.webllm = webllm;
                 return `
                 <div class="space-y-3 no-humanize">
                     <p class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5 text-xs"><i class="fa-solid fa-square-check"></i> Smart Writing Engine Activated</p>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">Generated a custom research document for <strong class="text-indigo-600 dark:text-indigo-300">"${escapeHTML(titleCasedTopic)}"</strong> by extracting, rephrasing, and cross-referencing nodes from the offline Knowledge Graph.</p>
-                    <div class="bg-white/60 dark:bg-slate-950/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs leading-relaxed max-h-48 overflow-y-auto mt-2">
+                    <p class="text-xs text-slate-900 dark:text-slate-300">Generated a custom research document for <strong class="text-indigo-600 dark:text-indigo-300">"${escapeHTML(titleCasedTopic)}"</strong> by extracting, rephrasing, and cross-referencing nodes from the offline Knowledge Graph.</p>
+                    <div class="bg-white/60 dark:bg-slate-950/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 text-xs leading-relaxed max-h-48 overflow-y-auto mt-2">
                         ${humanizedCompiledText}
                     </div>
                 </div>
@@ -4126,13 +4126,13 @@ window.webllm = webllm;
                     }
                     if (solvedVars.length > 0) {
                         let html = `<div class="space-y-2 no-humanize"><h4 class="text-teal-600 dark:text-teal-400 font-bold text-sm"><i class="fa-solid fa-wand-magic-sparkles"></i> Heuristic Solver Chain</h4>`;
-                        html += `<p class="text-[10px] text-slate-500 dark:text-slate-400">Extracted: ${Object.entries(nlpVars.knowns).map(([k, v]) => `<span class="text-slate-700 dark:text-slate-200">${k}</span>=<span class="text-emerald-600 dark:text-emerald-400">${typeof v === 'number' ? parseFloat(v.toFixed(6)) : v}</span>`).join(', ')}</p>`;
+                        html += `<p class="text-[10px] text-slate-800 dark:text-slate-100">Extracted: ${Object.entries(nlpVars.knowns).map(([k, v]) => `<span class="text-slate-700 dark:text-slate-200">${k}</span>=<span class="text-emerald-600 dark:text-emerald-400">${typeof v === 'number' ? parseFloat(v.toFixed(6)) : v}</span>`).join(', ')}</p>`;
                         if (conceptNotes.length > 0) {
                             conceptNotes.forEach(note => {
                                 html += `<p class="text-[10px] text-indigo-600 dark:text-indigo-300"><i class="fa-solid fa-lightbulb text-amber-600 dark:text-amber-400"></i> ${note}</p>`;
                             });
                         }
-                        html += solvedVars.map(s => `<div class="p-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded text-[10px] font-mono"><span class="text-slate-400 dark:text-slate-500">${s.eq}</span><br><span class="text-emerald-600 dark:text-emerald-400">${s.unk} = ${Math.abs(s.val) < 0.001 || Math.abs(s.val) > 99999 ? s.val.toExponential(4) : parseFloat(s.val.toFixed(6))}</span></div>`).join('');
+                        html += solvedVars.map(s => `<div class="p-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded text-[10px] font-mono"><span class="text-slate-700 dark:text-slate-200">${s.eq}</span><br><span class="text-emerald-600 dark:text-emerald-400">${s.unk} = ${Math.abs(s.val) < 0.001 || Math.abs(s.val) > 99999 ? s.val.toExponential(4) : parseFloat(s.val.toFixed(6))}</span></div>`).join('');
                         if (target && target in currentKnowns) {
                             let finalVal = currentKnowns[target];
                             html += `<div class="p-3 bg-emerald-950/50 border border-emerald-500/30 rounded-lg mt-1"><p class="text-emerald-600 dark:text-emerald-400 font-bold"><i class="fa-solid fa-check-circle"></i> Answer: <span class="font-mono text-lg">${target} = ${Math.abs(finalVal) < 0.001 || Math.abs(finalVal) > 99999 ? finalVal.toExponential(4) : parseFloat(finalVal.toFixed(6))}</span></p></div>`;
@@ -4373,7 +4373,7 @@ window.webllm = webllm;
                     }
                     const codeBody = lines.join('\n');
                     return `<div class="my-2 bg-slate-900 rounded-lg overflow-hidden border border-slate-700 font-mono text-xs">
-                        <div class="px-3 py-1 bg-slate-800 text-slate-400 border-b border-slate-700 flex justify-between">
+                        <div class="px-3 py-1 bg-slate-800 text-slate-700 border-b border-slate-700 flex justify-between">
                             <span>${lang || 'Code'}</span>
                         </div>
                         <div class="p-3 overflow-x-auto text-slate-200 whitespace-pre">${escapeHTML(codeBody)}</div>
@@ -4511,7 +4511,7 @@ window.webllm = webllm;
                             outputHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Could not detect any physics variables or units. Please use standard units like kg, m/s, s, N, J, W, V, etc.</p>`;
                         } else {
                             let stepsHTML = `<div class="space-y-3 text-xs"><h4 class="text-sm font-bold text-teal-600 dark:text-teal-400"><i class="fa-solid fa-wand-magic-sparkles"></i> NLP Multi-Formula Solver Chain</h4>`;
-                            stepsHTML += `<p class="text-slate-500 dark:text-slate-400">Extracted Knowns: ${Object.entries(knowns).map(([k, v]) => `<span class="text-slate-700 dark:text-slate-200 font-mono">${k}</span>=<span class="text-emerald-600 dark:text-emerald-400 font-mono">${typeof v === 'number' ? (Math.abs(v) < 0.001 || Math.abs(v) > 99999 ? v.toExponential(4) : parseFloat(v.toFixed(6))) : v}</span>`).join(', ')}</p>`;
+                            stepsHTML += `<p class="text-slate-800 dark:text-slate-100">Extracted Knowns: ${Object.entries(knowns).map(([k, v]) => `<span class="text-slate-700 dark:text-slate-200 font-mono">${k}</span>=<span class="text-emerald-600 dark:text-emerald-400 font-mono">${typeof v === 'number' ? (Math.abs(v) < 0.001 || Math.abs(v) > 99999 ? v.toExponential(4) : parseFloat(v.toFixed(6))) : v}</span>`).join(', ')}</p>`;
                             if (target) stepsHTML += `<p class="text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-crosshairs"></i> Detected Target: <span class="font-mono font-bold">${target}</span></p>`;
 
                             // Show concept notes if any
@@ -4559,7 +4559,7 @@ window.webllm = webllm;
                                                 changed = true;
 
                                                 stepsHTML += `<div class="p-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded">
-                                        <p class="text-[10px] text-slate-400 dark:text-slate-500 mb-1">Applying: <span class="text-slate-600 dark:text-slate-300 font-mono">${eq}</span></p>
+                                        <p class="text-[10px] text-slate-700 dark:text-slate-200 mb-1">Applying: <span class="text-slate-900 dark:text-slate-300 font-mono">${eq}</span></p>
                                         <p class="text-emerald-600 dark:text-emerald-400 font-mono">Found ${unk} = ${Math.abs(val) < 0.001 || Math.abs(val) > 99999 ? val.toExponential(4) : parseFloat(val.toFixed(6))}</p>
                                     </div>`;
 
@@ -5310,7 +5310,7 @@ window.webllm = webllm;
                                 
                                 const plannerPrompt = `${recentHistory}User Request: ${text}\nGenerate the JSON plan to fulfill the request.`;
                                 
-                                appendBotMessage(`<div class="text-[10px] text-slate-500 mb-1 italic" id="planner-status">Planner devising a strategy...</div>`);
+                                appendBotMessage(`<div class="text-[10px] text-slate-800 mb-1 italic" id="planner-status">Planner devising a strategy...</div>`);
                                 if (chatTypingEl) chatTypingEl.classList.add('hidden');
                                 
                                 const plannerReply = await engine.chat.completions.create({
@@ -5407,7 +5407,7 @@ window.webllm = webllm;
                                 }
                                 
                                 setCognitiveMode('NATIVE');
-                                appendBotMessage(`<div class="text-[10px] text-slate-500 mb-1 italic">Generating locally via ${modelKey}...</div><div id="local-stream-output"></div>`);
+                                appendBotMessage(`<div class="text-[10px] text-slate-800 mb-1 italic">Generating locally via ${modelKey}...</div><div id="local-stream-output"></div>`);
                                 if (chatTypingEl) chatTypingEl.classList.add('hidden');
                                 
                                 const container = document.getElementById('local-stream-output');
@@ -5515,9 +5515,9 @@ window.webllm = webllm;
                     item.innerHTML = `
                     <div class="flex items-center gap-2 cursor-pointer flex-grow overflow-hidden" onclick="previewUploadedFile(${index})">
                         <i class="fa-solid fa-file-lines text-indigo-600 dark:text-indigo-400 text-xs"></i>
-                        <span class="text-xs text-slate-600 dark:text-slate-300 truncate">${file.name}</span>
+                        <span class="text-xs text-slate-900 dark:text-slate-300 truncate">${file.name}</span>
                     </div>
-                    <button onclick="removeUploadedFile(${index}, event)" class="text-slate-400 dark:text-slate-500 hover:text-rose-400 p-1 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-xs"></i></button>
+                    <button onclick="removeUploadedFile(${index}, event)" class="text-slate-700 dark:text-slate-200 hover:text-rose-400 p-1 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-xs"></i></button>
                 `;
                     listEl.appendChild(item);
                 });
@@ -5640,7 +5640,7 @@ window.webllm = webllm;
                 } catch (e) { chats = []; }
 
                 if (chats.length === 0) {
-                    container.innerHTML = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No active chats</div>`;
+                    container.innerHTML = `<div class="text-[10px] text-slate-700 dark:text-slate-200 italic p-2 text-center">No active chats</div>`;
                     return;
                 }
 
@@ -5652,7 +5652,7 @@ window.webllm = webllm;
                     return `
                     <div class="flex items-center justify-between p-2 rounded-lg border transition group cursor-pointer ${activeClasses}" onclick="loadChat('${chat.id}')">
                         <span class="text-[11px] truncate flex-grow pr-2">${chat.name}</span>
-                        <button onclick="deleteChat('${chat.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                        <button onclick="deleteChat('${chat.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -5766,16 +5766,16 @@ window.webllm = webllm;
 
                 let htmlStr = '';
                 if (docs.length === 0) {
-                    htmlStr = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No saved documents yet</div>`;
+                    htmlStr = `<div class="text-[10px] text-slate-700 dark:text-slate-200 italic p-2 text-center">No saved documents yet</div>`;
                 } else {
                     htmlStr = docs.map(doc => {
                         return `
                         <div class="flex items-center justify-between p-2 rounded-lg border border-transparent hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition group cursor-pointer text-left" onclick="previewDocument('${doc.id}')">
                             <div class="flex flex-col truncate pr-2 flex-grow">
                                 <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${doc.title}</span>
-                                <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">${doc.type} — ${doc.date}</span>
+                                <span class="text-[9px] text-slate-700 dark:text-slate-200 font-mono">${doc.type} — ${doc.date}</span>
                             </div>
-                            <button onclick="deleteDocument('${doc.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                            <button onclick="deleteDocument('${doc.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
@@ -5868,7 +5868,7 @@ window.webllm = webllm;
                 } catch (e) { models = []; }
 
                 if (models.length === 0) {
-                    container.innerHTML = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No saved states</div>`;
+                    container.innerHTML = `<div class="text-[10px] text-slate-700 dark:text-slate-200 italic p-2 text-center">No saved states</div>`;
                     return;
                 }
 
@@ -5877,9 +5877,9 @@ window.webllm = webllm;
                     <div class="flex items-center justify-between p-2 rounded-lg border border-transparent hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition group cursor-pointer" onclick="loadModel('${model.id}')">
                         <div class="flex flex-col truncate pr-2 flex-grow text-left">
                             <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${model.name}</span>
-                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">Vocab: ${model.vocabSize} — ${model.date}</span>
+                            <span class="text-[9px] text-slate-700 dark:text-slate-200 font-mono">Vocab: ${model.vocabSize} — ${model.date}</span>
                         </div>
-                        <button onclick="deleteModel('${model.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
+                        <button onclick="deleteModel('${model.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] opacity-0 group-hover:opacity-100 transition px-1">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -5984,7 +5984,7 @@ window.webllm = webllm;
                 } catch (e) { sessions = []; }
 
                 if (sessions.length === 0) {
-                    container.innerHTML = `<div class="text-[10px] text-slate-400 dark:text-slate-500 italic p-2 text-center">No archived game sessions</div>`;
+                    container.innerHTML = `<div class="text-[10px] text-slate-700 dark:text-slate-200 italic p-2 text-center">No archived game sessions</div>`;
                     return;
                 }
 
@@ -5993,9 +5993,9 @@ window.webllm = webllm;
                     <div class="flex items-center justify-between p-2 rounded-lg border border-slate-200/40 dark:border-slate-800/40 bg-white/20 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300">
                         <div class="flex flex-col truncate pr-2 flex-grow text-left">
                             <span class="text-[11px] font-bold truncate">${session.name}</span>
-                            <span class="text-[9px] text-slate-400 dark:text-slate-500 font-mono">Wins: ${session.userWins} | AI: ${session.aiWins} | Ties: ${session.tiesCount}</span>
+                            <span class="text-[9px] text-slate-700 dark:text-slate-200 font-mono">Wins: ${session.userWins} | AI: ${session.aiWins} | Ties: ${session.tiesCount}</span>
                         </div>
-                        <button onclick="deleteGameSession('${session.id}', event)" class="text-slate-400 hover:text-rose-500 text-[10px] transition px-1">
+                        <button onclick="deleteGameSession('${session.id}', event)" class="text-slate-700 hover:text-rose-500 text-[10px] transition px-1">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -6063,12 +6063,12 @@ window.webllm = webllm;
                         <button id="file-preview-download"
                             class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-600 dark:text-emerald-300 text-[10px] uppercase font-bold rounded border border-emerald-500/30 transition">Download</button>
                         <button onclick="document.getElementById('file-preview-modal').classList.add('hidden')"
-                            class="px-3 py-1.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] uppercase font-bold rounded transition">Close</button>
+                            class="px-3 py-1.5 bg-slate-50 border border-slate-200 dark:border-slate-800 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-300 text-[10px] uppercase font-bold rounded transition">Close</button>
                     </div>
                 </div>
                 <div class="p-4 overflow-y-auto flex-grow bg-slate-50 dark:bg-slate-950">
                     <pre id="file-preview-content"
-                        class="text-xs text-slate-500 dark:text-slate-400 font-mono whitespace-pre-wrap word-break"></pre>
+                        class="text-xs text-slate-800 dark:text-slate-100 font-mono whitespace-pre-wrap word-break"></pre>
                 </div>
             </div>
         </div>
@@ -6104,10 +6104,10 @@ window.webllm = webllm;
                     if (state.status === 'not-downloaded' || state.status === 'error') {
                         html = `<button onclick="window.modelManager.startDownload('${modelKey}')" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-[10px] font-bold text-black dark:text-white rounded uppercase transition shadow">${state.status === 'error' ? 'Retry' : 'Download'}</button>`;
                     } else if (state.status === 'downloading') {
-                        html = `<div class="text-[10px] text-slate-500 font-mono mr-2 flex items-center">${state.progress}%</div>
+                        html = `<div class="text-[10px] text-slate-800 font-mono mr-2 flex items-center">${state.progress}%</div>
                                 <button onclick="window.modelManager.pauseDownload('${modelKey}')" class="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-[10px] font-bold text-white rounded uppercase transition shadow">Pause</button>`;
                     } else if (state.status === 'paused') {
-                        html = `<div class="text-[10px] text-slate-500 font-mono mr-2 flex items-center">${state.progress}%</div>
+                        html = `<div class="text-[10px] text-slate-800 font-mono mr-2 flex items-center">${state.progress}%</div>
                                 <button onclick="window.modelManager.startDownload('${modelKey}')" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-[10px] font-bold text-white rounded uppercase transition shadow mr-1">Resume</button>
                                 <button onclick="confirmDeleteModel('${modelKey}')" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-[10px] font-bold text-white rounded uppercase transition shadow" title="Delete Model"><i class="fa-solid fa-trash"></i></button>`;
                     } else if (state.status === 'downloaded') {

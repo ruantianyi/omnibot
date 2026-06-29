@@ -86,8 +86,8 @@
     [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
     [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
     [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
-    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
-    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .text-slate-900 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #64748b !important; }
     [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
     [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
     [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
@@ -184,7 +184,7 @@
                     
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 interactive-card">
                         <h3 class="text-xl font-semibold mb-4 text-physics-900 border-b pb-2">The Angular-Linear Dictionary</h3>
-                        <p class="text-sm text-slate-500 mb-4">To master rotational dynamics, you must learn to translate between linear and angular variables.</p>
+                        <p class="text-sm text-slate-800 mb-4">To master rotational dynamics, you must learn to translate between linear and angular variables.</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Position -->
                             <div class="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100">
@@ -324,7 +324,7 @@
                                     <input type="range" id="sliderAngle" min="0" max="180" value="90" class="w-full accent-physics-500">
                                 </div>
                                 <div class="bg-physics-50 p-4 rounded-lg text-center mt-4 border border-physics-100">
-                                    <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Resulting Torque</p>
+                                    <p class="text-xs text-slate-800 uppercase tracking-wider font-semibold">Resulting Torque</p>
                                     <p class="text-3xl font-bold text-physics-900 mt-1"><span id="outTau">200.0</span> <span class="text-lg font-normal">N·m</span></p>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-500 italic mt-2">
+                    <p class="text-sm text-slate-800 italic mt-2">
                         <strong>Simulation Notes:</strong> Notice how torque is maximized when the force is strictly perpendicular ($\phi = 90^\circ$). When pushing directly parallel to the wrench ($\phi = 0^\circ$ or $180^\circ$), the torque is zero, regardless of the force magnitude!
                     </p>
                 </div>
@@ -537,7 +537,7 @@
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">1</div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800 mb-2">Draw Extended Free-Body Diagrams</h4>
-                            <p class="text-slate-600 mb-4">Standard point-mass FBDs are insufficient for rotational dynamics. You must place force vectors <strong>precisely at their physical points of application</strong>. For example, gravity always acts at the center of mass, while tension acts at the outer rim of a pulley, and friction acts exactly at the surface contact point.</p>
+                            <p class="text-slate-900 mb-4">Standard point-mass FBDs are insufficient for rotational dynamics. You must place force vectors <strong>precisely at their physical points of application</strong>. For example, gravity always acts at the center of mass, while tension acts at the outer rim of a pulley, and friction acts exactly at the surface contact point.</p>
                             <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
                                 <svg viewBox="0 0 300 150" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                                     <!-- Extended Body (Rod) -->
@@ -565,7 +565,7 @@
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">2</div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800 mb-2">Apply the Parallel-Axis Theorem (If Needed)</h4>
-                            <p class="text-slate-600 mb-4">Determine the axis of rotation. If the object rotates around a hinge or pivot point that is <em>not</em> its center of mass, immediately calculate the new moment of inertia using $I = I_{\text{cm}} + Md^2$ before proceeding with dynamics equations.</p>
+                            <p class="text-slate-900 mb-4">Determine the axis of rotation. If the object rotates around a hinge or pivot point that is <em>not</em> its center of mass, immediately calculate the new moment of inertia using $I = I_{\text{cm}} + Md^2$ before proceeding with dynamics equations.</p>
                             <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center">
                                 <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="50" y="30" width="200" height="40" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="4" />
@@ -580,7 +580,7 @@
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">3</div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800 mb-2">Set Up Coupled Equations</h4>
-                            <p class="text-slate-600">Complex systems (like a mass falling while unwinding a pulley) require setting up independent systems of equations and coupling them:</p>
+                            <p class="text-slate-900">Complex systems (like a mass falling while unwinding a pulley) require setting up independent systems of equations and coupling them:</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                                 <ul class="list-disc ml-6 text-slate-700 space-y-1 font-mono text-sm bg-slate-50 p-4 rounded-lg">
                                     <li>Write $\sum F = ma$ for purely linear objects.</li>
@@ -614,7 +614,7 @@
                         <div class="flex-shrink-0 w-12 h-12 bg-physics-100 rounded-full flex items-center justify-center text-xl font-bold text-physics-700">4</div>
                         <div>
                             <h4 class="text-xl font-bold text-slate-800 mb-2">Check for Conservation of Angular Momentum</h4>
-                            <p class="text-slate-600 mb-4">If the net external torque on a system is zero ($\sum \tau_{\text{ext}} = 0$), then the total angular momentum of the system is conserved ($L_i = L_f$). This is often true in collisions between spinning objects or when an object changes its own moment of inertia internally.</p>
+                            <p class="text-slate-900 mb-4">If the net external torque on a system is zero ($\sum \tau_{\text{ext}} = 0$), then the total angular momentum of the system is conserved ($L_i = L_f$). This is often true in collisions between spinning objects or when an object changes its own moment of inertia internally.</p>
                             <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex justify-center">
                                 <svg viewBox="0 0 400 120" class="w-full h-auto max-w-md" xmlns="http://www.w3.org/2000/svg">
                                     <!-- Initial State -->

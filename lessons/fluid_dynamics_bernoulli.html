@@ -87,8 +87,8 @@
     [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
     [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
     [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
-    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
-    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .text-slate-900 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #64748b !important; }
     [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
     [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
     [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
@@ -121,7 +121,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center space-x-4">
-          <a href="../lessons.html" class="text-slate-600 hover:text-fluid-600 transition flex items-center gap-1 font-semibold text-sm">
+          <a href="../lessons.html" class="text-slate-900 hover:text-fluid-600 transition flex items-center gap-1 font-semibold text-sm">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
               Back to Lessons
           </a>
@@ -134,7 +134,7 @@
           <span class="font-bold text-xl tracking-tight text-slate-900">Fluid Mechanics</span>
         </div>
       </div>
-        <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+        <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-900">
           <a href="#intro" class="hover:text-fluid-600 transition-colors">Governing Physics</a>
           <a href="#continuity" class="hover:text-fluid-600 transition-colors">Continuity</a>
           <a href="#bernoulli" class="hover:text-fluid-600 transition-colors">Bernoulli's</a>
@@ -172,8 +172,8 @@
     <!-- Left Sidebar (Sticky Index) -->
     <aside class="hidden lg:block w-64 flex-shrink-0">
       <div class="sticky top-24 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Table of Contents</h3>
-        <ul class="space-y-3 text-sm text-slate-600 font-medium">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-4">Table of Contents</h3>
+        <ul class="space-y-3 text-sm text-slate-900 font-medium">
           <li><a href="#intro" class="hover:text-fluid-600 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-fluid-500 mr-2"></span>The Governing Physics</a></li>
           <li><a href="#continuity" class="hover:text-fluid-600 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-fluid-500 mr-2"></span>Equation of Continuity</a></li>
           <li><a href="#bernoulli" class="hover:text-fluid-600 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-fluid-500 mr-2"></span>Bernoulli's Equation</a></li>
@@ -336,7 +336,7 @@
             <span class="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">HTML5 Canvas</span>
           </div>
           <div class="p-6 bg-slate-50 relative">
-            <p class="text-sm text-slate-600 mb-4">Adjust the slider to change the pipe's right-side radius. Watch how the fluid particles (dots) must accelerate to conserve mass flow rate when the pipe narrows.</p>
+            <p class="text-sm text-slate-900 mb-4">Adjust the slider to change the pipe's right-side radius. Watch how the fluid particles (dots) must accelerate to conserve mass flow rate when the pipe narrows.</p>
             
             <!-- Canvas Container -->
             <div class="relative w-full aspect-[2/1] max-h-[300px] bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
@@ -358,7 +358,7 @@
               <div class="flex-1 w-full">
                 <label for="pipeSlider" class="block text-sm font-bold text-slate-700 mb-2">Right Pipe Area ($A_2$)</label>
                 <input type="range" id="pipeSlider" min="20" max="100" value="50" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-fluid-600">
-                <div class="flex justify-between text-xs text-slate-500 mt-1">
+                <div class="flex justify-between text-xs text-slate-800 mt-1">
                   <span>Narrow (High Speed)</span>
                   <span>Uniform (Constant Speed)</span>
                 </div>
@@ -438,7 +438,7 @@
               <line x1="500" y1="280" x2="500" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
               <text x="505" y="190" font-family="serif" font-style="italic" font-size="14" fill="#64748b">y₂</text>
             </svg>
-            <p class="text-sm text-slate-500 mt-2">Diagram showing a fluid element of volume $\Delta V$ moving from state 1 to state 2.</p>
+            <p class="text-sm text-slate-800 mt-2">Diagram showing a fluid element of volume $\Delta V$ moving from state 1 to state 2.</p>
           </div>
 
           <h3 class="text-xl font-bold mt-8 mb-4">The Mathematical Derivation</h3>
@@ -577,7 +577,7 @@
             <span class="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">Kinematics + Fluids</span>
           </div>
           <div class="p-6 bg-slate-50 relative">
-            <p class="text-sm text-slate-600 mb-4">Move the slider to change the height of the hole. Notice how pressure (depth $h$) controls horizontal exit velocity, but height above ground ($y_2$) controls time in the air. <em>Where does the stream hit the farthest?</em></p>
+            <p class="text-sm text-slate-900 mb-4">Move the slider to change the height of the hole. Notice how pressure (depth $h$) controls horizontal exit velocity, but height above ground ($y_2$) controls time in the air. <em>Where does the stream hit the farthest?</em></p>
             
             <div class="relative w-full aspect-[16/9] max-h-[400px] bg-sky-50 rounded-xl overflow-hidden shadow-inner border border-sky-200">
               <canvas id="torricelliCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
@@ -586,9 +586,9 @@
               <div class="absolute top-4 right-4 bg-white/90 shadow rounded-lg p-3 backdrop-blur text-sm border border-slate-200">
                 <div class="font-bold text-slate-800 mb-2 border-b pb-1">Real-time Data</div>
                 <div class="grid grid-cols-2 gap-x-4 gap-y-1 font-mono text-xs">
-                  <span class="text-slate-500">Depth (h):</span> <span id="lblDepth" class="font-bold text-slate-800 text-right">0m</span>
-                  <span class="text-slate-500">Exit Vel ($v$):</span> <span id="lblVExit" class="font-bold text-fluid-600 text-right">0m/s</span>
-                  <span class="text-slate-500">Range ($R$):</span> <span id="lblRange" class="font-bold text-green-600 text-right">0m</span>
+                  <span class="text-slate-800">Depth (h):</span> <span id="lblDepth" class="font-bold text-slate-800 text-right">0m</span>
+                  <span class="text-slate-800">Exit Vel ($v$):</span> <span id="lblVExit" class="font-bold text-fluid-600 text-right">0m/s</span>
+                  <span class="text-slate-800">Range ($R$):</span> <span id="lblRange" class="font-bold text-green-600 text-right">0m</span>
                 </div>
               </div>
             </div>
@@ -596,7 +596,7 @@
             <div class="mt-6">
               <label for="holeSlider" class="block text-sm font-bold text-slate-700 mb-2">Hole Position (Y-Axis)</label>
               <input type="range" id="holeSlider" min="5" max="95" value="50" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-fluid-600">
-              <div class="flex justify-between text-xs text-slate-500 mt-1">
+              <div class="flex justify-between text-xs text-slate-800 mt-1">
                 <span>Bottom (High Pressure, Low Air Time)</span>
                 <span>Middle (Max Range)</span>
                 <span>Top (Low Pressure, High Air Time)</span>
@@ -617,7 +617,7 @@
             <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">1</div>
               <h3 class="text-xl font-bold text-slate-800">Establish Two Reference Points</h3>
-              <p class="mt-2 text-slate-600 text-base mb-4">Always choose point 1 and point 2 along a single continuous streamline. Pick locations where variables are either completely known, explicitly asked for, or safely approximateable (e.g., the large open top of a tank where $v \approx 0$).</p>
+              <p class="mt-2 text-slate-900 text-base mb-4">Always choose point 1 and point 2 along a single continuous streamline. Pick locations where variables are either completely known, explicitly asked for, or safely approximateable (e.g., the large open top of a tank where $v \approx 0$).</p>
               <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                 <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                   <!-- Pipe -->
@@ -635,7 +635,7 @@
             <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">2</div>
               <h3 class="text-xl font-bold text-slate-800">Set a Universal Baseline for Height</h3>
-              <p class="mt-2 text-slate-600 text-base mb-4">Define where $y=0$ is. It is usually best to set the lowest point in your problem to $y=0$ so that no $y$-variables are negative. Consistency is key; $\rho g y$ is potential energy, and potential energy needs a strict reference frame.</p>
+              <p class="mt-2 text-slate-900 text-base mb-4">Define where $y=0$ is. It is usually best to set the lowest point in your problem to $y=0$ so that no $y$-variables are negative. Consistency is key; $\rho g y$ is potential energy, and potential energy needs a strict reference frame.</p>
               <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                 <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                   <!-- y=0 baseline -->
@@ -655,7 +655,7 @@
             <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">3</div>
               <h3 class="text-xl font-bold text-slate-800">Apply Continuity First</h3>
-              <p class="mt-2 text-slate-600 text-base mb-4">Before writing out the long Bernoulli equation, use the Equation of Continuity ($A_1v_1 = A_2v_2$) to express one velocity in terms of the other. This prevents you from having an unsolvable equation with two unknowns ($v_1$ and $v_2$).</p>
+              <p class="mt-2 text-slate-900 text-base mb-4">Before writing out the long Bernoulli equation, use the Equation of Continuity ($A_1v_1 = A_2v_2$) to express one velocity in terms of the other. This prevents you from having an unsolvable equation with two unknowns ($v_1$ and $v_2$).</p>
               <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                 <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                   <!-- Continuity equation visualization -->
@@ -669,7 +669,7 @@
             <li class="pl-8 relative pb-8">
               <div class="absolute w-8 h-8 bg-fluid-600 rounded-full text-white font-bold flex items-center justify-center -left-[17px] top-0 border-4 border-white shadow-sm">4</div>
               <h3 class="text-xl font-bold text-slate-800">Watch Gauge vs. Absolute Pressure</h3>
-              <p class="mt-2 text-slate-600 text-base mb-4">Ensure both $P_1$ and $P_2$ are using the same scale. If a fluid surface is open to the air, its absolute pressure is $1\text{ atm}$ ($1.013 \times 10^5\text{ Pa}$). If the problem gives you "gauge pressure," add $P_{\text{atm}}$ to get absolute pressure before plugging it into Bernoulli's.</p>
+              <p class="mt-2 text-slate-900 text-base mb-4">Ensure both $P_1$ and $P_2$ are using the same scale. If a fluid surface is open to the air, its absolute pressure is $1\text{ atm}$ ($1.013 \times 10^5\text{ Pa}$). If the problem gives you "gauge pressure," add $P_{\text{atm}}$ to get absolute pressure before plugging it into Bernoulli's.</p>
               <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                 <svg viewBox="0 0 300 100" class="w-full h-auto max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
                   <rect x="50" y="20" width="200" height="60" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="4" />
@@ -729,25 +729,25 @@
       </section>
 
       <section class="mb-16"><h2 class="text-2xl font-bold mb-4">Appendix: Flow Profiles</h2>    <div class="border border-slate-200 rounded-xl bg-white p-4 my-2">
-      <span class="text-xs font-bold text-slate-500 block mb-2 text-center">Appx Fig 1: Additional Flow Diagram</span>
+      <span class="text-xs font-bold text-slate-800 block mb-2 text-center">Appx Fig 1: Additional Flow Diagram</span>
       <svg viewBox="0 0 200 50" class="w-full h-auto max-w-[200px] mx-auto bg-slate-50" xmlns="http://www.w3.org/2000/svg">
         <path d="M 20 25 Q 100 0 180 25" fill="none" stroke="#0ea5e9" stroke-width="3" />
         <path d="M 20 35 Q 100 10 180 35" fill="none" stroke="#0ea5e9" stroke-width="2" />
       </svg>
     </div>    <div class="border border-slate-200 rounded-xl bg-white p-4 my-2">
-      <span class="text-xs font-bold text-slate-500 block mb-2 text-center">Appx Fig 2: Additional Flow Diagram</span>
+      <span class="text-xs font-bold text-slate-800 block mb-2 text-center">Appx Fig 2: Additional Flow Diagram</span>
       <svg viewBox="0 0 200 50" class="w-full h-auto max-w-[200px] mx-auto bg-slate-50" xmlns="http://www.w3.org/2000/svg">
         <path d="M 20 25 Q 100 0 180 25" fill="none" stroke="#0ea5e9" stroke-width="3" />
         <path d="M 20 35 Q 100 10 180 35" fill="none" stroke="#0ea5e9" stroke-width="2" />
       </svg>
     </div>    <div class="border border-slate-200 rounded-xl bg-white p-4 my-2">
-      <span class="text-xs font-bold text-slate-500 block mb-2 text-center">Appx Fig 3: Additional Flow Diagram</span>
+      <span class="text-xs font-bold text-slate-800 block mb-2 text-center">Appx Fig 3: Additional Flow Diagram</span>
       <svg viewBox="0 0 200 50" class="w-full h-auto max-w-[200px] mx-auto bg-slate-50" xmlns="http://www.w3.org/2000/svg">
         <path d="M 20 25 Q 100 0 180 25" fill="none" stroke="#0ea5e9" stroke-width="3" />
         <path d="M 20 35 Q 100 10 180 35" fill="none" stroke="#0ea5e9" stroke-width="2" />
       </svg>
     </div>    <div class="border border-slate-200 rounded-xl bg-white p-4 my-2">
-      <span class="text-xs font-bold text-slate-500 block mb-2 text-center">Appx Fig 4: Additional Flow Diagram</span>
+      <span class="text-xs font-bold text-slate-800 block mb-2 text-center">Appx Fig 4: Additional Flow Diagram</span>
       <svg viewBox="0 0 200 50" class="w-full h-auto max-w-[200px] mx-auto bg-slate-50" xmlns="http://www.w3.org/2000/svg">
         <path d="M 20 25 Q 100 0 180 25" fill="none" stroke="#0ea5e9" stroke-width="3" />
         <path d="M 20 35 Q 100 10 180 35" fill="none" stroke="#0ea5e9" stroke-width="2" />
@@ -756,7 +756,7 @@
       <!-- Footer & Download -->
       <footer class="text-center py-12 border-t border-slate-200">
         <h3 class="text-2xl font-bold text-slate-800 mb-4">Export Materials</h3>
-        <p class="text-slate-500 mb-6 max-w-lg mx-auto">Download a plaintext cheat sheet of all formulas, assumptions, and strategies covered in this lesson for quick reference during exams.</p>
+        <p class="text-slate-800 mb-6 max-w-lg mx-auto">Download a plaintext cheat sheet of all formulas, assumptions, and strategies covered in this lesson for quick reference during exams.</p>
         <button id="btnDownload" class="inline-flex items-center px-6 py-3 bg-fluid-600 hover:bg-fluid-700 text-white font-bold rounded-lg shadow-lg shadow-fluid-500/30 transition-transform transform hover:-translate-y-1">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           Save as PDF (.txt)

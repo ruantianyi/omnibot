@@ -90,8 +90,8 @@
     [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
     [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
     [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
-    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
-    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .text-slate-900 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #64748b !important; }
     [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
     [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
     [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
@@ -116,7 +116,7 @@
                     </svg>
                     <span class="font-bold text-xl tracking-tight text-slate-900">Physics<span class="text-primary-600">Interactive</span></span>
                 </div>
-                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-900">
                     <a href="#governing" class="hover:text-primary-600 transition-colors">Governing Physics</a>
                     <a href="#processes" class="hover:text-primary-600 transition-colors">Mathematical Derivations</a>
                     <a href="#simulation" class="hover:text-primary-600 transition-colors">Carnot Simulator</a>
@@ -145,7 +145,7 @@
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
                 Thermodynamics & <span class="gradient-text">Ideal Gas Heat Engines</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto math-serif">
+            <p class="text-lg md:text-xl text-slate-900 leading-relaxed max-w-3xl mx-auto math-serif">
                 A rigorous exploration of macroscopic state parameters, cycle equations, and the theoretical limits of thermodynamic efficiency. Master the $P-V$ diagram and the Carnot Engine.
             </p>
         </div>
@@ -240,11 +240,11 @@
                 
                 <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-6 mb-8 border-l-4 border-l-primary-500">
                     <h3 class="text-xl font-bold text-slate-900 mb-2">The First Law of Thermodynamics</h3>
-                    <p class="text-slate-600 mb-4">The fundamental statement of the Conservation of Energy for a thermal system.</p>
+                    <p class="text-slate-900 mb-4">The fundamental statement of the Conservation of Energy for a thermal system.</p>
                     <div class="bg-slate-50 p-4 rounded-lg overflow-x-auto text-center font-bold text-2xl my-4">
                         $$\Delta U = Q - W$$
                     </div>
-                    <ul class="list-disc list-inside space-y-2 text-slate-600 ml-2">
+                    <ul class="list-disc list-inside space-y-2 text-slate-900 ml-2">
                         <li><strong>$\Delta U$</strong>: Change in internal energy (depends <em>only</em> on temperature for an ideal gas).</li>
                         <li><strong>$Q$</strong>: Heat <em>added to</em> the system.</li>
                         <li><strong>$W$</strong>: Work performed <em>by</em> the gas ($+W$ indicates expansion).</li>
@@ -267,7 +267,7 @@
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-yellow-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
                         <h4 class="font-bold text-xl text-slate-900 mb-2">Isobaric</h4>
                         <p class="text-sm text-yellow-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Pressure ($\Delta P = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-600">The gas expands or compresses at a steady pressure.</p>
+                        <p class="text-sm mb-2 text-slate-900">The gas expands or compresses at a steady pressure.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$W = P(V_2 - V_1)$$
                         </div>
@@ -277,7 +277,7 @@
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
                         <h4 class="font-bold text-xl text-slate-900 mb-2">Isochoric</h4>
                         <p class="text-sm text-green-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Volume ($\Delta V = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-600">No spatial displacement occurs, thus no mechanical work is done.</p>
+                        <p class="text-sm mb-2 text-slate-900">No spatial displacement occurs, thus no mechanical work is done.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$W = 0 \implies \Delta U = Q$$
                         </div>
@@ -287,7 +287,7 @@
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
                         <h4 class="font-bold text-xl text-slate-900 mb-2">Isothermal</h4>
                         <p class="text-sm text-blue-600 font-semibold mb-4 border-b border-slate-200 pb-2">Constant Temperature ($\Delta T = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-600">Internal energy is strictly tied to temp, so $\Delta U = 0$. Using $P = \frac{nRT}{V}$, the integral becomes a natural log.</p>
+                        <p class="text-sm mb-2 text-slate-900">Internal energy is strictly tied to temp, so $\Delta U = 0$. Using $P = \frac{nRT}{V}$, the integral becomes a natural log.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$Q = W = nRT\ln\left(\frac{V_2}{V_1}\right)$$
                         </div>
@@ -297,7 +297,7 @@
                         <div class="absolute -right-4 -top-4 w-16 h-16 bg-red-100 rounded-full opacity-50 group-hover:scale-150 transition-transform"></div>
                         <h4 class="font-bold text-xl text-slate-900 mb-2">Adiabatic</h4>
                         <p class="text-sm text-red-600 font-semibold mb-4 border-b border-slate-200 pb-2">No Heat Transfer ($Q = 0$)</p>
-                        <p class="text-sm mb-2 text-slate-600">The system is perfectly insulated. Expansion cools the gas natively. Follows $P V^\gamma = \text{Constant}$.</p>
+                        <p class="text-sm mb-2 text-slate-900">The system is perfectly insulated. Expansion cools the gas natively. Follows $P V^\gamma = \text{Constant}$.</p>
                         <div class="text-center font-mono bg-slate-50 py-2 rounded">
                             $$\Delta U = -W$$
                         </div>
@@ -307,7 +307,7 @@
                 <!-- Combined PV Diagram SVG -->
                 <div class="my-8 glass-panel rounded-xl p-8 text-center shadow-inner">
                     <h3 class="text-lg font-bold text-slate-800 mb-2">Visualizing Expansion on the P-V Plane</h3>
-                    <p class="text-sm text-slate-500 mb-6">Starting from a single state $(P_0, V_0)$, observe how pressure drops across different expansion regimes.</p>
+                    <p class="text-sm text-slate-800 mb-6">Starting from a single state $(P_0, V_0)$, observe how pressure drops across different expansion regimes.</p>
                     <svg viewBox="0 0 400 300" class="w-full max-w-lg mx-auto bg-white rounded border border-slate-200 shadow-sm" aria-label="P-V Diagram showing 4 processes">
                         <!-- Grid and Axes -->
                         <g stroke="#e2e8f0" stroke-width="1">
@@ -384,15 +384,15 @@
                     <!-- Top Readouts -->
                     <div class="grid grid-cols-3 divide-x divide-slate-200 bg-slate-50 border-b border-slate-200">
                         <div class="p-4 text-center">
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Max Efficiency ($\eta$)</p>
+                            <p class="text-xs font-bold text-slate-800 uppercase tracking-wide">Max Efficiency ($\eta$)</p>
                             <p id="sim-efficiency" class="text-2xl font-black text-primary-600 font-mono">--%</p>
                         </div>
                         <div class="p-4 text-center">
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Net Work ($W_{\text{net}}$)</p>
+                            <p class="text-xs font-bold text-slate-800 uppercase tracking-wide">Net Work ($W_{\text{net}}$)</p>
                             <p id="sim-work" class="text-2xl font-black text-secondary-600 font-mono">-- J</p>
                         </div>
                         <div class="p-4 text-center bg-slate-800 text-white">
-                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wide">Current Phase</p>
+                            <p class="text-xs font-bold text-slate-700 uppercase tracking-wide">Current Phase</p>
                             <p id="sim-phase" class="text-lg font-bold font-mono tracking-tight text-green-400 mt-1">Isothermal Exp.</p>
                         </div>
                     </div>
@@ -430,7 +430,7 @@
                                 <span id="val-th" class="text-red-600 font-mono font-bold bg-red-100 px-2 py-1 rounded text-sm">800 K</span>
                             </div>
                             <input type="range" id="slider-th" min="400" max="1200" value="800" step="10" class="w-full accent-red-500">
-                            <p class="text-xs text-slate-500 mt-2">Increasing $T_H$ expands the Carnot envelope upwards, vastly increasing net work and max efficiency.</p>
+                            <p class="text-xs text-slate-800 mt-2">Increasing $T_H$ expands the Carnot envelope upwards, vastly increasing net work and max efficiency.</p>
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-2">
@@ -438,7 +438,7 @@
                                 <span id="val-tc" class="text-blue-600 font-mono font-bold bg-blue-100 px-2 py-1 rounded text-sm">300 K</span>
                             </div>
                             <input type="range" id="slider-tc" min="100" max="800" value="300" step="10" class="w-full accent-blue-500">
-                            <p class="text-xs text-slate-500 mt-2">Decreasing $T_C$ expands the envelope downwards. Must be less than $T_H$.</p>
+                            <p class="text-xs text-slate-800 mt-2">Decreasing $T_C$ expands the envelope downwards. Must be less than $T_H$.</p>
                         </div>
                     </div>
                 </div>
@@ -496,7 +496,7 @@
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -506,7 +506,7 @@
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
                     <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
                     </div>
                 </div>
                 
@@ -530,7 +530,7 @@
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
                 <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
                 <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
             </div>
@@ -544,7 +544,7 @@
             <!-- Sticky TOC -->
             <div class="sticky top-24 glass-panel rounded-xl p-6 hidden lg:block">
                 <h3 class="font-bold text-slate-900 uppercase tracking-wider text-sm mb-4">Table of Contents</h3>
-                <nav class="space-y-3 text-sm text-slate-600 font-medium">
+                <nav class="space-y-3 text-sm text-slate-900 font-medium">
                     <a href="#governing" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">1. The Governing Physics</a>
                     <a href="#processes" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">2. Mathematical Derivations</a>
                     <a href="#simulation" class="block hover:text-primary-600 hover:translate-x-1 transition-transform">3. Carnot Simulator</a>
@@ -561,7 +561,7 @@
                     </svg>
                     Knowledge Check
                 </h3>
-                <p class="text-sm text-slate-500 mb-6">Test your mastery of thermodynamic principles.</p>
+                <p class="text-sm text-slate-800 mb-6">Test your mastery of thermodynamic principles.</p>
 
                 <!-- Question 1 -->
                 <div class="quiz-q mb-6" data-answer="b">
@@ -623,10 +623,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm border-t border-slate-800 mt-12">
+    <footer class="bg-slate-900 text-slate-700 py-8 text-center text-sm border-t border-slate-800 mt-12">
         <div class="max-w-4xl mx-auto px-6">
             <p>PhysicsInteractive &copy; 2026. Interactive Thermodynamics Lesson.</p>
-            <p class="mt-2 text-slate-500">Built for educational purposes. Math expressions powered by MathJax.</p>
+            <p class="mt-2 text-slate-800">Built for educational purposes. Math expressions powered by MathJax.</p>
         </div>
     </footer>
 

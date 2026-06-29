@@ -89,8 +89,8 @@
     [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
     [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
     [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
-    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
-    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .text-slate-900 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #64748b !important; }
     [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
     [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
     [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
@@ -113,7 +113,7 @@
                     <svg class="w-8 h-8 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     <span class="font-bold text-xl tracking-tight text-slate-900">Physics<span class="text-brand-600">Interactive</span></span>
                 </div>
-                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-900">
                     <a href="#theory" class="hover:text-brand-600 transition-colors">Theory & Math</a>
                     <a href="#kinematics" class="hover:text-brand-600 transition-colors">Kinematics Sim</a>
                     <a href="#energy" class="hover:text-brand-600 transition-colors">Energy Conservation</a>
@@ -137,7 +137,7 @@
             <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
                 Simple Harmonic Motion & Resonance
             </h1>
-            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+            <p class="text-lg md:text-xl text-slate-900 max-w-3xl mx-auto mb-8">
                 Explore the universal physics of restoring forces. From the invisible vibrations of diatomic molecules to the catastrophic collapse of bridges, understanding oscillatory motion is fundamental to classical mechanics.
             </p>
         </div>
@@ -182,14 +182,14 @@
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                         <h4 class="font-bold text-brand-700 mb-2">Velocity Function</h4>
                         $$v(t) = \frac{dx}{dt} = -\omega A\sin(\omega t + \phi)$$
-                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600">
+                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-900">
                             <strong>Max Velocity:</strong> $v_{\text{max}} = \omega A$ (Occurs at equilibrium, $x=0$)
                         </div>
                     </div>
                     <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                         <h4 class="font-bold text-accent-600 mb-2">Acceleration Function</h4>
                         $$a(t) = \frac{dv}{dt} = -\omega^2 A\cos(\omega t + \phi)$$
-                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600">
+                        <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-900">
                             <strong>Max Acceleration:</strong> $a_{\text{max}} = \omega^2 A$ (Occurs at extremes, $x=\pm A$)
                         </div>
                     </div>
@@ -321,7 +321,7 @@
                     <div class="w-full md:w-1/2">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Damping Ratio ($b$): <span id="valDamping" class="font-bold text-brand-600">0.2</span> N·s/m</label>
                         <input type="range" id="sliderDamping" min="0.05" max="1.5" step="0.05" value="0.2" class="w-full accent-brand-600">
-                        <p class="text-xs text-slate-500 mt-2">Lower damping leads to a sharper, higher resonance peak.</p>
+                        <p class="text-xs text-slate-800 mt-2">Lower damping leads to a sharper, higher resonance peak.</p>
                     </div>
                     <div class="w-full md:w-1/2 text-sm text-slate-700">
                         Steady-state amplitude equation:
@@ -388,7 +388,7 @@
             <div id="quiz-intro-box" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
                 <svg class="w-16 h-16 text-primary-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <h3 class="text-2xl font-bold text-slate-900 mb-2">Test Your Knowledge</h3>
-                <p class="text-slate-600 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
+                <p class="text-slate-900 mb-6">Take a random 10-question quiz drawn from a 100-question bank. The difficulty scales with each question.</p>
                 <button onclick="startQuizUI()" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     Start Quiz
                 </button>
@@ -398,7 +398,7 @@
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
                     <h3 class="text-xl font-bold text-slate-800">Question <span id="q-current" class="text-primary-600">1</span> of 10</h3>
                     <div class="flex gap-2">
-                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">Level 1</span>
+                        <span id="diff-indicator" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-900">Level 1</span>
                     </div>
                 </div>
                 
@@ -422,7 +422,7 @@
 
             <div id="results-screen" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center">
                 <h3 class="text-3xl font-bold text-slate-900 mb-2">Quiz Complete!</h3>
-                <p class="text-slate-600 mb-8">Here is how you performed across the difficulty levels.</p>
+                <p class="text-slate-900 mb-8">Here is how you performed across the difficulty levels.</p>
                 <div class="text-6xl font-black text-primary-600 mb-8" id="final-score">80%</div>
                 <button onclick="startQuizUI()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-xl transition">Retake Quiz</button>
             </div>
@@ -430,7 +430,7 @@
 
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
+    <footer class="bg-slate-900 text-slate-700 py-8 text-center text-sm">
         <p>&copy; 2026 Physics Interactive Education. Created for rigor and clarity.</p>
     </footer>
 

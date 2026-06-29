@@ -54,8 +54,8 @@
     [data-theme="dark"] .text-slate-900 { color: #f1f5f9 !important; }
     [data-theme="dark"] .text-slate-800 { color: #e2e8f0 !important; }
     [data-theme="dark"] .text-slate-700 { color: #cbd5e1 !important; }
-    [data-theme="dark"] .text-slate-600 { color: #94a3b8 !important; }
-    [data-theme="dark"] .text-slate-500 { color: #64748b !important; }
+    [data-theme="dark"] .text-slate-900 { color: #94a3b8 !important; }
+    [data-theme="dark"] .text-slate-800 { color: #64748b !important; }
     [data-theme="dark"] .border-slate-200 { border-color: #334155 !important; }
     [data-theme="dark"] .border-slate-100 { border-color: #1e293b !important; }
     [data-theme="dark"] nav, [data-theme="dark"] header.glass-panel, [data-theme="dark"] .glass-panel { background: rgba(15,23,42,0.95) !important; border-color: #334155 !important; }
@@ -87,7 +87,7 @@
   <div class="fixed top-0 left-0 h-full w-64 bg-white border-r border-slate-200 shadow-sm hidden lg:block overflow-y-auto z-20">
     <div class="p-6">
       <h2 class="text-xl font-bold text-slate-900 mb-6">Electrostatics</h2>
-      <nav id="toc-nav"  class="space-y-2 text-sm font-medium text-slate-600">
+      <nav id="toc-nav"  class="space-y-2 text-sm font-medium text-slate-900">
         <a href="#intro"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="intro" >1. Governing Physics</a>
         <a href="#math-derivations"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="math-derivations" >2. Mathematical Derivations</a>
         <a href="#visualizing-fields"  class="block py-2 px-3 border-l-2 border-transparent nav-link rounded-r sidebar-link" data-section="visualizing-fields" >3. Field Lines & Equipotentials</a>
@@ -110,12 +110,12 @@
   <main class="lg:ml-64 p-6 md:p-10 lg:p-16 max-w-5xl mx-auto">
     
     <header class="mb-12 border-b border-slate-200 pb-8" id="intro">
-      <a href="../lessons.html" class="inline-flex items-center gap-1 text-slate-500 hover:text-brand-600 transition font-semibold text-sm mb-4">
+      <a href="../lessons.html" class="inline-flex items-center gap-1 text-slate-800 hover:text-brand-600 transition font-semibold text-sm mb-4">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
         Back to Lessons
       </a>
       <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Electrostatic Fields &amp; Potential Mapping</h1>
-      <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
+      <p class="text-xl text-slate-900 leading-relaxed max-w-3xl">
         A rigorous exploration of stationary electric charges, the vector fields they generate, and the scalar potential contours that map the energy geometry of space.
       </p>
     </header>
@@ -191,7 +191,7 @@
             <div class="math-block bg-slate-50 rounded-lg flex justify-center border border-slate-100">
               $$ \vec{E} = \sum_{i=1}^{n} \frac{1}{4\pi\varepsilon_0}\frac{q_i}{r_i^2}\hat{r}_i $$
             </div>
-            <p class="text-sm text-slate-500 mt-2 italic">Note: Because $\vec{E}$ is a vector, you must break contributions into orthogonal $x, y, z$ components before summing. Magnitudes cannot simply be added algebraically.</p>
+            <p class="text-sm text-slate-800 mt-2 italic">Note: Because $\vec{E}$ is a vector, you must break contributions into orthogonal $x, y, z$ components before summing. Magnitudes cannot simply be added algebraically.</p>
           </div>
 
           <div>
@@ -250,7 +250,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256" class="text-brand-500"><path d="M211.9,81.18a113,113,0,0,0-23.08-23.08A111.45,111.45,0,0,0,128,40,111.45,111.45,0,0,0,67.18,58.1A113,113,0,0,0,44.1,81.18,111.45,111.45,0,0,0,26,142a111.45,111.45,0,0,0,18.1,60.82A113,113,0,0,0,67.18,225.9,111.45,111.45,0,0,0,128,244a111.45,111.45,0,0,0,60.82-18.1,113,113,0,0,0,23.08-23.08A111.45,111.45,0,0,0,230,142,111.45,111.45,0,0,0,211.9,81.18ZM186.2,192.51a87.11,87.11,0,0,1-17.76,17.76A85.67,85.67,0,0,1,128,220a85.67,85.67,0,0,1-40.44-9.73A87.11,87.11,0,0,1,69.8,192.51,85.67,85.67,0,0,1,50.07,152.07a85.67,85.67,0,0,1,9.73-40.44A87.11,87.11,0,0,1,77.56,93.87,85.67,85.67,0,0,1,118,84.14v39.38a8,8,0,0,0,12-6.92V62.83a85.67,85.67,0,0,1,38.44,9.73,87.11,87.11,0,0,1,17.76,17.76A85.67,85.67,0,0,1,195.93,130.8a85.67,85.67,0,0,1-9.73,61.71Z"></path></svg>
               Interactive Field & Potential Mapper
             </h3>
-            <p class="text-sm text-slate-400 mt-1">Place charges to observe the generated vector fields ($\vec{E}$) and scalar contour lines ($V$). Note the precise $90^\circ$ intersections.</p>
+            <p class="text-sm text-slate-700 mt-1">Place charges to observe the generated vector fields ($\vec{E}$) and scalar contour lines ($V$). Note the precise $90^\circ$ intersections.</p>
           </div>
           <div class="flex gap-2 bg-slate-900 p-1 rounded-lg border border-slate-700">
              <button id="toolPositive" class="px-4 py-2 rounded-md bg-positive text-white font-bold text-sm shadow transition-all scale-105 border-2 border-white ring-2 ring-positive ring-offset-2 ring-offset-slate-900">
@@ -275,8 +275,8 @@
         </div>
         
         <div class="p-4 bg-slate-950 border-t border-slate-800 text-sm flex items-center justify-between">
-          <p class="text-slate-400"><span class="text-white font-bold">Instruction:</span> Click or tap anywhere on the dark canvas above to place the selected charge.</p>
-          <div class="text-right text-xs text-slate-500">Algorithm: Marching Squares / Vector Grid Superposition</div>
+          <p class="text-slate-700"><span class="text-white font-bold">Instruction:</span> Click or tap anywhere on the dark canvas above to place the selected charge.</p>
+          <div class="text-right text-xs text-slate-800">Algorithm: Marching Squares / Vector Grid Superposition</div>
         </div>
       </div>
     </section>
