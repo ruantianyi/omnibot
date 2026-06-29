@@ -18,7 +18,10 @@ export const LOCAL_MODELS = {
     'potato-coder': { id: 'Qwen2.5-Coder-0.5B-Instruct-q4f16_1-MLC', type: 'coder', name: 'Potato Coder' },
     'medium-planner': { id: 'Llama-3.2-3B-Instruct-q4f16_1-MLC', type: 'planner', name: 'Medium Planner' },
     'medium-text': { id: 'Llama-3.2-1B-Instruct-q4f16_1-MLC', type: 'text', name: 'Medium Text' },
-    'medium-coder': { id: 'Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC', type: 'coder', name: 'Medium Coder' }
+    'medium-coder': { id: 'Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC', type: 'coder', name: 'Medium Coder' },
+    'advanced-planner': { id: 'Llama-3.1-8B-Instruct-q4f32_1-MLC-1k', type: 'planner', name: 'Advanced Planner' },
+    'advanced-text': { id: 'Llama-3.1-8B-Instruct-q4f32_1-MLC-1k', type: 'text', name: 'Advanced Text' },
+    'advanced-coder': { id: 'Qwen2.5-Coder-7B-Instruct-q4f16_1-MLC', type: 'coder', name: 'Advanced Coder' }
 };
 window.LOCAL_MODELS = LOCAL_MODELS;
 
@@ -660,7 +663,7 @@ window.webllm = webllm;
                         <!-- Potato Tier Section -->
                         <div class="border-t border-slate-200 dark:border-slate-800 pt-2">
                             <h4 class="text-[10px] font-bold text-indigo-650 dark:text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-                                <span>🥔 Potato Tier</span> <span class="text-[9px] font-normal text-slate-700 dark:text-slate-200 normal-case">(2GB - 3GB RAM)</span>
+                                <span>🥔 Potato Tier</span> <span class="text-[9px] font-normal text-slate-700 dark:text-slate-200 normal-case">(For devices with 2GB - 3GB RAM)</span>
                             </h4>
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
@@ -690,7 +693,7 @@ window.webllm = webllm;
                         <!-- Medium Tier Section -->
                         <div class="border-t border-slate-200 dark:border-slate-800 pt-2">
                             <h4 class="text-[10px] font-bold text-indigo-650 dark:text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-                                <span>📱 Medium Tier</span> <span class="text-[9px] font-normal text-slate-700 dark:text-slate-200 normal-case">(4GB - 8GB RAM)</span>
+                                <span>📱 Medium Tier</span> <span class="text-[9px] font-normal text-slate-700 dark:text-slate-200 normal-case">(For devices with 4GB - 8GB RAM)</span>
                             </h4>
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
@@ -713,6 +716,36 @@ window.webllm = webllm;
                                         <p class="text-[9px] text-slate-800 dark:text-slate-200">Complete logic/function gen, ~1.1GB RAM.</p>
                                     </div>
                                     <div id="controls-medium-coder" class="flex gap-1 ml-auto"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Tier Section -->
+                        <div class="border-t border-slate-200 dark:border-slate-800 pt-2">
+                            <h4 class="text-[10px] font-bold text-indigo-650 dark:text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-1">
+                                <span>🚀 Advanced Tier</span> <span class="text-[9px] font-normal text-slate-700 dark:text-slate-200 normal-case">(For devices with 12GB - 16GB RAM)</span>
+                            </h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Advanced Planner (Llama-3.1 8B)</h5>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">Complex orchestration, ~5.0GB RAM.</p>
+                                    </div>
+                                    <div id="controls-advanced-planner" class="flex gap-1 ml-auto"></div>
+                                </div>
+                                <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Advanced Text (Llama-3.1 8B)</h5>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">Desktop-grade assistant, ~4.5GB RAM.</p>
+                                    </div>
+                                    <div id="controls-advanced-text" class="flex gap-1 ml-auto"></div>
+                                </div>
+                                <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+                                    <div>
+                                        <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200">Advanced Coder (Qwen2.5-Coder 7B)</h5>
+                                        <p class="text-[9px] text-slate-800 dark:text-slate-200">App builder, ~4.5GB RAM.</p>
+                                    </div>
+                                    <div id="controls-advanced-coder" class="flex gap-1 ml-auto"></div>
                                 </div>
                             </div>
                         </div>
@@ -6088,7 +6121,7 @@ window.webllm = webllm;
         <script>
             // Model Manager UI Rendering Logic
             function renderModelControls() {
-                const models = ['potato-planner', 'potato-text', 'potato-coder', 'medium-planner', 'medium-text', 'medium-coder'];
+                const models = ['potato-planner', 'potato-text', 'potato-coder', 'medium-planner', 'medium-text', 'medium-coder', 'advanced-planner', 'advanced-text', 'advanced-coder'];
                 models.forEach(modelKey => {
                     const container = document.getElementById('controls-' + modelKey);
                     if (!container) return;
@@ -6173,6 +6206,7 @@ window.webllm = webllm;
                     
                     downloadedKeys.forEach(k => {
                         if (window.isPlannerMode && !k.includes('planner')) return; 
+                        if (!window.isPlannerMode && k.includes('planner')) return; 
                         
                         const opt = document.createElement('option');
                         opt.value = k; // Use modelKey as the value
@@ -6227,13 +6261,20 @@ window.webllm = webllm;
 
             async function handleLocalModelChange(selectEl) {
                 const thinkingWrapper = document.getElementById('thinking-mode-wrapper');
+                const toggle = document.getElementById('planner-mode-toggle');
+                
                 if (thinkingWrapper) {
                     if (selectEl.value === "none" || selectEl.value === "cloud") {
                         thinkingWrapper.classList.add('hidden');
+                        if (toggle && toggle.checked) {
+                            toggle.checked = false;
+                            togglePlannerMode(); 
+                        }
                     } else {
                         thinkingWrapper.classList.remove('hidden');
                     }
                 }
+                
                 localStorage.setItem('omni_ai_model', selectEl.value);
                 if (selectEl.value === "none" || selectEl.value === "cloud" || !selectEl.options[selectEl.selectedIndex].textContent.startsWith('Local')) {
                     console.log(selectEl.value === "none" ? "Switched to No AI fallback." : "Switched to Cloud API.");
@@ -6269,7 +6310,7 @@ window.webllm = webllm;
             function initControlsHook() {
 
                 if (window.modelManager) {
-                    const models = ['potato-planner', 'potato-text', 'potato-coder', 'medium-planner', 'medium-text', 'medium-coder'];
+                    const models = ['potato-planner', 'potato-text', 'potato-coder', 'medium-planner', 'medium-text', 'medium-coder', 'advanced-planner', 'advanced-text', 'advanced-coder'];
                     models.forEach(modelKey => {
                         window.modelManager.onProgress(modelKey, () => {
                             renderModelControls();
