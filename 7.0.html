@@ -5067,103 +5067,146 @@
                             const useLocalModel = localModelSelector && localModelSelector.value !== "" && localModelSelector.value !== "none" && localModelSelector.value !== "cloud" && localModelSelector.options[localModelSelector.selectedIndex].textContent.startsWith('Local');
 
                             if (window.isPlannerMode && useLocalModel) {
-                                if (!window.engine) {
-                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg">Planner engine not initialized. Please wait.</div>`;
-                                } else {
-                                    setCognitiveMode('PLANNER_ORCHESTRATOR');
-                                    const plannerSys = "You are a multi-agent planner. Output a JSON array of steps: [{\"action\": \"text\", \"prompt\": \"...\"}, {\"action\": \"code\", \"prompt\": \"...\"}]. Only output the JSON.";
-                                    const plannerPrompt = `User: ${text}\nGenerate the JSON plan.`;
-                                    
-                                    appendBotMessage(`<div class="text-[10px] text-slate-500 mb-1 italic" id="planner-status">Planner devising a strategy...</div>`);
+                                const plannerKey = localModelSelector.value;
+                                const engine = window.modelManager?.activeEngines?.[plannerKey];
+                                
+                                if (!engine) {
+                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg">Planner engine not fully loaded in memory yet. Please wait a moment.</div>`;
+                                    appendBotMessage(response);
                                     if (chatTypingEl) chatTypingEl.classList.add('hidden');
+                                    return;
+                                }
+                                
+                                setCognitiveMode('PLANNER_ORCHESTRATOR');
+                                const plannerSys = "You are a multi-agent planner. Output a JSON array of steps: [{\"action\": \"text\", \"prompt\": \"...\"}, {\"action\": \"code\", \"prompt\": \"...\"}]. Only output the JSON.";
+                                
+                                let recentHistory = "";
+                                if (chatMemory.history.length > 0) {
+                                    recentHistory = "Recent Chat History:\n" + chatMemory.history.slice(-4).map(m => `${m.role}: ${m.content}`).join('\n') + "\n\n";
+                                }
+                                
+                                const plannerPrompt = `${recentHistory}User Request: ${text}\nGenerate the JSON plan to fulfill the request.`;
+                                
+                                appendBotMessage(`<div class="text-[10px] text-slate-500 mb-1 italic" id="planner-status">Planner devising a strategy...</div>`);
+                                if (chatTypingEl) chatTypingEl.classList.add('hidden');
+                                
+                                const plannerReply = await engine.chat.completions.create({
+                                    messages: [{ role: 'system', content: plannerSys }, { role: 'user', content: plannerPrompt }]
+                                });
+                                let planStr = plannerReply.choices[0].message.content;
+                                
+                                let plan = [];
+                                try {
+                                    const match = planStr.match(/\[.*\]/s);
+                                    if (match) plan = JSON.parse(match[0]);
+                                    else plan = JSON.parse(planStr);
+                                } catch(e) {
+                                    console.error("Planner output not valid JSON", planStr);
+                                    plan = [{"action": "text", "prompt": text}];
+                                }
+
+                                if (plan.length > 0) {
+                                    document.getElementById('planner-status').innerText = `Planner devised ${plan.length} steps. Executing...`;
                                     
-                                    const plannerReply = await window.engine.chat.completions.create({
-                                        messages: [{ role: 'system', content: plannerSys }, { role: 'user', content: plannerPrompt }]
-                                    });
-                                    let planStr = plannerReply.choices[0].message.content;
+                                    let finalOutput = "";
                                     
-                                    let plan = [];
-                                    try {
-                                        const match = planStr.match(/\[.*\]/s);
-                                        if (match) plan = JSON.parse(match[0]);
-                                        else plan = JSON.parse(planStr);
-                                    } catch(e) {
-                                        console.error("Planner output not valid JSON", planStr);
-                                        plan = [{"action": "text", "prompt": text}];
-                                    }
-
-                                    if (plan.length > 0) {
-                                        document.getElementById('planner-status').innerText = `Planner devised ${plan.length} steps. Executing...`;
+                                    for (const step of plan) {
+                                        let stepModelKey = null;
+                                        const state = window.modelManager.state;
                                         
-                                        const originalModelId = localModelSelector.value;
-                                        let finalOutput = "";
+                                        if (step.action === 'code') {
+                                            stepModelKey = Object.keys(state).find(k => k.includes('coder') && state[k].status === 'downloaded');
+                                        } else {
+                                            stepModelKey = Object.keys(state).find(k => k.includes('text') && state[k].status === 'downloaded');
+                                        }
                                         
-                                        for (const step of plan) {
-                                            let stepModelId = null;
-                                            if (step.action === 'code') {
-                                                stepModelId = Object.keys(LOCAL_MODELS).find(k => k.includes('coder') && LOCAL_MODELS[k].status === 'downloaded');
-                                            } else {
-                                                stepModelId = Object.keys(LOCAL_MODELS).find(k => k.includes('text') && LOCAL_MODELS[k].status === 'downloaded');
-                                            }
-                                            
-                                            if (!stepModelId) {
-                                                stepModelId = Object.keys(LOCAL_MODELS).find(k => LOCAL_MODELS[k].status === 'downloaded');
-                                            }
-                                            
-                                            if (!stepModelId) {
-                                                finalOutput += `<div class="text-rose-500 text-xs mt-2">Error: No capable model found for step ${step.action}.</div>`;
-                                                continue;
-                                            }
+                                        if (!stepModelKey) {
+                                            stepModelKey = Object.keys(state).find(k => state[k].status === 'downloaded');
+                                        }
+                                        
+                                        if (!stepModelKey) {
+                                            finalOutput += `<div class="text-rose-500 text-xs mt-2">Error: No capable model found for step ${step.action}.</div>`;
+                                            continue;
+                                        }
 
-                                            const realModelId = LOCAL_MODELS[stepModelId].id;
-                                            if (!window.engine || window.engine.chat_model_id !== realModelId) {
-                                                document.getElementById('planner-status').innerText = `Swapping memory to ${stepModelId}...`;
-                                                window.engine = await window.webllm.CreateMLCEngine(realModelId);
-                                            }
-
-                                            document.getElementById('planner-status').innerText = `Generating ${step.action} using ${stepModelId}...`;
-                                            const stepReply = await window.engine.chat.completions.create({
-                                                messages: [{ role: 'user', content: step.prompt }]
+                                        let stepEngine = window.modelManager.activeEngines[stepModelKey];
+                                        if (!stepEngine) {
+                                            document.getElementById('planner-status').innerText = `Loading ${stepModelKey} into memory...`;
+                                            await window.modelManager.triggerWebLLMDownload(stepModelKey);
+                                            stepEngine = window.modelManager.activeEngines[stepModelKey];
+                                        }
+                                        
+                                        if (stepEngine) {
+                                            document.getElementById('planner-status').innerText = `Executing ${step.action} via ${stepModelKey}...`;
+                                            const stepSys = step.action === 'code' 
+                                                ? "You are an expert coder. Respond with only code in Markdown format."
+                                                : "You are a helpful assistant. Keep it concise.";
+                                            
+                                            const stepReply = await stepEngine.chat.completions.create({
+                                                messages: [
+                                                    { role: 'system', content: stepSys }, 
+                                                    { role: 'user', content: step.prompt + (finalOutput ? `\n\nContext so far:\n${finalOutput}` : '') }
+                                                ]
                                             });
                                             let stepRes = stepReply.choices[0].message.content;
+                                            
                                             if (step.action === 'code') {
                                                 if (!stepRes.includes('```')) stepRes = `\`\`\`\n${stepRes}\n\`\`\``;
                                                 finalOutput += renderMarkdownCode(stepRes) + "\n\n";
                                             } else {
                                                 finalOutput += humanizeHTMLSafe(stepRes) + "\n\n";
                                             }
+                                        } else {
+                                            finalOutput += `<div class="text-rose-500 text-xs mt-2">Error: Failed to load ${stepModelKey} into memory.</div>`;
                                         }
-                                        
-                                        document.getElementById('planner-status').innerText = `Restoring Planner model...`;
-                                        window.engine = await window.webllm.CreateMLCEngine(originalModelId);
-                                        document.getElementById('planner-status').style.display = 'none';
-                                        
-                                        response = finalOutput;
                                     }
+                                    
+                                    document.getElementById('planner-status').remove();
+                                    
+                                    // Make sure planner engine is loaded back for the next turn
+                                    window.modelManager.triggerWebLLMDownload(plannerKey);
+                                    
+                                    response = finalOutput;
+                                    appendBotMessage(response);
+                                } else {
+                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg">Planner failed to generate a valid plan.</div>`;
+                                    appendBotMessage(response);
                                 }
                             } else if (useLocalModel) {
-                                if (window.engine) {
-                                    setCognitiveMode('LOCAL_LLM');
-                                    const msgId = 'msg-' + Date.now();
-                                    appendBotMessage(`<div id="${msgId}">Thinking...</div>`);
+                                const modelKey = localModelSelector.value;
+                                const engine = window.modelManager?.activeEngines?.[modelKey];
+                                
+                                if (!engine) {
+                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg">Local engine not loaded yet. Check model manager.</div>`;
+                                    appendBotMessage(response);
                                     if (chatTypingEl) chatTypingEl.classList.add('hidden');
+                                    return;
+                                }
+                                
+                                setCognitiveMode('NATIVE');
+                                appendBotMessage(`<div class="text-[10px] text-slate-500 mb-1 italic">Generating locally via ${modelKey}...</div><div id="local-stream-output"></div>`);
+                                if (chatTypingEl) chatTypingEl.classList.add('hidden');
+                                
+                                const container = document.getElementById('local-stream-output');
+                                
+                                try {
+                                    const asyncChunkGenerator = await engine.chat.completions.create({
+                                        messages: [{ role: 'user', content: text }],
+                                        stream: true
+                                    });
                                     
-                                    const container = document.getElementById(msgId);
                                     let accumulated = "";
-                                    
-                                    const messages = [{ role: 'user', content: text }];
-                                    const asyncChunkGenerator = await window.engine.chat.completions.create({ messages, stream: true });
-                                    
                                     for await (const chunk of asyncChunkGenerator) {
                                         accumulated += chunk.choices[0].delta.content || "";
                                         container.innerHTML = renderMarkdownCode(accumulated);
                                         if (chatMessagesEl) chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
                                     }
-                                    
-                                    response = ""; 
-                                } else {
-                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg flex items-center gap-2 uppercase tracking-wider font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Local model selected but engine is not initialized. Please wait for it to load or re-select.</div>`;
+                                    response = accumulated; // Save for history
+                                } catch(e) {
+                                    container.innerHTML = `<div class="text-rose-500 text-xs mt-2">Error during local generation: ${e.message}</div>`;
+                                    response = "Error during generation";
                                 }
+                                
                             } else if (intent === "MATH") {
                                 try {
                                     response = await processQueryOnGemini(text);
@@ -5864,16 +5907,128 @@
 
             window.renderModelControls = renderModelControls;
 
+            // Orchestration logic integration
+            window.isPlannerMode = false;
+            
+            function togglePlannerMode() {
+                const toggle = document.getElementById('planner-mode-toggle');
+                if (toggle) {
+                    window.isPlannerMode = toggle.checked;
+                    localStorage.setItem('omni_planner_mode', window.isPlannerMode ? 'true' : 'false');
+                }
+                populateModelSelectors();
+                
+                if (window.isPlannerMode) {
+                    const select = document.getElementById('chat-local-model');
+                    if (select.value === 'none' || select.value === 'cloud' || !select.value.includes('planner')) {
+                        const firstPlanner = Array.from(select.options).find(o => o.value.includes('planner'));
+                        if (firstPlanner) {
+                            select.value = firstPlanner.value;
+                            handleLocalModelChange(select);
+                        }
+                    }
+                }
+            }
+
+            function populateModelSelectors() {
+                const selectors = document.querySelectorAll('.local-model-selector');
+                const state = window.modelManager ? window.modelManager.state : {};
+                const downloadedKeys = Object.keys(state).filter(k => state[k].status === 'downloaded');
+                
+                selectors.forEach(select => {
+                    const currentValue = select.value;
+                    select.innerHTML = '';
+                    
+                    const noAiOpt = document.createElement('option');
+                    noAiOpt.value = "none";
+                    noAiOpt.textContent = "No AI (Fallback Logic)";
+                    select.appendChild(noAiOpt);
+                    
+                    const localOptGroup = document.createElement('optgroup');
+                    localOptGroup.label = "Local Models";
+                    localOptGroup.id = "optgroup-local";
+                    
+                    downloadedKeys.forEach(k => {
+                        if (window.isPlannerMode && !k.includes('planner')) return; 
+                        
+                        const opt = document.createElement('option');
+                        opt.value = k; // Use modelKey as the value
+                        
+                        let niceName = k;
+                        if (window.LOCAL_MODELS && window.LOCAL_MODELS[k]) {
+                            niceName = window.LOCAL_MODELS[k].name;
+                        }
+                        opt.textContent = 'Local: ' + niceName;
+                        localOptGroup.appendChild(opt);
+                    });
+                    
+                    if (localOptGroup.children.length === 0) {
+                        const empty = document.createElement('option');
+                        empty.disabled = true;
+                        empty.textContent = "(No local models ready)";
+                        localOptGroup.appendChild(empty);
+                    }
+                    select.appendChild(localOptGroup);
+                    
+                    const cloudOptGroup = document.createElement('optgroup');
+                    cloudOptGroup.label = "Cloud Models";
+                    cloudOptGroup.id = "optgroup-cloud";
+                    if (window.cloudModelsCache && window.cloudModelsCache.length > 0) {
+                        window.cloudModelsCache.forEach(m => {
+                            const opt = document.createElement('option');
+                            opt.value = m.id;
+                            opt.textContent = 'Cloud: ' + (m.name || m.id);
+                            cloudOptGroup.appendChild(opt);
+                        });
+                    } else {
+                        const loading = document.createElement('option');
+                        loading.value = "cloud";
+                        loading.textContent = "(Use Cloud API Default)";
+                        cloudOptGroup.appendChild(loading);
+                    }
+                    select.appendChild(cloudOptGroup);
+                    
+                    if (currentValue && select.querySelector(`option[value="${currentValue}"]`)) {
+                        select.value = currentValue;
+                    } else {
+                        const saved = localStorage.getItem('omni_ai_model');
+                        if (saved && select.querySelector(`option[value="${saved}"]`)) {
+                            select.value = saved;
+                            handleLocalModelChange(select);
+                        } else {
+                            select.value = "none";
+                        }
+                    }
+                });
+            }
+
+            async function handleLocalModelChange(selectEl) {
+                localStorage.setItem('omni_ai_model', selectEl.value);
+                if (selectEl.value === "none" || selectEl.value === "cloud" || !selectEl.options[selectEl.selectedIndex].textContent.startsWith('Local')) {
+                    console.log(selectEl.value === "none" ? "Switched to No AI fallback." : "Switched to Cloud API.");
+                    return;
+                }
+                
+                const modelKey = selectEl.value;
+                if (window.modelManager) {
+                    console.log("Ensuring local engine is ready in memory: " + modelKey);
+                    // triggerWebLLMDownload will load it into memory if already downloaded.
+                    window.modelManager.triggerWebLLMDownload(modelKey);
+                }
+            }
+
             function initControlsHook() {
                 if (window.modelManager) {
                     const models = ['potato-planner', 'potato-text', 'potato-coder', 'medium-planner', 'medium-text', 'medium-coder'];
                     models.forEach(modelKey => {
                         window.modelManager.onProgress(modelKey, () => {
                             renderModelControls();
+                            populateModelSelectors(); // Update dropdowns dynamically during download
                         });
                     });
                 }
                 renderModelControls();
+                populateModelSelectors();
             }
 
             window.addEventListener('modelManagerReady', initControlsHook);
@@ -5881,7 +6036,20 @@
                 setTimeout(initControlsHook, 300);
                 setTimeout(initControlsHook, 1000);
             });
-            document.addEventListener('DOMContentLoaded', renderModelControls);
+            document.addEventListener('DOMContentLoaded', () => {
+                renderModelControls();
+                populateModelSelectors();
+                
+                // Initialize the planner toggle
+                const savedPlanner = localStorage.getItem('omni_planner_mode');
+                if (savedPlanner === 'true') {
+                    const toggle = document.getElementById('planner-mode-toggle');
+                    if (toggle) {
+                        toggle.checked = true;
+                        togglePlannerMode();
+                    }
+                }
+            });
         </script>
         </body>
     </html>

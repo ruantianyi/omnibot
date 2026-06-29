@@ -8,6 +8,8 @@ export const LOCAL_MODELS = {
     'medium-text': { id: 'Llama-3.2-1B-Instruct-q4f16_1-MLC', type: 'text', name: 'Medium Text' },
     'medium-coder': { id: 'Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC', type: 'coder', name: 'Medium Coder' }
 };
+window.LOCAL_MODELS = LOCAL_MODELS;
+
 
 const STATE_KEY = 'anthocyan_local_models_state';
 
