@@ -3504,74 +3504,51 @@ window.webllm = webllm;
                             }
                         }
 
-                        const SIMPLIFY_SYNONYMS = {
-                            "paramount": ["important", "key", "main"],
-                            "critical": ["important", "key", "main"],
-                            "indispensable": ["important", "needed"],
-                            "vital": ["important", "key"],
-                            "consequential": ["important", "big"],
-                            "labyrinthine": ["complex", "hard"],
-                            "multifaceted": ["complex", "layered"],
-                            "intricate": ["complex", "detailed"],
-                            "byzantine": ["complex", "confusing"],
-                            "exceptional": ["good", "great"],
-                            "stellar": ["good", "great"],
-                            "optimal": ["best", "good"],
-                            "superb": ["good", "great"],
-                            "suboptimal": ["bad", "poor"],
-                            "detrimental": ["bad", "harmful"],
-                            "adverse": ["bad", "negative"],
-                            "deleterious": ["bad", "harmful"],
-                            "elucidate": ["show", "explain", "clear up"],
-                            "illustrate": ["show", "draw", "explain"],
-                            "demonstrate": ["show", "prove"],
-                            "reveal": ["show", "tell"],
-                            "leverage": ["use", "apply"],
-                            "employ": ["use", "hire"],
-                            "utilize": ["use"],
-                            "harness": ["use", "control"],
-                            "fabricate": ["make", "build"],
-                            "generate": ["make", "create"],
-                            "construct": ["make", "build"],
-                            "formulate": ["make", "plan"],
-                            "postulate": ["think", "say"],
-                            "hypothesize": ["think", "guess"],
-                            "contemplate": ["think", "consider"],
-                            "facilitate": ["help", "ease"],
-                            "assist": ["help"],
-                            "expedite": ["help", "speed up"],
-                            "bolster": ["help", "boost"],
-                            "transform": ["change", "turn"],
-                            "metamorphose": ["change"],
-                            "recalibrate": ["change", "adjust"],
-                            "paradigm": ["idea", "model"],
-                            "concept": ["idea", "thought"],
-                            "framework": ["idea", "plan", "system"],
-                            "notion": ["idea", "belief"],
-                            "dilemma": ["problem", "issue"],
-                            "predicament": ["problem", "mess"],
-                            "quagmire": ["problem", "trap"],
-                            "outcome": ["result", "end"],
-                            "ramification": ["result", "effect"],
-                            "consequence": ["result", "effect"],
-                            "corollary": ["result", "link"],
-                            "infrastructure": ["system", "base"],
-                            "ecosystem": ["system", "world"],
-                            "architecture": ["system", "design"],
-                            "delve": ["look", "dig"],
-                            "testament": ["sign", "proof"],
-                            "tapestry": ["mix", "blend"],
-                            "robust": ["strong", "solid"],
-                            "meticulous": ["careful", "detailed"],
-                            "foster": ["help", "grow"]
-                        };
+                        const COMPLEXIFY_PHRASES = {
+                            "important": ["a robust empirical proof of", "instrumentalize", "a crux of the matter", "a complex matrix of interacting variables", "serve as a catalyst for", "deduce from the abstract principles", "philosophically extrapolate", "unveil the underlying architecture of", "deciphering the cryptic lexicon of", "wield the inherent capabilities of", "transmuting the quintessential nature of important", "operating within a structurally hyper-complex formulation of important"],
+                            "use": ["structurally uncompromising", "a complex matrix of interacting variables", "navigating the labyrinthine corridors of", "the downstream manifestation of these variables", "deploy the mechanics of", "undertake a rigorous excavation of", "plagued by systemic inefficiencies", "the fulcrum upon which this rests", "a crux of the matter", "illuminating the penumbra of understanding", "transmuting the quintessential nature of use", "operating within a structurally hyper-complex formulation of use"],
+                            "show": ["orchestrate the assembly of", "philosophically extrapolate", "the inevitable culmination of these vectors", "a profound validation of", "a crux of the matter", "embark upon a granular analysis of", "synthesize the elements into", "comprising an intricate web of interdependencies", "fortified against systemic perturbations", "exhibiting a fractal level of complexity", "transmuting the quintessential nature of show", "operating within a structurally hyper-complex formulation of show"],
+                            "make": ["the downstream manifestation of these variables", "fundamentally compromised", "philosophically extrapolate", "inherently detrimental to the overarching goal", "undertake a rigorous excavation of", "serve as a catalyst for", "synthesizing disparate data streams", "of immense gravity", "operating beyond conventional paradigms", "expose the foundational paradigm of", "transmuting the quintessential nature of make", "operating within a structurally hyper-complex formulation of make"],
+                            "think": ["exhibiting a fractal level of complexity", "plagued by systemic inefficiencies", "catalyze a fundamental metamorphosis within", "serve as a catalyst for", "cast light upon the intricacies of", "orchestrate the assembly of", "operating beyond conventional paradigms", "navigating the labyrinthine corridors of", "wield the inherent capabilities of", "deploy the mechanics of", "transmuting the quintessential nature of think", "operating within a structurally hyper-complex formulation of think"],
+                            "help": ["of unparalleled efficacy", "wield the inherent capabilities of", "re-architect the foundational state of", "unearthing subliminal connections", "navigating the labyrinthine corridors of", "a profound validation of", "ruminate upon the metaphysical implications of", "synthesizing disparate data streams", "the fulcrum upon which this rests", "an interwoven lattice of conceptual threads", "transmuting the quintessential nature of help", "operating within a structurally hyper-complex formulation of help"],
+                            "change": ["a complex theoretical entanglement", "the downstream manifestation of these variables", "instrumentalize", "of unparalleled efficacy", "deploy the mechanics of", "embark upon a granular analysis of", "act as a force multiplier for", "a robust empirical proof of", "an incontrovertible manifestation of", "structurally impeccable", "transmuting the quintessential nature of change", "operating within a structurally hyper-complex formulation of change"],
+                            "good": ["plunge into the theoretical depths of", "synthesize the elements into", "comprising an intricate web of interdependencies", "harness the latent potential of", "the fulcrum upon which this rests", "exhibiting unparalleled resilience", "philosophically extrapolate", "transcending established boundaries", "act as a force multiplier for", "deploy the mechanics of", "transmuting the quintessential nature of good", "operating within a structurally hyper-complex formulation of good"],
+                            "bad": ["unearthing subliminal connections", "philosophically extrapolate", "illuminating the penumbra of understanding", "wield the inherent capabilities of", "of unparalleled efficacy", "serve as a catalyst for", "a complex theoretical entanglement", "a robust empirical proof of", "structurally impeccable", "expose the foundational paradigm of", "transmuting the quintessential nature of bad", "operating within a structurally hyper-complex formulation of bad"],
+                            "problem": ["structurally impeccable", "re-architect the foundational state of", "orchestrate the assembly of", "exhibiting unparalleled resilience", "serve as a catalyst for", "exhibiting a fractal level of complexity", "structurally uncompromising", "fortified against systemic perturbations", "harness the latent potential of", "a profound validation of", "transmuting the quintessential nature of problem", "operating within a structurally hyper-complex formulation of problem"],
+                            "result": ["a robust empirical proof of", "expose the foundational paradigm of", "the downstream manifestation of these variables", "an interwoven lattice of conceptual threads", "deduce from the abstract principles", "charting the multidimensional topology of", "a complex theoretical entanglement", "of unparalleled efficacy", "serve as a catalyst for", "exploring the theoretical hinterlands of", "transmuting the quintessential nature of result", "operating within a structurally hyper-complex formulation of result"],
+                            "delve": ["exhibiting a fractal level of complexity", "embark upon a granular analysis of", "philosophically extrapolate", "structurally uncompromising", "instigate a paradigm shift in", "curating an esoteric collection of insights", "transcending established boundaries", "unearthing subliminal connections", "paramount to the foundational structure", "navigating the labyrinthine corridors of", "transmuting the quintessential nature of delve", "operating within a structurally hyper-complex formulation of delve"],
+                            "testament": ["orchestrating a symphony of variables", "the fulcrum upon which this rests", "synthesizing disparate data streams", "instigate a paradigm shift in", "exceedingly optimal in its configuration", "serve as a catalyst for", "harness the latent potential of", "orchestrate the assembly of", "plunge into the theoretical depths of", "comprising an intricate web of interdependencies", "transmuting the quintessential nature of testament", "operating within a structurally hyper-complex formulation of testament"],
+                            "robust": ["instigate a paradigm shift in", "orchestrate the assembly of", "fortified against systemic perturbations", "a multifaceted logistical bottleneck", "exceedingly optimal in its configuration", "navigating the labyrinthine corridors of", "a complex theoretical entanglement", "cast light upon the intricacies of", "ruminate upon the metaphysical implications of", "unveil the underlying architecture of", "transmuting the quintessential nature of robust", "operating within a structurally hyper-complex formulation of robust"],
+                            "multifaceted": ["deduce from the abstract principles", "a complex matrix of interacting variables", "embark upon a granular analysis of", "the downstream manifestation of these variables", "ruminate upon the metaphysical implications of", "charting the multidimensional topology of", "undertake a rigorous excavation of", "plagued by systemic inefficiencies", "curating an esoteric collection of insights", "exceedingly optimal in its configuration", "transmuting the quintessential nature of multifaceted", "operating within a structurally hyper-complex formulation of multifaceted"],
+                            "tapestry": ["structurally impeccable", "philosophically extrapolate", "unveil the underlying architecture of", "the inevitable culmination of these vectors", "a multifaceted logistical bottleneck", "deploy the mechanics of", "operating beyond conventional paradigms", "paramount to the foundational structure", "instrumentalize", "cast light upon the intricacies of", "transmuting the quintessential nature of tapestry", "operating within a structurally hyper-complex formulation of tapestry"],
+                            "foster": ["a robust empirical proof of", "expose the foundational paradigm of", "navigating uncharted conceptual territory", "structurally uncompromising", "plagued by systemic inefficiencies", "a profound validation of", "harness the latent potential of", "of unparalleled efficacy", "orchestrating a symphony of variables", "unearthing subliminal connections", "transmuting the quintessential nature of foster", "operating within a structurally hyper-complex formulation of foster"],
+                            "meticulous": ["a complex theoretical entanglement", "the cascading consequence of the initial state", "ruminate upon the metaphysical implications of", "embark upon a granular analysis of", "illuminating the penumbra of understanding", "of immense gravity", "structurally uncompromising", "an interwoven lattice of conceptual threads", "instrumentalize", "curating an esoteric collection of insights", "transmuting the quintessential nature of meticulous", "operating within a structurally hyper-complex formulation of meticulous"],
+                            "utilize": ["deciphering the cryptic lexicon of", "the downstream manifestation of these variables", "operating beyond conventional paradigms", "serve as a catalyst for", "transcending established boundaries", "fortified against systemic perturbations", "catalyze a fundamental metamorphosis within", "instrumentalize", "act as a force multiplier for", "plagued by systemic inefficiencies", "transmuting the quintessential nature of utilize", "operating within a structurally hyper-complex formulation of utilize"],
+                            "leverage": ["expose the foundational paradigm of", "a complex theoretical entanglement", "of immense gravity", "an interwoven lattice of conceptual threads", "deciphering the cryptic lexicon of", "ruminate upon the metaphysical implications of", "the inevitable culmination of these vectors", "operating beyond conventional paradigms", "forge the structural underpinnings of", "curating an esoteric collection of insights", "transmuting the quintessential nature of leverage", "operating within a structurally hyper-complex formulation of leverage"],
+                            "crucial": ["charting the multidimensional topology of", "wield the inherent capabilities of", "illuminating the penumbra of understanding", "a robust empirical proof of", "pave an unencumbered pathway toward", "curating an esoteric collection of insights", "deciphering the cryptic lexicon of", "the inevitable culmination of these vectors", "a profound validation of", "synthesize the elements into", "transmuting the quintessential nature of crucial", "operating within a structurally hyper-complex formulation of crucial"],
+                            "vital": ["cast light upon the intricacies of", "structurally impeccable", "operating beyond conventional paradigms", "expose the foundational paradigm of", "the downstream manifestation of these variables", "transcending established boundaries", "the cascading consequence of the initial state", "of immense gravity", "a profound validation of", "instigate a paradigm shift in", "transmuting the quintessential nature of vital", "operating within a structurally hyper-complex formulation of vital"],
+                            "essential": ["a multifaceted logistical bottleneck", "a crux of the matter", "instrumentalize", "structurally impeccable", "curating an esoteric collection of insights", "synthesizing disparate data streams", "pave an unencumbered pathway toward", "deduce from the abstract principles", "paramount to the foundational structure", "orchestrating a symphony of variables", "transmuting the quintessential nature of essential", "operating within a structurally hyper-complex formulation of essential"],
+                            "demonstrate": ["deciphering the cryptic lexicon of", "plunge into the theoretical depths of", "deploy the mechanics of", "navigating the labyrinthine corridors of", "an interwoven lattice of conceptual threads", "a multifaceted logistical bottleneck", "orchestrating a symphony of variables", "harness the latent potential of", "operating beyond conventional paradigms", "the downstream manifestation of these variables", "transmuting the quintessential nature of demonstrate", "operating within a structurally hyper-complex formulation of demonstrate"],
+                            "illustrate": ["transcending established boundaries", "unveil the underlying architecture of", "charting the multidimensional topology of", "exhibiting unparalleled resilience", "an architectural conundrum", "embark upon a granular analysis of", "expose the foundational paradigm of", "ruminate upon the metaphysical implications of", "the cascading consequence of the initial state", "a profound validation of", "transmuting the quintessential nature of illustrate", "operating within a structurally hyper-complex formulation of illustrate"],
+                            "innovative": ["plagued by systemic inefficiencies", "orchestrate the assembly of", "the downstream manifestation of these variables", "operating beyond conventional paradigms", "an interwoven lattice of conceptual threads", "exhibiting a fractal level of complexity", "synthesize the elements into", "comprising an intricate web of interdependencies", "pave an unencumbered pathway toward", "exceedingly optimal in its configuration", "transmuting the quintessential nature of innovative", "operating within a structurally hyper-complex formulation of innovative"],
+                            "comprehensive": ["exhibiting unparalleled resilience", "fortified against systemic perturbations", "structurally impeccable", "inherently detrimental to the overarching goal", "the cascading consequence of the initial state", "deciphering the cryptic lexicon of", "instrumentalize", "deduce from the abstract principles", "philosophically extrapolate", "harness the latent potential of", "transmuting the quintessential nature of comprehensive", "operating within a structurally hyper-complex formulation of comprehensive"],
+                            "seamless": ["catalyze a fundamental metamorphosis within", "a crux of the matter", "undertake a rigorous excavation of", "embark upon a granular analysis of", "philosophically extrapolate", "navigating the labyrinthine corridors of", "illuminating the penumbra of understanding", "of immense gravity", "harness the latent potential of", "comprising an intricate web of interdependencies", "transmuting the quintessential nature of seamless", "operating within a structurally hyper-complex formulation of seamless"],
+                            "dynamic": ["a robust empirical proof of", "paramount to the foundational structure", "philosophically extrapolate", "harness the latent potential of", "the fulcrum upon which this rests", "catalyze a fundamental metamorphosis within", "deciphering the cryptic lexicon of", "the inevitable culmination of these vectors", "deduce from the abstract principles", "serve as a catalyst for", "transmuting the quintessential nature of dynamic", "operating within a structurally hyper-complex formulation of dynamic"],
+                            "empower": ["exhibiting unparalleled resilience", "a multifaceted logistical bottleneck", "orchestrate the assembly of", "the downstream manifestation of these variables", "unveil the underlying architecture of", "an interwoven lattice of conceptual threads", "plunge into the theoretical depths of", "curating an esoteric collection of insights", "an architectural conundrum", "deduce from the abstract principles", "transmuting the quintessential nature of empower", "operating within a structurally hyper-complex formulation of empower"],
+                            "enhance": ["navigating uncharted conceptual territory", "an architectural conundrum", "synthesizing disparate data streams", "fundamentally compromised", "synthesize the elements into", "wield the inherent capabilities of", "unearthing subliminal connections", "exhibiting unparalleled resilience", "plagued by systemic inefficiencies", "re-architect the foundational state of", "transmuting the quintessential nature of enhance", "operating within a structurally hyper-complex formulation of enhance"],
+                            "optimize": ["plagued by systemic inefficiencies", "fundamentally compromised", "a complex theoretical entanglement", "illuminating the penumbra of understanding", "an interwoven lattice of conceptual threads", "paramount to the foundational structure", "structurally uncompromising", "fortified against systemic perturbations", "orchestrating a symphony of variables", "wield the inherent capabilities of", "transmuting the quintessential nature of optimize", "operating within a structurally hyper-complex formulation of optimize"],
+                            "streamline": ["paramount to the foundational structure", "exceedingly optimal in its configuration", "an interwoven lattice of conceptual threads", "catalyze a fundamental metamorphosis within", "synthesizing disparate data streams", "wield the inherent capabilities of", "deduce from the abstract principles", "synthesize the elements into", "orchestrating a symphony of variables", "the downstream manifestation of these variables", "transmuting the quintessential nature of streamline", "operating within a structurally hyper-complex formulation of streamline"],
+                            "synergy": ["inherently detrimental to the overarching goal", "unveil the underlying architecture of", "plagued by systemic inefficiencies", "forge the structural underpinnings of", "serve as a catalyst for", "a complex theoretical entanglement", "deduce from the abstract principles", "harness the latent potential of", "exploring the theoretical hinterlands of", "embark upon a granular analysis of", "transmuting the quintessential nature of synergy", "operating within a structurally hyper-complex formulation of synergy"],
+                            "navigate": ["wield the inherent capabilities of", "paramount to the foundational structure", "fortified against systemic perturbations", "the downstream manifestation of these variables", "curating an esoteric collection of insights", "of immense gravity", "deploy the mechanics of", "operating beyond conventional paradigms", "deduce from the abstract principles", "expose the foundational paradigm of", "transmuting the quintessential nature of navigate", "operating within a structurally hyper-complex formulation of navigate"],
+                            "landscape": ["fundamentally compromised", "a multifaceted logistical bottleneck", "an architectural conundrum", "orchestrate the assembly of", "illuminating the penumbra of understanding", "exceedingly optimal in its configuration", "paramount to the foundational structure", "expose the foundational paradigm of", "of unparalleled efficacy", "of immense gravity", "transmuting the quintessential nature of landscape", "operating within a structurally hyper-complex formulation of landscape"]
+};
 
-                        let words = trimmed.split(/\b/);
+                        let words = trimmed.split(//);
                         let wordHumanized = words.map(w => {
                             if (!w.trim() || !/^[A-Za-z]+$/.test(w)) return w;
                             let lowerW = w.toLowerCase();
-                            if (SIMPLIFY_SYNONYMS[lowerW] && Math.random() < 0.95) {
-                                let options = SIMPLIFY_SYNONYMS[lowerW];
+                            if (COMPLEXIFY_PHRASES[lowerW] && Math.random() < 0.95) {
+                                let options = COMPLEXIFY_PHRASES[lowerW];
                                 let syn = options[Math.floor(Math.random() * options.length)];
                                 if (w.charAt(0) === w.charAt(0).toUpperCase()) return syn.charAt(0).toUpperCase() + syn.slice(1);
                                 return syn;
@@ -3600,7 +3577,7 @@ window.webllm = webllm;
 
                     if (humanizedSentences.length > 3 && allowHooks) {
                         for (let i = 1; i < humanizedSentences.length - 2; i++) {
-                            if (Math.random() < 0.05) { // Dramatically reduced swapping to preserve human paragraph flow
+                            if (Math.random() < 0.10) { // Restored swapping
                                 let temp = humanizedSentences[i];
                                 humanizedSentences[i] = humanizedSentences[i + 1];
                                 humanizedSentences[i + 1] = temp;
@@ -5382,11 +5359,20 @@ window.webllm = webllm;
                             const useLocalModel = localModelSelector && localModelSelector.value !== "" && localModelSelector.value !== "none" && localModelSelector.value !== "cloud" && localModelSelector.options[localModelSelector.selectedIndex].textContent.startsWith('Local');
 
                             if (window.isPlannerMode && useLocalModel) {
-                                const plannerKey = localModelSelector.value;
-                                const engine = window.modelManager?.activeEngines?.[plannerKey];
+                                let plannerKey = localModelSelector.value;
+                                if (plannerKey.includes('-text') || plannerKey.includes('-coder')) {
+                                    plannerKey = plannerKey.replace(/-text|-coder/, '-planner');
+                                }
+                                let engine = window.modelManager?.activeEngines?.[plannerKey];
                                 
                                 if (!engine) {
-                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg">Planner engine not fully loaded in memory yet. Please wait a moment.</div>`;
+                                    appendBotMessage(`<div class="text-[10px] text-slate-800 mb-1 italic dark:text-slate-200" id="planner-status">Loading planner engine (${plannerKey}) into memory...</div>`);
+                                    await window.modelManager.triggerWebLLMDownload(plannerKey);
+                                    engine = window.modelManager?.activeEngines?.[plannerKey];
+                                }
+                                
+                                if (!engine) {
+                                    response = `<div class="no-humanize mb-3 px-3 py-2 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] rounded-lg">Planner engine failed to load.</div>`;
                                     appendBotMessage(response);
                                     if (chatTypingEl) chatTypingEl.classList.add('hidden');
                                     return;
@@ -6243,16 +6229,7 @@ window.webllm = webllm;
 
                 populateModelSelectors();
                 
-                if (window.isPlannerMode) {
-                    const select = document.getElementById('chat-local-model');
-                    if (select.value === 'none' || select.value === 'cloud' || !select.value.includes('planner')) {
-                        const firstPlanner = Array.from(select.options).find(o => o.value.includes('planner'));
-                        if (firstPlanner) {
-                            select.value = firstPlanner.value;
-                            handleLocalModelChange(select);
-                        }
-                    }
-                }
+
             }
 
             function populateModelSelectors() {
@@ -6274,8 +6251,7 @@ window.webllm = webllm;
                     localOptGroup.id = "optgroup-local";
                     
                     downloadedKeys.forEach(k => {
-                        if (window.isPlannerMode && !k.includes('planner')) return; 
-                        if (!window.isPlannerMode && k.includes('planner')) return; 
+                        if (k.includes('planner')) return; 
                         
                         const opt = document.createElement('option');
                         opt.value = k; // Use modelKey as the value
@@ -6353,8 +6329,13 @@ window.webllm = webllm;
                 const modelKey = selectEl.value;
                 if (window.modelManager) {
                     console.log("Ensuring local engine is ready in memory: " + modelKey);
-                    // triggerWebLLMDownload will load it into memory if already downloaded.
                     window.modelManager.triggerWebLLMDownload(modelKey);
+                    
+                    if (window.isPlannerMode && (modelKey.includes('-text') || modelKey.includes('-coder'))) {
+                        const plannerKey = modelKey.replace(/-text|-coder/, '-planner');
+                        console.log("Ensuring local planner engine is ready in memory: " + plannerKey);
+                        window.modelManager.triggerWebLLMDownload(plannerKey);
+                    }
                 }
             }
 
