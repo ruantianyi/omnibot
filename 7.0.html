@@ -915,7 +915,7 @@ window.webllm = webllm;
                             AI Engine
                             <div id="thinking-mode-wrapper" class="relative hidden">
                             <label class="relative inline-flex items-center cursor-pointer" title="Thinking Mode">
-                                <input type="checkbox" id="planner-mode-toggle" class="sr-only peer" onchange="togglePlannerMode()">
+                                <input type="checkbox" id="planner-mode-toggle" class="sr-only peer planner-mode-toggle-class" onchange="togglePlannerMode(event)">
                                 <div class="w-7 h-4 bg-slate-250 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-indigo-500"></div>
                                 <span class="ml-2 text-[9px] font-bold text-slate-800 dark:text-slate-100 uppercase flex items-center gap-1">
                                     Thinking
@@ -1294,7 +1294,7 @@ window.webllm = webllm;
                                     rewrite phrasing with natural flow and dynamic variations.</p>
                             </div>
                             <label class="relative inline-flex items-center cursor-pointer mt-1">
-                                <input type="checkbox" id="humanize-toggle" class="sr-only peer" checked>
+                                <input type="checkbox" id="humanize-toggle" class="sr-only peer" checked onchange="toggleHumanizerEngineVisibility()">
                                 <div
                                     class="w-9 h-5 bg-slate-100 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-pink-500">
                                 </div>
@@ -1314,10 +1314,17 @@ window.webllm = webllm;
                                 <option value="lyrical">Lyrical & Descriptive</option>
                             </select>
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-2" id="humanizer-engine-container" style="display: none;">
                             <label class="text-xs text-slate-800 dark:text-slate-100 font-medium flex items-center justify-between">
                                 Local AI Engine
-                                <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
+                                <div class="flex items-center gap-2">
+                                    <label class="relative inline-flex items-center cursor-pointer" title="Thinking Mode">
+                                        <input type="checkbox" class="sr-only peer planner-mode-toggle-class" onchange="togglePlannerMode(event)">
+                                        <div class="w-7 h-4 bg-slate-250 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-indigo-500"></div>
+                                        <span class="ml-2 text-[9px] font-bold text-slate-800 dark:text-slate-100 uppercase">Thinking</span>
+                                    </label>
+                                    <span class="text-[9px] bg-emerald-500/10 text-emerald-600 px-1.5 rounded">Offline</span>
+                                </div>
                             </label>
                             <select id="rephraser-local-model" class="local-model-selector w-full mt-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-500">
                                 <option value="">(Use Cloud API)</option>
@@ -3471,7 +3478,7 @@ window.webllm = webllm;
                         if (trimmed.length < 5) return trimmed;
 
                         let rand = Math.random();
-                        if (allowHooks && rand < 0.45) {
+                        if (allowHooks && rand < 0.10) { // Reduced hook chance based on statistical predictability
                             const transitions = {
                                 casual: ["You know, ", "Honestly, ", "When you really think about it, ", "To be fair, ", "Essentially, ", "As it happens, ", "At the end of the day, ", "Frankly, "],
                                 academic: ["It is imperative to note that ", "Furthermore, analysis suggests that ", "Fundamentally, ", "Correspondingly, ", "In a broader theoretical context, ", "Empirical evidence indicates that ", "Consequently, "],
@@ -3497,29 +3504,74 @@ window.webllm = webllm;
                             }
                         }
 
-                        const MEGA_SYNONYMS = {
-                            "important": ["paramount", "critical", "indispensable", "vital", "consequential"],
-                            "complex": ["labyrinthine", "multifaceted", "intricate", "Byzantine"],
-                            "good": ["exceptional", "stellar", "optimal", "superb"],
-                            "bad": ["suboptimal", "detrimental", "adverse", "deleterious"],
-                            "show": ["elucidate", "illustrate", "demonstrate", "reveal"],
-                            "use": ["leverage", "employ", "utilize", "harness"],
-                            "make": ["fabricate", "generate", "construct", "formulate"],
-                            "think": ["postulate", "hypothesize", "reason", "contemplate"],
-                            "help": ["facilitate", "assist", "expedite", "bolster"],
-                            "change": ["transform", "metamorphose", "shift", "recalibrate"],
-                            "idea": ["paradigm", "concept", "framework", "notion"],
-                            "problem": ["dilemma", "predicament", "challenge", "quagmire"],
-                            "result": ["outcome", "ramification", "consequence", "corollary"],
-                            "system": ["infrastructure", "ecosystem", "architecture", "framework"]
+                        const SIMPLIFY_SYNONYMS = {
+                            "paramount": ["important", "key", "main"],
+                            "critical": ["important", "key", "main"],
+                            "indispensable": ["important", "needed"],
+                            "vital": ["important", "key"],
+                            "consequential": ["important", "big"],
+                            "labyrinthine": ["complex", "hard"],
+                            "multifaceted": ["complex", "layered"],
+                            "intricate": ["complex", "detailed"],
+                            "byzantine": ["complex", "confusing"],
+                            "exceptional": ["good", "great"],
+                            "stellar": ["good", "great"],
+                            "optimal": ["best", "good"],
+                            "superb": ["good", "great"],
+                            "suboptimal": ["bad", "poor"],
+                            "detrimental": ["bad", "harmful"],
+                            "adverse": ["bad", "negative"],
+                            "deleterious": ["bad", "harmful"],
+                            "elucidate": ["show", "explain", "clear up"],
+                            "illustrate": ["show", "draw", "explain"],
+                            "demonstrate": ["show", "prove"],
+                            "reveal": ["show", "tell"],
+                            "leverage": ["use", "apply"],
+                            "employ": ["use", "hire"],
+                            "utilize": ["use"],
+                            "harness": ["use", "control"],
+                            "fabricate": ["make", "build"],
+                            "generate": ["make", "create"],
+                            "construct": ["make", "build"],
+                            "formulate": ["make", "plan"],
+                            "postulate": ["think", "say"],
+                            "hypothesize": ["think", "guess"],
+                            "contemplate": ["think", "consider"],
+                            "facilitate": ["help", "ease"],
+                            "assist": ["help"],
+                            "expedite": ["help", "speed up"],
+                            "bolster": ["help", "boost"],
+                            "transform": ["change", "turn"],
+                            "metamorphose": ["change"],
+                            "recalibrate": ["change", "adjust"],
+                            "paradigm": ["idea", "model"],
+                            "concept": ["idea", "thought"],
+                            "framework": ["idea", "plan", "system"],
+                            "notion": ["idea", "belief"],
+                            "dilemma": ["problem", "issue"],
+                            "predicament": ["problem", "mess"],
+                            "quagmire": ["problem", "trap"],
+                            "outcome": ["result", "end"],
+                            "ramification": ["result", "effect"],
+                            "consequence": ["result", "effect"],
+                            "corollary": ["result", "link"],
+                            "infrastructure": ["system", "base"],
+                            "ecosystem": ["system", "world"],
+                            "architecture": ["system", "design"],
+                            "delve": ["look", "dig"],
+                            "testament": ["sign", "proof"],
+                            "tapestry": ["mix", "blend"],
+                            "robust": ["strong", "solid"],
+                            "meticulous": ["careful", "detailed"],
+                            "foster": ["help", "grow"]
                         };
 
                         let words = trimmed.split(/\b/);
                         let wordHumanized = words.map(w => {
                             if (!w.trim() || !/^[A-Za-z]+$/.test(w)) return w;
                             let lowerW = w.toLowerCase();
-                            if (MEGA_SYNONYMS[lowerW] && Math.random() < 0.85) {
-                                let options = MEGA_SYNONYMS[lowerW];
+                            if (SIMPLIFY_SYNONYMS[lowerW] && Math.random() < 0.95) {
+                                let options = SIMPLIFY_SYNONYMS[lowerW];
                                 let syn = options[Math.floor(Math.random() * options.length)];
                                 if (w.charAt(0) === w.charAt(0).toUpperCase()) return syn.charAt(0).toUpperCase() + syn.slice(1);
                                 return syn;
@@ -3548,7 +3600,7 @@ window.webllm = webllm;
 
                     if (humanizedSentences.length > 3 && allowHooks) {
                         for (let i = 1; i < humanizedSentences.length - 2; i++) {
-                            if (Math.random() < 0.3) {
+                            if (Math.random() < 0.05) { // Dramatically reduced swapping to preserve human paragraph flow
                                 let temp = humanizedSentences[i];
                                 humanizedSentences[i] = humanizedSentences[i + 1];
                                 humanizedSentences[i + 1] = temp;
@@ -3597,6 +3649,13 @@ window.webllm = webllm;
                 return tempDiv.innerHTML;
             }
 
+                        function toggleHumanizerEngineVisibility() {
+                const toggle = document.getElementById('humanize-toggle');
+                const container = document.getElementById('humanizer-engine-container');
+                if (toggle && container) {
+                    container.style.display = toggle.checked ? 'none' : 'block';
+                }
+            }
             async function runHumanizerUI() {
                 const inputVal = document.getElementById('humanizer-input').value.trim();
                 if (!inputVal) {
@@ -6166,12 +6225,22 @@ window.webllm = webllm;
             // Orchestration logic integration
             window.isPlannerMode = false;
             
-            function togglePlannerMode() {
-                const toggle = document.getElementById('planner-mode-toggle');
-                if (toggle) {
-                    window.isPlannerMode = toggle.checked;
-                    localStorage.setItem('omni_planner_mode', window.isPlannerMode ? 'true' : 'false');
+            function togglePlannerMode(event = null) {
+                let isChecked = false;
+                if (event && event.target) {
+                    isChecked = event.target.checked;
+                } else {
+                    const toggle = document.getElementById('planner-mode-toggle');
+                    if (toggle) isChecked = toggle.checked;
                 }
+                
+                window.isPlannerMode = isChecked;
+                localStorage.setItem('omni_planner_mode', window.isPlannerMode ? 'true' : 'false');
+                
+                // Sync all UI toggles
+                const toggles = document.querySelectorAll('.planner-mode-toggle-class');
+                toggles.forEach(t => { t.checked = isChecked; });
+
                 populateModelSelectors();
                 
                 if (window.isPlannerMode) {
