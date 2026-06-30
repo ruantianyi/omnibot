@@ -1,113 +1,181 @@
 <!DOCTYPE html>
 <!--
   ╔══════════════════════════════════════════════════════════════════════════════════════╗
-  ║             OMNIBOT LESSON TEMPLATE — READ THIS FILE BEFORE WRITING ANY LESSON      ║
+  ║         OMNIBOT LESSON TEMPLATE v2 — READ EVERY LINE BEFORE WRITING A LESSON        ║
   ╠══════════════════════════════════════════════════════════════════════════════════════╣
   ║                                                                                      ║
-  ║  OVERVIEW OF REQUIREMENTS                                                            ║
-  ║  ─────────────────────────                                                           ║
-  ║  Every lesson in /lessons must follow this exact template. Deviation from the        ║
-  ║  structure, style, or patterns below will cause visual inconsistency across          ║
-  ║  the lesson library. The goal is that all lessons look like one person built them.   ║
+  ║  PURPOSE                                                                             ║
+  ║  ───────                                                                             ║
+  ║  This file is the authoritative blueprint for all lessons in /lessons. If you are   ║
+  ║  an AI asked to write a lesson, start by reading this entire file. Every structural  ║
+  ║  pattern, CSS class, JS function, and HTML block below is the required standard.     ║
+  ║  All lessons must look and feel like they were made by the same person.              ║
   ║                                                                                      ║
-  ║  KEY USER REQUIREMENTS (from original specification):                                ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║  ⚠  ABSOLUTE PROHIBITIONS — violating these makes the lesson UNACCEPTABLE           ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║                                                                                      ║
+  ║  ✗ NO walls of small text. Paragraphs must use text-base (16px) or larger,          ║
+  ║    class="text-slate-900 ... text-justify". Never use text-sm or text-xs for        ║
+  ║    lesson body paragraphs. Maximum 3 sentences per paragraph before a break.        ║
+  ║                                                                                      ║
+  ║  ✗ NO section may contain ONLY text. Every section MUST have at least one           ║
+  ║    interactive element (simulation OR diagram). Text alone is rejected.              ║
+  ║                                                                                      ║
+  ║  ✗ NO placeholder SVGs or stub simulations. Every SVG must contain real,            ║
+  ║    labeled, topic-specific shapes, lines, and annotations. Every simulation          ║
+  ║    must have real physics/math driving it with working slider controls.              ║
+  ║                                                                                      ║
+  ║  ✗ NO chapter may be empty or contain "[Content for Chapter N...]". All chapters    ║
+  ║    must be fully written out, not described as placeholders.                         ║
+  ║                                                                                      ║
+  ║  ✗ NO shared localStorage keys with 7.0.html. Dark mode is self-contained.          ║
+  ║                                                                                      ║
+  ║  ✗ NO "Print Book" button text. The button says "Save as PDF" only.                 ║
+  ║                                                                                      ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║  HARD MINIMUMS — the lesson is REJECTED if any of these are not met                 ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║                                                                                      ║
+  ║  Chapters:          MINIMUM 6, maximum 8 content chapters (not counting quiz).      ║
+  ║  SVG diagrams:      MINIMUM 8 total across all chapters (≥1 per chapter).           ║
+  ║  Simulations:       MINIMUM 4 interactive simulations (canvas or DOM-based).        ║
+  ║  Comprehension      MINIMUM 10 inline check-your-understanding boxes total          ║
+  ║  check boxes:       across all chapters (≥1 per chapter, prefer 2 per chapter).     ║
+  ║  Example boxes:     MINIMUM 1 blue example problem box per chapter (6 total).       ║
+  ║  Quiz questions:    EXACTLY 100 in qBank (20 per difficulty level, d:1–5).          ║
+  ║  Text paragraphs:   MINIMUM 3 full paragraphs per chapter.                          ║
+  ║                                                                                      ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║  TEXT FORMATTING RULES                                                               ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║                                                                                      ║
+  ║  • Body paragraph class: "text-slate-900 leading-relaxed text-justify               ║
+  ║    dark:text-slate-200" — NEVER use text-sm or text-xs for body paragraphs.        ║
+  ║  • Break text into SHORT paragraphs of 2–4 sentences each. Never write a           ║
+  ║    single paragraph longer than 6 sentences.                                         ║
+  ║  • Bold all key terms on first introduction: <strong>term</strong>.                 ║
+  ║  • Use LaTeX for ALL equations: inline = $...$, display = $$...$$.                 ║
+  ║  • Use <ul class="list-disc pl-6 space-y-1 text-slate-900"> for bullet lists.      ║
+  ║  • Use a colored callout box for important formulas (see formula-callout pattern     ║
+  ║    in Chapter 1 below).                                                              ║
+  ║                                                                                      ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║  SVG DIAGRAM RULES                                                                   ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║                                                                                      ║
+  ║  • viewBox="0 0 800 450", width="100%", height="auto".                              ║
+  ║  • Always add a subtle grid background (see pattern in template below).             ║
+  ║  • Use the double-text trick for readable labels:                                    ║
+  ║      <text stroke="#ffffff" stroke-width="4" fill="none">Label</text>               ║
+  ║      <text fill="#4f46e5">Label</text>                                               ║
+  ║  • Every diagram needs: axis labels, quantity labels, arrows, a title caption.      ║
+  ║  • Color coding convention (use consistently across all diagrams):                   ║
+  ║      Indigo  #4f46e5 — primary curves, axes                                         ║
+  ║      Emerald #16a34a — secondary quantities (e.g. speed, energy)                    ║
+  ║      Amber   #d97706 — forces, fields                                                ║
+  ║      Red     #ef4444 — highlighted vectors, special points                          ║
+  ║      Sky     #0ea5e9 — wave-like quantities, fields                                  ║
+  ║      Slate   #64748b — construction lines, dotted helpers                            ║
+  ║                                                                                      ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║  SIMULATION RULES                                                                    ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║                                                                                      ║
+  ║  • Main simulator (top, full-span): uses <canvas> with real animated physics.       ║
+  ║  • Per-chapter mini-sims: can use canvas OR pure DOM/CSS animation with sliders.   ║
+  ║  • MINIMUM 2 slider controls per simulation.                                         ║
+  ║  • MINIMUM 1 live metrics readout panel per simulation.                              ║
+  ║  • Each sim must respond instantly to slider input (no lag, no submit button).      ║
+  ║  • Canvas sims must use requestAnimationFrame for smooth animation.                  ║
+  ║                                                                                      ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║  COMPLETE STRUCTURAL REQUIREMENTS                                                    ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
   ║                                                                                      ║
   ║  1. FILE NAMING                                                                      ║
-  ║     - Use a descriptive, meaningful title in kebab-case.                             ║
-  ║     - Example: "orbital_mechanics_elliptical_trajectories.html"                      ║
-  ║     - Do NOT use vague or placeholder names like "physics_lesson.html".              ║
-  ║     - The filename, <title> tag, and H1 heading must all be thematically consistent. ║
+  ║     • Filename in snake_case: descriptive_topic_keywords.html                       ║
+  ║     • <title> = "[Full Topic] — Interactive Physics Textbook"                       ║
+  ║     • H1 heading must match the filename theme. All three must be consistent.       ║
   ║                                                                                      ║
-  ║  2. SIDEBAR — ACTIVE HIGHLIGHTING                                                    ║
-  ║     - The sidebar must use JS IntersectionObserver to auto-detect the current        ║
-  ║       section as the user scrolls.                                                   ║
-  ║     - The ACTIVE section: bold font, indigo background, indigo left border.          ║
-  ║     - ALL OTHER sections: plain slate text, no background, no bold.                  ║
-  ║     - There must NOT be multiple items active at once.                                ║
+  ║  2. HEAD SETUP                                                                       ║
+  ║     • Tailwind CDN + tailwind.config with brand colors.                             ║
+  ║     • MathJax CDN with inline ($) and display ($$) delimiters configured.          ║
+  ║     • Google Fonts: Inter (body) + Merriweather (optional headings).               ║
+  ║     • Favicon: <link rel="icon" href="/logo.png">                                  ║
+  ║     • All CSS custom properties for dark/light mode in <style>.                     ║
+  ║     • @media print rules.                                                            ║
+  ║     • Brand color: change brand-600 hex to match the lesson subject.                ║
   ║                                                                                      ║
-  ║  3. HEADER BUTTONS                                                                   ║
-  ║     - ONE "Save as PDF" button (NOT "Print Book"). Uses window.print().              ║
-  ║     - ONE sun/moon icon button to its LEFT to toggle dark/light mode.                ║
-  ║     - Dark mode MUST be self-contained (do NOT sync with 7.0.html localStorage).     ║
-  ║     - Default must be LIGHT MODE on every fresh page load.                           ║
-  ║     - Both modes must be legible and clean (no jarring colors).                      ║
+  ║  3. HEADER (sticky, z-40)                                                            ║
+  ║     • LEFT: "← Lessons" link to ../lessons.html | subject icon | lesson name.      ║
+  ║     • RIGHT: sun/moon dark-mode toggle button | "Save as PDF" button.               ║
+  ║     • Button text is ONLY "Save as PDF". No other wording.                          ║
   ║                                                                                      ║
-  ║  4. LESSON CONTENT STRUCTURE (per chapter/section)                                   ║
-  ║     - At least 2–4 paragraphs of rich, academic, LaTeX-formatted text.               ║
-  ║     - 1–2 inline SVG diagrams per section, with "Figure X.X: ..." captions.         ║
-  ║     - 1 interactive simulation per major section (canvas/DOM sliders).               ║
-  ║     - 1 blue "Example Problem" box (bg-blue-50, border-blue-100).                   ║
-  ║     - 1 green "Check Your Understanding" box (bg-emerald-50, border-emerald-100)    ║
-  ║       with a numeric input + "Validate Answer" button.                               ║
-  ║     - Number of sections, diagrams, and interactives must be similar across          ║
-  ║       all lessons (roughly 5–7 content chapters + 1 quiz chapter).                   ║
+  ║  4. HERO SECTION (full-width, no sidebar)                                            ║
+  ║     • Badge: "Interactive Physics Textbook" (brand colored pill).                   ║
+  ║     • H1 with gradient text on key topic words.                                     ║
+  ║     • 1–2 sentence subtitle (text-lg, not text-sm).                                 ║
+  ║     • Dot-grid background pattern.                                                   ║
   ║                                                                                      ║
-  ║  5. COMPREHENSION CHECKS                                                             ║
-  ║     - Each chapter section must contain at least 1 inline comprehension check.       ║
-  ║     - These are short-answer boxes embedded in the content, NOT the final quiz.      ║
-  ║     - Use function checkExercise('ex<N>', correctAnswer) for validation.             ║
-  ║     - Add multiple comprehension checks throughout to promote engagement.            ║
+  ║  5. MAIN SIMULATOR (full-width, above sidebar layout)                                ║
+  ║     • An animated canvas simulation of the lesson's key phenomenon.                 ║
+  ║     • Dark canvas area on left (lg:col-span-8) + controls panel on right.           ║
+  ║     • Live metrics overlay on the canvas.                                            ║
+  ║     • At least 2 sliders + 1 live metrics display panel.                            ║
   ║                                                                                      ║
-  ║  6. FINAL QUIZ — MANDATORY 100 QUESTIONS                                             ║
-  ║     - EVERY lesson must have a final quiz with a bank of EXACTLY 100 questions.      ║
-  ║     - Questions are stored in a `qBank` array with format:                           ║
-  ║         { t: 'mc'|'sa', d: 1-5, q: "...", o: [...] (for mc), a: ... }               ║
-  ║     - 't': type ('mc' = multiple choice, 'sa' = short answer)                        ║
-  ║     - 'd': difficulty 1 (easiest) to 5 (hardest)                                    ║
-  ║     - 'q': question string, may use LaTeX notation                                   ║
-  ║     - 'o': array of 4 option strings (for 'mc' only)                                 ║
-  ║     - 'a': correct answer. For 'mc': 0-indexed int. For 'sa': number, string,       ║
-  ║       or array of acceptable strings.                                                 ║
-  ║     - The quiz RANDOMLY samples 2 questions per difficulty level (10 shown total).   ║
-  ║     - Each difficulty level must have at least 20 questions in the bank.             ║
-  ║     - Quiz has 3 states: intro → active → score. Use the pattern below.             ║
+  ║  6. TWO-COLUMN LAYOUT                                                                ║
+  ║     • Sidebar: lg:col-span-3, sticky top-24, hidden on mobile.                     ║
+  ║     • Content: lg:col-span-9.                                                       ║
   ║                                                                                      ║
-  ║  7. DARK MODE CSS                                                                    ║
-  ║     - Use CSS custom properties on :root and [data-theme="dark"].                    ║
-  ║     - Toggle by setting/removing data-theme="dark" on <html> element.                ║
-  ║     - NEVER use localStorage key used by 7.0.html. No shared key.                   ║
+  ║  7. SIDEBAR (Table of Contents)                                                      ║
+  ║     • Heading: "Table of Contents".                                                  ║
+  ║     • One .sidebar-link per chapter + one for the quiz.                             ║
+  ║     • MUST use data-section="section-id" on every link.                             ║
+  ║     • JS IntersectionObserver drives the .active class (see script at bottom).      ║
+  ║     • Active = bold + indigo left-border + indigo bg. Others = plain slate text.   ║
   ║                                                                                      ║
-  ║  8. STYLING / FONTS                                                                  ║
-  ║     - Use Tailwind CSS (CDN) for layout/utilities.                                   ║
-  ║     - Google Font: Inter (body) + Merriweather (optional display headings).          ║
-  ║     - MathJax for all equations. Use $...$ for inline, $$...$$ for display.         ║
-  ║     - Top decorative bar: h-2 gradient from brand-color to sky-400.                 ║
-  ║     - Brand colors extend tailwind: brand-600 = #4f46e5 (indigo by default,         ║
-  ║       but you can change the hex to match the lesson's thematic color).              ║
-  ║     - Two-column layout: sidebar (lg:col-span-3) + main (lg:col-span-9).            ║
-  ║     - Sidebar must be sticky (top-24) and hidden on mobile.                          ║
-  ║     - Header must be sticky (top-0, z-40, backdrop-blur).                            ║
+  ║  8. CHAPTER SECTIONS (6–8 required, all fully written)                               ║
+  ║     Each chapter <article id="section-N" class="scroll-mt-20 print-border"> must:  ║
+  ║     ✓ Have a numbered badge (1–8) + H2 heading                                     ║
+  ║     ✓ Have MINIMUM 3 paragraphs in text-base (NOT text-sm)                         ║
+  ║     ✓ Have at least 1 SVG diagram with Figure X.X caption                          ║
+  ║     ✓ Have at least 1 formula callout box (indigo border, monospace formula)        ║
+  ║     ✓ Have 1 blue Example Problem box                                               ║
+  ║     ✓ Have 1–2 green Check Your Understanding boxes with working validators         ║
+  ║     Optional: add a per-chapter mini-simulation for richer chapters.                ║
   ║                                                                                      ║
-  ║  9. HERO SECTION                                                                     ║
-  ║     - Full-width hero below header (no sidebar here).                                ║
-  ║     - Contains: module badge ("Interactive Physics Textbook"), H1 with gradient      ║
-  ║       text effect, and a 1–2 sentence subtitle.                                      ║
-  ║     - Background: subtle dot-grid pattern + radial gradient overlay.                 ║
+  ║  9. QUIZ (see qBank rules above — EXACTLY 100 questions)                            ║
   ║                                                                                      ║
-  ║  10. BACK NAVIGATION                                                                 ║
-  ║      - The header must include a "← Lessons" link back to ../lessons.html.          ║
+  ║  10. DARK MODE                                                                       ║
+  ║     • Controlled by applyTheme(true/false) toggling data-theme="dark" on <html>.   ║
+  ║     • Default = light mode, NO localStorage read on init.                           ║
+  ║     • Does NOT read/write any key that 7.0.html uses.                               ║
   ║                                                                                      ║
-  ║  11. PRINT OPTIMIZATIONS                                                             ║
-  ║      - @media print rules must hide: header, sidebar, nav, buttons, simulations.    ║
-  ║      - Print-only: show article content, figures, and formula text cleanly.          ║
-  ║      - Ensure text is black on white for PDF.                                        ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║  AI FILL-IN CHECKLIST — check off every item before submitting                      ║
+  ╠══════════════════════════════════════════════════════════════════════════════════════╣
+  ║                                                                                      ║
+  ║  [ ] Replaced every LESSON_TITLE_HERE / LESSON_SUBTITLE_HERE placeholder.           ║
+  ║  [ ] Updated brand-600 hex color to suit the lesson subject.                        ║
+  ║  [ ] Updated brand gradient ("from-" class on decorative top bar).                  ║
+  ║  [ ] Replaced subject icon SVG path with a relevant icon.                           ║
+  ║  [ ] Wrote 6–8 fully-fleshed chapters (no placeholder text).                        ║
+  ║  [ ] Each chapter has ≥3 body paragraphs in text-base (NOT text-sm/xs).            ║
+  ║  [ ] Each chapter has ≥1 real SVG diagram (with labels, arrows, grid).              ║
+  ║  [ ] At least 4 interactive simulations exist across the lesson.                    ║
+  ║  [ ] Each chapter has 1 formula callout box.                                         ║
+  ║  [ ] Each chapter has 1 blue Example Problem box.                                   ║
+  ║  [ ] Each chapter has 1–2 green Check Your Understanding boxes.                     ║
+  ║  [ ] Total comprehension check boxes across file ≥ 10.                              ║
+  ║  [ ] qBank has EXACTLY 100 questions: 20 at d:1, 20 at d:2, 20 at d:3,             ║
+  ║      20 at d:4, 20 at d:5. Verified by counting.                                    ║
+  ║  [ ] Sidebar nav links match all actual section IDs used.                            ║
+  ║  [ ] Dark mode toggle works (sun shows in dark, moon shows in light).               ║
+  ║  [ ] IntersectionObserver scroll-spy correctly references all section IDs.          ║
+  ║  [ ] No text smaller than text-base used in body content.                           ║
   ║                                                                                      ║
   ╚══════════════════════════════════════════════════════════════════════════════════════╝
-
-  FILL-IN CHECKLIST FOR AI WHEN CREATING A NEW LESSON:
-  ─────────────────────────────────────────────────────
-  [ ] Replace ALL occurrences of LESSON_TITLE_HERE with the lesson title.
-  [ ] Replace LESSON_SUBTITLE_HERE with a 1-sentence description.
-  [ ] Replace LESSON_SUBJECT_ICON_PATH with a relevant SVG path (d="...").
-  [ ] Replace BRAND_COLOR with a hex suitable for the subject (e.g. #0891b2 for physics).
-  [ ] Replace BRAND_GRADIENT with a matching gradient (e.g. from-cyan-600 to-sky-400).
-  [ ] Write all 5–7 chapters with real, rigorous academic content on the lesson topic.
-  [ ] Create all SVG diagrams specific to the topic.
-  [ ] Build 1 interactive JS simulation per major section.
-  [ ] Add comprehension check (exercise) questions in each chapter.
-  [ ] Write ALL 100 quiz questions (20 per difficulty level, d=1 through d=5).
-  [ ] Update the sidebar nav links to match the actual section IDs you used.
-  [ ] Test: dark mode toggle, sidebar scroll-spy, quiz randomization, print layout.
 -->
 
 <html lang="en" class="scroll-smooth">
@@ -115,14 +183,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- REQUIREMENT: Title = descriptive, matches file name theme and H1 heading -->
   <title>LESSON_TITLE_HERE — Interactive Physics Textbook</title>
   <meta name="description" content="LESSON_SUBTITLE_HERE">
 
-  <!-- REQUIREMENT: Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- REQUIREMENT: MathJax for LaTeX equations -->
   <script>
     window.MathJax = {
       tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
@@ -131,18 +196,18 @@
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-  <!-- REQUIREMENT: Tailwind brand color config — change the hex values to match the lesson theme -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            // CHANGE THESE HEX VALUES to match your lesson's thematic color:
-            // e.g. Electromagnetism → purple/violet, Fluids → cyan, Quantum → teal, etc.
+            // ▸ CHANGE THESE to a color that fits your lesson subject.
+            // Examples: Electromagnetism → #7c3aed (violet), Thermodynamics → #ea580c (orange),
+            //           Waves → #0891b2 (cyan), Quantum → #0d9488 (teal), Gravity → #4f46e5 (indigo)
             brand: {
               50:  '#f0f3ff',
               100: '#e1e7ff',
-              600: '#4f46e5', // BRAND_COLOR — replace with lesson-specific color
+              600: '#4f46e5',   // ← CHANGE THIS HEX
               700: '#4338ca',
               800: '#3730a3',
               900: '#312e81'
@@ -153,41 +218,30 @@
     }
   </script>
 
-  <!-- REQUIREMENT: Favicon from root -->
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="apple-touch-icon" href="/logo.png">
-
-  <!-- REQUIREMENT: Google Fonts — Inter (body) + Merriweather (display headings) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
 
   <style>
-    /* ─────────────────────────────────────────────────────────
-       REQUIREMENT: CSS Custom Properties for dark/light mode.
-       NEVER use a localStorage key shared with 7.0.html.
-       Toggle by setting/removing data-theme="dark" on <html>.
-    ───────────────────────────────────────────────────────── */
+    /* ── Dark / Light Mode CSS Variables ──────────────────────── */
     :root {
       --bg-page:           #f8fafc;
       --bg-card:           #ffffff;
-      --bg-sidebar:        #ffffff;
       --text-primary:      #0f172a;
       --text-secondary:    #475569;
-      --text-muted:        #94a3b8;
       --border-color:      #e2e8f0;
       --nav-active-bg:     #eef2ff;
-      --nav-active-text:   #4f46e5;   /* match brand-600 */
-      --nav-active-border: #4f46e5;   /* match brand-600 */
+      --nav-active-text:   #4f46e5;
+      --nav-active-border: #4f46e5;
       --scrollbar-track:   #f1f5f9;
       --scrollbar-thumb:   #cbd5e1;
     }
     [data-theme="dark"] {
       --bg-page:           #0f172a;
       --bg-card:           #1e293b;
-      --bg-sidebar:        #1e293b;
       --text-primary:      #f1f5f9;
       --text-secondary:    #94a3b8;
-      --text-muted:        #64748b;
       --border-color:      #334155;
       --nav-active-bg:     #312e81;
       --nav-active-text:   #a5b4fc;
@@ -195,150 +249,130 @@
       --scrollbar-track:   #1e293b;
       --scrollbar-thumb:   #334155;
     }
+    [data-theme="dark"] body                 { background-color: var(--bg-page); color: var(--text-primary); }
+    [data-theme="dark"] .bg-white            { background-color: var(--bg-card) !important; }
+    [data-theme="dark"] .bg-slate-50         { background-color: #1e293b !important; }
+    [data-theme="dark"] .bg-slate-900        { background-color: #020617 !important; }
+    [data-theme="dark"] .text-slate-900      { color: #f1f5f9 !important; }
+    [data-theme="dark"] .text-slate-800      { color: #e2e8f0 !important; }
+    [data-theme="dark"] .text-slate-700      { color: #cbd5e1 !important; }
+    [data-theme="dark"] .border-slate-200    { border-color: #334155 !important; }
+    [data-theme="dark"] .border-slate-100    { border-color: #1e293b !important; }
+    [data-theme="dark"] .shadow-sm           { box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4) !important; }
+    [data-theme="dark"] .bg-blue-50          { background-color: #172554 !important; }
+    [data-theme="dark"] .text-blue-900       { color: #bfdbfe !important; }
+    [data-theme="dark"] .text-blue-800       { color: #93c5fd !important; }
+    [data-theme="dark"] .bg-emerald-50       { background-color: #052e16 !important; }
+    [data-theme="dark"] .text-emerald-900    { color: #bbf7d0 !important; }
+    [data-theme="dark"] .text-emerald-800    { color: #86efac !important; }
+    [data-theme="dark"] .bg-indigo-50\/50    { background-color: rgba(49,46,129,0.3) !important; }
+    [data-theme="dark"] header.sticky        { background-color: rgba(15,23,42,0.95) !important; border-bottom-color: #334155 !important; }
 
-    /* Dark mode overrides for Tailwind utility classes */
-    [data-theme="dark"] body                      { background-color: var(--bg-page); color: var(--text-primary); }
-    [data-theme="dark"] .bg-white                 { background-color: var(--bg-card) !important; }
-    [data-theme="dark"] .bg-slate-50              { background-color: #1e293b !important; }
-    [data-theme="dark"] .bg-slate-900             { background-color: #020617 !important; }
-    [data-theme="dark"] .text-slate-900           { color: #f1f5f9 !important; }
-    [data-theme="dark"] .text-slate-800           { color: #e2e8f0 !important; }
-    [data-theme="dark"] .text-slate-700           { color: #cbd5e1 !important; }
-    [data-theme="dark"] .border-slate-200         { border-color: #334155 !important; }
-    [data-theme="dark"] .border-slate-100         { border-color: #1e293b !important; }
-    [data-theme="dark"] .shadow-sm                { box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4) !important; }
-    [data-theme="dark"] .bg-blue-50               { background-color: #172554 !important; }
-    [data-theme="dark"] .text-blue-900            { color: #bfdbfe !important; }
-    [data-theme="dark"] .text-blue-800            { color: #93c5fd !important; }
-    [data-theme="dark"] .bg-emerald-50            { background-color: #052e16 !important; }
-    [data-theme="dark"] .text-emerald-900         { color: #bbf7d0 !important; }
-    [data-theme="dark"] .text-emerald-800         { color: #86efac !important; }
-    [data-theme="dark"] .bg-indigo-50\/50         { background-color: rgba(49,46,129,0.3) !important; }
-    [data-theme="dark"] header.sticky            { background-color: rgba(15,23,42,0.95) !important; border-bottom-color: #334155 !important; }
-
-    /* Scrollbar styling */
     ::-webkit-scrollbar       { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
     ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    /* REQUIREMENT: Base font must be Inter */
     body { font-family: 'Inter', system-ui, sans-serif; }
-
-    /* SVG label helper — used for diagram text */
     .vector-label { font-family: system-ui, -apple-system, sans-serif; font-weight: 700; }
 
-    /* ─────────────────────────────────────────────────────────
-       REQUIREMENT: Sidebar active state styling.
-       - Active: bold + indigo bg + indigo left border.
-       - All others: plain slate text, no background.
-       - Driven by JS IntersectionObserver (see script at bottom).
-    ───────────────────────────────────────────────────────── */
+    /* ── Sidebar active-state classes (driven by JS IntersectionObserver) ── */
     .sidebar-link {
       display: flex; align-items: center;
       padding: 0.5rem 0.75rem;
-      font-size: 0.875rem;
-      color: #64748b;
-      border-radius: 0.5rem;
-      border-left: 3px solid transparent;
-      transition: all 0.15s;
-      text-decoration: none;
-      font-weight: 400;
+      font-size: 0.875rem; color: #64748b;
+      border-radius: 0.5rem; border-left: 3px solid transparent;
+      transition: all 0.15s; text-decoration: none; font-weight: 400;
     }
     .sidebar-link:hover { color: #4f46e5; background: #f8faff; }
     .sidebar-link.active {
-      color: var(--nav-active-text);
-      background: var(--nav-active-bg);
-      border-left-color: var(--nav-active-border);
-      font-weight: 700;
+      color: var(--nav-active-text); background: var(--nav-active-bg);
+      border-left-color: var(--nav-active-border); font-weight: 700;
     }
 
-    /* ─────────────────────────────────────────────────────────
-       REQUIREMENT: Dark mode toggle button styling.
-    ───────────────────────────────────────────────────────── */
+    /* ── Dark mode toggle button ── */
     #darkModeToggle {
-      background: none; border: 1.5px solid #e2e8f0;
-      border-radius: 0.5rem; padding: 0.375rem;
-      cursor: pointer; display: flex; align-items: center;
+      background: none; border: 1.5px solid #e2e8f0; border-radius: 0.5rem;
+      padding: 0.375rem; cursor: pointer; display: flex; align-items: center;
       justify-content: center; color: #64748b; transition: all 0.2s;
     }
-    #darkModeToggle:hover              { background: #f1f5f9; color: #4f46e5; border-color: #c7d2fe; }
+    #darkModeToggle:hover { background: #f1f5f9; color: #4f46e5; border-color: #c7d2fe; }
     [data-theme="dark"] #darkModeToggle       { border-color: #334155; color: #94a3b8; }
     [data-theme="dark"] #darkModeToggle:hover { background: #1e293b; color: #a5b4fc; }
 
-    /* ─────────────────────────────────────────────────────────
-       REQUIREMENT: Print to PDF optimizations.
-       Hides nav/header/simulations; makes content printer-clean.
-    ───────────────────────────────────────────────────────── */
+    /* ── Formula callout (indigo accent box for key formulas) ── */
+    .formula-callout {
+      background: #eef2ff; border-left: 4px solid #4f46e5;
+      border-radius: 0.75rem; padding: 1rem 1.25rem; margin: 1rem 0;
+    }
+    [data-theme="dark"] .formula-callout { background: #1e1b4b; border-left-color: #6366f1; }
+    .formula-callout p { font-family: 'Courier New', monospace; font-size: 0.95rem; color: #3730a3; margin: 0; }
+    [data-theme="dark"] .formula-callout p { color: #a5b4fc; }
+
+    /* ── Print / PDF optimizations ── */
     @media print {
       @page { margin: 0.75in; }
-      body { background-color: #ffffff !important; color: #0f172a !important; font-size: 11pt; }
-      .no-print, header, footer, aside, nav, button, input, select, .interactive-sim, .exercise-box { display: none !important; }
-      main { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
-      article { page-break-inside: avoid; margin-bottom: 2rem !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
-      .bg-white, .bg-slate-50, .bg-blue-50 { background-color: transparent !important; border: none !important; }
+      body { background: #fff !important; color: #0f172a !important; font-size: 11pt; }
+      .no-print, header, footer, aside, nav, button, input, select,
+      .interactive-sim, .exercise-box, canvas { display: none !important; }
+      main { width: 100% !important; max-width: 100% !important; padding: 0 !important; }
+      article { page-break-inside: avoid; margin-bottom: 2rem !important; border: none !important; }
+      .bg-white, .bg-slate-50, .bg-blue-50 { background: transparent !important; border: none !important; }
       h1, h2, h3, h4 { page-break-after: avoid; color: #000 !important; }
       p { line-height: 1.6; margin-bottom: 1rem; }
       svg { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
-      .shadow-sm, .rounded-2xl, .rounded-3xl { box-shadow: none !important; }
-      .border, .border-slate-200 { border: 1px solid #cbd5e1 !important; }
       .print-border { border: 1px solid #000; padding: 1rem; margin-bottom: 1rem; }
     }
   </style>
 </head>
 
-<!-- REQUIREMENT: Default light mode — NO data-theme attribute on load -->
+<!-- NOTE: No data-theme attribute here = light mode is the default. DO NOT add it. -->
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
 
-  <!-- REQUIREMENT: Decorative top gradient bar.
-       Change the "from-" color to match the lesson's brand color. -->
+  <!-- ── Decorative top gradient bar ──────────────────────────────
+       CHANGE the "from-" class to match your brand-600 color.
+       Examples: from-violet-600, from-cyan-600, from-orange-600, from-teal-600
+       ─────────────────────────────────────────────────────────── -->
   <div class="h-2 bg-gradient-to-r from-brand-600 via-indigo-500 to-sky-400 no-print"></div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       REQUIREMENT: Sticky header.
-       - Left: back-arrow "← Lessons" link + subject icon + lesson brand name.
-       - Right: sun/moon dark-mode toggle button + "Save as PDF" button.
-       ═══════════════════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════════════════════════
+       HEADER — sticky, z-40, backdrop-blur
+       LEFT:  ← Lessons | [subject icon] | [lesson brand name]
+       RIGHT: [sun/moon toggle] [Save as PDF]
+       ══════════════════════════════════════════════════════════════ -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm backdrop-blur-md bg-white/90 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <!-- REQUIREMENT: Back navigation to lessons index -->
+        <!-- Back navigation — do not change the href -->
         <a href="../lessons.html" class="flex items-center gap-1 text-slate-800 hover:text-indigo-600 transition text-sm font-semibold mr-2 dark:text-slate-200">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           <span class="hidden sm:inline">Lessons</span>
         </a>
         <span class="text-slate-300">|</span>
-        <!-- SUBJECT ICON: Replace the SVG path below with a relevant icon for your topic -->
+        <!-- Subject icon — replace the <path d="..."> with a relevant SVG icon path -->
         <span class="p-2 bg-brand-50 text-brand-600 rounded-lg">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <!-- LESSON_SUBJECT_ICON_PATH: Replace this path with a relevant icon -->
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
             </path>
           </svg>
         </span>
-        <!-- LESSON BRAND NAME: e.g. "Quantum Mechanics Interactive", "Fluid Dynamics Lab" -->
         <span class="font-bold text-lg text-slate-900 tracking-tight dark:text-slate-200">LESSON_TITLE_HERE</span>
       </div>
       <div class="flex items-center space-x-2">
-        <!-- REQUIREMENT: Sun/Moon dark mode toggle (left of Save as PDF) -->
+        <!-- Sun/moon dark mode toggle (REQUIRED — left of Save as PDF) -->
         <button id="darkModeToggle" title="Toggle dark/light mode" aria-label="Toggle dark mode">
-          <!-- Sun icon (shown in dark mode to switch back to light) -->
           <svg id="iconSun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
           </svg>
-          <!-- Moon icon (shown in light mode to switch to dark) -->
           <svg id="iconMoon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
           </svg>
         </button>
-        <!-- REQUIREMENT: Save as PDF button (no "Print Book" text) -->
+        <!-- Save as PDF button — text must be EXACTLY "Save as PDF" -->
         <button onclick="window.print()"
           class="px-5 py-2 bg-indigo-600 text-white hover:bg-indigo-700 font-bold rounded-xl text-sm transition flex items-center gap-2 shadow-sm">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
-            </path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
           </svg>
           Save as PDF
         </button>
@@ -346,14 +380,10 @@
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       REQUIREMENT: Hero section.
-       - Full width (no sidebar).
-       - Badge: "Interactive Physics Textbook".
-       - H1: large, bold, with gradient-colored key terms.
-       - Subtitle: 1–2 sentences, descriptive.
-       - Subtle dot-grid background pattern.
-       ═══════════════════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════════════════════════
+       HERO SECTION — full-width, no sidebar
+       Badge → H1 (gradient text) → subtitle (text-lg)
+       ══════════════════════════════════════════════════════════════ -->
   <section class="relative bg-white py-12 border-b border-slate-200 overflow-hidden no-print">
     <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-60"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -362,14 +392,15 @@
           <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-600 uppercase tracking-wider">
             Interactive Physics Textbook
           </span>
-          <!-- REQUIREMENT: H1 with gradient-text on key subject term -->
+          <!-- H1: key topic words use gradient text. Keep it short and impactful. -->
           <h1 class="text-4xl sm:text-5xl font-black text-slate-950 tracking-tight leading-none">
-            <!-- Example: "The Mechanics of <br><span ...>Waves & Oscillation</span>" -->
-            The [Topic Area] of <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">LESSON_TITLE_HERE</span>
+            [Brief intro phrase, e.g. "The Physics of"] <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">LESSON_TITLE_HERE</span>
           </h1>
-          <!-- Subtitle: clear, academic, 1–2 sentences -->
+          <!-- Subtitle: 1–2 sentences, text-lg, NOT text-sm -->
           <p class="text-lg text-slate-900 max-w-2xl dark:text-slate-200">
-            LESSON_SUBTITLE_HERE. Explore the core principles through interactive simulations, worked examples, and a comprehensive 100-question assessment.
+            LESSON_SUBTITLE_HERE — a comprehensive interactive exploration featuring live simulations,
+            worked examples, and a 100-question mastery quiz.
           </p>
         </div>
       </div>
@@ -378,50 +409,77 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-    <!-- ═══════════════════════════════════════════════════════════
-         REQUIREMENT: Optional "Featured Simulator" section.
-         Place the main interactive simulation here, before the sidebar layout.
-         This is a wide, full-span canvas simulation. If the lesson has
-         a key visualization (orbit, wave, field lines), put it here.
-         ═══════════════════════════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════════════════════════
+         MAIN SIMULATOR (full-width, above sidebar layout)
+         REQUIREMENT: animated canvas, ≥2 sliders, live metrics overlay.
+         This simulation should demonstrate the lesson's central phenomenon.
+         ══════════════════════════════════════════════════════════════ -->
     <section id="simulator" class="mb-16 scroll-mt-20 interactive-sim no-print">
       <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="p-6 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
           <div>
-            <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-200">Live Interactive [Topic] Simulator</h2>
-            <p class="text-sm text-slate-800 dark:text-slate-200">Observe [key phenomenon] in real-time using the sliders.</p>
+            <!-- Title and description must reference the actual lesson topic -->
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-200">Live [Topic] Simulator</h2>
+            <p class="text-sm text-slate-700 dark:text-slate-200">Adjust the parameters below and observe [key phenomenon] in real time.</p>
           </div>
         </div>
         <div class="grid lg:grid-cols-12">
-          <!-- Canvas area (dark bg for physics simulations) -->
+          <!-- Dark canvas panel -->
           <div class="lg:col-span-8 p-6 bg-slate-900 relative flex flex-col items-center justify-center min-h-[400px]">
             <canvas id="mainSimCanvas" class="w-full h-full max-h-[480px] bg-slate-950 rounded-2xl shadow-inner"></canvas>
-            <!-- Live metrics overlay -->
+            <!-- Live metrics readout — REQUIRED -->
             <div class="absolute bottom-10 left-10 text-xs bg-slate-900/95 border border-slate-700 text-slate-300 p-4 rounded-xl font-mono shadow-md">
               <div class="text-brand-400 font-bold mb-1 border-b border-slate-700 pb-1">LIVE METRICS</div>
-              <div>Quantity A: <span id="metricA" class="text-white">---</span></div>
-              <div>Quantity B: <span id="metricB" class="text-emerald-400">---</span></div>
+              <!-- Replace these with actual lesson-relevant quantities -->
+              <div>[Quantity A]: <span id="metricA" class="text-white">---</span> [unit]</div>
+              <div>[Quantity B]: <span id="metricB" class="text-emerald-400">---</span> [unit]</div>
+              <div>[Quantity C]: <span id="metricC" class="text-sky-400">---</span> [unit]</div>
             </div>
           </div>
-          <!-- Controls panel -->
+          <!-- Controls panel (MINIMUM 2 sliders) -->
           <div class="lg:col-span-4 p-6 border-l border-slate-200 bg-white flex flex-col space-y-6">
             <h3 class="font-bold text-slate-900 text-lg border-b border-slate-100 pb-2 dark:text-slate-200">Simulator Controls</h3>
             <div class="space-y-4">
+              <!-- Slider 1 — replace label and min/max/step/value with real physics -->
               <div>
                 <div class="flex justify-between text-sm font-semibold mb-1">
-                  <span class="text-slate-700 dark:text-slate-200">Parameter 1 ($P_1$)</span>
-                  <span id="labelP1" class="text-brand-600">1.00</span>
+                  <span class="text-slate-700 dark:text-slate-200">[Parameter 1] ($P_1$)</span>
+                  <span id="labelP1" class="text-brand-600">5.00</span>
                 </div>
                 <input type="range" id="sliderP1" min="0" max="10" step="0.1" value="5"
                   class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-brand-600">
               </div>
+              <!-- Slider 2 -->
               <div>
                 <div class="flex justify-between text-sm font-semibold mb-1">
-                  <span class="text-slate-700 dark:text-slate-200">Parameter 2 ($P_2$)</span>
+                  <span class="text-slate-700 dark:text-slate-200">[Parameter 2] ($P_2$)</span>
                   <span id="labelP2" class="text-brand-600">0.50</span>
                 </div>
                 <input type="range" id="sliderP2" min="0" max="1" step="0.05" value="0.5"
                   class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-brand-600">
+              </div>
+              <!-- Slider 3 (recommended) -->
+              <div>
+                <div class="flex justify-between text-sm font-semibold mb-1">
+                  <span class="text-slate-700 dark:text-slate-200">[Parameter 3] ($P_3$)</span>
+                  <span id="labelP3" class="text-brand-600">1.00</span>
+                </div>
+                <input type="range" id="sliderP3" min="0.1" max="3" step="0.1" value="1"
+                  class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-brand-600">
+              </div>
+            </div>
+            <!-- Derived quantities panel -->
+            <div class="pt-4 border-t border-slate-100">
+              <h4 class="text-xs font-bold text-slate-700 uppercase mb-2 dark:text-slate-200">Derived Parameters</h4>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="bg-slate-50 p-2.5 rounded-lg">
+                  <span class="text-slate-800 block dark:text-slate-200">[Derived A]:</span>
+                  <span id="derivedA" class="font-bold text-slate-800 dark:text-slate-200">---</span>
+                </div>
+                <div class="bg-slate-50 p-2.5 rounded-lg">
+                  <span class="text-slate-800 block dark:text-slate-200">[Derived B]:</span>
+                  <span id="derivedB" class="font-bold text-slate-800 dark:text-slate-200">---</span>
+                </div>
               </div>
             </div>
           </div>
@@ -429,133 +487,206 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         REQUIREMENT: Two-column layout.
-         - Sidebar: lg:col-span-3, sticky, hidden on mobile.
-         - Main content: lg:col-span-9.
-         ═══════════════════════════════════════════════════════════ -->
+    <!-- Two-column layout: sidebar (3 cols) + content (9 cols) -->
     <div class="lg:grid lg:grid-cols-12 lg:gap-12">
 
-      <!-- ────────────────────────────────────────────────────────
-           REQUIREMENT: Sidebar with active-section scroll-spy.
-           - Heading: "Table of Contents".
-           - Each link: <a href="#section-id" class="sidebar-link" data-section="section-id">
-           - MUST include all content section IDs + "quiz" at the end.
-           - JS IntersectionObserver at the bottom drives the .active class.
-           ──────────────────────────────────────────────────────── -->
+      <!-- ══════════════════════════════════════════════════════════
+           SIDEBAR — sticky, hidden on mobile
+           Must list ALL section IDs used below.
+           ══════════════════════════════════════════════════════════ -->
       <aside class="hidden lg:block lg:col-span-3 no-print">
         <div class="sticky top-24 space-y-4">
           <h3 class="text-xs font-semibold text-slate-700 uppercase tracking-wider dark:text-slate-200">Table of Contents</h3>
-          <!-- REQUIREMENT: sidebar-link elements. Update href + data-section to match article IDs below. -->
+          <!-- REQUIREMENT: Update these hrefs and data-section values to match actual article IDs -->
           <nav id="toc-nav" class="space-y-1">
             <a href="#section-1" class="sidebar-link" data-section="section-1">1. [Chapter 1 Title]</a>
             <a href="#section-2" class="sidebar-link" data-section="section-2">2. [Chapter 2 Title]</a>
             <a href="#section-3" class="sidebar-link" data-section="section-3">3. [Chapter 3 Title]</a>
             <a href="#section-4" class="sidebar-link" data-section="section-4">4. [Chapter 4 Title]</a>
             <a href="#section-5" class="sidebar-link" data-section="section-5">5. [Chapter 5 Title]</a>
-            <!-- Add 1–2 more sections for ~6-7 total chapters -->
+            <a href="#section-6" class="sidebar-link" data-section="section-6">6. [Chapter 6 Title]</a>
+            <!-- Add more if your lesson has 7–8 chapters -->
             <a href="#quiz" class="sidebar-link mt-2 border-t border-slate-100 pt-2" data-section="quiz">📝 Comprehension Quiz</a>
           </nav>
         </div>
       </aside>
 
-      <!-- Main content area: all chapters and quiz -->
+      <!-- Content: all chapters, then quiz -->
       <div class="lg:col-span-9 space-y-16">
 
-        <!-- ══════════════════════════════════════════════════
-             REQUIREMENT: Chapter section structure.
-             Each chapter must contain:
-               1. Numbered badge + H2 heading
-               2. 2–4 paragraphs of rich academic text with LaTeX
-               3. 1–2 inline SVG diagrams with Figure X.X captions
-               4. 1 interactive simulation (canvas/DOM sliders)
-               5. 1 blue "Example Problem" box
-               6. 1 green "Check Your Understanding" box (with validate)
-             ═════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════════
+             ████  CHAPTER 1  ████
+             COMPLETE CHAPTER TEMPLATE — replicate this for every chapter.
+             Replace all bracketed placeholders with real lesson content.
+             ══════════════════════════════════════════════════════════ -->
         <article id="section-1" class="scroll-mt-20 print-border">
           <div class="space-y-6">
-            <!-- REQUIREMENT: Numbered badge + H2 heading -->
+
+            <!-- Numbered badge + H2 heading -->
             <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3 dark:text-slate-200">
               <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">1</span>
-              [Chapter 1 Title: e.g. "Fundamental Principles of Wave Propagation"]
+              [Chapter 1 Full Title — e.g. "Fundamental Principles of Wave Motion"]
             </h2>
 
-            <!-- REQUIREMENT: Body text — 2–4 substantive paragraphs, LaTeX inline/display -->
+            <!-- ── Body text ───────────────────────────────────────────
+                 RULES:
+                 • Use class="text-slate-900 leading-relaxed text-justify dark:text-slate-200"
+                 • NEVER use text-sm or text-xs for body paragraphs
+                 • MINIMUM 3 paragraphs per chapter
+                 • Maximum 4–5 sentences per paragraph
+                 • Bold key terms: <strong>term</strong>
+                 • Use LaTeX: $inline$ and $$display$$
+            ─────────────────────────────────────────────────────────── -->
             <div class="text-slate-900 space-y-4 leading-relaxed text-justify dark:text-slate-200">
               <p>
-                [Write 2–4 substantial paragraphs of rigorous academic content here. Include
-                LaTeX notation: inline uses $...$ (e.g. $E = mc^2$) and display uses
-                $$...$$ (e.g. $$\nabla \cdot \vec{E} = \frac{\rho}{\epsilon_0}$$). Content
-                should be thorough, academic, and appropriate for advanced high school /
-                introductory university level. Avoid fluff — be specific and technical.]
+                [First paragraph: introduce the chapter's central concept with academic rigor.
+                Define the key terms in <strong>bold</strong>. Include at least one equation like $F = ma$
+                or $$E = \frac{1}{2}mv^2$$ with a brief explanation of each variable.]
               </p>
               <p>
-                [Second paragraph continuing the explanation. Reference equations and physical
-                intuition. Use <strong>bold</strong> for key terms on first introduction.]
+                [Second paragraph: expand on the concept. Explain its historical context or
+                experimental basis. Reference how it connects to the broader subject. Keep this
+                to 3–5 sentences maximum.]
               </p>
               <p>
-                [Third paragraph with further depth, historical context, or derivation steps.]
+                [Third paragraph: describe a physical consequence or application. Connect
+                back to the equation. Mention any limiting cases or special conditions.]
+              </p>
+              <!-- Optional 4th paragraph for richer chapters -->
+              <p>
+                [Fourth paragraph (optional): further derivation, edge cases, or connections
+                to the next chapter's topic.]
               </p>
             </div>
 
-            <!-- REQUIREMENT: SVG Diagram — Figure X.X caption above SVG.
-                 Create a real, labeled, educational SVG diagram for the topic.
-                 Use stroke-based text with white paint-server behind for readability.
-                 Dimensions: viewBox="0 0 800 450", width="100%", height="auto". -->
-            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 mb-6 print-border">
+            <!-- ── Formula callout box ─────────────────────────────────
+                 REQUIRED: 1 per chapter. Contains the key equation(s)
+                 for this section in a highlighted indigo accent box.
+            ─────────────────────────────────────────────────────────── -->
+            <div class="formula-callout">
+              <p class="text-xs font-bold text-indigo-700 mb-2 dark:text-indigo-300 uppercase tracking-wider">Key Formula — Chapter 1</p>
+              <!-- Use MathJax display math for the formula itself -->
+              <p class="tex2jax_process text-indigo-800 dark:text-indigo-200">
+                $$[\text{Formula Name}]: \quad Y = \frac{A \cdot B}{C^2}$$
+                where $A$ = [definition], $B$ = [definition], $C$ = [definition].
+              </p>
+            </div>
+
+            <!-- ── SVG Diagram (Figure 1.1) ───────────────────────────
+                 REQUIRED: ≥1 per chapter. Must be real and labeled.
+                 viewBox="0 0 800 450", width="100%", height="auto".
+                 Double-text trick for readable labels (see below).
+            ─────────────────────────────────────────────────────────── -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 print-border">
               <span class="text-xs font-bold text-slate-800 block mb-3 text-center uppercase tracking-wider dark:text-slate-200">
-                Figure 1.1: [Descriptive diagram title]
+                Figure 1.1: [Descriptive caption for this diagram]
               </span>
               <svg viewBox="0 0 800 450" width="100%" height="auto" class="rounded-lg bg-white">
                 <defs>
-                  <pattern id="grid-ch1" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <pattern id="grid-s1" width="40" height="40" patternUnits="userSpaceOnUse">
                     <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f1f5f9" stroke-width="1" />
                   </pattern>
+                  <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#4f46e5"/>
+                  </marker>
                 </defs>
-                <rect width="100%" height="100%" fill="url(#grid-ch1)" class="no-print" />
-                <!-- BUILD YOUR SVG DIAGRAM HERE:
-                     - Use <ellipse>, <circle>, <line>, <path>, <rect> for shapes
-                     - Use double <text> trick for readable labels:
-                       <text ... stroke="#ffffff" stroke-width="4" fill="none">Label</text>
-                       <text ... fill="#4f46e5">Label</text>
-                     - Always add arrows, dimension lines, and axis labels
-                     - Use color coding: indigo for primary, emerald for secondary,
-                       amber for energy, red for forces, sky for fields -->
-                <text x="400" y="225" text-anchor="middle" fill="#94a3b8" font-size="16">[Replace with actual SVG diagram]</text>
+                <rect width="100%" height="100%" fill="url(#grid-s1)" class="no-print" />
+
+                <!-- BUILD YOUR DIAGRAM HERE — the shapes below are just examples.
+                     Every diagram must include:
+                     - Relevant geometric shapes for the topic
+                     - Labeled axes (if applicable)
+                     - Annotated quantities with arrows
+                     - Color-coded elements (indigo=primary, emerald=secondary, amber=force/field, red=vector)
+                     - Double-text for all labels (white stroke behind for readability, colored fill in front)
+                -->
+
+                <!-- Example axis lines — replace with topic-appropriate content -->
+                <line x1="80" y1="370" x2="720" y2="370" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arrow)" />
+                <line x1="80" y1="370" x2="80" y2="50" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arrow)" />
+
+                <!-- Example curve/shape — replace with actual physics diagram -->
+                <path d="M 80 370 Q 300 50 520 250 T 720 200" fill="none" stroke="#4f46e5" stroke-width="3"/>
+
+                <!-- Double-text label example (use this pattern for ALL labels) -->
+                <text x="400" y="220" text-anchor="middle" stroke="#ffffff" stroke-width="4" fill="none" class="vector-label" font-size="14">[Label]</text>
+                <text x="400" y="220" text-anchor="middle" fill="#4f46e5" class="vector-label" font-size="14">[Label]</text>
+
+                <!-- Axis labels -->
+                <text x="400" y="410" text-anchor="middle" stroke="#ffffff" stroke-width="3" fill="none" class="vector-label" font-size="13">[X-axis label]</text>
+                <text x="400" y="410" text-anchor="middle" fill="#64748b" class="vector-label" font-size="13">[X-axis label]</text>
+                <text x="30" y="210" text-anchor="middle" transform="rotate(-90 30 210)" stroke="#ffffff" stroke-width="3" fill="none" class="vector-label" font-size="13">[Y-axis label]</text>
+                <text x="30" y="210" text-anchor="middle" transform="rotate(-90 30 210)" fill="#64748b" class="vector-label" font-size="13">[Y-axis label]</text>
               </svg>
             </div>
 
-            <!-- REQUIREMENT: Example Problem box (blue) -->
-            <div class="bg-blue-50 border border-blue-100 p-6 rounded-2xl print-border">
-              <h4 class="font-bold text-blue-900 mb-2">Example Problem: [Concise Title]</h4>
-              <p class="text-sm text-blue-800 mb-4">
-                [State a concrete, worked example problem relevant to this chapter.
-                E.g.: "A spring with constant $k = 200$ N/m is compressed by $x = 0.05$ m.
-                Find the elastic potential energy stored."]
-              </p>
-              <div class="bg-white p-4 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-200">
-                <p>1. Identify the formula: $U = \frac{1}{2}kx^2$</p>
-                <p>2. Substitute: $U = \frac{1}{2}(200)(0.05)^2 = \frac{1}{2}(200)(0.0025)$</p>
-                <p>3. Compute: $U = \mathbf{0.25 \text{ J}}$</p>
+            <!-- ── Optional: Per-chapter mini-simulation ───────────────
+                 Include for richer chapters. Can be DOM-based (no canvas)
+                 or a small canvas. Must have ≥1 slider + live readout.
+            ─────────────────────────────────────────────────────────── -->
+            <div class="interactive-sim no-print bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 bg-slate-50 border-b border-slate-200">
+                <h3 class="font-bold text-slate-900 dark:text-slate-200">Mini Simulation: [What does this demonstrate?]</h3>
+              </div>
+              <div class="p-6 grid grid-cols-12 gap-6">
+                <!-- Visualization area -->
+                <div class="col-span-8">
+                  <canvas id="miniSim1" class="w-full bg-slate-900 rounded-xl" height="220"></canvas>
+                </div>
+                <!-- Controls -->
+                <div class="col-span-4 space-y-4">
+                  <div>
+                    <div class="flex justify-between text-sm font-semibold mb-1">
+                      <span class="text-slate-700 dark:text-slate-200">[Control label]</span>
+                      <span id="miniLabel1" class="text-brand-600">5.0</span>
+                    </div>
+                    <input type="range" id="miniSlider1" min="1" max="10" step="0.5" value="5"
+                      class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-brand-600">
+                  </div>
+                  <div class="bg-slate-50 rounded-xl p-3 text-xs font-mono text-slate-700 dark:text-slate-200">
+                    <div>Result: <span id="miniResult1" class="font-bold text-indigo-700">---</span></div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- REQUIREMENT: Comprehension Check box (green).
-                 - Inline, per-section exercise (NOT the final quiz).
-                 - Uses checkExercise(id, correctAnswer) defined in the script.
-                 - Add at least 1 per chapter. Add 2–3 for richer chapters.
-                 - Numeric answers: pass the number. String answers: pass the string.
-                 - ID format: "ex1", "ex2", "ex3", etc. (must be globally unique in the file). -->
+            <!-- ── Example Problem box (blue) ─────────────────────────
+                 REQUIRED: 1 per chapter. Contains a fully worked example.
+                 Steps must be numbered and use LaTeX.
+            ─────────────────────────────────────────────────────────── -->
+            <div class="bg-blue-50 border border-blue-100 p-6 rounded-2xl print-border">
+              <h4 class="font-bold text-blue-900 mb-2">Example Problem: [Short title]</h4>
+              <p class="text-sm text-blue-800 mb-4">
+                [State the problem clearly using LaTeX for any quantities. E.g.: "Given a spring
+                constant $k = 200\,\text{N/m}$ and displacement $x = 0.05\,\text{m}$, calculate
+                the stored elastic potential energy."]
+              </p>
+              <div class="bg-white p-4 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-200">
+                <p>1. Identify relevant formula: $U = \frac{1}{2}kx^2$</p>
+                <p>2. Substitute values: $U = \frac{1}{2}(200)(0.05)^2$</p>
+                <p>3. Simplify: $U = 100 \times 0.0025$</p>
+                <p>4. <strong>Result:</strong> $U = \mathbf{0.25\,\text{J}}$</p>
+              </div>
+            </div>
+
+            <!-- ── Check Your Understanding box (green) ────────────────
+                 REQUIRED: ≥1 per chapter. Prefer 2 per chapter.
+                 For numeric answers: pass a number as the 2nd argument.
+                 For text answers: pass a string or array of synonyms.
+                 IDs must be globally unique (ex1, ex2, ex3, ... no repeats).
+            ─────────────────────────────────────────────────────────── -->
             <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
               <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
-              <p class="text-sm text-emerald-800 mb-4">
-                [Short-answer comprehension question. E.g.: "A spring with $k = 400$ N/m is
-                compressed by $0.1$ m. What is the elastic potential energy (in Joules)?"]
+              <p class="text-emerald-800 mb-4">
+                <!-- NOTE: Use text-emerald-800 (inherits text-base size). Do NOT add text-sm here. -->
+                [Ask a direct question that can be answered with one number or keyword.
+                E.g.: "A spring with $k = 400\,\text{N/m}$ is compressed $x = 0.1\,\text{m}$.
+                Find $U$ in Joules."]
               </p>
               <div class="flex flex-col sm:flex-row gap-3">
                 <input type="number" id="ex1-input"
                   class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm"
-                  placeholder="Enter number...">
+                  placeholder="Enter answer...">
                 <button onclick="checkExercise('ex1', 2)"
                   class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">
                   Validate Answer
@@ -564,37 +695,98 @@
               <p id="ex1-fb" class="mt-3 text-sm font-bold hidden"></p>
             </div>
 
+            <!-- Optional 2nd comprehension check for this chapter -->
+            <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+              <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding (2)</h4>
+              <p class="text-emerald-800 mb-4">
+                [Second question for this chapter. Use a different aspect of the topic.]
+              </p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="ex2-input"
+                  class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm"
+                  placeholder="Enter keyword...">
+                <button onclick="checkExercise('ex2', ['answer', 'synonym'])"
+                  class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">
+                  Validate Answer
+                </button>
+              </div>
+              <p id="ex2-fb" class="mt-3 text-sm font-bold hidden"></p>
+            </div>
+
           </div>
         </article>
 
-        <!-- ════════════════════════════════════════════
-             CHAPTER 2 — Copy/paste the article block above
-             and update: id="section-2", heading badge "2",
-             Figure number to "2.1", exercise IDs to "ex2", etc.
-             ════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════════
+             CHAPTERS 2–6 — Copy the full article block above.
+             For each new chapter:
+               • Change id="section-N" (section-2, section-3, etc.)
+               • Change the badge number (2, 3, 4, 5, 6…)
+               • Update the H2 heading
+               • Change grid IDs (grid-s2, grid-s3, etc.) to avoid SVG conflicts
+               • Update all exercise IDs (ex3, ex4, ex5, etc.) — must be globally unique
+               • Update miniSim IDs (miniSim2, miniSim3, etc.)
+               • Write fully original content — no copy-paste placeholders
+             Minimum: 6 chapters total (section-1 through section-6).
+        ══════════════════════════════════════════════════════════════ -->
+
+        <!-- CHAPTER 2 skeleton (expand fully — this is not sufficient as-is) -->
         <article id="section-2" class="scroll-mt-20 print-border">
           <div class="space-y-6">
             <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3 dark:text-slate-200">
               <span class="w-8 h-8 rounded-lg bg-indigo-100 text-brand-600 flex items-center justify-center font-bold text-base no-print">2</span>
               [Chapter 2 Title]
             </h2>
+            <!-- ⚠ WRITE 3+ paragraphs in text-slate-900, NOT text-sm -->
             <div class="text-slate-900 space-y-4 leading-relaxed text-justify dark:text-slate-200">
-              <p>[Content for Chapter 2...]</p>
+              <p>[Paragraph 1...]</p>
+              <p>[Paragraph 2...]</p>
+              <p>[Paragraph 3...]</p>
             </div>
-            <!-- Figure 2.1 SVG here -->
-            <!-- Example Problem here -->
-            <!-- Check Your Understanding (id="ex2") here -->
+            <!-- Formula callout -->
+            <div class="formula-callout">
+              <p class="text-xs font-bold text-indigo-700 mb-2 dark:text-indigo-300 uppercase tracking-wider">Key Formula — Chapter 2</p>
+              <p class="tex2jax_process text-indigo-800 dark:text-indigo-200">$$[\text{Formula}]$$</p>
+            </div>
+            <!-- Figure 2.1 SVG — replace with real topic diagram -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden bg-white p-4 print-border">
+              <span class="text-xs font-bold text-slate-800 block mb-3 text-center uppercase tracking-wider dark:text-slate-200">Figure 2.1: [Caption]</span>
+              <svg viewBox="0 0 800 450" width="100%" height="auto" class="rounded-lg bg-white">
+                <defs><pattern id="grid-s2" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f1f5f9" stroke-width="1"/></pattern></defs>
+                <rect width="100%" height="100%" fill="url(#grid-s2)"/>
+                <!-- Add real diagram shapes here -->
+                <text x="400" y="225" text-anchor="middle" fill="#94a3b8" font-size="16">[Replace with real SVG diagram for chapter 2]</text>
+              </svg>
+            </div>
+            <!-- Example problem -->
+            <div class="bg-blue-50 border border-blue-100 p-6 rounded-2xl print-border">
+              <h4 class="font-bold text-blue-900 mb-2">Example Problem: [Title]</h4>
+              <p class="text-sm text-blue-800 mb-4">[Problem statement with LaTeX...]</p>
+              <div class="bg-white p-4 rounded-xl text-sm font-mono text-slate-700">
+                <p>1. [Step 1...]</p>
+                <p>2. [Step 2...]</p>
+                <p>3. <strong>Result:</strong> [Answer]</p>
+              </div>
+            </div>
+            <!-- Comprehension check — use ex3, ex4 etc (unique IDs) -->
+            <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-2xl exercise-box">
+              <h4 class="font-bold text-emerald-900 mb-2">Check Your Understanding</h4>
+              <p class="text-emerald-800 mb-4">[Question for chapter 2...]</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input type="number" id="ex3-input" class="p-2.5 rounded-lg border border-emerald-200 outline-none focus:border-emerald-500 w-full sm:w-1/3 text-sm" placeholder="Enter answer...">
+                <button onclick="checkExercise('ex3', 0)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-lg text-sm transition">Validate Answer</button>
+              </div>
+              <p id="ex3-fb" class="mt-3 text-sm font-bold hidden"></p>
+            </div>
           </div>
         </article>
 
-        <!-- CHAPTERS 3–5 follow same pattern (id="section-3" through "section-5") -->
-        <!-- Add 5–7 total chapters to match the depth of existing lessons. -->
+        <!-- CHAPTERS 3–6: Copy the full Chapter 1 or Chapter 2 structure above.
+             Each chapter must be FULLY written (not stubs).
+             Increment: id, badge number, figure numbers, exercise IDs, sim IDs. -->
 
-        <!-- ═══════════════════════════════════════════════════════════
-             REQUIREMENT: Final Quiz Section.
-             MANDATORY: 100 questions in qBank. 10 displayed per session
-             (2 randomly selected per difficulty level 1–5).
-             ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════════
+             QUIZ SECTION (always last, id="quiz")
+        ══════════════════════════════════════════════════════════════ -->
         <article id="quiz" class="scroll-mt-20">
           <div class="space-y-8">
             <h2 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3 dark:text-slate-200">
@@ -602,13 +794,11 @@
               Comprehension Quiz
             </h2>
 
-            <!-- Quiz intro box (shown before quiz starts) -->
             <div id="quiz-intro" class="bg-indigo-50/50 border border-indigo-100 p-6 rounded-2xl">
-              <h3 class="font-bold text-slate-900 mb-2 text-lg dark:text-slate-200">Ready to Test Your Knowledge?</h3>
-              <p class="text-sm text-slate-700 mb-4 dark:text-slate-200">
-                This quiz draws from a bank of <strong>100 questions</strong> across 5 difficulty levels.
-                You will receive 10 questions — 2 from each level — selected at random.
-                Good luck!
+              <h3 class="font-bold text-slate-900 mb-2 text-lg dark:text-slate-200">Test Your Mastery</h3>
+              <p class="text-slate-700 mb-4 dark:text-slate-200">
+                This quiz draws from a bank of <strong>100 questions</strong> spanning 5 difficulty levels.
+                You will receive 10 questions — 2 from each level — selected at random each attempt.
               </p>
               <button onclick="startQuiz()"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl text-sm transition shadow-sm">
@@ -616,10 +806,8 @@
               </button>
             </div>
 
-            <!-- Quiz questions container (hidden until Start is clicked) -->
             <div id="quiz-questions" class="hidden space-y-6"></div>
 
-            <!-- Submit button (hidden until Start is clicked) -->
             <div id="quiz-submit-area" class="hidden">
               <button onclick="gradeQuiz()"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl text-sm transition shadow-sm">
@@ -627,7 +815,6 @@
               </button>
             </div>
 
-            <!-- Score display (hidden until graded) -->
             <div id="quiz-score" class="hidden text-center p-6 bg-white border border-slate-200 rounded-2xl shadow-sm">
               <p class="text-lg text-slate-700 dark:text-slate-200"></p>
               <button onclick="startQuiz()"
@@ -642,16 +829,14 @@
     </div><!-- end grid -->
   </main>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       JAVASCRIPT SECTION
-       ═══════════════════════════════════════════════════════════ -->
   <script>
-    // ─────────────────────────────────────────────────────────────
-    // UTILITY: Comprehension Check Validator
-    // checkExercise(id, correctAnswer)
-    //   - id: the prefix (e.g. 'ex1' → reads 'ex1-input', shows 'ex1-fb')
-    //   - correctAnswer: a number (for numeric answers) or string
-    // ─────────────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════
+    // COMPREHENSION CHECK VALIDATOR
+    // Usage: checkExercise('ex1', correctAnswer)
+    //   - Numeric: checkExercise('ex1', 9.81)  →  ±5% tolerance
+    //   - String:  checkExercise('ex2', 'newton')
+    //   - Synonyms: checkExercise('ex3', ['energy', 'kinetic energy'])
+    // ══════════════════════════════════════════════════════════════
     function checkExercise(id, correct) {
       const input = document.getElementById(`${id}-input`);
       const fb    = document.getElementById(`${id}-fb`);
@@ -660,91 +845,93 @@
       let isCorrect = false;
       if (typeof correct === 'number') {
         const num = parseFloat(userVal);
-        isCorrect = !isNaN(num) && Math.abs(num - correct) < 0.05 * Math.abs(correct || 1);
+        isCorrect = !isNaN(num) && Math.abs(num - correct) <= Math.abs(correct) * 0.05 + 0.01;
       } else if (Array.isArray(correct)) {
-        isCorrect = correct.some(c => userVal.toLowerCase() === String(c).toLowerCase());
+        isCorrect = correct.some(c => userVal.toLowerCase().includes(String(c).toLowerCase()));
       } else {
-        isCorrect = userVal.toLowerCase() === String(correct).toLowerCase();
+        isCorrect = userVal.toLowerCase().includes(String(correct).toLowerCase());
       }
       fb.classList.remove('hidden', 'text-emerald-700', 'text-rose-700');
       if (isCorrect) {
         fb.textContent = '✓ Correct! Well done.';
         fb.classList.add('text-emerald-700');
       } else {
-        fb.textContent = `✗ Not quite. The answer is ${Array.isArray(correct) ? correct[0] : correct}.`;
+        const ans = Array.isArray(correct) ? correct[0] : correct;
+        fb.textContent = `✗ Not quite. The answer is: ${ans}.`;
         fb.classList.add('text-rose-700');
       }
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // REQUIREMENT: QUIZ ENGINE
-    // qBank: 100 questions, 20 per difficulty level (d: 1–5).
-    // Format: { t: 'mc'|'sa', d: 1-5, q: "...", o: [...], a: ... }
+    // ══════════════════════════════════════════════════════════════
+    // QUIZ ENGINE — qBank: EXACTLY 100 questions, 20 per difficulty.
     //
-    // INSTRUCTIONS FOR AI FILLING THIS IN:
-    //   - Write EXACTLY 100 entries total.
-    //   - EXACTLY 20 questions at d:1 (easiest definition/recall).
-    //   - EXACTLY 20 questions at d:2 (simple formula application).
-    //   - EXACTLY 20 questions at d:3 (multi-step calculation).
-    //   - EXACTLY 20 questions at d:4 (challenging derivation/analysis).
-    //   - EXACTLY 20 questions at d:5 (hardest conceptual/synthesis).
-    //   - Mix 'mc' and 'sa' types evenly throughout.
-    //   - 'sa' numeric answers: use a number; tolerance ±5% is applied.
-    //   - 'sa' string answers: use a lowercase string or array of synonyms.
-    //   - 'mc' answer: 0-indexed integer pointing to correct option in 'o' array.
-    //   - Questions MUST be lesson-specific and academically rigorous.
-    // ─────────────────────────────────────────────────────────────
+    // FORMAT for each question object:
+    //   t: 'mc' = multiple choice  |  'sa' = short answer
+    //   d: difficulty 1 (easiest) → 5 (hardest)
+    //   q: question string (LaTeX ok: $...$ or $$...$$)
+    //   o: [4 strings] — options array, ONLY for t:'mc'
+    //   a: correct answer
+    //      • t:'mc' → 0-indexed integer (0=first option, 3=fourth option)
+    //      • t:'sa' + numeric → a number (±5% tolerance applied)
+    //      • t:'sa' + text   → a lowercase string or array of synonyms
+    //
+    // DIFFICULTY GUIDE:
+    //   d:1 — definitions, unit identification, direct recall
+    //   d:2 — single formula application, plug-and-chug
+    //   d:3 — multi-step calculation (2–3 formulas chained)
+    //   d:4 — derivation insight, conceptual traps, combined concepts
+    //   d:5 — synthesis, edge cases, order-of-magnitude reasoning
+    //
+    // COUNT VERIFICATION:
+    //   Count your entries per d-level before saving.
+    //   d:1 total: __/20  d:2 total: __/20  d:3 total: __/20
+    //   d:4 total: __/20  d:5 total: __/20  Grand total: __/100
+    // ══════════════════════════════════════════════════════════════
     const qBank = [
-      // ── Difficulty 1 (20 questions: basic recall, definitions) ──
-      { t: 'mc', d: 1, q: "[Sample d:1 MC] Which quantity is conserved in a closed system with no external forces?", o: ["Energy only", "Momentum only", "Both energy and momentum", "Neither"], a: 2 },
-      { t: 'sa', d: 1, q: "[Sample d:1 SA] What is the SI unit of force?", a: ['newton', 'n'] },
-      // ... ADD 18 MORE d:1 questions ...
+      // ── d:1 — Definitions & recall (write 20 total) ──
+      { t: 'mc', d: 1, q: "[d:1 Sample] Which of the following is a vector quantity?", o: ["Temperature", "Mass", "Velocity", "Speed"], a: 2 },
+      { t: 'sa', d: 1, q: "[d:1 Sample] What is the SI unit of energy?", a: ['joule', 'j'] },
+      // ... 18 more d:1 questions ...
 
-      // ── Difficulty 2 (20 questions: simple formula application) ──
-      { t: 'mc', d: 2, q: "[Sample d:2 MC] If $F = 10$ N and $m = 2$ kg, what is acceleration $a$?", o: ["2 m/s²", "5 m/s²", "20 m/s²", "0.2 m/s²"], a: 1 },
-      { t: 'sa', d: 2, q: "[Sample d:2 SA] Using $F = ma$, if $F = 30$ N and $m = 6$ kg, find $a$ (m/s²).", a: 5 },
-      // ... ADD 18 MORE d:2 questions ...
+      // ── d:2 — Single-formula application (write 20 total) ──
+      { t: 'mc', d: 2, q: "[d:2 Sample] Using $F = ma$, if $m = 5$ kg and $a = 3$ m/s², find $F$ (N).", o: ["8 N", "15 N", "2 N", "1.67 N"], a: 1 },
+      { t: 'sa', d: 2, q: "[d:2 Sample] Using $F = ma$, if $F = 40$ N and $m = 8$ kg, what is $a$ (m/s²)?", a: 5 },
+      // ... 18 more d:2 questions ...
 
-      // ── Difficulty 3 (20 questions: multi-step calculations) ──
-      { t: 'mc', d: 3, q: "[Sample d:3 MC] [Multi-step problem]", o: ["Option A", "Option B", "Option C", "Option D"], a: 0 },
-      { t: 'sa', d: 3, q: "[Sample d:3 SA] [Multi-step calculation requiring 2–3 formula applications].", a: 0 },
-      // ... ADD 18 MORE d:3 questions ...
+      // ── d:3 — Multi-step calculation (write 20 total) ──
+      { t: 'mc', d: 3, q: "[d:3 Sample] [Multi-step problem needing 2 equations]", o: ["Option A", "Option B", "Option C", "Option D"], a: 0 },
+      { t: 'sa', d: 3, q: "[d:3 Sample] [Chained calculation — give the final numeric answer]", a: 0 },
+      // ... 18 more d:3 questions ...
 
-      // ── Difficulty 4 (20 questions: challenging derivations) ──
-      { t: 'mc', d: 4, q: "[Sample d:4 MC] [Derivation or conceptual trap question]", o: ["Option A", "Option B", "Option C", "Option D"], a: 1 },
-      { t: 'sa', d: 4, q: "[Sample d:4 SA] [Requires understanding of derivation steps]", a: ['keyword'] },
-      // ... ADD 18 MORE d:4 questions ...
+      // ── d:4 — Derivations & conceptual depth (write 20 total) ──
+      { t: 'mc', d: 4, q: "[d:4 Sample] [Conceptual trap or derivation insight question]", o: ["Option A", "Option B", "Option C", "Option D"], a: 1 },
+      { t: 'sa', d: 4, q: "[d:4 Sample] [Requires understanding of why a formula takes its form]", a: ['keyword'] },
+      // ... 18 more d:4 questions ...
 
-      // ── Difficulty 5 (20 questions: hardest conceptual synthesis) ──
-      { t: 'mc', d: 5, q: "[Sample d:5 MC] [Synthesis across multiple concepts, edge cases]", o: ["Option A", "Option B", "Option C", "Option D"], a: 2 },
-      { t: 'sa', d: 5, q: "[Sample d:5 SA] [Requires deep understanding, non-obvious answer]", a: ['expected'] },
-      // ... ADD 18 MORE d:5 questions ...
+      // ── d:5 — Synthesis & edge cases (write 20 total) ──
+      { t: 'mc', d: 5, q: "[d:5 Sample] [Cross-concept synthesis, non-obvious answer]", o: ["Option A", "Option B", "Option C", "Option D"], a: 2 },
+      { t: 'sa', d: 5, q: "[d:5 Sample] [Hardest question — requires full understanding]", a: ['deep answer'] },
+      // ... 18 more d:5 questions ...
     ];
 
-    // ─────────────────────────────────────────────────────────────
-    // QUIZ ENGINE LOGIC — do NOT modify below (correct pattern)
-    // ─────────────────────────────────────────────────────────────
+    // ── Quiz engine — DO NOT MODIFY ──
     let activeQuestions = [];
 
     function startQuiz() {
-      // Sample 2 questions per difficulty level (10 total)
       activeQuestions = [];
       for (let d = 1; d <= 5; d++) {
-        const pool = qBank.filter(q => q.d === d);
-        const shuffled = pool.sort(() => Math.random() - 0.5);
-        activeQuestions.push(...shuffled.slice(0, 2));
+        const pool = qBank.filter(q => q.d === d).sort(() => Math.random() - 0.5);
+        activeQuestions.push(...pool.slice(0, 2));
       }
-      // Shuffle the final 10 for randomized order
       activeQuestions = activeQuestions.sort(() => Math.random() - 0.5);
 
-      // Build question HTML
       const container = document.getElementById('quiz-questions');
       container.innerHTML = '';
       activeQuestions.forEach((q, i) => {
         const box = document.createElement('div');
         box.id = `q-box-${i}`;
         box.className = 'bg-white border border-slate-200 rounded-2xl p-6 space-y-3 shadow-sm';
-        const diffLabel = ['', 'Foundational', 'Applied', 'Analytical', 'Advanced', 'Expert'][q.d];
+        const diffLabel = ['','Foundational','Applied','Analytical','Advanced','Expert'][q.d];
         box.innerHTML = `
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Question ${i + 1}</span>
@@ -764,13 +951,10 @@
         container.appendChild(box);
       });
 
-      // Show quiz UI, hide intro
       document.getElementById('quiz-intro').classList.add('hidden');
       document.getElementById('quiz-questions').classList.remove('hidden');
       document.getElementById('quiz-submit-area').classList.remove('hidden');
       document.getElementById('quiz-score').classList.add('hidden');
-
-      // Re-render MathJax for newly injected LaTeX
       if (window.MathJax) MathJax.typesetPromise([container]);
     }
 
@@ -787,14 +971,14 @@
         } else {
           const el = document.getElementById(`sa-${index}`);
           if (el) {
-            const userVal = el.value.trim().toLowerCase();
+            const v = el.value.trim().toLowerCase();
             if (typeof q.a === 'number') {
-              const num = parseFloat(userVal);
-              if (!isNaN(num) && Math.abs(num - q.a) <= Math.abs(q.a) * 0.05 + 0.01) isCorrect = true;
+              const n = parseFloat(v);
+              if (!isNaN(n) && Math.abs(n - q.a) <= Math.abs(q.a) * 0.05 + 0.01) isCorrect = true;
             } else if (Array.isArray(q.a)) {
-              if (q.a.some(ans => userVal.includes(String(ans).toLowerCase()))) isCorrect = true;
+              if (q.a.some(a => v.includes(String(a).toLowerCase()))) isCorrect = true;
             } else {
-              if (userVal.includes(String(q.a).toLowerCase())) isCorrect = true;
+              if (v.includes(String(q.a).toLowerCase())) isCorrect = true;
             }
           }
         }
@@ -804,8 +988,8 @@
           fb.classList.add('text-emerald-700', 'bg-emerald-50');
           box.classList.replace('border-slate-200', 'border-emerald-300');
         } else {
-          let ansText = q.t === 'mc' ? q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
-          fb.textContent = `✗ Incorrect. Answer: ${ansText}`;
+          const ans = q.t === 'mc' ? q.o[q.a] : (Array.isArray(q.a) ? q.a[0] : q.a);
+          fb.textContent = `✗ Incorrect. Answer: ${ans}`;
           fb.classList.add('text-rose-700', 'bg-rose-50');
           box.classList.replace('border-slate-200', 'border-rose-300');
         }
@@ -816,46 +1000,98 @@
       document.getElementById('quiz-submit-area').classList.add('hidden');
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // INTERACTIVE SIMULATOR LOGIC
-    // Replace with actual simulation for the lesson topic.
-    // ─────────────────────────────────────────────────────────────
-    const canvas = document.getElementById('mainSimCanvas');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      canvas.width = canvas.offsetWidth || 600;
-      canvas.height = canvas.offsetHeight || 480;
+    // ══════════════════════════════════════════════════════════════
+    // MAIN SIMULATOR — replace drawFrame() with real physics rendering.
+    // Must use requestAnimationFrame for smooth animation.
+    // ══════════════════════════════════════════════════════════════
+    const mainCanvas = document.getElementById('mainSimCanvas');
+    if (mainCanvas) {
+      const ctx = mainCanvas.getContext('2d');
+      let animId;
 
-      // Listen to sliders
-      const sliderP1 = document.getElementById('sliderP1');
-      const sliderP2 = document.getElementById('sliderP2');
-      const labelP1  = document.getElementById('labelP1');
-      const labelP2  = document.getElementById('labelP2');
-
-      function drawSimulation() {
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ── REPLACE THIS WITH THE ACTUAL SIMULATION DRAWING CODE ──
-        ctx.fillStyle = '#334155';
-        ctx.font = '16px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('[Build your simulation here]', canvas.width / 2, canvas.height / 2);
-        ctx.fillStyle = '#64748b';
-        ctx.font = '12px Inter, sans-serif';
-        ctx.fillText(`P1 = ${sliderP1 ? sliderP1.value : '?'}   P2 = ${sliderP2 ? sliderP2.value : '?'}`, canvas.width / 2, canvas.height / 2 + 30);
+      function resizeCanvas() {
+        mainCanvas.width  = mainCanvas.offsetWidth;
+        mainCanvas.height = mainCanvas.offsetHeight || 480;
       }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
 
-      if (sliderP1) sliderP1.addEventListener('input', () => { if (labelP1) labelP1.textContent = parseFloat(sliderP1.value).toFixed(2); drawSimulation(); });
-      if (sliderP2) sliderP2.addEventListener('input', () => { if (labelP2) labelP2.textContent = parseFloat(sliderP2.value).toFixed(2); drawSimulation(); });
+      const s = {
+        p1: parseFloat(document.getElementById('sliderP1')?.value || 5),
+        p2: parseFloat(document.getElementById('sliderP2')?.value || 0.5),
+        p3: parseFloat(document.getElementById('sliderP3')?.value || 1),
+        t: 0
+      };
 
-      drawSimulation();
+      function drawFrame() {
+        ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+        s.t += 0.02 * s.p3;
+
+        // ── REPLACE THIS BLOCK with real animated physics ──
+        // Example: draw a sine wave driven by sliders
+        ctx.beginPath();
+        ctx.strokeStyle = '#6366f1';
+        ctx.lineWidth = 3;
+        for (let x = 0; x < mainCanvas.width; x++) {
+          const y = mainCanvas.height / 2 + s.p1 * 20 * Math.sin((x / mainCanvas.width) * Math.PI * 4 * s.p2 * 4 + s.t);
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        // ── END replace block ──
+
+        // Update live metrics
+        const mA = document.getElementById('metricA');
+        const mB = document.getElementById('metricB');
+        const mC = document.getElementById('metricC');
+        if (mA) mA.textContent = (s.p1 * 20).toFixed(1);
+        if (mB) mB.textContent = (s.p2 * 4).toFixed(2);
+        if (mC) mC.textContent = s.p3.toFixed(1);
+
+        animId = requestAnimationFrame(drawFrame);
+      }
+      drawFrame();
+
+      // Wire sliders
+      ['P1','P2','P3'].forEach(name => {
+        const sl = document.getElementById(`slider${name}`);
+        const lb = document.getElementById(`label${name}`);
+        if (sl) sl.addEventListener('input', () => {
+          s[name.toLowerCase()] = parseFloat(sl.value);
+          if (lb) lb.textContent = parseFloat(sl.value).toFixed(2);
+        });
+      });
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // REQUIREMENT: Dark Mode Toggle
-    // Self-contained — does NOT use localStorage shared with 7.0.html.
-    // Default: light mode (no data-theme attribute on load).
-    // ─────────────────────────────────────────────────────────────
+    // Mini-simulation example — replace with real chapter-specific logic
+    const miniCanvas1 = document.getElementById('miniSim1');
+    if (miniCanvas1) {
+      const ctx2 = miniCanvas1.getContext('2d');
+      miniCanvas1.width = miniCanvas1.offsetWidth;
+      let miniVal = 5;
+      const miniSlider1 = document.getElementById('miniSlider1');
+      const miniLabel1  = document.getElementById('miniLabel1');
+      const miniResult1 = document.getElementById('miniResult1');
+
+      function drawMini1() {
+        ctx2.clearRect(0, 0, miniCanvas1.width, miniCanvas1.height);
+        // Replace with real mini-simulation rendering
+        ctx2.fillStyle = '#6366f1';
+        const barH = (miniVal / 10) * miniCanvas1.height;
+        ctx2.fillRect(miniCanvas1.width / 2 - 20, miniCanvas1.height - barH, 40, barH);
+        if (miniResult1) miniResult1.textContent = (miniVal * miniVal).toFixed(1) + ' units²';
+      }
+      if (miniSlider1) miniSlider1.addEventListener('input', () => {
+        miniVal = parseFloat(miniSlider1.value);
+        if (miniLabel1) miniLabel1.textContent = miniVal.toFixed(1);
+        drawMini1();
+      });
+      drawMini1();
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // DARK MODE TOGGLE
+    // Self-contained — NO localStorage. Default = light mode.
+    // ══════════════════════════════════════════════════════════════
     const dmToggle = document.getElementById('darkModeToggle');
     const iconSun  = document.getElementById('iconSun');
     const iconMoon = document.getElementById('iconMoon');
@@ -864,58 +1100,44 @@
     function applyTheme(dark) {
       if (dark) {
         htmlEl.setAttribute('data-theme', 'dark');
-        if (iconSun)  iconSun.classList.remove('hidden');
-        if (iconMoon) iconMoon.classList.add('hidden');
+        iconSun?.classList.remove('hidden');
+        iconMoon?.classList.add('hidden');
       } else {
         htmlEl.removeAttribute('data-theme');
-        if (iconSun)  iconSun.classList.add('hidden');
-        if (iconMoon) iconMoon.classList.remove('hidden');
+        iconSun?.classList.add('hidden');
+        iconMoon?.classList.remove('hidden');
       }
     }
-    // REQUIREMENT: Default = light mode
-    applyTheme(false);
+    applyTheme(false); // Default: light mode
 
-    if (dmToggle) {
-      dmToggle.addEventListener('click', () => {
-        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-        applyTheme(!isDark);
-      });
-    }
+    dmToggle?.addEventListener('click', () => {
+      applyTheme(htmlEl.getAttribute('data-theme') !== 'dark');
+    });
 
-    // ─────────────────────────────────────────────────────────────
-    // REQUIREMENT: Sidebar Active Section Highlighting
-    // Uses IntersectionObserver — as user scrolls, the sidebar link
-    // matching the visible section gets class "active" (bold + indigo bg).
-    // All other links lose the "active" class (plain slate text).
-    // ─────────────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════
+    // SIDEBAR SCROLL-SPY (IntersectionObserver)
+    // Drives .active class on sidebar links as user scrolls.
+    // Active = bold + indigo bg + indigo left border.
+    // Only ONE link is active at a time.
+    // ══════════════════════════════════════════════════════════════
     const sidebarLinks = document.querySelectorAll('#toc-nav .sidebar-link[data-section]');
     const sectionIds   = Array.from(sidebarLinks).map(l => l.getAttribute('data-section'));
     const sections     = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
 
     function setActiveLink(id) {
       sidebarLinks.forEach(link => {
-        if (link.getAttribute('data-section') === id) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
+        link.classList.toggle('active', link.getAttribute('data-section') === id);
       });
     }
 
-    if ('IntersectionObserver' in window) {
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setActiveLink(entry.target.id);
-          }
-        });
+    if ('IntersectionObserver' in window && sections.length) {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) setActiveLink(e.target.id); });
       }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
       sections.forEach(s => obs.observe(s));
     }
 
-    // Set first section active on initial load
     if (sectionIds.length > 0) setActiveLink(sectionIds[0]);
-
   </script>
 
 </body>
